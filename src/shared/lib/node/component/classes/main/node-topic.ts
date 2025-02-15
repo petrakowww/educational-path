@@ -1,4 +1,5 @@
 import { NodeLabelEnum } from '../../constants/node-label';
+import { GraphNodeAlignmentTextProps } from '../../interfaces/auxiliary/node-alignment';
 import { GraphNodeBlockProps } from '../../interfaces/auxiliary/node-block';
 import { GraphNodeContentProps } from '../../interfaces/auxiliary/node-content';
 import { GraphNodeFontProps } from '../../interfaces/auxiliary/node-font';
@@ -6,6 +7,7 @@ import { GraphNodeLinkProps } from '../../interfaces/auxiliary/node-link';
 import { GraphNodeProgressProps } from '../../interfaces/auxiliary/node-progress';
 import { GraphNodeTimeProps } from '../../interfaces/auxiliary/node-time';
 import { GraphNodeTopicBaseProps } from '../../interfaces/main/node-topic';
+import { graphNodeAuxiliaryTextAlignment } from '../auxiliary/node-alignment';
 import { graphNodeAuxiliaryBlock } from '../auxiliary/node-block';
 import { graphNodeAuxiliaryContent } from '../auxiliary/node-content';
 import { graphNodeAuxiliaryFont } from '../auxiliary/node-font';
@@ -24,6 +26,7 @@ export class TopicNodeComponent
 	contentProps: GraphNodeContentProps;
 	fontProps: GraphNodeFontProps;
 	blockProps: GraphNodeBlockProps;
+	textAlignmentProps: GraphNodeAlignmentTextProps;
 	label?: string;
 
 	constructor() {
@@ -34,6 +37,7 @@ export class TopicNodeComponent
 		this.timeProps = graphNodeAuxiliaryTime;
 		this.fontProps = graphNodeAuxiliaryFont;
 		this.blockProps = graphNodeAuxiliaryBlock;
+		this.textAlignmentProps = graphNodeAuxiliaryTextAlignment;
 		this.label = NodeLabelEnum.topic;
 	}
 }

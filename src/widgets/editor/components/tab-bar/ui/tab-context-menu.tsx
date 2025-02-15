@@ -40,7 +40,7 @@ export const TabContextMenu = ({
 				{children}
 			</ContextMenuTrigger>
 			<ContextMenuPortal>
-				<ContextMenuContent className="rounded-lg">
+				<ContextMenuContent className="rounded-lg z-[11000]">
 					<ContextMenuItem
 						className="flex gap-3 rounded-lg cursor-pointer"
 						onClick={() => onFocus?.(tab.id)}

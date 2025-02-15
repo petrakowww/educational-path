@@ -8,7 +8,12 @@ export { TextFontSizeEnum } from './constants/node-font-size';
 export { TextFontColorEnum } from './constants/node-font-color';
 export { TextFontWeightEnum } from './constants/node-font-weight';
 export { BackgroundColorEnum } from './constants/node-background-color';
+export {
+	TextAlignmentEnum,
+	TextVerticalAlignmentEnum,
+} from './constants/node-alignment';
 export { NodeBorderRadiusEnum } from './constants/node-border-size';
 export { GraphNodeComponent } from './classes/main/node-base';
 export { TopicNodeComponent } from './classes/main/node-topic';
 export { isValidNodeType } from './creation/node-registry';
+

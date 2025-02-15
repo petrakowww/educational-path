@@ -27,7 +27,7 @@ export const VisibilityDialogMenu = () => {
 				<Earth width={20} height={20} />
 				<span className="text-center w-full">Anyone can view</span>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent classNameOverlay="z-[11000]" className="z-[11000]">
 				<DialogHeader>
 					<DialogTitle className="text-2xl">
 						Update Sharing Settings

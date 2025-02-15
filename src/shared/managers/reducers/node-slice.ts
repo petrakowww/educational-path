@@ -1,19 +1,10 @@
-import { applyNodeChanges, Node } from 'reactflow';
+import { applyNodeChanges } from 'reactflow';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GlobalGraphNodeTypesComponents } from '@/shared/lib/node/component';
 import { initialNodeState } from '../initial/node-initial';
-import {
-	updateNodeBackground,
-	updateNodeBorderRadius,
-	updateNodeBorderWidth,
-	updateNodeBorderColor,
-} from './node-block-editor-func';
-import {
-	updateNodeFontColor,
-	updateNodeFontSize,
-	updateNodeFontWeight,
-} from './node-font-editor-func';
-import { updateNodeLabel } from './node-label-editor-func';
+import * as nodeBlockEditorFuncs from './node-block-editor-func';
+import * as nodeFontEditorFuncs from './node-font-editor-func';
+import { updateNodeLabelFunction } from './node-label-editor-func';
+import * as nodeAlignmentEditorFuncs from './node-alignment-editor-func';
 
 export const nodeSlice = createSlice({
 	name: 'NodeEditorBehaviour',
@@ -22,16 +13,10 @@ export const nodeSlice = createSlice({
 		setSelectedNode: (state, action: PayloadAction<string | null>) => {
 			state.selectedNodeId = action.payload;
 		},
-		setNodes: (
-			state,
-			action: PayloadAction<Node<GlobalGraphNodeTypesComponents>[]>
-		) => {
+		setNodes: (state, action) => {
 			state.nodes = action.payload;
 		},
-		updateNode: (
-			state,
-			action: PayloadAction<Node<GlobalGraphNodeTypesComponents>>
-		) => {
+		updateNode: (state, action) => {
 			const index = state.nodes.findIndex(
 				(n) => n.id === action.payload.id
 			);
@@ -43,14 +28,42 @@ export const nodeSlice = createSlice({
 			const nodes = applyNodeChanges(action.payload, state.nodes);
 			state.nodes = nodes;
 		},
-		updateNodeLabel,
-		updateNodeFontColor,
-		updateNodeFontSize,
-		updateNodeFontWeight,
-		updateNodeBackground,
-		updateNodeBorderRadius,
-		updateNodeBorderWidth,
-		updateNodeBorderColor,
+		updateNodeLabel: (state, action) => {
+			updateNodeLabelFunction(state, action);
+		},
+		updateNodeFontColor: (state, action) => {
+			nodeFontEditorFuncs.updateNodeFontColorFunction(state, action);
+		},
+		updateNodeFontSize: (state, action) => {
+			nodeFontEditorFuncs.updateNodeFontSizeFunction(state, action);
+		},
+		updateNodeFontWeight: (state, action) => {
+			nodeFontEditorFuncs.updateNodeFontWeightFunction(state, action);
+		},
+		updateNodeBackground: (state, action) => {
+			nodeBlockEditorFuncs.updateNodeBackgroundFunction(state, action);
+		},
+		updateNodeBorderWidth: (state, action) => {
+			nodeBlockEditorFuncs.updateNodeBorderWidthFunction(state, action);
+		},
+		updateNodeBorderRadius: (state, action) => {
+			nodeBlockEditorFuncs.updateNodeBorderRadiusFunction(state, action);
+		},
+		updateNodeBorderColor: (state, action) => {
+			nodeBlockEditorFuncs.updateNodeBorderColor(state, action);
+		},
+		updateNodeTextAlignment: (state, action) => {
+			nodeAlignmentEditorFuncs.updateNodeTextAlignmentFunction(
+				state,
+				action
+			);
+		},
+		updateNodeTextVerticalAlignment: (state, action) => {
+			nodeAlignmentEditorFuncs.updateNodeTextVerticalAlignmentFunction(
+				state,
+				action
+			);
+		},
 	},
 });
 
@@ -59,14 +72,16 @@ const {
 	setNodes,
 	updateNode,
 	onNodesChange,
-	updateNodeLabel: nodeUpdateNodeLabel,
-	updateNodeFontColor: nodeUpdateNodeFontColor,
-	updateNodeFontSize: nodeUpdateNodeFontSize,
-	updateNodeFontWeight: nodeUpdateNodeFontWeight,
-	updateNodeBackground: nodeUpdateNodeBackground,
-	updateNodeBorderWidth: nodeUpdateNodeBorderWidth,
-	updateNodeBorderRadius: nodeUpdateNodeBorderRadius,
-	updateNodeBorderColor: nodeUpdateNodeBorderColor,
+	updateNodeLabel,
+	updateNodeFontColor,
+	updateNodeFontSize,
+	updateNodeFontWeight,
+	updateNodeBackground,
+	updateNodeBorderWidth,
+	updateNodeBorderRadius,
+	updateNodeBorderColor,
+	updateNodeTextAlignment,
+	updateNodeTextVerticalAlignment,
 } = nodeSlice.actions;
 
 export {
@@ -74,14 +89,16 @@ export {
 	setNodes,
 	updateNode,
 	onNodesChange,
-	nodeUpdateNodeLabel as updateNodeLabel,
-	nodeUpdateNodeFontColor as updateNodeFontColor,
-	nodeUpdateNodeFontSize as updateNodeFontSize,
-	nodeUpdateNodeFontWeight as updateNodeFontWeight,
-	nodeUpdateNodeBackground as updateNodeBackground,
-	nodeUpdateNodeBorderRadius as updateNodeBorderRadius,
-	nodeUpdateNodeBorderWidth as updateNodeBorderWidth,
-	nodeUpdateNodeBorderColor as updateNodeBorderColor,
+	updateNodeLabel,
+	updateNodeFontColor,
+	updateNodeFontSize,
+	updateNodeFontWeight,
+	updateNodeBackground,
+	updateNodeBorderRadius,
+	updateNodeBorderWidth,
+	updateNodeBorderColor,
+	updateNodeTextAlignment,
+	updateNodeTextVerticalAlignment,
 };
 
 export const nodeReducer = nodeSlice.reducer;

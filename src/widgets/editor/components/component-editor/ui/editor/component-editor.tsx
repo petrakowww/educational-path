@@ -7,6 +7,7 @@ import { ComponentAutoSize } from '../elements/component-autosize';
 import { Button, Separator } from '@/shared/ui';
 import { ComponentLayering } from '../elements/component-layering';
 import {
+	hasAlignmentTextProps,
 	hasBlockProps,
 	hasFontProps,
 	hasLabel,
@@ -18,6 +19,7 @@ import { ComponentBlockBorder } from '../elements/component-block-border';
 import { XIcon } from 'lucide-react';
 import { ComponentFontWeight } from '../elements/component-font-weigth';
 import { getSelectedNode } from '@/shared/managers';
+import { ComponentTextAlignment } from '../elements/component-text-alignment';
 
 export const AsideBarWidgetComponentEditor = () => {
 	const isOpenMenu = useAppSelector((state) => state.aside_editor.isOpenMenu);
@@ -67,6 +69,13 @@ export const AsideBarWidgetComponentEditor = () => {
 					<ComponentLayering />
 					<Separator />
 				</>
+
+				{hasAlignmentTextProps(selectedNode) && (
+					<>
+						<ComponentTextAlignment />
+						<Separator />
+					</>
+				)}
 
 				{hasFontProps(selectedNode) && (
 					<>

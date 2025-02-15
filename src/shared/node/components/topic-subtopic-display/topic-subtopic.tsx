@@ -18,7 +18,7 @@ export const SubtopicNodeDisplay = (
 	const { data } = props;
 	return (
 		<article
-			className="bg-white rounded-md overflow-hidden border-[1px] h-full w-full relative"
+			className="bg-white rounded-md overflow-hidden border-[1px] h-full w-full relative flex flex-col"
 			style={{
 				backgroundColor: data.blockProps?.backgroundColor,
 				borderRadius: data.blockProps?.borderRadius,
@@ -26,7 +26,7 @@ export const SubtopicNodeDisplay = (
 				borderColor: data.blockProps?.borderColor,
 			}}
 		>
-			<div className="absolute w-full h-full top-1 left-1 p-6 group">
+			<div className="absolute w-full h-full top-1 left-1 p-6 group flex-shrink-0">
 				<div className="hidden group-hover:block ">
 					<NodeResizeControl
 						position="bottom-right"
@@ -70,16 +70,25 @@ export const SubtopicNodeDisplay = (
 					15d:11h:34m remained
 				</span>
 			</div> */}
-			<p
-				className="text-center m-3 px-3 py-2 text-black text-lg leading-none break-words whitespace-normal"
+			<div
+				className="flex flex-grow px-3 py-2 m-3 text-center flex-col"
 				style={{
-					fontSize: data.fontProps?.fontSize,
-					color: data.fontProps?.textColor,
-					fontWeight: data.fontProps?.fontWeight,
+					justifyContent:
+						data.textAlignmentProps?.textVerticalAlignType,
 				}}
 			>
-				{data.label}
-			</p>
+				<p
+					className="  text-black text-lg leading-none break-words whitespace-normal"
+					style={{
+						fontSize: data.fontProps?.fontSize,
+						color: data.fontProps?.textColor,
+						fontWeight: data.fontProps?.fontWeight,
+						textAlign: data.textAlignmentProps?.textAlignType,
+					}}
+				>
+					{data.label}
+				</p>
+			</div>
 		</article>
 	);
 };

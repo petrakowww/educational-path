@@ -2,6 +2,7 @@ import {
 	Drawer,
 	DrawerClose,
 	DrawerContent,
+	DrawerDescription,
 	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
@@ -25,10 +26,14 @@ export const MobileMenuWidget = (props: MobileMenuProps) => {
 			>
 				<MenuIcon />
 			</DrawerTrigger>
-			<DrawerContent className="rounded-l-md px-4 py-2">
+			<DrawerContent
+				className="rounded-l-md px-4 py-2 z-[11000]"
+				classNameOverlay="z-[11000]"
+			>
 				<DrawerHeader className="px-0">
 					<DrawerTitle className="text-left p-0 after:mt-2 after:content-[''] after:block after:border-b-2">
 						Select the desired settings
+						<DrawerDescription />
 					</DrawerTitle>
 				</DrawerHeader>
 				{children}

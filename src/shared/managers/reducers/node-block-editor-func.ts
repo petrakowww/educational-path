@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { NodeInterface } from '../interfaces/node-interface';
 
-export const updateNodeBackground = (
+export const updateNodeBackgroundFunction = (
 	state: NodeInterface,
 	action: PayloadAction<{ id: string; backgroundColor: string }>
 ) => {
@@ -11,7 +11,7 @@ export const updateNodeBackground = (
 	}
 };
 
-export const updateNodeBorderRadius = (
+export const updateNodeBorderRadiusFunction = (
 	state: NodeInterface,
 	action: PayloadAction<{ id: string; borderRadius: number }>
 ) => {
@@ -22,7 +22,7 @@ export const updateNodeBorderRadius = (
 	}
 };
 
-export const updateNodeBorderWidth = (
+export const updateNodeBorderWidthFunction = (
 	state: NodeInterface,
 	action: PayloadAction<{ id: string; borderWidth: number }>
 ) => {

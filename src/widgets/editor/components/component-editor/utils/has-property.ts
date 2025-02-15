@@ -42,3 +42,9 @@ export const hasBlockProps = <T extends GraphNodeComponent>(
 ): boolean => {
 	return 'blockProps' in component.data;
 };
+
+export const hasAlignmentTextProps = <T extends GraphNodeComponent>(
+	component: Node<T>
+): boolean => {
+	return 'textAlignmentProps' in component.data;
+};

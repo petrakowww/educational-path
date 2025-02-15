@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { NodeInterface } from '../interfaces/node-interface';
 
-export const updateNodeLabel = (
+export const updateNodeLabelFunction = (
 	state: NodeInterface,
 	action: PayloadAction<{ id: string; label: string }>
 ) => {

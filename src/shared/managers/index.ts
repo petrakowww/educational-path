@@ -16,6 +16,8 @@ export {
 	updateNodeBorderRadius,
 	updateNodeBorderWidth,
 	updateNodeBorderColor,
+	updateNodeTextAlignment,
+	updateNodeTextVerticalAlignment,
 } from './reducers/node-slice';
 
 export {

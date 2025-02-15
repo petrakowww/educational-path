@@ -20,6 +20,11 @@ export const ComponentBlockBorder = () => {
 		GraphNodeBlockEditor.changeBorderRadius(value);
 	};
 
+	const handleResetBorderColor = () => {
+		GraphNodeBlockEditor.changeBorderColor('');
+		setBorderColor('');
+	};
+
 	const handleBorderWidthChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -82,6 +87,13 @@ export const ComponentBlockBorder = () => {
 				>
 					Choose your border color
 				</Label>
+				<Button
+					className="h-6 p-0 text-sm text-center"
+					variant={'outline'}
+					onClick={handleResetBorderColor}
+				>
+					<span className="px-1">Reset</span>
+				</Button>
 				<Input
 					type="color"
 					className="w-6 h-6 p-0 m-0 appearance-none border-md 

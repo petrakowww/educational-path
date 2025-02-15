@@ -1,3 +1,4 @@
+import { GraphNodeAlignmentTextProps } from '../auxiliary/node-alignment';
 import { GraphNodeContentProps } from '../auxiliary/node-content';
 import { GraphNodeLabelProps } from '../auxiliary/node-label';
 import { GraphNodeLinkProps } from '../auxiliary/node-link';
@@ -9,4 +10,5 @@ export interface GraphNodeTopicBaseProps extends GraphNodeLabelProps {
 	timeProps: GraphNodeTimeProps;
 	progressProps: GraphNodeProgressProps;
 	contentProps: GraphNodeContentProps;
+	textAlignmentProps: GraphNodeAlignmentTextProps;
 }
