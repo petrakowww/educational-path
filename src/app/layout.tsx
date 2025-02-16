@@ -1,6 +1,7 @@
 import './globals.css';
 import { RootLayout } from '@/shared/layouts';
 import { StoreProvider, ThemeProviderApp } from '@/app/providers';
+import React from 'react';
 
 export default function GeneralLayout({
 	children,

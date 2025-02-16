@@ -1,14 +1,19 @@
 import { Button, Input, Label } from '@/shared/ui';
-import { TextFontColorConstant } from '../constants/text-font-color';
+import { TextFontColorConstant } from '../../constants/text-font-color';
 import { useState } from 'react';
 import { GraphNodeFontEditor } from '@/shared/lib/node/editor';
 import { cn, isHexColor } from '@/shared/lib';
 import { TextFontColorEnum } from '@/shared/lib/node/component';
+import { Node } from 'reactflow';
+import { GlobalGraphNodeTypesComponents } from '@/shared/lib/node/component';
+import { useEffect } from 'react';
 
-export const ComponentFontColor = () => {
-	const [fontColor, setFontColor] = useState(
-		GraphNodeFontEditor.colorDefaultValue()
-	);
+interface ComponentFontColorProps {
+	editedNode: Node<GlobalGraphNodeTypesComponents> | null;
+}
+
+export const ComponentFontColor = ({ editedNode }: ComponentFontColorProps) => {
+	const [fontColor, setFontColor] = useState<string>('');
 
 	const handleFontColorChange = (color: string) => {
 		if (!isHexColor(color)) return;
@@ -23,48 +28,42 @@ export const ComponentFontColor = () => {
 		);
 	};
 
+	useEffect(() => {
+		if (editedNode) {
+			setFontColor(GraphNodeFontEditor.colorDefaultValue());
+		}
+	}, [editedNode]);
+
 	return (
 		<div className="flex gap-2 flex-col">
 			<Label htmlFor="background-color" className="text-foreground/80">
 				Font color
 			</Label>
 			<div className="flex gap-2">
-				{TextFontColorConstant.first.map(
-					({title, value}) => (
-						<Button
-							key={value}
-							className={finalClassNameButtons(value)}
-							variant={
-								fontColor === value
-									? 'default'
-									: 'outline'
-							}
-							style={{ background: value }}
-							onClick={() => handleFontColorChange(value)}
-						>
-							{title}
-						</Button>
-					)
-				)}
+				{TextFontColorConstant.first.map(({ title, value }) => (
+					<Button
+						key={value}
+						className={finalClassNameButtons(value)}
+						variant={fontColor === value ? 'default' : 'outline'}
+						style={{ background: value }}
+						onClick={() => handleFontColorChange(value)}
+					>
+						{title}
+					</Button>
+				))}
 			</div>
 			<div className="flex gap-2">
-				{TextFontColorConstant.second.map(
-					({title, value}) => (
-						<Button
-							key={value}
-							className={finalClassNameButtons(value)}
-							variant={
-								fontColor === value
-									? 'default'
-									: 'outline'
-							}
-							style={{ background: value }}
-							onClick={() => handleFontColorChange(value)}
-						>
-							{title}
-						</Button>
-					)
-				)}
+				{TextFontColorConstant.second.map(({ title, value }) => (
+					<Button
+						key={value}
+						className={finalClassNameButtons(value)}
+						variant={fontColor === value ? 'default' : 'outline'}
+						style={{ background: value }}
+						onClick={() => handleFontColorChange(value)}
+					>
+						{title}
+					</Button>
+				))}
 			</div>
 			<div className="flex items-center justify-between mt-2">
 				<Label

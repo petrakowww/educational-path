@@ -3,15 +3,30 @@ import { useState } from 'react';
 import { GraphNodeBlockEditor } from '@/shared/lib/node/editor';
 import { BackgroundColorEnum } from '@/shared/lib/node/component';
 import { cn, isHexColor } from '@/shared/lib';
-import { BackgroundColorConstant } from '../constants/background-color';
+import { BackgroundColorConstant } from '../../constants/background-color';
+import { Node } from 'reactflow';
+import { GlobalGraphNodeTypesComponents } from '@/shared/lib/node/component';
+import { useEffect } from 'react';
 
-export const ComponentBlockBackground = () => {
-	const [backgroundColor, setBackgroundColor] = useState(
-		GraphNodeBlockEditor.backgroundColorDefaultValue()
-	);
+interface ComponentBlockBackgroundProps {
+	editedNode: Node<GlobalGraphNodeTypesComponents> | null;
+}
+
+export const ComponentBlockBackground = ({
+	editedNode,
+}: ComponentBlockBackgroundProps) => {
+	const [backgroundColor, setBackgroundColor] = useState<string>('');
+
+	useEffect(() => {
+		if (editedNode) {
+			setBackgroundColor(
+				GraphNodeBlockEditor.backgroundColorDefaultValue()
+			);
+		}
+	}, [editedNode]);
 
 	const handleBackgroundColorChange = (color: string) => {
-        if (!isHexColor(color)) return;
+		if (!isHexColor(color)) return;
 		setBackgroundColor(color);
 		GraphNodeBlockEditor.changeBackgroundColor(color);
 	};
@@ -29,46 +44,34 @@ export const ComponentBlockBackground = () => {
 				Background color
 			</Label>
 			<div className="flex gap-2">
-				{BackgroundColorConstant.first.map(
-					({title, value}) => (
-						<Button
-							key={value}
-							className={finalClassNameButtons(value)}
-							variant={
-								backgroundColor === value
-									? 'default'
-									: 'outline'
-							}
-							style={{ background: value }}
-							onClick={() =>
-								handleBackgroundColorChange(value)
-							}
-						>
-							{title}
-						</Button>
-					)
-				)}
+				{BackgroundColorConstant.first.map(({ title, value }) => (
+					<Button
+						key={value}
+						className={finalClassNameButtons(value)}
+						variant={
+							backgroundColor === value ? 'default' : 'outline'
+						}
+						style={{ background: value }}
+						onClick={() => handleBackgroundColorChange(value)}
+					>
+						{title}
+					</Button>
+				))}
 			</div>
 			<div className="flex gap-2">
-				{BackgroundColorConstant.second.map(
-					({title, value}) => (
-						<Button
-							key={value}
-							className={finalClassNameButtons(value)}
-							variant={
-								backgroundColor === value
-									? 'default'
-									: 'outline'
-							}
-							style={{ background: value }}
-							onClick={() =>
-								handleBackgroundColorChange(value)
-							}
-						>
-							{title}
-						</Button>
-					)
-				)}
+				{BackgroundColorConstant.second.map(({ title, value }) => (
+					<Button
+						key={value}
+						className={finalClassNameButtons(value)}
+						variant={
+							backgroundColor === value ? 'default' : 'outline'
+						}
+						style={{ background: value }}
+						onClick={() => handleBackgroundColorChange(value)}
+					>
+						{title}
+					</Button>
+				))}
 			</div>
 			<div className="flex items-center justify-between mt-2">
 				<Label
@@ -84,7 +87,9 @@ export const ComponentBlockBackground = () => {
                     [&::-webkit-color-swatch-wrapper]:p-0
                     [&::-webkit-color-swatch]:border-none"
 					id="fontsize-color"
-					onChange={(e) => handleBackgroundColorChange(e.target.value)}
+					onChange={(e) =>
+						handleBackgroundColorChange(e.target.value)
+					}
 					value={backgroundColor || '#16a34a'}
 				/>
 			</div>

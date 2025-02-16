@@ -4,8 +4,8 @@ import { GlobalGraphNodeTypesComponents } from '@/shared/lib/node/component';
 
 export const resetNodeSize = (
 	nodeId: string,
-	width: number | null,
-	height: number | null
+	width: number | null | undefined,
+	height: number | null | undefined
 ) => {
 	const state = store.getState();
 	const nodes = state.editor.nodes;

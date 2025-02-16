@@ -29,3 +29,5 @@ export { dndEditorReduser, setType, resetType } from './reducers/dnd-slice';
 
 export { getSelectedNode } from './utils/get-selected-node';
 export { resetNodeSize } from './utils/reset-node-size';
+
+export * from './hooks/use-redux-hooks';

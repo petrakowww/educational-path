@@ -2,35 +2,51 @@ import { Button, Label } from '@/shared/ui';
 import {
 	TextAlignmentConstant,
 	TextVerticalAlignmentConstant,
-} from '../constants/text-alignment';
+} from '../../constants/text-alignment';
 import { GraphNodeAlignmentEditor } from '@/shared/lib/node/editor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-	TextAlignType,
-	TextVerticalAlignType,
+	TextAlignmentEnum,
+	TextVerticalAlignmentEnum,
 } from '@/shared/lib/node/component';
+import { Node } from 'reactflow';
+import { GlobalGraphNodeTypesComponents } from '@/shared/lib/node/component';
 
-export const ComponentTextAlignment = () => {
-	const [fontAlignment, setFontAlignment] = useState<TextAlignType | null>(
-		GraphNodeAlignmentEditor.textAlignmentDefaultValue()
-	);
+interface ComponentTextAlignmentProps {
+	editedNode: Node<GlobalGraphNodeTypesComponents> | null;
+}
+
+export const ComponentTextAlignment = ({
+	editedNode,
+}: ComponentTextAlignmentProps) => {
+	const [fontAlignment, setFontAlignment] =
+		useState<TextAlignmentEnum | null>(null);
 
 	const [fontVerticalAlignment, setFontVerticalAlignment] =
-		useState<TextVerticalAlignType | null>(
-			GraphNodeAlignmentEditor.textVerticalAlignmentDefaultValue()
-		);
+		useState<TextVerticalAlignmentEnum | null>(null);
 
-	const handleTextAlignmentChange = (alignmentType: TextAlignType) => {
+	const handleTextAlignmentChange = (alignmentType: TextAlignmentEnum) => {
 		setFontAlignment(alignmentType);
 		GraphNodeAlignmentEditor.changeAlignment(alignmentType);
 	};
 
 	const handleTextVerticalAlignmentChange = (
-		alignmentVerticalType: TextVerticalAlignType
+		alignmentVerticalType: TextVerticalAlignmentEnum
 	) => {
 		setFontVerticalAlignment(alignmentVerticalType);
 		GraphNodeAlignmentEditor.changeVerticalAlignment(alignmentVerticalType);
 	};
+
+	useEffect(() => {
+		if (editedNode) {
+			setFontAlignment(
+				GraphNodeAlignmentEditor.textAlignmentDefaultValue()
+			);
+			setFontVerticalAlignment(
+				GraphNodeAlignmentEditor.textVerticalAlignmentDefaultValue()
+			);
+		}
+	}, [editedNode]);
 
 	return (
 		<div className="flex gap-2 flex-col">

@@ -1,7 +1,7 @@
 import { NodeLabelEnum } from '@/shared/lib/node/component';
-import { useAppDispatch } from '@/shared/lib';
+import { useAppDispatch } from '@/shared/managers';
 import { setType } from '@/shared/managers';
-import { CircleIcon, CircleDashedIcon } from 'lucide-react';
+import { contentComponentCreator } from '../contstants/content-component-creator';
 
 export const AsideBarWidgetComponentCreator = () => {
 	const dispatch = useAppDispatch();
@@ -17,36 +17,19 @@ export const AsideBarWidgetComponentCreator = () => {
 				COMPONENTS{' '}
 				<span className="text-[0.675rem]">(Drag & Drop)</span>
 			</span>
-			<div
-				onDragStart={(event) => onDragStart(event, NodeLabelEnum.topic)}
-				draggable
-				className="border-border border-[1px] px-2 py-1 rounded-md cursor-grab"
-			>
-				<span className="flex gap-2 p-1 items-center">
-					<CircleIcon
-						className="text-foreground/60"
-						width={20}
-						height={20}
-					/>
-					topic node
-				</span>
-			</div>
-			<div
-				onDragStart={(event) =>
-					onDragStart(event, NodeLabelEnum.subtopic)
-				}
-				draggable
-				className="border-border border-[1px] px-2 py-1 rounded-md cursor-grab"
-			>
-				<span className="flex gap-2 p-1 items-center">
-					<CircleDashedIcon
-						className="text-foreground/60"
-						width={20}
-						height={20}
-					/>
-					subtopic node
-				</span>
-			</div>
+			{contentComponentCreator.map(({ title, IconNode }) => (
+				<div
+					key={title}
+					onDragStart={(event) => onDragStart(event, title)}
+					draggable
+					className="border-border border-[1px] px-2 py-1 rounded-md cursor-grab"
+				>
+					<span className="flex gap-2 p-1 items-center">
+						<IconNode width={20} height={20} />
+						{title}
+					</span>
+				</div>
+			))}
 		</aside>
 	);
 };

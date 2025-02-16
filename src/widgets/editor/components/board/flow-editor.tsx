@@ -9,9 +9,7 @@ import {
 	useReactFlow,
 } from 'reactflow';
 import '@xyflow/react/dist/style.css';
-import { useMemo } from 'react';
 import { nodeTypes } from '@/widgets/node/container';
-import { useAppDispatch } from '@/shared/lib';
 import {
 	onNodesChange,
 	setSelectedNode,
@@ -19,93 +17,102 @@ import {
 	setEditorStatusMenu,
 	resetNodeSize,
 } from '@/shared/managers';
-import { GlobalGraphNodeTypesComponents, isValidNodeType } from '@/shared/lib/node/component';
-import { useAppSelector } from '@/shared/lib';
-import { useEffect } from 'react';
+import {
+	GlobalGraphNodeTypesComponents,
+	isValidNodeType,
+} from '@/shared/lib/node/component';
 import { createGraphNode } from '@/shared/lib/node/component';
-import { NodeLabelEnum } from '@/shared/lib/node/component';
+import { useAppDispatch, useAppSelector } from '@/shared/managers';
+import { useCallback, useMemo } from 'react';
 
 export const FlowEditor = () => {
 	const { screenToFlowPosition } = useReactFlow();
 
 	const dispatch = useAppDispatch();
+
 	const nodes = useAppSelector((state) => state.editor.nodes);
 	const type = useAppSelector((state) => state.dnd_editor.type);
 
 	const memoizedNodes = useMemo(() => nodes, [nodes]);
 
-	useEffect(() => {
-		dispatch(setNodes([createGraphNode(NodeLabelEnum.subtopic)]));
-	}, [dispatch]);
+	const memoizedType = useMemo(() => type, [type]);
 
 	const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-	const onDragOver = (event: React.DragEvent) => {
+	const onDragOver = useCallback((event: React.DragEvent) => {
 		event.preventDefault();
 		event.dataTransfer.dropEffect = 'move';
-	};
+	}, []);
 
-	const onDrop = (event: React.DragEvent) => {
-		event.preventDefault();
+	const onDrop = useCallback(
+		(event: React.DragEvent) => {
+			event.preventDefault();
 
-		if (!type || !isValidNodeType(type)) {
-			return;
-		}
+			if (!memoizedType || !isValidNodeType(memoizedType)) {
+				return;
+			}
 
-		const position = screenToFlowPosition({
-			x: event.clientX,
-			y: event.clientY,
-		});
+			const position = screenToFlowPosition({
+				x: event.clientX,
+				y: event.clientY,
+			});
 
-		const newNode = createGraphNode(type, position);
-		dispatch(setNodes([...nodes, newNode]));
-	};
+			const newNode = createGraphNode(memoizedType, position);
+			dispatch(setNodes([...memoizedNodes, newNode]));
+		},
+		[dispatch, screenToFlowPosition, memoizedType, memoizedNodes]
+	);
 
-	const handleFlowEditorOnClick = () => {
+	const handleFlowEditorOnClick = useCallback(() => {
 		dispatch(setSelectedNode(null));
 		dispatch(setEditorStatusMenu(false));
-	};
+	}, [dispatch]);
 
-	const handleNodeClick = (
-		e: React.MouseEvent,
-		node: Node<GlobalGraphNodeTypesComponents>
-	) => {
-		e.stopPropagation();
-		dispatch(setSelectedNode(node.id));
-		dispatch(setEditorStatusMenu(true));
-	};
+	const handleNodeClick = useCallback(
+		(e: React.MouseEvent, node: Node<GlobalGraphNodeTypesComponents>) => {
+			e.stopPropagation();
+			dispatch(setSelectedNode(node.id));
+			dispatch(setEditorStatusMenu(true));
+		},
+		[dispatch]
+	);
 
-	const handleNodeDrag = (
-		e: React.MouseEvent,
-		node: Node<GlobalGraphNodeTypesComponents>
-	) => {
-		dispatch(setSelectedNode(node.id));
-	};
+	const handleNodeDrag = useCallback(
+		(e: React.MouseEvent, node: Node<GlobalGraphNodeTypesComponents>) => {
+			dispatch(setSelectedNode(node.id));
+		},
+		[dispatch]
+	);
 
-	const handleNodesChange = (changes: NodeChange[]) => {
-		changes.forEach((change) => {
-			if (change.type === 'dimensions') {
-				const nodeToUpdate = nodes.find((n) => n.id === change.id);
-				if (!nodeToUpdate) return;
+	const handleNodesChange = useCallback(
+		(changes: NodeChange[]) => {
+			changes.forEach((change) => {
+				if (change.type === 'dimensions') {
+					const nodeToUpdate = memoizedNodes.find(
+						(n) => n.id === change.id
+					);
+					if (!nodeToUpdate) return;
 
-				const newWidth = change.dimensions?.width ?? nodeToUpdate.width;
-				const newHeight =
-					change.dimensions?.height ?? nodeToUpdate.height;
+					const newWidth =
+						change.dimensions?.width ?? nodeToUpdate.width;
+					const newHeight =
+						change.dimensions?.height ?? nodeToUpdate.height;
 
-				if (
-					newWidth !== nodeToUpdate.width ||
-					newHeight !== nodeToUpdate.height
-				) {
-					resetNodeSize(change.id, newWidth, newHeight);
+					if (
+						newWidth !== nodeToUpdate.width ||
+						newHeight !== nodeToUpdate.height
+					) {
+						resetNodeSize(change.id, newWidth, newHeight);
+					}
 				}
-			}
-		});
+			});
 
-		dispatch(onNodesChange(changes));
-	};
+			dispatch(onNodesChange(changes));
+		},
+		[dispatch, memoizedNodes]
+	);
 
 	const edgeTypes = useMemo(() => ({}), []);
-
 	return (
 		<div className="h-full w-full">
 			<ReactFlow
@@ -132,3 +139,5 @@ export const FlowEditor = () => {
 		</div>
 	);
 };
+
+FlowEditor.whyDidYouRender = true;

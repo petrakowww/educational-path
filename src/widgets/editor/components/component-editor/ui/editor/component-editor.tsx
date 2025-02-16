@@ -1,30 +1,35 @@
-import { useAppSelector } from '@/shared/lib';
 import { GraphNodeBaseEditor } from '@/shared/lib/node/editor';
 import { cn } from '@/shared/lib';
-import { ComponentEditorLabel } from '../elements/component-label';
-import { ComponentEditorBase } from '../elements/component-base';
-import { ComponentAutoSize } from '../elements/component-autosize';
-import { Button, Separator } from '@/shared/ui';
-import { ComponentLayering } from '../elements/component-layering';
+import { ComponentEditorLabel } from '../elements/styles/component-label';
+import { ComponentEditorBase } from '../elements/styles/component-base';
+import { ComponentAutoSize } from '../elements/styles/component-autosize';
+import { Button, Separator, Tabs, TabsList, TabsTrigger } from '@/shared/ui';
+import { ComponentLayering } from '../elements/styles/component-layering';
 import {
 	hasAlignmentTextProps,
 	hasBlockProps,
 	hasFontProps,
-	hasLabel,
-} from '../../utils/has-property';
-import { ComponentFontSize } from '../elements/component-font-size';
-import { ComponentFontColor } from '../elements/component-font-color';
-import { ComponentBlockBackground } from '../elements/component-block-background';
-import { ComponentBlockBorder } from '../elements/component-block-border';
+} from '../../utils/has-style-properties';
+import { hasLabel } from '../../utils/has-main-properties';
+import { ComponentFontSize } from '../elements/styles/component-font-size';
+import { ComponentFontColor } from '../elements/styles/component-font-color';
+import { ComponentBlockBackground } from '../elements/styles/component-block-background';
+import { ComponentBlockBorder } from '../elements/styles/component-block-border';
 import { XIcon } from 'lucide-react';
-import { ComponentFontWeight } from '../elements/component-font-weigth';
+import { ComponentFontWeight } from '../elements/styles/component-font-weigth';
 import { getSelectedNode } from '@/shared/managers';
-import { ComponentTextAlignment } from '../elements/component-text-alignment';
+import { ComponentTextAlignment } from '../elements/styles/component-text-alignment';
+import { TabsContent } from '@/shared/ui';
+import { useAppSelector } from '@/shared/managers';
+import { useMemo } from 'react';
 
 export const AsideBarWidgetComponentEditor = () => {
 	const isOpenMenu = useAppSelector((state) => state.aside_editor.isOpenMenu);
 	const selectedNode = useAppSelector(getSelectedNode);
-	if (!isOpenMenu || !selectedNode) {
+
+	const memoizedSelectedNode = useMemo(() => selectedNode, [selectedNode]);
+
+	if (!isOpenMenu || !memoizedSelectedNode) {
 		return null;
 	}
 
@@ -40,62 +45,80 @@ export const AsideBarWidgetComponentEditor = () => {
 
 	return (
 		<aside className={finalClassName}>
-			<div className="flex p-0 items-center mb-5">
-				<span className="text-sm font-medium text-foreground/80">
-					Edit menu
-				</span>
-				<Button
-					className="p-0 h-5 w-5 ml-auto"
-					onClick={handleCloseEditor}
-				>
-					<XIcon />
-				</Button>
-			</div>
+			<Tabs defaultValue="general">
+				<TabsList className="grid w-full grid-flow-col gap-x-1">
+					<TabsTrigger value="general">General</TabsTrigger>
+					<TabsTrigger value="content">Content</TabsTrigger>
+					<TabsTrigger value="settings">Settings</TabsTrigger>
+					<Button
+						className="h-full w-full p-0 m-0 aspect-square"
+						onClick={handleCloseEditor}
+						variant={'outline'}
+					>
+						<XIcon />
+					</Button>
+				</TabsList>
+				<Separator className="mt-2 mb-3" />
 
-			<div className="flex flex-col gap-6">
-				{hasLabel(selectedNode) && (
-					<ComponentEditorLabel label={selectedNode.data.label} />
-				)}
+				<TabsContent value="general">
+					<div className="flex flex-col gap-6">
+						{hasLabel(memoizedSelectedNode) && (
+							<ComponentEditorLabel
+								label={memoizedSelectedNode.data.label}
+							/>
+						)}
 
-				<>
-					<ComponentEditorBase
-						xValue={GraphNodeBaseEditor.getXPosition()}
-						yValue={GraphNodeBaseEditor.getYPosition()}
-						wValue={GraphNodeBaseEditor.getWidth()}
-						hValue={GraphNodeBaseEditor.getHeight()}
-					/>
-					<ComponentAutoSize />
-					<Separator />
-					<ComponentLayering />
-					<Separator />
-				</>
+						<>
+							<ComponentEditorBase
+								xValue={GraphNodeBaseEditor.getXPosition()}
+								yValue={GraphNodeBaseEditor.getYPosition()}
+								wValue={GraphNodeBaseEditor.getWidth()}
+								hValue={GraphNodeBaseEditor.getHeight()}
+							/>
+							<ComponentAutoSize />
+							<Separator />
+							<ComponentLayering />
+							<Separator />
+						</>
 
-				{hasAlignmentTextProps(selectedNode) && (
-					<>
-						<ComponentTextAlignment />
-						<Separator />
-					</>
-				)}
+						{hasAlignmentTextProps(memoizedSelectedNode) && (
+							<>
+								<ComponentTextAlignment
+									editedNode={memoizedSelectedNode}
+								/>
+								<Separator />
+							</>
+						)}
 
-				{hasFontProps(selectedNode) && (
-					<>
-						<ComponentFontSize />
-						<Separator />
-						<ComponentFontColor />
-						<Separator />
-						<ComponentFontWeight />
-						<Separator />
-					</>
-				)}
-				{hasBlockProps(selectedNode) && (
-					<>
-						<ComponentBlockBackground />
-						<Separator />
-						<ComponentBlockBorder />
-						<Separator />
-					</>
-				)}
-			</div>
+						{hasFontProps(memoizedSelectedNode) && (
+							<>
+								<ComponentFontSize editedNode={memoizedSelectedNode} />
+								<Separator />
+								<ComponentFontColor editedNode={memoizedSelectedNode} />
+								<Separator />
+								<ComponentFontWeight
+									editedNode={memoizedSelectedNode}
+								/>
+								<Separator />
+							</>
+						)}
+						{hasBlockProps(memoizedSelectedNode) && (
+							<>
+								<ComponentBlockBackground
+									editedNode={memoizedSelectedNode}
+								/>
+								<Separator />
+								<ComponentBlockBorder
+									editedNode={memoizedSelectedNode}
+								/>
+								<Separator />
+							</>
+						)}
+					</div>
+				</TabsContent>
+
+				<TabsContent value="settings"></TabsContent>
+			</Tabs>
 		</aside>
 	);
 };

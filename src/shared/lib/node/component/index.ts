@@ -15,5 +15,5 @@ export {
 export { NodeBorderRadiusEnum } from './constants/node-border-size';
 export { GraphNodeComponent } from './classes/main/node-base';
 export { TopicNodeComponent } from './classes/main/node-topic';
+export { TitleNodeComponent } from './classes/main/node-title';
 export { isValidNodeType } from './creation/node-registry';
-

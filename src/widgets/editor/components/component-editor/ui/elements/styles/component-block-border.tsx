@@ -1,19 +1,28 @@
 import { Button, Input, Label } from '@/shared/ui';
 import { GraphNodeBlockEditor } from '@/shared/lib/node/editor';
-import { BlockBorderRadius } from '../constants/border-size';
+import { BlockBorderRadius } from '../../constants/border-size';
 import { useState } from 'react';
 import { isHexColor } from '@/shared/lib';
+import { Node } from 'reactflow';
+import { GlobalGraphNodeTypesComponents } from '@/shared/lib/node/component';
+import { useEffect } from 'react';
 
-export const ComponentBlockBorder = () => {
-	const [borderRadius, setBorderRadius] = useState(
-		GraphNodeBlockEditor.borderRadiusDefaultValue()
-	);
-	const [borderWidth, setBorderWidth] = useState(
-		GraphNodeBlockEditor.borderWidthDefaultValue()
-	);
-	const [borderColor, setBorderColor] = useState(
-		GraphNodeBlockEditor.borderColorDefaultValue()
-	);
+interface ComponentBlockBorderProps {
+	editedNode: Node<GlobalGraphNodeTypesComponents> | null;
+}
+
+export const ComponentBlockBorder = ({ editedNode }: ComponentBlockBorderProps) => {
+	const [borderRadius, setBorderRadius] = useState<number>(0);
+	const [borderWidth, setBorderWidth] = useState<number>(0);
+	const [borderColor, setBorderColor] = useState<string>('');
+
+	useEffect(() => {
+		if (editedNode) {
+			setBorderRadius(GraphNodeBlockEditor.borderRadiusDefaultValue());
+			setBorderWidth(GraphNodeBlockEditor.borderWidthDefaultValue());
+			setBorderColor(GraphNodeBlockEditor.borderColorDefaultValue());
+		}
+	}, [editedNode]);
 
 	const handleBorderRadiusChange = (value: number) => {
 		setBorderRadius(value);
@@ -87,23 +96,27 @@ export const ComponentBlockBorder = () => {
 				>
 					Choose your border color
 				</Label>
-				<Button
-					className="h-6 p-0 text-sm text-center"
-					variant={'outline'}
-					onClick={handleResetBorderColor}
-				>
-					<span className="px-1">Reset</span>
-				</Button>
-				<Input
-					type="color"
-					className="w-6 h-6 p-0 m-0 appearance-none border-md 
+				<div className="flex gap-2">
+					<Button
+						className="h-6 p-0 text-sm text-center"
+						variant={'outline'}
+						onClick={handleResetBorderColor}
+					>
+						<span className="px-1">Reset</span>
+					</Button>
+					<Input
+						type="color"
+						className="w-6 h-6 p-0 m-0 appearance-none border-md 
                     bg-transparent cursor-pointer text-[0px] 
                     [&::-webkit-color-swatch-wrapper]:p-0
                     [&::-webkit-color-swatch]:border-none"
-					id="border-color"
-					value={borderColor || '#16a34a'}
-					onChange={(e) => handleBorderColorChange(e.target.value)}
-				/>
+						id="border-color"
+						value={borderColor || '#16a34a'}
+						onChange={(e) =>
+							handleBorderColorChange(e.target.value)
+						}
+					/>
+				</div>
 			</div>
 		</div>
 	);

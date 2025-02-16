@@ -11,6 +11,7 @@ import {
 	TopicNodeComponent,
 } from '@/shared/lib/node/component/classes/main/node-topic';
 import { memo } from 'react';
+import { ResizeNodeComponent } from '../utils/resize-node';
 
 export const SubtopicNodeDisplay = (
 	props: NodeProps<SubTopicNodeComponent | TopicNodeComponent>
@@ -26,17 +27,7 @@ export const SubtopicNodeDisplay = (
 				borderColor: data.blockProps?.borderColor,
 			}}
 		>
-			<div className="absolute w-full h-full top-1 left-1 p-6 group flex-shrink-0">
-				<div className="hidden group-hover:block ">
-					<NodeResizeControl
-						position="bottom-right"
-						minWidth={150}
-						minHeight={75}
-					>
-						<MoveDownRightIcon className="absolute right-1 bottom-1 text-primary font-bold" />
-					</NodeResizeControl>
-				</div>
-			</div>
+			<ResizeNodeComponent minWidth={150} minHeight={100} />
 			<div>
 				<div
 					className="flex gap-1 justify-between bg-primary p-1 px-2"

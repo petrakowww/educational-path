@@ -6,10 +6,11 @@ interface ComponentEditorLabelProps {
 }
 
 export const ComponentEditorLabel = (props: ComponentEditorLabelProps) => {
-	const {label} = props;
+	const { label } = props;
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        GraphNodeLabelEditor.renameNode(e.target.value);
-    };
+		GraphNodeLabelEditor.renameNode(e.target.value);
+	};
+
 	return (
 		<div className="flex flex-col gap-2">
 			<Label htmlFor="label" className="text-foreground/80">
@@ -20,7 +21,7 @@ export const ComponentEditorLabel = (props: ComponentEditorLabelProps) => {
 				type="text"
 				placeholder="Enter label"
 				className="py-1 h-fit text-sm"
-				defaultValue={label}
+				value={label || ''}
 				onChange={handleChange}
 			/>
 		</div>

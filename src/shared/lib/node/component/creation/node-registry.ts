@@ -1,3 +1,4 @@
+import { TitleNodeComponent } from '../classes/main/node-title';
 import {
 	SubTopicNodeComponent,
 	TopicNodeComponent,
@@ -7,6 +8,7 @@ import { NodeLabelEnum } from '../constants/node-label';
 export const nodeRegistry = {
 	[NodeLabelEnum.topic]: TopicNodeComponent,
 	[NodeLabelEnum.subtopic]: SubTopicNodeComponent,
+	[NodeLabelEnum.title]: TitleNodeComponent,
 };
 
 export function createGraphNode<T extends keyof typeof nodeRegistry>(
@@ -28,6 +30,7 @@ export function createGraphNode<T extends keyof typeof nodeRegistry>(
 const validNodeTypes = {
 	[NodeLabelEnum.topic]: true,
 	[NodeLabelEnum.subtopic]: true,
+	[NodeLabelEnum.title]: true,
 } as const;
 
 export const isValidNodeType = (
