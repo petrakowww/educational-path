@@ -5,4 +5,5 @@ export const contentComponentCreator = [
 	{ title: NodeLabelEnum.title, IconNode: Heading1Icon },
 	{ title: NodeLabelEnum.topic, IconNode: CircleIcon },
 	{ title: NodeLabelEnum.subtopic, IconNode: CircleDashedIcon },
+	{ title: NodeLabelEnum.paragraph, IconNode: CircleDashedIcon },
 ];

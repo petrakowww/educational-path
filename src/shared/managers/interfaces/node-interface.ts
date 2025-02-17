@@ -1,7 +1,8 @@
-import { GlobalGraphNodeTypesComponents } from "@/shared/lib/node/component";
-import { Node } from "reactflow";
+import { GraphNodeComponent } from '@/shared/lib/node/component';
+import { Node } from 'reactflow';
 
-export interface NodeInterface {
-    selectedNodeId: string | null;
-    nodes: Node<GlobalGraphNodeTypesComponents>[];
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface NodeInterface<T extends GraphNodeComponent<any> = GraphNodeComponent<any>> {
+	selectedNodeId: string | null;
+	nodes: Node<T>[];
+  }

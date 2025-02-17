@@ -1,8 +1,6 @@
-import { GraphNodeBlockProps } from "../auxiliary/node-block";
-import { GraphNodeFontProps } from "../auxiliary/node-font";
-import { GraphNodeLabelProps } from "../auxiliary/node-label";
+import { GraphNodeFontProps } from '../auxiliary/type-font';
+import { GraphNodeLabelProps } from '../auxiliary/type-label';
 
-export interface GraphNodeTitleBaseProps extends GraphNodeLabelProps {
-    fontProps: GraphNodeFontProps;
-    blockProps: GraphNodeBlockProps;
-}
+export interface GraphNodeTitleBaseProps
+	extends GraphNodeLabelProps,
+		GraphNodeFontProps {}

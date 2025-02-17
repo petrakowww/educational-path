@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { nodeReducer } from '../reducers/node-slice';
-import { nodeEditorAsideReducer } from '../reducers/node-aside-editor-func';
+import { nodeEditorAsideReducer } from '../reducers/node-aside-slice';
 import { dndEditorReduser } from '../reducers/dnd-slice';
 
 export const rootReducer = combineReducers({

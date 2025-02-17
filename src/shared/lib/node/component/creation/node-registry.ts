@@ -1,14 +1,16 @@
-import { TitleNodeComponent } from '../classes/main/node-title';
+import { ParagraphNodeComponent } from '../classes/collectors/paragraph-node-component';
+import { TitleNodeComponent } from '../classes/collectors/title-node-component';
 import {
 	SubTopicNodeComponent,
 	TopicNodeComponent,
-} from '../classes/main/node-topic';
-import { NodeLabelEnum } from '../constants/node-label';
+} from '../classes/collectors/topic-node-component';
+import { NodeLabelEnum } from '../constants/enum-label';
 
 export const nodeRegistry = {
 	[NodeLabelEnum.topic]: TopicNodeComponent,
 	[NodeLabelEnum.subtopic]: SubTopicNodeComponent,
 	[NodeLabelEnum.title]: TitleNodeComponent,
+	[NodeLabelEnum.paragraph]: ParagraphNodeComponent,
 };
 
 export function createGraphNode<T extends keyof typeof nodeRegistry>(
@@ -27,18 +29,8 @@ export function createGraphNode<T extends keyof typeof nodeRegistry>(
 	};
 }
 
-const validNodeTypes = {
-	[NodeLabelEnum.topic]: true,
-	[NodeLabelEnum.subtopic]: true,
-	[NodeLabelEnum.title]: true,
-} as const;
-
 export const isValidNodeType = (
 	type: NodeLabelEnum
-): type is keyof typeof validNodeTypes => {
-	return type in validNodeTypes;
+): type is keyof typeof nodeRegistry => {
+	return type in nodeRegistry;
 };
-
-export type GlobalGraphNodeTypesComponents =
-	| TopicNodeComponent
-	| SubTopicNodeComponent;

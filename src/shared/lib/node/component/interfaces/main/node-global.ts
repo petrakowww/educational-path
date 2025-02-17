@@ -1,6 +1,7 @@
-import {
-	SubTopicNodeComponent,
-	TopicNodeComponent,
-} from '../../classes/main/node-topic';
+import { GraphNodeTitleBaseProps } from "./node-title";
+import { GraphNodeTopicBaseProps } from "./node-topic";
 
-export type GlobalNodeDataProps = TopicNodeComponent | SubTopicNodeComponent;
+export type GlobalNodeDataProps =
+	| GraphNodeTopicBaseProps
+	| GraphNodeTitleBaseProps;
+

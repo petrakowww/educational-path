@@ -1,6 +1,6 @@
+import { GraphNodeComponent } from '@/shared/lib/node/component';
 import { setNodes, store } from '@/shared/managers';
 import { Node } from 'reactflow';
-import { GlobalGraphNodeTypesComponents } from '@/shared/lib/node/component';
 
 export const resetNodeSize = (
 	nodeId: string,
@@ -11,7 +11,7 @@ export const resetNodeSize = (
 	const nodes = state.editor.nodes;
 
 	const updatedNodes = nodes.map(
-		(node: Node<GlobalGraphNodeTypesComponents>) =>
+		(node: Node<GraphNodeComponent<unknown>>) =>
 			node.id === nodeId
 				? {
 						...node,

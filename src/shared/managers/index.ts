@@ -23,7 +23,7 @@ export {
 export {
 	nodeEditorAsideReducer,
 	setEditorStatusMenu,
-} from './reducers/node-aside-editor-func';
+} from './reducers/node-aside-slice';
 
 export { dndEditorReduser, setType, resetType } from './reducers/dnd-slice';
 

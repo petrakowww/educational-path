@@ -11,22 +11,16 @@ export const TitleNodeDisplay = (props: NodeProps<TitleNodeComponent>) => {
 			style={{
 				width: '',
 				height: '',
-				backgroundColor: data.blockProps?.backgroundColor,
-				borderColor: data.blockProps?.borderColor,
-				borderWidth: data.blockProps?.borderWidth,
-				borderRadius: data.blockProps?.borderRadius,
 			}}
 		>
 			<ResizeNodeComponent minHeight={50} minWidth={104} />
 			<p
 				className="leading-none break-words whitespace-normal text-center"
 				style={{
-					fontSize: data.fontProps?.fontSize,
-					color: data.fontProps?.textColor,
-					fontWeight: data.fontProps?.fontWeight,
+					fontSize: data.dataTProps.fontProps?.fontSize,
 				}}
 			>
-				{data.label}
+				{data.dataTProps.label}
 			</p>
 		</div>
 	);

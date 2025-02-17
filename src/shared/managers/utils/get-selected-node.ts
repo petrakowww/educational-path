@@ -1,13 +1,14 @@
-import { GlobalGraphNodeTypesComponents } from '@/shared/lib/node/component';
+import { GraphNodeComponent } from '@/shared/lib/node/component';
 import { RootState } from '../redux/redux-store';
 import { Node } from 'reactflow';
 
-export const getSelectedNode = (
+export const getSelectedNode = <T>(
 	state: RootState
-): Node<GlobalGraphNodeTypesComponents> | null => {
+): Node<GraphNodeComponent<T>> | null => {
 	if (!state.editor.selectedNodeId) return null;
 	return (
-		state.editor.nodes.find((n) => n.id === state.editor.selectedNodeId) ||
-		null
+		(state.editor.nodes.find(
+			(n) => n.id === state.editor.selectedNodeId
+		) as Node<GraphNodeComponent<T>>) || null
 	);
 };

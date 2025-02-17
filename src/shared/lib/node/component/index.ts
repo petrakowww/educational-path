@@ -1,19 +1,31 @@
 export { createGraphNode } from './creation/node-registry';
-export type { GlobalGraphNodeTypesComponents } from './creation/node-registry';
 
-export { NodeLabelEnum } from './constants/node-label';
-export { TaskImportanceEnum } from './constants/node-importance';
-export { TaskStatusEnum } from './constants/node-task';
-export { TextFontSizeEnum } from './constants/node-font-size';
-export { TextFontColorEnum } from './constants/node-font-color';
-export { TextFontWeightEnum } from './constants/node-font-weight';
-export { BackgroundColorEnum } from './constants/node-background-color';
+export { NodeLabelEnum } from './constants/enum-label';
+export { TaskImportanceEnum } from './constants/enum-importance';
+export { TaskStatusEnum } from './constants/enum-task';
+export { TextFontSizeEnum } from './constants/enum-font-size';
+export { TextFontColorEnum } from './constants/enum-font-color';
+export { TextFontWeightEnum } from './constants/enum-font-weight';
+export { BackgroundColorEnum } from './constants/enum-background-color';
 export {
 	TextAlignmentEnum,
-	TextVerticalAlignmentEnum,
-} from './constants/node-alignment';
-export { NodeBorderRadiusEnum } from './constants/node-border-size';
-export { GraphNodeComponent } from './classes/main/node-base';
-export { TopicNodeComponent } from './classes/main/node-topic';
-export { TitleNodeComponent } from './classes/main/node-title';
+	TextJustificationEnum as TextVerticalAlignmentEnum,
+} from './constants/enum-alignment';
+export { NodeBorderRadiusEnum } from './constants/enum-border-radius';
+export { GraphNodeComponent } from './classes/collectors/graph-node-component';
+export { TopicNodeComponent } from './classes/collectors/topic-node-component';
+export { TitleNodeComponent } from './classes/collectors/title-node-component';
+export { ParagraphNodeComponent } from './classes/collectors/paragraph-node-component';
 export { isValidNodeType } from './creation/node-registry';
+
+export type { GlobalNodeDataProps } from './interfaces/main/node-global';
+
+export * from './interfaces/auxiliary/type-alignment';
+export * from './interfaces/auxiliary/type-block';
+export * from './interfaces/auxiliary/type-font';
+export * from './interfaces/auxiliary/type-label';
+
+export * from './classes/objects/object-block';
+export * from './classes/objects/object-font';
+export * from './classes/objects/object-content';
+export * from './classes/objects/object-block';

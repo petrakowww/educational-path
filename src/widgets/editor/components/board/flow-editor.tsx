@@ -17,10 +17,7 @@ import {
 	setEditorStatusMenu,
 	resetNodeSize,
 } from '@/shared/managers';
-import {
-	GlobalGraphNodeTypesComponents,
-	isValidNodeType,
-} from '@/shared/lib/node/component';
+import { GlobalNodeDataProps, isValidNodeType } from '@/shared/lib/node/component';
 import { createGraphNode } from '@/shared/lib/node/component';
 import { useAppDispatch, useAppSelector } from '@/shared/managers';
 import { useCallback, useMemo } from 'react';
@@ -69,7 +66,7 @@ export const FlowEditor = () => {
 	}, [dispatch]);
 
 	const handleNodeClick = useCallback(
-		(e: React.MouseEvent, node: Node<GlobalGraphNodeTypesComponents>) => {
+		(e: React.MouseEvent, node: Node<GlobalNodeDataProps>) => {
 			e.stopPropagation();
 			dispatch(setSelectedNode(node.id));
 			dispatch(setEditorStatusMenu(true));
@@ -78,7 +75,7 @@ export const FlowEditor = () => {
 	);
 
 	const handleNodeDrag = useCallback(
-		(e: React.MouseEvent, node: Node<GlobalGraphNodeTypesComponents>) => {
+		(e: React.MouseEvent, node: Node<GlobalNodeDataProps>) => {
 			dispatch(setSelectedNode(node.id));
 		},
 		[dispatch]

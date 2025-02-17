@@ -1,31 +1,48 @@
 import { GraphNodeBaseEditor } from '@/shared/lib/node/editor';
 import { cn } from '@/shared/lib';
-import { ComponentEditorLabel } from '../elements/styles/component-label';
-import { ComponentEditorBase } from '../elements/styles/component-base';
-import { ComponentAutoSize } from '../elements/styles/component-autosize';
+import { ComponentEditorLabel } from '../elements/component-label/component-label';
+import { ComponentEditorBase } from '../elements/component-specifications/component-specifications';
+import { ComponentAutoSize } from '../elements/component-auto-size/component-autosize';
 import { Button, Separator, Tabs, TabsList, TabsTrigger } from '@/shared/ui';
-import { ComponentLayering } from '../elements/styles/component-layering';
-import {
-	hasAlignmentTextProps,
-	hasBlockProps,
-	hasFontProps,
-} from '../../utils/has-style-properties';
+import { ComponentLayering } from '../elements/component-layering/component-layering';
+
 import { hasLabel } from '../../utils/has-main-properties';
-import { ComponentFontSize } from '../elements/styles/component-font-size';
-import { ComponentFontColor } from '../elements/styles/component-font-color';
-import { ComponentBlockBackground } from '../elements/styles/component-block-background';
-import { ComponentBlockBorder } from '../elements/styles/component-block-border';
+import { ComponentFontSize } from '../elements/component-font/component-font-size';
+import { ComponentFontColor } from '../elements/component-font/component-font-color';
+import { ComponentBlockBackground } from '../elements/component-block/component-block-background';
 import { XIcon } from 'lucide-react';
-import { ComponentFontWeight } from '../elements/styles/component-font-weigth';
+import { ComponentFontWeight } from '../elements/component-font/component-font-weigth';
 import { getSelectedNode } from '@/shared/managers';
-import { ComponentTextAlignment } from '../elements/styles/component-text-alignment';
 import { TabsContent } from '@/shared/ui';
 import { useAppSelector } from '@/shared/managers';
 import { useMemo } from 'react';
+import {
+	hasFontColorProps,
+	hasFontProps,
+	hasFontSizeProps,
+	hasFontWeightProps,
+} from '../../utils/has-font-properties';
+import {
+	hasBlockBackgroundColorProps,
+	hasBlockBorderColorProps,
+	hasBlockBorderRadiusProps,
+	hasBlockBorderWidthProps,
+	hasBlockProps,
+} from '../../utils/has-block-properties';
+import {
+	hasAlignmentProps,
+	hasHorizontalProps,
+	hasVerticalProps,
+} from '../../utils/has-align-properties';
+import { ComponentBorderRadius } from '../elements/component-block/component-block-border-radius';
+import { ComponentBorderColor } from '../elements/component-block/component-block-border-color';
+import { ComponentBorderWidth } from '../elements/component-block/component-block-border-thickness';
+import { ComponentTextAlignmentVertical } from '../elements/component-align/component-align-vertical';
+import { ComponentTextAlignmentHorizontal } from '../elements/component-align/component-align-horizontal';
 
 export const AsideBarWidgetComponentEditor = () => {
 	const isOpenMenu = useAppSelector((state) => state.aside_editor.isOpenMenu);
-	const selectedNode = useAppSelector(getSelectedNode);
+	const selectedNode = useAppSelector(getSelectedNode<never>);
 
 	const memoizedSelectedNode = useMemo(() => selectedNode, [selectedNode]);
 
@@ -64,7 +81,7 @@ export const AsideBarWidgetComponentEditor = () => {
 					<div className="flex flex-col gap-6">
 						{hasLabel(memoizedSelectedNode) && (
 							<ComponentEditorLabel
-								label={memoizedSelectedNode.data.label}
+								editedNode={memoizedSelectedNode}
 							/>
 						)}
 
@@ -81,37 +98,96 @@ export const AsideBarWidgetComponentEditor = () => {
 							<Separator />
 						</>
 
-						{hasAlignmentTextProps(memoizedSelectedNode) && (
+						{hasAlignmentProps(memoizedSelectedNode) && (
 							<>
-								<ComponentTextAlignment
-									editedNode={memoizedSelectedNode}
-								/>
+								{hasHorizontalProps(memoizedSelectedNode) && (
+									<ComponentTextAlignmentHorizontal
+										editedNode={memoizedSelectedNode}
+									/>
+								)}
+								{hasVerticalProps(memoizedSelectedNode) && (
+									<ComponentTextAlignmentVertical
+										editedNode={memoizedSelectedNode}
+									/>
+								)}
 								<Separator />
 							</>
 						)}
 
 						{hasFontProps(memoizedSelectedNode) && (
 							<>
-								<ComponentFontSize editedNode={memoizedSelectedNode} />
-								<Separator />
-								<ComponentFontColor editedNode={memoizedSelectedNode} />
-								<Separator />
-								<ComponentFontWeight
-									editedNode={memoizedSelectedNode}
-								/>
-								<Separator />
+								{hasFontSizeProps(memoizedSelectedNode) && (
+									<>
+										<ComponentFontSize
+											editedNode={memoizedSelectedNode}
+										/>
+										<Separator />
+									</>
+								)}
+								{hasFontColorProps(memoizedSelectedNode) && (
+									<>
+										<ComponentFontColor
+											editedNode={memoizedSelectedNode}
+										/>
+										<Separator />
+									</>
+								)}
+								{hasFontWeightProps(memoizedSelectedNode) && (
+									<>
+										<ComponentFontWeight
+											editedNode={memoizedSelectedNode}
+										/>
+										<Separator />
+									</>
+								)}
 							</>
 						)}
 						{hasBlockProps(memoizedSelectedNode) && (
 							<>
-								<ComponentBlockBackground
-									editedNode={memoizedSelectedNode}
-								/>
-								<Separator />
-								<ComponentBlockBorder
-									editedNode={memoizedSelectedNode}
-								/>
-								<Separator />
+								{hasBlockBackgroundColorProps(
+									memoizedSelectedNode
+								) && (
+									<>
+										<ComponentBlockBackground
+											editedNode={memoizedSelectedNode}
+										/>
+										<Separator />
+									</>
+								)}
+
+								{hasBlockBorderRadiusProps(
+									memoizedSelectedNode
+								) && (
+									<ComponentBorderRadius
+										editedNode={memoizedSelectedNode}
+									/>
+								)}
+
+								{hasBlockBorderWidthProps(
+									memoizedSelectedNode
+								) && (
+									<ComponentBorderWidth
+										editedNode={memoizedSelectedNode}
+									/>
+								)}
+
+								{hasBlockBorderColorProps(
+									memoizedSelectedNode
+								) && (
+									<ComponentBorderColor
+										editedNode={memoizedSelectedNode}
+									/>
+								)}
+
+								{(hasBlockBorderRadiusProps(
+									memoizedSelectedNode
+								) ||
+									hasBlockBorderWidthProps(
+										memoizedSelectedNode
+									) ||
+									hasBlockBorderColorProps(
+										memoizedSelectedNode
+									)) && <Separator />}
 							</>
 						)}
 					</div>

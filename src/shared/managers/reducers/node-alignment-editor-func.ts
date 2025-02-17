@@ -1,22 +1,25 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { NodeInterface } from '../interfaces/node-interface';
-import { TextAlignmentEnum, TextVerticalAlignmentEnum } from '@/shared/lib/node/component';
+import {
+	GraphNodeComponent,
+	TextAlignmentEnum,
+	TextVerticalAlignmentEnum,
+} from '@/shared/lib/node/component';
+import { GraphNodeAlignmentTextProps } from '@/shared/lib/node/component';
 
 export const updateNodeTextAlignmentFunction = (
-	state: NodeInterface,
+	state: NodeInterface<GraphNodeComponent<GraphNodeAlignmentTextProps>>,
 	action: PayloadAction<{ id: string; textAlignment: TextAlignmentEnum }>
 ) => {
 	const node = state.nodes.find((n) => n.id === action.payload.id);
 	if (node) {
-		node.data.textAlignmentProps = {
-			...node.data.textAlignmentProps,
-			textAlignType: action.payload.textAlignment,
-		};
+		node.data.dataTProps.textAlignmentProps.textAlignType =
+			action.payload.textAlignment;
 	}
 };
 
 export const updateNodeTextVerticalAlignmentFunction = (
-	state: NodeInterface,
+	state: NodeInterface<GraphNodeComponent<GraphNodeAlignmentTextProps>>,
 	action: PayloadAction<{
 		id: string;
 		textVerticalAlignment: TextVerticalAlignmentEnum;
@@ -24,9 +27,7 @@ export const updateNodeTextVerticalAlignmentFunction = (
 ) => {
 	const node = state.nodes.find((n) => n.id === action.payload.id);
 	if (node) {
-		node.data.textAlignmentProps = {
-			...node.data.textAlignmentProps,
-			textVerticalAlignType: action.payload.textVerticalAlignment,
-		};
+		node.data.dataTProps.textAlignmentProps.textJustificationType =
+			action.payload.textVerticalAlignment;
 	}
 };

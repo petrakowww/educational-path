@@ -1,11 +1,11 @@
 import { getNodesBounds, Node } from 'reactflow';
-import { GlobalGraphNodeTypesComponents } from '../../../component';
 import { getSelectedNode, setNodes, store } from '@/shared/managers';
 import { setEditorStatusMenu } from '@/shared/managers';
+import { GraphNodeComponent } from '../../../component';
 
 export abstract class GraphNodeBaseEditor {
-	static get editedNode(): Node<GlobalGraphNodeTypesComponents> | null {
-		return getSelectedNode(store.getState());
+	static getEditedNode<T>(): Node<GraphNodeComponent<T>> | null {
+		return getSelectedNode<T>(store.getState());
 	}
 
 	static close(): void {
@@ -17,7 +17,7 @@ export abstract class GraphNodeBaseEditor {
 	}
 
 	static autoSize(): void {
-		const editedNode = this.editedNode;
+		const editedNode = this.getEditedNode();
 		if (!editedNode) return;
 
 		const updatedNode = {
@@ -38,7 +38,7 @@ export abstract class GraphNodeBaseEditor {
 	}
 
 	static getWidth(): number {
-		const editedNode = this.editedNode;
+		const editedNode = this.getEditedNode();
 		if (!editedNode) return 0;
 
 		const bounds = getNodesBounds([editedNode]);
@@ -46,7 +46,7 @@ export abstract class GraphNodeBaseEditor {
 	}
 
 	static getHeight(): number {
-		const editedNode = this.editedNode;
+		const editedNode = this.getEditedNode();
 		if (!editedNode) return 0;
 
 		const bounds = getNodesBounds([editedNode]);
@@ -54,12 +54,12 @@ export abstract class GraphNodeBaseEditor {
 	}
 
 	static getXPosition(): number {
-		const editedNode = this.editedNode;
+		const editedNode = this.getEditedNode();
 		return editedNode ? Math.round(editedNode.position.x) : 0;
 	}
 
 	static getYPosition(): number {
-		const editedNode = this.editedNode;
+		const editedNode = this.getEditedNode();
 		return editedNode ? Math.round(editedNode.position.y) : 0;
 	}
 

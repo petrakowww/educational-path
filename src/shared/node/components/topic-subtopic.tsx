@@ -1,4 +1,4 @@
-import { NodeProps, NodeResizeControl } from 'reactflow';
+import { NodeProps } from 'reactflow';
 import {
 	CaptionsIcon,
 	LinkIcon,
@@ -9,7 +9,7 @@ import {
 import {
 	SubTopicNodeComponent,
 	TopicNodeComponent,
-} from '@/shared/lib/node/component/classes/main/node-topic';
+} from '@/shared/lib/node/component/classes/collectors/topic-node-component';
 import { memo } from 'react';
 import { ResizeNodeComponent } from '../utils/resize-node';
 
@@ -21,10 +21,7 @@ export const SubtopicNodeDisplay = (
 		<article
 			className="bg-white rounded-md overflow-hidden border-[1px] h-full w-full relative flex flex-col"
 			style={{
-				backgroundColor: data.blockProps?.backgroundColor,
-				borderRadius: data.blockProps?.borderRadius,
-				borderWidth: data.blockProps?.borderWidth,
-				borderColor: data.blockProps?.borderColor,
+				backgroundColor: data.dataTProps.blockProps.backgroundColor,
 			}}
 		>
 			<ResizeNodeComponent minWidth={150} minHeight={100} />
@@ -61,23 +58,16 @@ export const SubtopicNodeDisplay = (
 					15d:11h:34m remained
 				</span>
 			</div> */}
-			<div
-				className="flex flex-grow px-3 py-2 m-3 text-center flex-col"
-				style={{
-					justifyContent:
-						data.textAlignmentProps?.textVerticalAlignType,
-				}}
-			>
+			<div className="flex flex-grow px-3 py-2 m-3 text-center flex-col justify-center">
 				<p
 					className="  text-black text-lg leading-none break-words whitespace-normal"
 					style={{
-						fontSize: data.fontProps?.fontSize,
-						color: data.fontProps?.textColor,
-						fontWeight: data.fontProps?.fontWeight,
-						textAlign: data.textAlignmentProps?.textAlignType,
+						fontSize: data.dataTProps.fontProps?.fontSize,
+						color: data.dataTProps.fontProps?.fontColor,
+						fontWeight: data.dataTProps.fontProps?.fontWeight,
 					}}
 				>
-					{data.label}
+					{data.dataTProps.label}
 				</p>
 			</div>
 		</article>

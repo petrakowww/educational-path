@@ -3,33 +3,28 @@ import {
 	updateNodeTextAlignment,
 	updateNodeTextVerticalAlignment,
 } from '@/shared/managers';
-import { GraphNodeBaseEditor } from './editor-base';
 import {
 	TextAlignmentEnum,
 	TextVerticalAlignmentEnum,
+	GraphNodeAlignmentTextProps,
 } from '../../../component';
+import {
+	initTextAlignComponent,
+	initTextJustificationComponent,
+} from '../../../component/classes/objects/object-alignment';
+import { GraphNodeBaseEditor } from './editor-base';
 
 export class GraphNodeAlignmentEditor extends GraphNodeBaseEditor {
 	static changeAlignment(value: TextAlignmentEnum): void {
-		const editedNode = this.editedNode;
+		const editedNode = this.getEditedNode();
 		if (!editedNode) return;
 		store.dispatch(
 			updateNodeTextAlignment({ id: editedNode.id, textAlignment: value })
 		);
 	}
 
-	static textAlignmentDefaultValue(): TextAlignmentEnum {
-		const editedNode = this.editedNode;
-		if (!editedNode) return TextAlignmentEnum.Center;
-
-		return (
-			editedNode.data.textAlignmentProps?.textAlignType ??
-			TextAlignmentEnum.Center
-		);
-	}
-
 	static changeVerticalAlignment(value: TextVerticalAlignmentEnum): void {
-		const editedNode = this.editedNode;
+		const editedNode = this.getEditedNode();
 		if (!editedNode) return;
 		store.dispatch(
 			updateNodeTextVerticalAlignment({
@@ -39,13 +34,21 @@ export class GraphNodeAlignmentEditor extends GraphNodeBaseEditor {
 		);
 	}
 
+	static textAlignmentDefaultValue(): TextAlignmentEnum {
+		const editedNode = this.getEditedNode<GraphNodeAlignmentTextProps>();
+		return (
+			editedNode?.data.dataTProps.textAlignmentProps?.textAlignType ??
+			initTextAlignComponent.textAlignType
+		);
+	}
+
 	static textVerticalAlignmentDefaultValue(): TextVerticalAlignmentEnum {
-		const editedNode = this.editedNode;
-		if (!editedNode) return TextVerticalAlignmentEnum.Top;
+		const editedNode = this.getEditedNode<GraphNodeAlignmentTextProps>();
 
 		return (
-			editedNode.data.textAlignmentProps?.textVerticalAlignType ??
-			TextVerticalAlignmentEnum.Top
+			editedNode?.data.dataTProps.textAlignmentProps
+				?.textJustificationType ??
+			initTextJustificationComponent.textJustificationType
 		);
 	}
 }
