@@ -1,14 +1,18 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { NodeInterface } from '../interfaces/node-interface';
-import { GraphNodeComponent, GraphNodeLabelProps } from '@/shared/lib/node/component';
+import {
+	GraphNodeComponent,
+	GraphNodeLabelProps,
+} from '@/shared/lib/node/component';
+import { updateNodeDataHelper } from '../utils/update-node-data-helper';
 
 export const updateNodeLabelFunction = (
-	state: NodeInterface<GraphNodeComponent<GraphNodeLabelProps>>,
+	state: NodeInterface<GraphNodeComponent<unknown>>,
 	action: PayloadAction<{ id: string; label: string }>
 ) => {
-	const node = state.nodes.find((n) => n.id === action.payload.id);
-
-	if (node) {
-		node.data.dataTProps.label = action.payload.label;
-	}
+	updateNodeDataHelper<GraphNodeLabelProps>(
+		state,
+		action.payload.id,
+		(data) => (data.label = action.payload.label)
+	);
 };

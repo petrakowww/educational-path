@@ -32,7 +32,7 @@ export const ComponentFontColor = ({ editedNode }: ComponentFontColorProps) => {
 	};
 
 	useEffect(() => {
-		setFontColor(GraphNodeFontEditor.colorDefaultValue());
+		setFontColor(GraphNodeFontEditor.colorValue());
 	}, [editedNode]);
 
 	return (

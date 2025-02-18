@@ -24,6 +24,13 @@ export const nodeSlice = createSlice({
 				state.nodes[index] = action.payload;
 			}
 		},
+		deleteNode: (state, action: PayloadAction<string>) => {
+			state.nodes = state.nodes.filter((node) => node.id !== action.payload);
+		
+			if (state.selectedNodeId === action.payload) {
+				state.selectedNodeId = null;
+			}
+		},
 		onNodesChange: (state, action) => {
 			const nodes = applyNodeChanges(action.payload, state.nodes);
 			state.nodes = nodes;
@@ -71,6 +78,7 @@ const {
 	setSelectedNode,
 	setNodes,
 	updateNode,
+	deleteNode,
 	onNodesChange,
 	updateNodeLabel,
 	updateNodeFontColor,
@@ -88,6 +96,7 @@ export {
 	setSelectedNode,
 	setNodes,
 	updateNode,
+	deleteNode,
 	onNodesChange,
 	updateNodeLabel,
 	updateNodeFontColor,

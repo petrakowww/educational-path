@@ -25,7 +25,7 @@ export const ComponentTextAlignmentHorizontal = ({
 	};
 
 	useEffect(() => {
-		setFontAlignment(GraphNodeAlignmentEditor.textAlignmentDefaultValue());
+		setFontAlignment(GraphNodeAlignmentEditor.textAlignmentValue());
 	}, [editedNode]);
 
 	return (

@@ -26,7 +26,7 @@ export const ComponentBorderWidth = ({
 	};
 
 	useEffect(() => {
-		setBorderWidth(GraphNodeBlockEditor.borderWidthDefaultValue());
+		setBorderWidth(GraphNodeBlockEditor.borderWidthValue());
 	}, [editedNode]);
 
 	return (

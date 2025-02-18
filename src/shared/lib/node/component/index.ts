@@ -13,7 +13,10 @@ export {
 } from './constants/enum-alignment';
 export { NodeBorderRadiusEnum } from './constants/enum-border-radius';
 export { GraphNodeComponent } from './classes/collectors/graph-node-component';
-export { TopicNodeComponent } from './classes/collectors/topic-node-component';
+export {
+	TopicNodeComponent,
+	SubTopicNodeComponent,
+} from './classes/collectors/topic-node-component';
 export { TitleNodeComponent } from './classes/collectors/title-node-component';
 export { ParagraphNodeComponent } from './classes/collectors/paragraph-node-component';
 export { isValidNodeType } from './creation/node-registry';

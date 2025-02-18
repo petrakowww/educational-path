@@ -1,5 +1,4 @@
 import {
-	store,
 	updateNodeBackground,
 	updateNodeBorderRadius,
 	updateNodeBorderWidth,
@@ -15,71 +14,44 @@ import { GraphNodeBaseEditor } from './editor-base';
 
 export class GraphNodeBlockEditor extends GraphNodeBaseEditor {
 	static changeBackgroundColor(color: string): void {
-		const editedNode = this.getEditedNode();
-		if (!editedNode) return;
-
-		store.dispatch(
-			updateNodeBackground({ id: editedNode.id, backgroundColor: color })
-		);
+		this.dispatchIfEdited(updateNodeBackground, { backgroundColor: color });
 	}
 
 	static changeBorderRadius(radius: number): void {
-		const editedNode = this.getEditedNode();
-		if (!editedNode) return;
-
-		store.dispatch(
-			updateNodeBorderRadius({ id: editedNode.id, borderRadius: radius })
-		);
+		this.dispatchIfEdited(updateNodeBorderRadius, { borderRadius: radius });
 	}
 
 	static changeBorderWidth(width: number): void {
-		const editedNode = this.getEditedNode();
-		if (!editedNode) return;
-
-		store.dispatch(
-			updateNodeBorderWidth({ id: editedNode.id, borderWidth: width })
-		);
+		this.dispatchIfEdited(updateNodeBorderWidth, { borderWidth: width });
 	}
 
 	static changeBorderColor(borderColor: string): void {
-		const editedNode = this.getEditedNode();
-		if (!editedNode) return;
-
-		store.dispatch(
-			updateNodeBorderColor({
-				id: editedNode.id,
-				borderColor: borderColor,
-			})
-		);
+		this.dispatchIfEdited(updateNodeBorderColor, { borderColor });
 	}
 
-	static backgroundColorDefaultValue(): string {
+	static backgroundColorValue(): string {
 		const editedNode = this.getEditedNode<GraphNodeBlockProps>();
-
 		return editedNode?.data.dataTProps.blockProps?.backgroundColor ?? '';
 	}
 
-	static borderRadiusDefaultValue(): number {
+	static borderRadiusValue(): number {
 		const editedNode = this.getEditedNode<GraphNodeBlockProps>();
-
 		return (
 			editedNode?.data.dataTProps.blockProps?.borderRadius ??
 			initBorderRadiusComponent.borderRadius
 		);
 	}
 
-	static borderWidthDefaultValue(): number {
+	static borderWidthValue(): number {
 		const editedNode = this.getEditedNode<GraphNodeBlockProps>();
-
 		return (
 			editedNode?.data.dataTProps.blockProps?.borderWidth ??
 			initBorderWidthComponent.borderWidth
 		);
 	}
 
-	static borderColorDefaultValue(): string {
+	static borderColorValue(): string {
 		const editedNode = this.getEditedNode<GraphNodeBlockProps>();
-
 		return (
 			editedNode?.data.dataTProps.blockProps?.borderColor ??
 			initBorderColorComponent.borderColor ??

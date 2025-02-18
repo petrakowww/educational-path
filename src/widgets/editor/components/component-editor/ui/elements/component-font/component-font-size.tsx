@@ -25,7 +25,7 @@ export const ComponentFontSize = ({ editedNode }: ComponentFontSizeProps) => {
 	};
 
 	useEffect(() => {
-		setFontSize(GraphNodeFontEditor.sizeDefaultValue());
+		setFontSize(GraphNodeFontEditor.sizeValue());
 	}, [editedNode]);
 
 	return (

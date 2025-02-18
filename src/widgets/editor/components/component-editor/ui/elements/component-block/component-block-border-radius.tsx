@@ -23,7 +23,7 @@ export const ComponentBorderRadius = ({
 	};
 
 	useEffect(() => {
-		setBorderRadius(GraphNodeBlockEditor.borderRadiusDefaultValue());
+		setBorderRadius(GraphNodeBlockEditor.borderRadiusValue());
 	}, [editedNode]);
 
 	return (

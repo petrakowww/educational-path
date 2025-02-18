@@ -8,6 +8,7 @@ export {
 	onNodesChange,
 	setNodes,
 	updateNode,
+	deleteNode,
 	updateNodeBackground,
 	updateNodeFontColor,
 	updateNodeFontSize,

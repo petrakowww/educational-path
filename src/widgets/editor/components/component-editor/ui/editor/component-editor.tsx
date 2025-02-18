@@ -39,6 +39,10 @@ import { ComponentBorderColor } from '../elements/component-block/component-bloc
 import { ComponentBorderWidth } from '../elements/component-block/component-block-border-thickness';
 import { ComponentTextAlignmentVertical } from '../elements/component-align/component-align-vertical';
 import { ComponentTextAlignmentHorizontal } from '../elements/component-align/component-align-horizontal';
+import { ComponentResetStyles } from '../elements/component-settings/component-reset-styles';
+import { hasTopicProps } from '../../utils/has-unique-class';
+import { ComponentChangeTopicType } from '../elements/component-settings/component-change-type';
+import { ComponentDestroyNode } from '../elements/component-settings/component-destroy-node';
 
 export const AsideBarWidgetComponentEditor = () => {
 	const isOpenMenu = useAppSelector((state) => state.aside_editor.isOpenMenu);
@@ -193,7 +197,21 @@ export const AsideBarWidgetComponentEditor = () => {
 					</div>
 				</TabsContent>
 
-				<TabsContent value="settings"></TabsContent>
+				<TabsContent value="settings">
+					<div className="flex flex-col gap-6">
+						{hasTopicProps(memoizedSelectedNode) && (
+							<ComponentChangeTopicType
+								editedNode={memoizedSelectedNode}
+							/>
+						)}
+						<ComponentResetStyles
+							editedNode={memoizedSelectedNode}
+						/>
+						<ComponentDestroyNode
+							editedNode={memoizedSelectedNode}
+						/>
+					</div>
+				</TabsContent>
 			</Tabs>
 		</aside>
 	);

@@ -29,7 +29,7 @@ export const ComponentBorderColor = ({
 	};
 
 	useEffect(() => {
-		setBorderColor(GraphNodeBlockEditor.borderColorDefaultValue());
+		setBorderColor(GraphNodeBlockEditor.borderColorValue());
 	}, [editedNode]);
 
 	return (

@@ -17,7 +17,10 @@ import {
 	setEditorStatusMenu,
 	resetNodeSize,
 } from '@/shared/managers';
-import { GlobalNodeDataProps, isValidNodeType } from '@/shared/lib/node/component';
+import {
+	GlobalNodeDataProps,
+	isValidNodeType,
+} from '@/shared/lib/node/component';
 import { createGraphNode } from '@/shared/lib/node/component';
 import { useAppDispatch, useAppSelector } from '@/shared/managers';
 import { useCallback, useMemo } from 'react';

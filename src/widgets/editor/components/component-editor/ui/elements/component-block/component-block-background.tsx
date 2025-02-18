@@ -21,7 +21,7 @@ export const ComponentBlockBackground = ({
 	const [backgroundColor, setBackgroundColor] = useState<string>('');
 
 	useEffect(() => {
-		setBackgroundColor(GraphNodeBlockEditor.backgroundColorDefaultValue());
+		setBackgroundColor(GraphNodeBlockEditor.backgroundColorValue());
 	}, [editedNode]);
 
 	const handleBackgroundColorChange = (color: string) => {

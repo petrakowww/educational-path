@@ -1,5 +1,4 @@
 import {
-	store,
 	updateNodeTextAlignment,
 	updateNodeTextVerticalAlignment,
 } from '@/shared/managers';
@@ -16,25 +15,18 @@ import { GraphNodeBaseEditor } from './editor-base';
 
 export class GraphNodeAlignmentEditor extends GraphNodeBaseEditor {
 	static changeAlignment(value: TextAlignmentEnum): void {
-		const editedNode = this.getEditedNode();
-		if (!editedNode) return;
-		store.dispatch(
-			updateNodeTextAlignment({ id: editedNode.id, textAlignment: value })
-		);
+		this.dispatchIfEdited(updateNodeTextAlignment, {
+			textAlignment: value,
+		});
 	}
 
 	static changeVerticalAlignment(value: TextVerticalAlignmentEnum): void {
-		const editedNode = this.getEditedNode();
-		if (!editedNode) return;
-		store.dispatch(
-			updateNodeTextVerticalAlignment({
-				id: editedNode.id,
-				textVerticalAlignment: value,
-			})
-		);
+		this.dispatchIfEdited(updateNodeTextVerticalAlignment, {
+			textVerticalAlignment: value,
+		});
 	}
 
-	static textAlignmentDefaultValue(): TextAlignmentEnum {
+	static textAlignmentValue(): TextAlignmentEnum {
 		const editedNode = this.getEditedNode<GraphNodeAlignmentTextProps>();
 		return (
 			editedNode?.data.dataTProps.textAlignmentProps?.textAlignType ??
@@ -42,9 +34,8 @@ export class GraphNodeAlignmentEditor extends GraphNodeBaseEditor {
 		);
 	}
 
-	static textVerticalAlignmentDefaultValue(): TextVerticalAlignmentEnum {
+	static textVerticalAlignmentValue(): TextVerticalAlignmentEnum {
 		const editedNode = this.getEditedNode<GraphNodeAlignmentTextProps>();
-
 		return (
 			editedNode?.data.dataTProps.textAlignmentProps
 				?.textJustificationType ??

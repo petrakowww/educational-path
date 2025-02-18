@@ -6,28 +6,29 @@ import {
 	TextVerticalAlignmentEnum,
 } from '@/shared/lib/node/component';
 import { GraphNodeAlignmentTextProps } from '@/shared/lib/node/component';
+import { updateNodeDataHelper } from '../utils/update-node-data-helper';
 
 export const updateNodeTextAlignmentFunction = (
-	state: NodeInterface<GraphNodeComponent<GraphNodeAlignmentTextProps>>,
+	state: NodeInterface<GraphNodeComponent<unknown>>,
 	action: PayloadAction<{ id: string; textAlignment: TextAlignmentEnum }>
 ) => {
-	const node = state.nodes.find((n) => n.id === action.payload.id);
-	if (node) {
-		node.data.dataTProps.textAlignmentProps.textAlignType =
-			action.payload.textAlignment;
-	}
+	updateNodeDataHelper<GraphNodeAlignmentTextProps>(
+		state,
+		action.payload.id,
+		(data) => (data.textAlignmentProps.textAlignType = action.payload.textAlignment)
+	);
 };
 
 export const updateNodeTextVerticalAlignmentFunction = (
-	state: NodeInterface<GraphNodeComponent<GraphNodeAlignmentTextProps>>,
+	state: NodeInterface<GraphNodeComponent<unknown>>,
 	action: PayloadAction<{
 		id: string;
 		textVerticalAlignment: TextVerticalAlignmentEnum;
 	}>
 ) => {
-	const node = state.nodes.find((n) => n.id === action.payload.id);
-	if (node) {
-		node.data.dataTProps.textAlignmentProps.textJustificationType =
-			action.payload.textVerticalAlignment;
-	}
+	updateNodeDataHelper<GraphNodeAlignmentTextProps>(
+		state,
+		action.payload.id,
+		(data) => (data.textAlignmentProps.textJustificationType = action.payload.textVerticalAlignment)
+	);
 };

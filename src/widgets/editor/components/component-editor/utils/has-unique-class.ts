@@ -1,8 +1,12 @@
-import { GraphNodeComponent, TopicNodeComponent } from "@/shared/lib/node/component";
+import { TopicNodeComponent, SubTopicNodeComponent } from "@/shared/lib/node/component";
 import { Node } from "reactflow";
 
-export const hasTopicProps = <T extends GraphNodeComponent>(
+export const hasTopicProps = <T extends TopicNodeComponent>(
     component: Node<T>
 ): boolean => {
-    return component.data.componentType === TopicNodeComponent.name;
+    return (
+        component.data.componentType === TopicNodeComponent.name ||
+        component.data.componentType === SubTopicNodeComponent.name
+    );
 };
+

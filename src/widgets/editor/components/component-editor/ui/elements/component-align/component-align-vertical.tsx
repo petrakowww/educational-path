@@ -28,7 +28,7 @@ export const ComponentTextAlignmentVertical = ({
 
 	useEffect(() => {
 		setFontVerticalAlignment(
-			GraphNodeAlignmentEditor.textVerticalAlignmentDefaultValue()
+			GraphNodeAlignmentEditor.textVerticalAlignmentValue()
 		);
 	}, [editedNode]);
 

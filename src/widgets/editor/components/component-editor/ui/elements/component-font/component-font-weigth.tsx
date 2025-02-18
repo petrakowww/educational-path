@@ -25,7 +25,7 @@ export const ComponentFontWeight = ({
 	};
 
 	useEffect(() => {
-		setFontWeight(GraphNodeFontEditor.weightDefaultValue());
+		setFontWeight(GraphNodeFontEditor.weightValue());
 	}, [editedNode]);
 
 	return (

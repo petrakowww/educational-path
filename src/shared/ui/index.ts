@@ -19,3 +19,7 @@ export * from './card/card';
 export * from './drawer/drawer';
 
 export * from './separator/separator';
+
+export * from './select/select';
+
+export * from './tooltip/tooltip';
