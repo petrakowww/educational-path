@@ -14,6 +14,7 @@ export {
 	updateNodeFontSize,
 	updateNodeFontWeight,
 	updateNodeLabel,
+	updateNodePadding,
 	updateNodeBorderRadius,
 	updateNodeBorderWidth,
 	updateNodeBorderColor,

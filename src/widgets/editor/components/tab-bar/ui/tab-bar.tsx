@@ -1,6 +1,5 @@
 'use client';
 
-
 import { Tabs } from '@/shared/ui';
 import { useTabAction } from '../hook/use-tab-action';
 

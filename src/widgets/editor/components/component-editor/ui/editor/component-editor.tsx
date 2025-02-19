@@ -27,6 +27,7 @@ import {
 	hasBlockBorderColorProps,
 	hasBlockBorderRadiusProps,
 	hasBlockBorderWidthProps,
+	hasBlockPaddingProps,
 	hasBlockProps,
 } from '../../utils/has-block-properties';
 import {
@@ -43,6 +44,7 @@ import { ComponentResetStyles } from '../elements/component-settings/component-r
 import { hasTopicProps } from '../../utils/has-unique-class';
 import { ComponentChangeTopicType } from '../elements/component-settings/component-change-type';
 import { ComponentDestroyNode } from '../elements/component-settings/component-destroy-node';
+import { ComponentBlockPadding } from '../elements/component-block/component-block-padding';
 
 export const AsideBarWidgetComponentEditor = () => {
 	const isOpenMenu = useAppSelector((state) => state.aside_editor.isOpenMenu);
@@ -179,6 +181,12 @@ export const AsideBarWidgetComponentEditor = () => {
 									memoizedSelectedNode
 								) && (
 									<ComponentBorderColor
+										editedNode={memoizedSelectedNode}
+									/>
+								)}
+
+								{hasBlockPaddingProps(memoizedSelectedNode) && (
+									<ComponentBlockPadding
 										editedNode={memoizedSelectedNode}
 									/>
 								)}

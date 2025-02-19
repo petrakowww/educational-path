@@ -7,44 +7,44 @@ import {
 	GraphNodeComponent,
 } from '@/shared/lib/node/component';
 
-interface ComponentBorderWidthProps {
+interface ComponentBlockPaddingProps {
 	editedNode: Node<GraphNodeComponent<GraphNodeBlockProps>>;
 }
 
-export const ComponentBorderWidth = ({
+export const ComponentBlockPadding = ({
 	editedNode,
-}: ComponentBorderWidthProps) => {
-	const [borderWidth, setBorderWidth] = useState<number | undefined>(
+}: ComponentBlockPaddingProps) => {
+	const [blockPadding, setBlockPadding] = useState<number | undefined>(
 		undefined
 	);
 
-	const handleBorderWidthChange = (
+	const handlePaddingWidthChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		const { value } = event.target;
 		if (value === '') {
-			setBorderWidth(undefined);
-			GraphNodeBlockEditor.changeBorderWidth(undefined);
+			setBlockPadding(undefined);
+			GraphNodeBlockEditor.changePadding(undefined);
 			return;
 		}
 		const numericValue = Number(value);
-		if (isNaN(numericValue) || numericValue < 0 || numericValue > 10)
+		if (isNaN(numericValue) || numericValue < 0 || numericValue > 100)
 			return;
-		GraphNodeBlockEditor.changeBorderWidth(numericValue);
-		setBorderWidth(numericValue);
+		setBlockPadding(numericValue);
+		GraphNodeBlockEditor.changePadding(numericValue);
 	};
 
 	useEffect(() => {
-		setBorderWidth(GraphNodeBlockEditor.borderWidthValue());
+		setBlockPadding(GraphNodeBlockEditor.paddingValue());
 	}, [editedNode]);
 
 	return (
 		<div className="flex items-center justify-between">
 			<Label
 				className="flex-shrink-0 text-foreground/80"
-				htmlFor="border-width"
+				htmlFor="padding-size"
 			>
-				Write your border thickness
+				Write your padding block
 			</Label>
 			<Input
 				className="max-w-10 h-6 px-1.5 text-sm 
@@ -53,10 +53,10 @@ export const ComponentBorderWidth = ({
                 [&::-webkit-appearance]:m-0 
                 text-center placeholder:text-center"
 				type="number"
-				id="border-width"
+				id="padding-size"
 				placeholder="px"
-				value={borderWidth === undefined ? '' : borderWidth}
-				onChange={handleBorderWidthChange}
+				value={blockPadding === undefined ? '' : blockPadding}
+				onChange={handlePaddingWidthChange}
 			/>
 		</div>
 	);

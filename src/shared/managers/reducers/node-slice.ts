@@ -25,8 +25,10 @@ export const nodeSlice = createSlice({
 			}
 		},
 		deleteNode: (state, action: PayloadAction<string>) => {
-			state.nodes = state.nodes.filter((node) => node.id !== action.payload);
-		
+			state.nodes = state.nodes.filter(
+				(node) => node.id !== action.payload
+			);
+
 			if (state.selectedNodeId === action.payload) {
 				state.selectedNodeId = null;
 			}
@@ -59,6 +61,9 @@ export const nodeSlice = createSlice({
 		updateNodeBorderColor: (state, action) => {
 			nodeBlockEditorFuncs.updateNodeBorderColor(state, action);
 		},
+		updateNodePadding: (state, action) => {
+			nodeBlockEditorFuncs.updateNodePadding(state, action);
+		},
 		updateNodeTextAlignment: (state, action) => {
 			nodeAlignmentEditorFuncs.updateNodeTextAlignmentFunction(
 				state,
@@ -88,6 +93,7 @@ const {
 	updateNodeBorderWidth,
 	updateNodeBorderRadius,
 	updateNodeBorderColor,
+	updateNodePadding,
 	updateNodeTextAlignment,
 	updateNodeTextVerticalAlignment,
 } = nodeSlice.actions;
@@ -106,6 +112,7 @@ export {
 	updateNodeBorderRadius,
 	updateNodeBorderWidth,
 	updateNodeBorderColor,
+	updateNodePadding,
 	updateNodeTextAlignment,
 	updateNodeTextVerticalAlignment,
 };

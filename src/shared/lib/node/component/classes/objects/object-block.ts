@@ -1,5 +1,8 @@
 import { NodeBorderRadiusEnum } from '../../constants/enum-border-radius';
-import { GraphNodeBlockProps } from '../../interfaces/auxiliary/type-block';
+import {
+	GraphNodeBlockProps,
+	GraphNodePadding,
+} from '../../interfaces/auxiliary/type-block';
 import {
 	GraphNodeBackgroundColorProps,
 	GraphNodeBorderRadius,
@@ -23,11 +26,16 @@ export const initBorderWidthComponent: GraphNodeBorderWidth = {
 	borderWidth: 1,
 };
 
+export const initPaddingComponent: GraphNodePadding = {
+	padding: undefined,
+};
+
 export const graphNodeAuxiliaryBlock: GraphNodeBlockProps = {
 	blockProps: {
 		backgroundColor: initBackgroundColorComponent.backgroundColor,
 		borderColor: initBorderColorComponent.borderColor,
 		borderRadius: initBorderRadiusComponent.borderRadius,
 		borderWidth: initBorderWidthComponent.borderWidth,
+		padding: initPaddingComponent.padding,
 	},
 };

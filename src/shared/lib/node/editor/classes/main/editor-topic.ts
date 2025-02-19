@@ -1,7 +1,4 @@
-import {
-	SubTopicNodeComponent,
-	TopicNodeComponent,
-} from '../../../component';
+import { SubTopicNodeComponent, TopicNodeComponent } from '../../../component';
 import { GraphNodeBaseEditor } from './editor-base';
 import { updateNode } from '@/shared/managers';
 import { Node } from 'reactflow';

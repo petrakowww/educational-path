@@ -84,7 +84,7 @@ export default function Page() {
 			<main className="row-start-2 col-start-2">
 				<div className="h-full w-full flex relative">
 					{activeTab === AsideBarConstants.Components && (
-						<AsideBarWidgetComponentCreator/>
+						<AsideBarWidgetComponentCreator />
 					)}
 					{activeTab === AsideBarConstants.Search && (
 						<p>Content for Tab 2</p>

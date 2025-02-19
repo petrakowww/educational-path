@@ -34,7 +34,7 @@ export const ComponentResetStyles = ({
 	const resetNodeComponentStyles = () => {
 		if (!editedNode) return;
 
-		GraphNodeBaseEditor.resetNodeStyles({editedNode: editedNode});
+		GraphNodeBaseEditor.resetNodeStyles({ editedNode: editedNode });
 	};
 
 	return (

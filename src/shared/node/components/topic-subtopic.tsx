@@ -14,68 +14,45 @@ import {
 import { memo } from 'react';
 import { ResizeNodeComponent } from '../utils/resize-node';
 import { DeleteNodeComponent } from '../utils/delete-node';
+import { useRef } from 'react';
+
+const minHeight = 52;
 
 export const SubtopicNodeDisplay = (
 	props: NodeProps<SubTopicNodeComponent | TopicNodeComponent>
 ) => {
 	const { data } = props;
 
+	const containerRef = useRef<HTMLDivElement>(null);
+
 	return (
-		<div className="relative group h-full w-full">
-			<article
-				className="bg-white rounded-md overflow-hidden border-[1px] h-full w-full relative flex flex-col"
+		<article
+			className="relative group min-h-fit min-w-fit h-full w-full inline-block"
+			style={{ minHeight: minHeight }}
+		>
+			<div
+				className="rounded-md overflow-hidden border-[1px] min-h-fit min-w-fit h-full w-full bg-background relative flex items-center justify-center"
 				style={{
-					backgroundColor: data.dataTProps.blockProps.backgroundColor,
+					width: '',
+					height: '',
+					backgroundColor:
+						data.dataTProps.blockProps?.backgroundColor,
 				}}
 			>
-				<div>
-					<div
-						className="flex gap-1 justify-between bg-primary p-1 px-2"
-						aria-label="topic-title"
-					>
-						<div className="flex gap-1 items-center bg-editor-chart_1 px-1 rounded-md flex-shrink-0">
-							<CaptionsIcon className="text-primary-foreground" />
-							<h3 className="text-md text-primary-foreground text-white">
-								{data.componentType === TopicNodeComponent.name
-									? 'Topic'
-									: 'SubTopic'}
-							</h3>
-						</div>
-						<div className="flex gap-1">
-							<span className="bg-lime-400 text-center rounded-md px-3 text-black flex-shrink-0">
-								low
-							</span>
-							<span className="bg-yellow-300 text-center px-3 rounded-md text-black flex-shrink-0">
-								in progress
-							</span>
-							<span className="flex items-center bg-emerald-300 rounded-md px-1.5 gap-2 text-black">
-								<LinkIcon width={20} height={20} />
-								<span>21</span>
-							</span>
-						</div>
-					</div>
-				</div>
-				{/* <div className="border-none">
-				<span className="bg-secondary inline-flex gap-1 items-center px-3 py-1 rounded-b-md">
-					<TimerIcon />
-					15d:11h:34m remained
-				</span>
-			</div> */}
-				<div className="flex flex-grow px-3 py-2 m-3 text-center flex-col justify-center">
-					<p
-						className="  text-black text-lg leading-none break-words whitespace-normal"
-						style={{
-							fontSize: data.dataTProps.fontProps?.fontSize,
-							color: data.dataTProps.fontProps?.fontColor,
-						}}
-					>
-						{data.dataTProps.label}
-					</p>
-				</div>
-			</article>
-			<ResizeNodeComponent minWidth={150} minHeight={100} />
+				<p
+					className="leading-none whitespace-normal text-center p-4 flex-shrink-0"
+					style={{
+						fontSize: data.dataTProps.fontProps?.fontSize,
+					}}
+					ref={containerRef}
+				>
+					{data.dataTProps.label}
+				</p>
+				<ResizeNodeComponent minHeight={minHeight} ref={containerRef} />
+			</div>
+
 			<DeleteNodeComponent node={props} />
-		</div>
+		</article>
 	);
 };
 

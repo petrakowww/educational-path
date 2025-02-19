@@ -16,7 +16,7 @@ interface ComponentFontColorProps {
 }
 
 export const ComponentFontColor = ({ editedNode }: ComponentFontColorProps) => {
-	const [fontColor, setFontColor] = useState<string>('');
+	const [fontColor, setFontColor] = useState<string | undefined>(undefined);
 
 	const handleFontColorChange = (color: string) => {
 		if (!isHexColor(color)) return;

@@ -13,7 +13,8 @@ export const updateNodeBackgroundFunction = (
 	updateNodeDataHelper<GraphNodeBlockProps>(
 		state,
 		action.payload.id,
-		(data) => (data.blockProps.backgroundColor = action.payload.backgroundColor)
+		(data) =>
+			(data.blockProps.backgroundColor = action.payload.backgroundColor)
 	);
 };
 
@@ -30,7 +31,7 @@ export const updateNodeBorderRadiusFunction = (
 
 export const updateNodeBorderWidthFunction = (
 	state: NodeInterface<GraphNodeComponent<unknown>>,
-	action: PayloadAction<{ id: string; borderWidth: number }>
+	action: PayloadAction<{ id: string; borderWidth: number | undefined }>
 ) => {
 	updateNodeDataHelper<GraphNodeBlockProps>(
 		state,
@@ -47,5 +48,16 @@ export const updateNodeBorderColor = (
 		state,
 		action.payload.id,
 		(data) => (data.blockProps.borderColor = action.payload.borderColor)
+	);
+};
+
+export const updateNodePadding = (
+	state: NodeInterface<GraphNodeComponent<unknown>>,
+	action: PayloadAction<{ id: string; padding?: number }>
+) => {
+	updateNodeDataHelper<GraphNodeBlockProps>(
+		state,
+		action.payload.id,
+		(data) => (data.blockProps.padding = action.payload.padding)
 	);
 };

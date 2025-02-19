@@ -14,6 +14,7 @@ import {
 export class GraphNodeFontEditor extends GraphNodeBaseEditor {
 	static resizeNodeValue(size: number): void {
 		this.dispatchIfEdited(updateNodeFontSize, { fontSize: size });
+		this.autoSize();
 	}
 
 	static changeTextColor(color: string): void {
@@ -32,12 +33,11 @@ export class GraphNodeFontEditor extends GraphNodeBaseEditor {
 		);
 	}
 
-	static colorValue(): string {
+	static colorValue(): string | undefined {
 		const editedNode = this.getEditedNode<GraphNodeFontProps>();
 		return (
 			editedNode?.data.dataTProps.fontProps?.fontColor ??
-			initFontColorComponent.fontColor ??
-			''
+			initFontColorComponent.fontColor
 		);
 	}
 

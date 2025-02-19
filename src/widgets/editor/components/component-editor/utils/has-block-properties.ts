@@ -1,5 +1,8 @@
-import { GraphNodeComponent, GraphNodeBlockProps } from "@/shared/lib/node/component";
-import { Node } from "reactflow";
+import {
+	GraphNodeComponent,
+	GraphNodeBlockProps,
+} from '@/shared/lib/node/component';
+import { Node } from 'reactflow';
 
 export const hasBlockProps = <
 	T extends GraphNodeComponent<GraphNodeBlockProps>,
@@ -39,4 +42,12 @@ export const hasBlockBorderRadiusProps = <
 	component: Node<T>
 ): boolean => {
 	return 'borderRadius' in component.data.dataTProps.blockProps;
+};
+
+export const hasBlockPaddingProps = <
+	T extends GraphNodeComponent<GraphNodeBlockProps>,
+>(
+	component: Node<T>
+): boolean => {
+	return 'padding' in component.data.dataTProps.blockProps;
 };

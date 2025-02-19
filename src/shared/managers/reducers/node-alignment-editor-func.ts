@@ -15,7 +15,9 @@ export const updateNodeTextAlignmentFunction = (
 	updateNodeDataHelper<GraphNodeAlignmentTextProps>(
 		state,
 		action.payload.id,
-		(data) => (data.textAlignmentProps.textAlignType = action.payload.textAlignment)
+		(data) =>
+			(data.textAlignmentProps.textAlignType =
+				action.payload.textAlignment)
 	);
 };
 
@@ -29,6 +31,8 @@ export const updateNodeTextVerticalAlignmentFunction = (
 	updateNodeDataHelper<GraphNodeAlignmentTextProps>(
 		state,
 		action.payload.id,
-		(data) => (data.textAlignmentProps.textJustificationType = action.payload.textVerticalAlignment)
+		(data) =>
+			(data.textAlignmentProps.textJustificationType =
+				action.payload.textVerticalAlignment)
 	);
 };

@@ -4,4 +4,4 @@ import { Node } from 'reactflow';
 export interface NodeInterface<T extends GraphNodeComponent<unknown>> {
 	selectedNodeId: string | null;
 	nodes: Node<T>[];
-  }
+}

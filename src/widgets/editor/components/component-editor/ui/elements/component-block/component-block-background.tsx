@@ -18,7 +18,7 @@ interface ComponentBlockBackgroundProps {
 export const ComponentBlockBackground = ({
 	editedNode,
 }: ComponentBlockBackgroundProps) => {
-	const [backgroundColor, setBackgroundColor] = useState<string>('');
+	const [backgroundColor, setBackgroundColor] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
 		setBackgroundColor(GraphNodeBlockEditor.backgroundColorValue());

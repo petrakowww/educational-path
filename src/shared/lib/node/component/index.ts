@@ -1,5 +1,3 @@
-export { createGraphNode } from './creation/node-registry';
-
 export { NodeLabelEnum } from './constants/enum-label';
 export { TaskImportanceEnum } from './constants/enum-importance';
 export { TaskStatusEnum } from './constants/enum-task';
@@ -19,7 +17,6 @@ export {
 } from './classes/collectors/topic-node-component';
 export { TitleNodeComponent } from './classes/collectors/title-node-component';
 export { ParagraphNodeComponent } from './classes/collectors/paragraph-node-component';
-export { isValidNodeType } from './creation/node-registry';
 
 export type { GlobalNodeDataProps } from './interfaces/main/node-global';
 

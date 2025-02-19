@@ -1,4 +1,4 @@
-import { BackgroundColorEnum } from "@/shared/lib/node/component";
+import { BackgroundColorEnum } from '@/shared/lib/node/component';
 
 export const BackgroundColorConstant = {
 	first: [

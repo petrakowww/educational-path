@@ -11,9 +11,19 @@ export interface GraphNodeBorderRadius {
 }
 
 export interface GraphNodeBorderWidth {
-	borderWidth: number;
+	borderWidth?: number;
+}
+
+export interface GraphNodePadding {
+	padding?: number;
 }
 
 export interface GraphNodeBlockProps {
-	blockProps: Partial<GraphNodeBackgroundColorProps & GraphNodeBorderColorProps & GraphNodeBorderRadius & GraphNodeBorderWidth>;
+	blockProps: Partial<
+		GraphNodeBackgroundColorProps &
+			GraphNodeBorderColorProps &
+			GraphNodeBorderRadius &
+			GraphNodeBorderWidth & 
+			GraphNodePadding
+	>;
 }

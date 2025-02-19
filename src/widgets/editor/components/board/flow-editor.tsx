@@ -17,13 +17,10 @@ import {
 	setEditorStatusMenu,
 	resetNodeSize,
 } from '@/shared/managers';
-import {
-	GlobalNodeDataProps,
-	isValidNodeType,
-} from '@/shared/lib/node/component';
-import { createGraphNode } from '@/shared/lib/node/component';
+import { GlobalNodeDataProps } from '@/shared/lib/node/component';
 import { useAppDispatch, useAppSelector } from '@/shared/managers';
 import { useCallback, useMemo } from 'react';
+import { GraphNodeBaseEditor } from '@/shared/lib/node/editor';
 
 export const FlowEditor = () => {
 	const { screenToFlowPosition } = useReactFlow();
@@ -48,7 +45,10 @@ export const FlowEditor = () => {
 		(event: React.DragEvent) => {
 			event.preventDefault();
 
-			if (!memoizedType || !isValidNodeType(memoizedType)) {
+			if (
+				!memoizedType ||
+				!GraphNodeBaseEditor.isValidNodeType(memoizedType)
+			) {
 				return;
 			}
 
@@ -57,7 +57,10 @@ export const FlowEditor = () => {
 				y: event.clientY,
 			});
 
-			const newNode = createGraphNode(memoizedType, position);
+			const newNode = GraphNodeBaseEditor.createGraphNode(
+				memoizedType,
+				position
+			);
 			dispatch(setNodes([...memoizedNodes, newNode]));
 		},
 		[dispatch, screenToFlowPosition, memoizedType, memoizedNodes]

@@ -15,11 +15,13 @@ interface ComponentBorderColorProps {
 export const ComponentBorderColor = ({
 	editedNode,
 }: ComponentBorderColorProps) => {
-	const [borderColor, setBorderColor] = useState<string>('');
+	const [borderColor, setBorderColor] = useState<string | undefined>(
+		undefined
+	);
 
 	const handleResetBorderColor = () => {
-		GraphNodeBlockEditor.changeBorderColor('');
-		setBorderColor('');
+		GraphNodeBlockEditor.changeBorderColor(undefined);
+		setBorderColor(undefined);
 	};
 
 	const handleBorderColorChange = (color: string) => {
@@ -50,7 +52,10 @@ export const ComponentBorderColor = ({
 				</Button>
 				<Input
 					type="color"
-					className="w-6 h-6 p-0 m-0 appearance-none border-md bg-transparent cursor-pointer text-[0px]"
+					className="w-6 h-6 p-0 m-0 appearance-none border-md 
+                    bg-transparent cursor-pointer text-[0px] 
+                    [&::-webkit-color-swatch-wrapper]:p-0
+                    [&::-webkit-color-swatch]:border-none"
 					id="border-color"
 					value={borderColor || '#16a34a'}
 					onChange={(e) => handleBorderColorChange(e.target.value)}

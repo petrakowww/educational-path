@@ -1,6 +1,8 @@
-import { GraphNodeComponent, GraphNodeAlignmentTextProps } from "@/shared/lib/node/component";
-import { Node } from "reactflow";
-
+import {
+	GraphNodeComponent,
+	GraphNodeAlignmentTextProps,
+} from '@/shared/lib/node/component';
+import { Node } from 'reactflow';
 
 export const hasAlignmentProps = <
 	T extends GraphNodeComponent<GraphNodeAlignmentTextProps>,
@@ -23,5 +25,7 @@ export const hasVerticalProps = <
 >(
 	component: Node<T>
 ): boolean => {
-	return 'textJustificationType' in component.data.dataTProps.textAlignmentProps;
+	return (
+		'textJustificationType' in component.data.dataTProps.textAlignmentProps
+	);
 };

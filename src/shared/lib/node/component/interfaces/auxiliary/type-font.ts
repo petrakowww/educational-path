@@ -11,9 +11,9 @@ export interface GraphNodeFontColorProps {
 }
 
 export interface GraphNodeFontProps {
-	fontProps: Partial<GraphNodeFontSizeProps & GraphNodeFontWeightProps & GraphNodeFontColorProps>;
+	fontProps: Partial<
+		GraphNodeFontSizeProps &
+			GraphNodeFontWeightProps &
+			GraphNodeFontColorProps
+	>;
 }
-
-
-
-

@@ -12,27 +12,23 @@ import {
 	GraphNodeBlockProps,
 	GraphNodeComponent,
 	GraphNodeFontProps,
+	NodeLabelEnum,
+	ParagraphNodeComponent,
+	SubTopicNodeComponent,
+	TitleNodeComponent,
+	TopicNodeComponent,
 } from '../../../component';
-
-interface GraphNodeBaseEditorAllStyles {
-	editedNode: Node<
-		GraphNodeComponent<
-			Partial<
-				GraphNodeFontProps &
-					GraphNodeBlockProps &
-					GraphNodeAlignmentTextProps
-			>
-		>
-	>;
-}
+import { GraphNodeBaseEditorAllStyles } from '../../interfaces/main/editor-styles';
 
 export abstract class GraphNodeBaseEditor {
+	static nodeRegistry = {
+		[NodeLabelEnum.topic]: TopicNodeComponent,
+		[NodeLabelEnum.subtopic]: SubTopicNodeComponent,
+		[NodeLabelEnum.title]: TitleNodeComponent,
+		[NodeLabelEnum.paragraph]: ParagraphNodeComponent,
+	};
 	static getEditedNode<T>(): Node<GraphNodeComponent<T>> | null {
 		return getSelectedNode<T>(store.getState());
-	}
-
-	static getCurrentIdNode(): string | null {
-		return store.getState().editor.selectedNodeId;
 	}
 
 	static close(): void {
@@ -118,11 +114,32 @@ export abstract class GraphNodeBaseEditor {
 		}
 	}
 
-	static isDeletingSelectedNode(id: string): boolean {
-		const currentNodeId = this.getCurrentIdNode();
-		if (!currentNodeId) return false;
+	static createGraphNode<
+		T extends keyof typeof GraphNodeBaseEditor.nodeRegistry,
+	>(type: T, position?: { x: number; y: number }) {
+		const NodeClass = GraphNodeBaseEditor.nodeRegistry[type];
 
-		return id === currentNodeId;
+		const data = { ...new NodeClass() };
+
+		return {
+			id: crypto.randomUUID(),
+			type: type,
+			position: position ?? { x: 0, y: 0 },
+			data,
+		};
+	}
+
+	static isValidNodeType(
+		type: NodeLabelEnum
+	): type is keyof typeof GraphNodeBaseEditor.nodeRegistry {
+		return type in GraphNodeBaseEditor.nodeRegistry;
+	}
+
+	static isDeletingSelectedNode(id: string): boolean {
+		const currentNode = this.getEditedNode();
+		if (!currentNode) return false;
+
+		return id === currentNode.id;
 	}
 
 	static resetNodeStyles({ editedNode }: GraphNodeBaseEditorAllStyles) {

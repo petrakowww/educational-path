@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialAsideState } from '../initial/aside-initial';
 
-
 export const nodeAsideSlice = createSlice({
 	name: 'AsideMenuBehaviour',
 	initialState: initialAsideState,
@@ -12,7 +11,5 @@ export const nodeAsideSlice = createSlice({
 	},
 });
 
-export const {
-	setEditorStatusMenu,
-} = nodeAsideSlice.actions;
+export const { setEditorStatusMenu } = nodeAsideSlice.actions;
 export const nodeEditorAsideReducer = nodeAsideSlice.reducer;

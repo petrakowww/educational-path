@@ -18,9 +18,9 @@ interface ComponentDestroyNodeProps {
 export const ComponentDestroyNode = (props: ComponentDestroyNodeProps) => {
 	const { editedNode } = props;
 
-    const handleDelete = () => {
-        GraphNodeBaseEditor.deleteNode(editedNode.id);
-    };
+	const handleDelete = () => {
+		GraphNodeBaseEditor.deleteNode(editedNode.id);
+	};
 
 	return (
 		<div className="flex gap-2 flex-col">
@@ -38,10 +38,7 @@ export const ComponentDestroyNode = (props: ComponentDestroyNodeProps) => {
 				</TooltipProvider>
 			</div>
 
-			<Button
-				variant={'destructive'}
-				onClick={handleDelete}
-			>
+			<Button variant={'destructive'} onClick={handleDelete}>
 				Delete node
 				<OctagonMinusIcon />
 			</Button>

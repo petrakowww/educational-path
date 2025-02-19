@@ -5,4 +5,3 @@ export enum TaskStatusEnum {
 	Skipped = 'Skipped',
 	Failed = 'Failed',
 }
-
