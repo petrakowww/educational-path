@@ -1,5 +1,8 @@
-import { GraphNodeLinkProps } from '../../interfaces/auxiliary/type-link';
+import {
+	GraphNodeButtonLinkProps,
+} from '../../interfaces/auxiliary/type-link';
 
-export const graphNodeAuxiliaryLink: GraphNodeLinkProps = {
-	links: [],
+export const initUrlAddressComponent: GraphNodeButtonLinkProps = {
+	url: undefined,
 };
+

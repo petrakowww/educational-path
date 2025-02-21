@@ -3,7 +3,6 @@ export enum TextFontColorEnum {
 	Secondary = '#666666',
 	Highlight = '#FF6347',
 	Muted = '#B0B0B0',
-	Success = '#28A745',
 	Error = '#DC3545',
 	Warning = '#FFC107',
 	Info = '#17A2B8',

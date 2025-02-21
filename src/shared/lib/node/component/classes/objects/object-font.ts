@@ -1,4 +1,3 @@
-import { TextFontSizeEnum } from '../../constants/enum-font-size';
 import { TextFontWeightEnum } from '../../constants/enum-font-weight';
 import {
 	GraphNodeFontProps,
@@ -8,7 +7,7 @@ import {
 } from '../../interfaces/auxiliary/type-font';
 
 export const initFontSizeComponent: GraphNodeFontSizeProps = {
-	fontSize: TextFontSizeEnum.XL,
+	fontSize: undefined,
 };
 
 export const initFontWeightComponent: GraphNodeFontWeightProps = {

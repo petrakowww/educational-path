@@ -12,7 +12,7 @@ export const AsideBarWidgetComponentCreator = () => {
 	};
 
 	return (
-		<aside className="absolute z-[10000] bg-background top-0 left-0 h-full shadow-right p-2 px-3 flex flex-col gap-2">
+		<aside className="absolute z-10 bg-background top-0 left-0 h-full shadow-right p-2 px-3 flex flex-col gap-2">
 			<span className="text-foreground/60 text-[0.775rem]">
 				COMPONENTS{' '}
 				<span className="text-[0.675rem]">(Drag & Drop)</span>

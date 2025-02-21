@@ -1,66 +1,69 @@
 import {
-	updateNodeBackground,
-	updateNodeBorderRadius,
-	updateNodeBorderWidth,
-	updateNodeBorderColor,
-	updateNodePadding,
-} from '@/shared/managers';
-import {
-	GraphNodeBlockProps,
 	initBorderRadiusComponent,
 	initBorderColorComponent,
+	initPaddingComponent,
+	initBorderWidthComponent,
 } from '../../../component';
 import { GraphNodeBaseEditor } from './editor-base';
 
 export class GraphNodeBlockEditor extends GraphNodeBaseEditor {
 	static changeBackgroundColor(color: string): void {
-		this.dispatchIfEdited(updateNodeBackground, { backgroundColor: color });
+		this.updateProperty('blockProps', 'backgroundColor', color);
 	}
 
 	static changeBorderRadius(radius: number): void {
-		this.dispatchIfEdited(updateNodeBorderRadius, { borderRadius: radius });
+		this.updateProperty('blockProps', 'borderRadius', radius);
 	}
 
 	static changeBorderWidth(width: number | undefined): void {
-		this.dispatchIfEdited(updateNodeBorderWidth, { borderWidth: width });
+		this.updateProperty('blockProps', 'borderWidth', width);
 	}
 
 	static changeBorderColor(borderColor: string | undefined): void {
-		this.dispatchIfEdited(updateNodeBorderColor, { borderColor });
+		this.updateProperty('blockProps', 'borderColor', borderColor);
 	}
 
 	static changePadding(padding: number | undefined): void {
-		this.dispatchIfEdited(updateNodePadding, { padding });
+		this.updateProperty('blockProps', 'padding', padding);
 		this.autoSize();
 	}
 
 	static backgroundColorValue(): string | undefined {
-		const editedNode = this.getEditedNode<GraphNodeBlockProps>();
-		return editedNode?.data.dataTProps.blockProps?.backgroundColor;
+		return this.getProperty(
+			'blockProps',
+			'backgroundColor',
+			initBorderColorComponent.borderColor
+		);
 	}
 
 	static paddingValue(): number | undefined {
-		const editedNode = this.getEditedNode<GraphNodeBlockProps>();
-		return editedNode?.data.dataTProps.blockProps?.padding;
+		return this.getProperty(
+			'blockProps',
+			'padding',
+			initPaddingComponent.padding
+		);
 	}
 
 	static borderRadiusValue(): number {
-		const editedNode = this.getEditedNode<GraphNodeBlockProps>();
-		return (
-			editedNode?.data.dataTProps.blockProps?.borderRadius ??
+		return this.getProperty(
+			'blockProps',
+			'borderRadius',
 			initBorderRadiusComponent.borderRadius
 		);
 	}
 
 	static borderWidthValue(): number | undefined {
-		const editedNode = this.getEditedNode<GraphNodeBlockProps>();
-		return editedNode?.data.dataTProps.blockProps?.borderWidth;
+		return this.getProperty(
+			'blockProps',
+			'borderWidth',
+			initBorderWidthComponent.borderWidth
+		);
 	}
 
 	static borderColorValue(): string | undefined {
-		const editedNode = this.getEditedNode<GraphNodeBlockProps>();
-		return (
-			editedNode?.data.dataTProps.blockProps?.borderColor ??
+		return this.getProperty(
+			'blockProps',
+			'borderColor',
 			initBorderColorComponent.borderColor
 		);
 	}

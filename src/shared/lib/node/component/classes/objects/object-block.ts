@@ -23,7 +23,7 @@ export const initBorderRadiusComponent: GraphNodeBorderRadius = {
 };
 
 export const initBorderWidthComponent: GraphNodeBorderWidth = {
-	borderWidth: 1,
+	borderWidth: undefined,
 };
 
 export const initPaddingComponent: GraphNodePadding = {

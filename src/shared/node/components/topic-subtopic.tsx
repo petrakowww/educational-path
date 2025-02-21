@@ -1,13 +1,5 @@
 import { NodeProps } from 'reactflow';
 import {
-	CaptionsIcon,
-	LinkIcon,
-	MoveDownRightIcon,
-	MoveDownLeftIcon,
-	TimerIcon,
-	Trash2Icon,
-} from 'lucide-react';
-import {
 	SubTopicNodeComponent,
 	TopicNodeComponent,
 } from '@/shared/lib/node/component/classes/collectors/topic-node-component';
@@ -15,6 +7,9 @@ import { memo } from 'react';
 import { ResizeNodeComponent } from '../utils/resize-node';
 import { DeleteNodeComponent } from '../utils/delete-node';
 import { useRef } from 'react';
+import { BackgroundColorEnum } from '@/shared/lib/node/component';
+import { IsSelectedNode } from '../utils/is-selected-node';
+import clsx from 'clsx';
 
 const minHeight = 52;
 
@@ -25,18 +20,33 @@ export const SubtopicNodeDisplay = (
 
 	const containerRef = useRef<HTMLDivElement>(null);
 
+	const isTopicNode = () => {
+		return data.componentType === TopicNodeComponent.name;
+	};
+
+	const focusClassName = IsSelectedNode(props);
+
+	const finalClassName = clsx(
+		'rounded-md overflow-hidden border-[2px] min-h-fit min-w-fit h-full w-full bg-background relative flex items-center justify-center',
+		isTopicNode() ? 'border-primary' : 'border-border',
+		focusClassName
+	);
+
 	return (
 		<article
 			className="relative group min-h-fit min-w-fit h-full w-full inline-block"
 			style={{ minHeight: minHeight }}
 		>
 			<div
-				className="rounded-md overflow-hidden border-[1px] min-h-fit min-w-fit h-full w-full bg-background relative flex items-center justify-center"
+				className={finalClassName}
 				style={{
 					width: '',
 					height: '',
 					backgroundColor:
-						data.dataTProps.blockProps?.backgroundColor,
+						data.dataTProps.blockProps?.backgroundColor ??
+						(isTopicNode()
+							? BackgroundColorEnum.Primary
+							: BackgroundColorEnum.Highlight),
 				}}
 			>
 				<p
@@ -46,7 +56,7 @@ export const SubtopicNodeDisplay = (
 					}}
 					ref={containerRef}
 				>
-					{data.dataTProps.label}
+					{data.dataTProps.labelProps.label}
 				</p>
 				<ResizeNodeComponent minHeight={minHeight} ref={containerRef} />
 			</div>

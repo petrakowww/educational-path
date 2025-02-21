@@ -1,5 +1,5 @@
 export interface GraphNodeFontSizeProps {
-	fontSize: number;
+	fontSize?: number;
 }
 
 export interface GraphNodeFontWeightProps {

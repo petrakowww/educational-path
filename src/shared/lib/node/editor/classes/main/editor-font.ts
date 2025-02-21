@@ -1,10 +1,4 @@
-import {
-	updateNodeFontColor,
-	updateNodeFontSize,
-	updateNodeFontWeight,
-} from '@/shared/managers';
 import { GraphNodeBaseEditor } from './editor-base';
-import { GraphNodeFontProps } from '@/shared/lib/node/component';
 import {
 	initFontSizeComponent,
 	initFontWeightComponent,
@@ -12,39 +6,39 @@ import {
 } from '@/shared/lib/node/component';
 
 export class GraphNodeFontEditor extends GraphNodeBaseEditor {
-	static resizeNodeValue(size: number): void {
-		this.dispatchIfEdited(updateNodeFontSize, { fontSize: size });
+	static changeFontSize(size: number | undefined): void {
+		this.updateProperty('fontProps', 'fontSize', size);
 		this.autoSize();
 	}
 
 	static changeTextColor(color: string): void {
-		this.dispatchIfEdited(updateNodeFontColor, { textColor: color });
+		this.updateProperty('fontProps', 'fontColor', color);
 	}
 
 	static changeTextWeight(weight: number): void {
-		this.dispatchIfEdited(updateNodeFontWeight, { fontWeight: weight });
+		this.updateProperty('fontProps', 'fontWeight', weight);
 	}
 
-	static sizeValue(): number {
-		const editedNode = this.getEditedNode<GraphNodeFontProps>();
-		return (
-			editedNode?.data.dataTProps.fontProps?.fontSize ??
+	static sizeValue(): number | undefined {
+		return this.getProperty(
+			'fontProps',
+			'fontSize',
 			initFontSizeComponent.fontSize
 		);
 	}
 
 	static colorValue(): string | undefined {
-		const editedNode = this.getEditedNode<GraphNodeFontProps>();
-		return (
-			editedNode?.data.dataTProps.fontProps?.fontColor ??
+		return this.getProperty(
+			'fontProps',
+			'fontColor',
 			initFontColorComponent.fontColor
 		);
 	}
 
 	static weightValue(): number {
-		const editedNode = this.getEditedNode<GraphNodeFontProps>();
-		return (
-			editedNode?.data.dataTProps.fontProps?.fontWeight ??
+		return this.getProperty(
+			'fontProps',
+			'fontWeight',
 			initFontWeightComponent.fontWeight
 		);
 	}

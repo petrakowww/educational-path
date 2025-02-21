@@ -8,8 +8,11 @@ export const nodeAsideSlice = createSlice({
 		setEditorStatusMenu: (state, action: PayloadAction<boolean>) => {
 			state.isOpenMenu = action.payload;
 		},
+		setFocusingLabel: (state, action: PayloadAction<boolean>) => {
+			state.isFocusingOnLabel = action.payload;
+		}
 	},
 });
 
-export const { setEditorStatusMenu } = nodeAsideSlice.actions;
+export const { setEditorStatusMenu, setFocusingLabel } = nodeAsideSlice.actions;
 export const nodeEditorAsideReducer = nodeAsideSlice.reducer;

@@ -9,22 +9,13 @@ export {
 	setNodes,
 	updateNode,
 	deleteNode,
-	updateNodeBackground,
-	updateNodeFontColor,
-	updateNodeFontSize,
-	updateNodeFontWeight,
-	updateNodeLabel,
-	updateNodePadding,
-	updateNodeBorderRadius,
-	updateNodeBorderWidth,
-	updateNodeBorderColor,
-	updateNodeTextAlignment,
-	updateNodeTextVerticalAlignment,
+	updateNodeProperty,
 } from './reducers/node-slice';
 
 export {
 	nodeEditorAsideReducer,
 	setEditorStatusMenu,
+	setFocusingLabel,
 } from './reducers/node-aside-slice';
 
 export { dndEditorReduser, setType, resetType } from './reducers/dnd-slice';

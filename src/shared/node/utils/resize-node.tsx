@@ -11,23 +11,24 @@ interface ResizeNodeComponentProps {
 	minWidth?: number;
 	onlyXaxis?: boolean;
 	onlyYaxis?: boolean;
+	ignoreFitContent?: boolean;
 }
 
 export const ResizeNodeComponent = (props: ResizeNodeComponentProps) => {
-	const { ref, minHeight, minWidth, onlyXaxis, onlyYaxis } = props;
+	const { ref, minHeight, minWidth, onlyXaxis, onlyYaxis, ignoreFitContent } =
+		props;
 
 	const handleShouldResize = (
 		event: ResizeDragEvent,
 		params: ResizeParamsWithDirection
 	) => {
-		if (!ref || !ref.current) return true;
+		if (!ref || !ref.current || ignoreFitContent) return true;
 
 		const intrinsicWidth = ref.current.scrollWidth;
 		const intrinsicHeight = ref.current.scrollHeight;
 
 		const canResizeWidth = params.width >= intrinsicWidth;
 		const canResizeHeight = params.height >= intrinsicHeight;
-		console.log(params.width, intrinsicWidth);
 		if (onlyXaxis) return canResizeWidth;
 		if (onlyYaxis) return canResizeHeight;
 

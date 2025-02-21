@@ -5,8 +5,6 @@ import { ComponentEditorBase } from '../elements/component-specifications/compon
 import { ComponentAutoSize } from '../elements/component-auto-size/component-autosize';
 import { Button, Separator, Tabs, TabsList, TabsTrigger } from '@/shared/ui';
 import { ComponentLayering } from '../elements/component-layering/component-layering';
-
-import { hasLabel } from '../../utils/has-main-properties';
 import { ComponentFontSize } from '../elements/component-font/component-font-size';
 import { ComponentFontColor } from '../elements/component-font/component-font-color';
 import { ComponentBlockBackground } from '../elements/component-block/component-block-background';
@@ -41,10 +39,16 @@ import { ComponentBorderWidth } from '../elements/component-block/component-bloc
 import { ComponentTextAlignmentVertical } from '../elements/component-align/component-align-vertical';
 import { ComponentTextAlignmentHorizontal } from '../elements/component-align/component-align-horizontal';
 import { ComponentResetStyles } from '../elements/component-settings/component-reset-styles';
-import { hasTopicProps } from '../../utils/has-unique-class';
+import { hasTopicProps } from '../../utils/has-topic-properties';
 import { ComponentChangeTopicType } from '../elements/component-settings/component-change-type';
 import { ComponentDestroyNode } from '../elements/component-settings/component-destroy-node';
 import { ComponentBlockPadding } from '../elements/component-block/component-block-padding';
+import {
+	hasLabelProps,
+	hasLabelContentProps,
+} from '../../utils/had-label-properties';
+import { hasBaseUrlProps, hasLinkProps } from '../../utils/has-link-properties';
+import { ComponentBaseUrl } from '../elements/component-url/component-base-url';
 
 export const AsideBarWidgetComponentEditor = () => {
 	const isOpenMenu = useAppSelector((state) => state.aside_editor.isOpenMenu);
@@ -62,7 +66,7 @@ export const AsideBarWidgetComponentEditor = () => {
 
 	const finalClassName = cn(
 		isOpenMenu ? 'block' : 'hidden',
-		'absolute z-[10000] top-0 right-0 h-full shadow-left',
+		'absolute top-0 right-0 h-full shadow-left',
 		'p-4 px-3 bg-background overflow-y-auto'
 	);
 
@@ -85,10 +89,14 @@ export const AsideBarWidgetComponentEditor = () => {
 
 				<TabsContent value="general">
 					<div className="flex flex-col gap-6">
-						{hasLabel(memoizedSelectedNode) && (
-							<ComponentEditorLabel
-								editedNode={memoizedSelectedNode}
-							/>
+						{hasLabelProps(memoizedSelectedNode) && (
+							<>
+								{hasLabelContentProps(memoizedSelectedNode) && (
+									<ComponentEditorLabel
+										editedNode={memoizedSelectedNode}
+									/>
+								)}
+							</>
 						)}
 
 						<>
@@ -200,6 +208,20 @@ export const AsideBarWidgetComponentEditor = () => {
 									hasBlockBorderColorProps(
 										memoizedSelectedNode
 									)) && <Separator />}
+							</>
+						)}
+					</div>
+				</TabsContent>
+
+				<TabsContent value="content">
+					<div className="fkex flex-col gap-6">
+						{hasLinkProps(memoizedSelectedNode) && (
+							<>
+								{hasBaseUrlProps(memoizedSelectedNode) && (
+									<ComponentBaseUrl
+										editedNode={memoizedSelectedNode}
+									/>
+								)}
 							</>
 						)}
 					</div>

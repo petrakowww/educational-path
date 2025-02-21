@@ -5,13 +5,17 @@ import {
 	setNodes,
 	store,
 	updateNode,
+	updateNodeProperty,
 } from '@/shared/managers';
 import { setEditorStatusMenu } from '@/shared/managers';
 import {
+	ButtonNodeComponent,
 	GraphNodeAlignmentTextProps,
 	GraphNodeBlockProps,
 	GraphNodeComponent,
 	GraphNodeFontProps,
+	GraphNodeProps,
+	LabelNodeComponent,
 	NodeLabelEnum,
 	ParagraphNodeComponent,
 	SubTopicNodeComponent,
@@ -26,6 +30,8 @@ export abstract class GraphNodeBaseEditor {
 		[NodeLabelEnum.subtopic]: SubTopicNodeComponent,
 		[NodeLabelEnum.title]: TitleNodeComponent,
 		[NodeLabelEnum.paragraph]: ParagraphNodeComponent,
+		[NodeLabelEnum.label]: LabelNodeComponent,
+		[NodeLabelEnum.button]: ButtonNodeComponent,
 	};
 	static getEditedNode<T>(): Node<GraphNodeComponent<T>> | null {
 		return getSelectedNode<T>(store.getState());
@@ -93,23 +99,12 @@ export abstract class GraphNodeBaseEditor {
 		};
 	}
 
-	protected static dispatchIfEdited<T extends { id: string }>(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		actionCreator: (payload: T) => any,
-		payload: Omit<T, 'id'>
-	): void {
-		const editedNode = this.getEditedNode();
-		if (!editedNode) return;
-		store.dispatch(actionCreator({ id: editedNode.id, ...payload } as T));
-	}
-
 	static deleteNode(id: string): void {
 		const shouldCloseEditor = this.isDeletingSelectedNode(id);
 
 		store.dispatch(deleteNode(id));
 
 		if (shouldCloseEditor) {
-			console.log('close node!');
 			this.close();
 		}
 	}
@@ -174,5 +169,44 @@ export abstract class GraphNodeBaseEditor {
 		});
 
 		store.dispatch(updateNode(updatedNode));
+		GraphNodeBaseEditor.autoSize();
+	}
+
+	protected static dispatchIfEdited<T extends { id: string }>(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		actionCreator: (payload: T) => any,
+		payload: Omit<T, 'id'>
+	): void {
+		const editedNode = this.getEditedNode();
+		if (!editedNode) return;
+		store.dispatch(actionCreator({ id: editedNode.id, ...payload } as T));
+	}
+
+	protected static updateProperty<
+		T extends keyof GraphNodeProps,
+		K extends keyof GraphNodeProps[T],
+		V extends GraphNodeProps[T][K],
+	>(targetObject: T, key: K, value: V): void {
+		const editedNode = this.getEditedNode();
+		if (!editedNode) return;
+
+		this.dispatchIfEdited(updateNodeProperty, {
+			targetObject: targetObject as never,
+			key,
+			value: value as never,
+		});
+	}
+
+	protected static getProperty<
+		T extends keyof GraphNodeProps,
+		K extends keyof NonNullable<GraphNodeProps[T]>,
+		V extends GraphNodeProps[T][K],
+	>(targetObject: T, key: K, defaultValue: V): V {
+		const editedNode = this.getEditedNode();
+		if (!editedNode) return defaultValue;
+
+		const dataTProps = editedNode.data.dataTProps as GraphNodeProps;
+
+		return (dataTProps[targetObject]?.[key] ?? defaultValue) as V;
 	}
 }

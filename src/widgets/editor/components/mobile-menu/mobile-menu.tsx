@@ -26,10 +26,7 @@ export const MobileMenuWidget = (props: MobileMenuProps) => {
 			>
 				<MenuIcon />
 			</DrawerTrigger>
-			<DrawerContent
-				className="rounded-l-md px-4 py-2 z-[11000]"
-				classNameOverlay="z-[11000]"
-			>
+			<DrawerContent className="rounded-l-md px-4 py-2">
 				<DrawerHeader className="px-0">
 					<DrawerTitle className="text-left p-0 after:mt-2 after:content-[''] after:block after:border-b-2">
 						Select the desired settings

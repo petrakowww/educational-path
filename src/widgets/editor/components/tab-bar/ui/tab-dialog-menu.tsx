@@ -57,7 +57,7 @@ export const TabDialogMenu = (props: TabDialogMenuProps) => {
 			>
 				<Plus width={20} height={20} />
 			</DialogTrigger>
-			<DialogContent classNameOverlay="z-[11000]" className="z-[11000]">
+			<DialogContent>
 				<DialogHeader>
 					<DialogTitle className="text-2xl">Your maps</DialogTitle>
 					<DialogDescription>

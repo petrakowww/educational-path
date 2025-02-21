@@ -1,5 +1,7 @@
 import { NodeLabelEnum } from '@/shared/lib/node/component';
 import {
+	ButtonNodeMemo,
+	LabelNodeMemo,
 	ParagraphNodeMemo,
 	SubTopicNodeMemo,
 	TitleNodeMemo,
@@ -10,4 +12,6 @@ export const nodeTypes = {
 	[NodeLabelEnum.topic]: SubTopicNodeMemo,
 	[NodeLabelEnum.title]: TitleNodeMemo,
 	[NodeLabelEnum.paragraph]: ParagraphNodeMemo,
+	[NodeLabelEnum.label]: LabelNodeMemo,
+	[NodeLabelEnum.button]: ButtonNodeMemo,
 };

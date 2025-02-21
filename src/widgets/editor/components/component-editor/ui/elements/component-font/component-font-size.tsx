@@ -13,15 +13,19 @@ interface ComponentFontSizeProps {
 }
 
 export const ComponentFontSize = ({ editedNode }: ComponentFontSizeProps) => {
-	const [fontSize, setFontSize] = useState<number>(0);
+	const [fontSize, setFontSize] = useState<number | undefined>(undefined);
 
-	const handleFontSizeChange = (size: string) => {
-		const parsedSize = size === '' ? 0 : Number(size);
-
-		if (isNaN(parsedSize) || parsedSize < 0 || parsedSize > 150) return;
-
-		setFontSize(parsedSize);
-		GraphNodeFontEditor.resizeNodeValue(parsedSize);
+	const handleFontSizeChange = (value: string) => {
+		if (value === '') {
+			setFontSize(undefined);
+			GraphNodeFontEditor.changeFontSize(undefined);
+			return;
+		}
+		const numericValue = Number(value);
+		if (isNaN(numericValue) || numericValue < 0 || numericValue > 100)
+			return;
+		GraphNodeFontEditor.changeFontSize(numericValue);
+		setFontSize(numericValue);
 	};
 
 	useEffect(() => {
@@ -59,7 +63,7 @@ export const ComponentFontSize = ({ editedNode }: ComponentFontSizeProps) => {
 							onChange={(e) =>
 								handleFontSizeChange(e.target.value)
 							}
-							value={fontSize === 0 ? '' : fontSize}
+							value={fontSize ?? ''}
 						/>
 					</div>
 					<span className="text-sm flex items-center">px</span>

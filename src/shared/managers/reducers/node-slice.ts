@@ -1,10 +1,7 @@
 import { applyNodeChanges } from 'reactflow';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialNodeState } from '../initial/node-initial';
-import * as nodeBlockEditorFuncs from './node-block-editor-func';
-import * as nodeFontEditorFuncs from './node-font-editor-func';
-import { updateNodeLabelFunction } from './node-label-editor-func';
-import * as nodeAlignmentEditorFuncs from './node-alignment-editor-func';
+import { updateNodePropertyFunction } from '../utils/update-node-data-helper';
 
 export const nodeSlice = createSlice({
 	name: 'NodeEditorBehaviour',
@@ -37,45 +34,7 @@ export const nodeSlice = createSlice({
 			const nodes = applyNodeChanges(action.payload, state.nodes);
 			state.nodes = nodes;
 		},
-		updateNodeLabel: (state, action) => {
-			updateNodeLabelFunction(state, action);
-		},
-		updateNodeFontColor: (state, action) => {
-			nodeFontEditorFuncs.updateNodeFontColorFunction(state, action);
-		},
-		updateNodeFontSize: (state, action) => {
-			nodeFontEditorFuncs.updateNodeFontSizeFunction(state, action);
-		},
-		updateNodeFontWeight: (state, action) => {
-			nodeFontEditorFuncs.updateNodeFontWeightFunction(state, action);
-		},
-		updateNodeBackground: (state, action) => {
-			nodeBlockEditorFuncs.updateNodeBackgroundFunction(state, action);
-		},
-		updateNodeBorderWidth: (state, action) => {
-			nodeBlockEditorFuncs.updateNodeBorderWidthFunction(state, action);
-		},
-		updateNodeBorderRadius: (state, action) => {
-			nodeBlockEditorFuncs.updateNodeBorderRadiusFunction(state, action);
-		},
-		updateNodeBorderColor: (state, action) => {
-			nodeBlockEditorFuncs.updateNodeBorderColor(state, action);
-		},
-		updateNodePadding: (state, action) => {
-			nodeBlockEditorFuncs.updateNodePadding(state, action);
-		},
-		updateNodeTextAlignment: (state, action) => {
-			nodeAlignmentEditorFuncs.updateNodeTextAlignmentFunction(
-				state,
-				action
-			);
-		},
-		updateNodeTextVerticalAlignment: (state, action) => {
-			nodeAlignmentEditorFuncs.updateNodeTextVerticalAlignmentFunction(
-				state,
-				action
-			);
-		},
+		updateNodeProperty: updateNodePropertyFunction,
 	},
 });
 
@@ -85,17 +44,7 @@ const {
 	updateNode,
 	deleteNode,
 	onNodesChange,
-	updateNodeLabel,
-	updateNodeFontColor,
-	updateNodeFontSize,
-	updateNodeFontWeight,
-	updateNodeBackground,
-	updateNodeBorderWidth,
-	updateNodeBorderRadius,
-	updateNodeBorderColor,
-	updateNodePadding,
-	updateNodeTextAlignment,
-	updateNodeTextVerticalAlignment,
+	updateNodeProperty,
 } = nodeSlice.actions;
 
 export {
@@ -104,17 +53,7 @@ export {
 	updateNode,
 	deleteNode,
 	onNodesChange,
-	updateNodeLabel,
-	updateNodeFontColor,
-	updateNodeFontSize,
-	updateNodeFontWeight,
-	updateNodeBackground,
-	updateNodeBorderRadius,
-	updateNodeBorderWidth,
-	updateNodeBorderColor,
-	updateNodePadding,
-	updateNodeTextAlignment,
-	updateNodeTextVerticalAlignment,
+	updateNodeProperty,
 };
 
 export const nodeReducer = nodeSlice.reducer;

@@ -16,11 +16,15 @@ import {
 	setNodes,
 	setEditorStatusMenu,
 	resetNodeSize,
+	setFocusingLabel,
 } from '@/shared/managers';
-import { GlobalNodeDataProps } from '@/shared/lib/node/component';
 import { useAppDispatch, useAppSelector } from '@/shared/managers';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { GraphNodeBaseEditor } from '@/shared/lib/node/editor';
+import {
+	GraphNodeComponent,
+	GraphNodeLabelProps,
+} from '@/shared/lib/node/component';
 
 export const FlowEditor = () => {
 	const { screenToFlowPosition } = useReactFlow();
@@ -71,8 +75,19 @@ export const FlowEditor = () => {
 		dispatch(setEditorStatusMenu(false));
 	}, [dispatch]);
 
+	const handleNodeDoubleClick = (
+		e: React.MouseEvent,
+		node: Node<GraphNodeComponent<GraphNodeLabelProps>>
+	) => {
+		e.stopPropagation();
+		console.log(node);
+		if (node.data.dataTProps?.labelProps?.label) {
+			dispatch(setFocusingLabel(true));
+		}
+	};
+
 	const handleNodeClick = useCallback(
-		(e: React.MouseEvent, node: Node<GlobalNodeDataProps>) => {
+		(e: React.MouseEvent, node: Node<unknown>) => {
 			e.stopPropagation();
 			dispatch(setSelectedNode(node.id));
 			dispatch(setEditorStatusMenu(true));
@@ -81,7 +96,7 @@ export const FlowEditor = () => {
 	);
 
 	const handleNodeDrag = useCallback(
-		(e: React.MouseEvent, node: Node<GlobalNodeDataProps>) => {
+		(e: React.MouseEvent, node: Node<unknown>) => {
 			dispatch(setSelectedNode(node.id));
 		},
 		[dispatch]
@@ -126,6 +141,7 @@ export const FlowEditor = () => {
 				nodeTypes={nodeTypes}
 				edgeTypes={edgeTypes}
 				onClick={handleFlowEditorOnClick}
+				onNodeDoubleClick={handleNodeDoubleClick}
 				onNodeClick={handleNodeClick}
 				onNodeDrag={handleNodeDrag}
 				onDrop={onDrop}
@@ -142,5 +158,3 @@ export const FlowEditor = () => {
 		</div>
 	);
 };
-
-FlowEditor.whyDidYouRender = true;
