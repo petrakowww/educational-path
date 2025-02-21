@@ -7,9 +7,19 @@ import { memo } from 'react';
 import { ResizeNodeComponent } from '../utils/resize-node';
 import { DeleteNodeComponent } from '../utils/delete-node';
 import { useRef } from 'react';
-import { BackgroundColorEnum } from '@/shared/lib/node/component';
+import {
+	BackgroundColorEnum,
+	GraphNodeLegendProps,
+} from '@/shared/lib/node/component';
 import { IsSelectedNode } from '../utils/is-selected-node';
 import clsx from 'clsx';
+import { BoxesIcon } from 'lucide-react';
+import {
+	GraphNodeBaseEditor,
+	GraphNodeLegendEditor,
+	GraphNodeTopicEditor,
+} from '@/shared/lib/node/editor';
+import { GraphNodeTopicBaseProps } from '@/shared/lib/node/component/interfaces/main/node-topic';
 
 const minHeight = 52;
 
@@ -30,6 +40,20 @@ export const SubtopicNodeDisplay = (
 		'rounded-md overflow-hidden border-[2px] min-h-fit min-w-fit h-full w-full bg-background relative flex items-center justify-center',
 		isTopicNode() ? 'border-primary' : 'border-border',
 		focusClassName
+	);
+
+	const nodeInfo = {
+		nodeId: data.dataTProps.legendTopicProps.topic?.nodeId,
+		topicId: data.dataTProps.legendTopicProps.topic?.topicItemId,
+	};
+
+	const topicNode = GraphNodeBaseEditor.getNode<GraphNodeLegendProps>(
+		nodeInfo.nodeId
+	);
+
+	const topicItem = GraphNodeLegendEditor.getTopicInfoByNode(
+		topicNode?.data.dataTProps?.legendProps?.legendItems,
+		nodeInfo.topicId
 	);
 
 	return (
@@ -60,6 +84,13 @@ export const SubtopicNodeDisplay = (
 				</p>
 				<ResizeNodeComponent minHeight={minHeight} ref={containerRef} />
 			</div>
+
+			{topicItem && (
+				<article className="flex gap-2 mt-2 flex-shrink-0">
+					<BoxesIcon style={{ color: topicItem.color }} />
+					<p className="whitespace-nowrap">{topicItem.label}</p>
+				</article>
+			)}
 
 			<DeleteNodeComponent node={props} />
 		</article>

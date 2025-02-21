@@ -8,7 +8,7 @@ export class TitleNodeComponent extends GraphNodeComponent<GraphNodeTitleBasePro
 	constructor() {
 		super({
 			labelProps: getLabelProps(NodeLabelEnum.title).labelProps,
-			fontProps: initFontSizeComponent,
+			fontProps: {...initFontSizeComponent},
 		});
 	}
 }

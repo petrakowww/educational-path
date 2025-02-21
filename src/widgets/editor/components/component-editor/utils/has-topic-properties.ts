@@ -12,3 +12,9 @@ export const hasTopicProps = <T extends TopicNodeComponent>(
 		component.data.componentType === SubTopicNodeComponent.name
 	);
 };
+
+export const hasLegendTopicProps = <T extends TopicNodeComponent>(
+	component: Node<T>
+): boolean => {
+	return 'legendTopicProps' in component.data.dataTProps;
+};

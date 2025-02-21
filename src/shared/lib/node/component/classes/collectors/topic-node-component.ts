@@ -3,14 +3,16 @@ import { GraphNodeTopicBaseProps } from '../../interfaces/main/node-topic';
 import { initBackgroundColorComponent } from '../objects/object-block';
 import { initFontSizeComponent } from '../objects/object-font';
 import { getLabelProps } from '../objects/object-label';
+import { initLegendItem } from '../objects/object-legend';
 import { GraphNodeComponent } from './graph-node-component';
 
 export class TopicNodeComponent extends GraphNodeComponent<GraphNodeTopicBaseProps> {
 	constructor() {
 		super({
-			fontProps: initFontSizeComponent,
-			blockProps: initBackgroundColorComponent,
+			fontProps: {...initFontSizeComponent},
+			blockProps: {...initBackgroundColorComponent},
 			labelProps: getLabelProps(NodeLabelEnum.topic).labelProps,
+			legendTopicProps: {...initLegendItem}
 		});
 	}
 }

@@ -2,6 +2,8 @@ import { getNodesBounds, Node } from 'reactflow';
 import {
 	deleteNode,
 	getSelectedNode,
+	getNodesByProperty,
+	getNodeById,
 	setNodes,
 	store,
 	updateNode,
@@ -21,6 +23,7 @@ import {
 	SubTopicNodeComponent,
 	TitleNodeComponent,
 	TopicNodeComponent,
+	LegendNodeComponent,
 } from '../../../component';
 import { GraphNodeBaseEditorAllStyles } from '../../interfaces/main/editor-styles';
 
@@ -32,9 +35,23 @@ export abstract class GraphNodeBaseEditor {
 		[NodeLabelEnum.paragraph]: ParagraphNodeComponent,
 		[NodeLabelEnum.label]: LabelNodeComponent,
 		[NodeLabelEnum.button]: ButtonNodeComponent,
+		[NodeLabelEnum.legend]: LegendNodeComponent,
 	};
 	static getEditedNode<T>(): Node<GraphNodeComponent<T>> | null {
 		return getSelectedNode<T>(store.getState());
+	}
+
+	static getNodesByProperty<T>(
+		property: keyof T
+	): Node<GraphNodeComponent<T>>[] {
+		return getNodesByProperty<T>(store.getState(), property);
+	}
+
+	static getNode<T>(
+		id: string | undefined
+	): Node<GraphNodeComponent<T>> | null {
+		if (!id) return null;
+		return getNodeById<T>(store.getState(), id);
 	}
 
 	static close(): void {

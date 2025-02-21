@@ -2,6 +2,7 @@ import { NodeLabelEnum } from '@/shared/lib/node/component';
 import {
 	ButtonNodeMemo,
 	LabelNodeMemo,
+	LegendNodeMemo,
 	ParagraphNodeMemo,
 	SubTopicNodeMemo,
 	TitleNodeMemo,
@@ -14,4 +15,5 @@ export const nodeTypes = {
 	[NodeLabelEnum.paragraph]: ParagraphNodeMemo,
 	[NodeLabelEnum.label]: LabelNodeMemo,
 	[NodeLabelEnum.button]: ButtonNodeMemo,
+	[NodeLabelEnum.legend]: LegendNodeMemo,
 };

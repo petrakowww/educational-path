@@ -13,7 +13,7 @@ export const TitleNodeDisplay = (props: NodeProps<TitleNodeComponent>) => {
 	const focusClassName = IsSelectedNode(props);
 
 	const finalClassName = clsx(
-		'rounded-md overflow-hidden border-[1px] min-h-fit min-w-fit h-full w-full bg-background relative flex items-center justify-center',
+		'rounded-md overflow-hidden border-[2px] min-h-fit min-w-fit h-full w-full bg-background relative flex items-center justify-center',
 		focusClassName
 	);
 

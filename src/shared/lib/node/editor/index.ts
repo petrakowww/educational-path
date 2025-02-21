@@ -5,3 +5,4 @@ export { GraphNodeBlockEditor } from './classes/main/editor-block';
 export { GraphNodeAlignmentEditor } from './classes/main/editor-alignment';
 export { GraphNodeTopicEditor } from './classes/main/editor-topic';
 export { GraphNodeLinkEditor } from './classes/main/editor-link';
+export { GraphNodeLegendEditor } from './classes/main/editor-legend';

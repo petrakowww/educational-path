@@ -39,7 +39,10 @@ import { ComponentBorderWidth } from '../elements/component-block/component-bloc
 import { ComponentTextAlignmentVertical } from '../elements/component-align/component-align-vertical';
 import { ComponentTextAlignmentHorizontal } from '../elements/component-align/component-align-horizontal';
 import { ComponentResetStyles } from '../elements/component-settings/component-reset-styles';
-import { hasTopicProps } from '../../utils/has-topic-properties';
+import {
+	hasLegendTopicProps,
+	hasTopicProps,
+} from '../../utils/has-topic-properties';
 import { ComponentChangeTopicType } from '../elements/component-settings/component-change-type';
 import { ComponentDestroyNode } from '../elements/component-settings/component-destroy-node';
 import { ComponentBlockPadding } from '../elements/component-block/component-block-padding';
@@ -49,6 +52,9 @@ import {
 } from '../../utils/had-label-properties';
 import { hasBaseUrlProps, hasLinkProps } from '../../utils/has-link-properties';
 import { ComponentBaseUrl } from '../elements/component-url/component-base-url';
+import { hasLegendProps } from '../../utils/has-legend-properties';
+import { ComponentLegend } from '../elements/component-legend/component-legend';
+import { ComponentTopicLegend } from '../elements/component-legend/component-topic-legend';
 
 export const AsideBarWidgetComponentEditor = () => {
 	const isOpenMenu = useAppSelector((state) => state.aside_editor.isOpenMenu);
@@ -221,6 +227,24 @@ export const AsideBarWidgetComponentEditor = () => {
 									<ComponentBaseUrl
 										editedNode={memoizedSelectedNode}
 									/>
+								)}
+							</>
+						)}
+						{hasLegendProps(memoizedSelectedNode) && (
+							<>
+								<ComponentLegend
+									editedNode={memoizedSelectedNode}
+								/>
+							</>
+						)}
+						{hasTopicProps(memoizedSelectedNode) && (
+							<>
+								{hasLegendTopicProps(memoizedSelectedNode) && (
+									<>
+										<ComponentTopicLegend
+											editedNode={memoizedSelectedNode}
+										/>
+									</>
 								)}
 							</>
 						)}
