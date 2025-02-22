@@ -10,7 +10,6 @@ import { setSelectedLegend, store } from '@/shared/managers';
 export class GraphNodeLegendEditor extends GraphNodeBaseEditor {
 	static updateLegendItemsArray(value: GraphNodeLegendItem[]): void {
 		this.updateProperty('legendProps', 'legendItems', value);
-		this.autoSize();
 	}
 
 	static updateOrDeleteLegendSubdcribed(

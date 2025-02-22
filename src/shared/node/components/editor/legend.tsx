@@ -18,7 +18,7 @@ export const LegendNodeDisplay = (props: NodeProps<LegendNodeComponent>) => {
 	const focusClassName = IsSelectedNode(props);
 
 	const finalClassName = clsx(
-		'rounded-md overflow-hidden min-h-fit min-w-fit h-full w-full bg-background border-[2px] relative flex items-center justify-center',
+		'relative group h-full w-full rounded-md bg-background border-[2px] flex justify-start',
 		focusClassName
 	);
 
@@ -35,19 +35,14 @@ export const LegendNodeDisplay = (props: NodeProps<LegendNodeComponent>) => {
 
 	return (
 		<article
-			className="relative group min-h-fit min-w-fit h-full w-full inline-block"
-			style={{ minHeight: minHeight }}
+			className={finalClassName}
+			style={{
+				minHeight: minHeight,
+				backgroundColor: data.dataTProps?.blockProps?.backgroundColor,
+				borderColor: data.dataTProps?.blockProps?.borderColor,
+			}}
 		>
-			<div
-				className={finalClassName}
-				style={{
-					width: '',
-					height: '',
-					backgroundColor:
-						data.dataTProps?.blockProps?.backgroundColor,
-					borderColor: data.dataTProps?.blockProps?.borderColor,
-				}}
-			>
+			<div>
 				<div
 					ref={containerRef}
 					className="inline-flex flex-col gap-2 p-3"
@@ -99,10 +94,8 @@ export const LegendNodeDisplay = (props: NodeProps<LegendNodeComponent>) => {
 						</span>
 					)}
 				</div>
-
-				<ResizeNodeComponent ref={containerRef} />
 			</div>
-
+			<ResizeNodeComponent ref={containerRef} />
 			<DeleteNodeComponent
 				node={props}
 				callbackDeleteNode={handleDeleteLegendNode}

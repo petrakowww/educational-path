@@ -21,9 +21,6 @@ export class GraphNodeTopicEditor extends GraphNodeBaseEditor {
 				componentType: type,
 			},
 		});
-		if (!editedNode.data.dataTProps?.labelProps?.label) {
-			GraphNodeBaseEditor.autoSize();
-		}
 	}
 
 	static setLegendGroupsForTopic(legend: GraphNodeLegendItem) {

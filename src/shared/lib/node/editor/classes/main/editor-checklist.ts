@@ -6,7 +6,6 @@ import { store } from '@/shared/managers';
 export class GraphNodeChecklistEditor extends GraphNodeBaseEditor {
 	static updateChecklistItemsArray(value: GraphNodeTodoItem[]): void {
 		this.updateProperty('checkListProps', 'todoItems', value);
-		this.autoSize();
 	}
 
 	static getChecklistItemsArray(): GraphNodeTodoItem[] {

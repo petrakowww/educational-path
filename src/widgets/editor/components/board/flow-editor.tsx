@@ -15,8 +15,8 @@ import {
 	setSelectedNode,
 	setNodes,
 	setEditorStatusMenu,
-	resetNodeSize,
 	setFocusingLabel,
+	recalculateNodeSize,
 } from '@/shared/managers';
 import { useAppDispatch, useAppSelector } from '@/shared/managers';
 import React, { useCallback, useMemo } from 'react';
@@ -104,30 +104,9 @@ export const FlowEditor = () => {
 
 	const handleNodesChange = useCallback(
 		(changes: NodeChange[]) => {
-			changes.forEach((change) => {
-				if (change.type === 'dimensions') {
-					const nodeToUpdate = memoizedNodes.find(
-						(n) => n.id === change.id
-					);
-					if (!nodeToUpdate) return;
-
-					const newWidth =
-						change.dimensions?.width ?? nodeToUpdate.width;
-					const newHeight =
-						change.dimensions?.height ?? nodeToUpdate.height;
-
-					if (
-						newWidth !== nodeToUpdate.width ||
-						newHeight !== nodeToUpdate.height
-					) {
-						resetNodeSize(change.id, newWidth, newHeight);
-					}
-				}
-			});
-
 			dispatch(onNodesChange(changes));
 		},
-		[dispatch, memoizedNodes]
+		[dispatch]
 	);
 
 	const edgeTypes = useMemo(() => ({}), []);

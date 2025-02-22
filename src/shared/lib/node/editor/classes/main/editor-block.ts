@@ -25,7 +25,6 @@ export class GraphNodeBlockEditor extends GraphNodeBaseEditor {
 
 	static changePadding(padding: number | undefined): void {
 		this.updateProperty('blockProps', 'padding', padding);
-		this.autoSize();
 	}
 
 	static backgroundColorValue(): string | undefined {

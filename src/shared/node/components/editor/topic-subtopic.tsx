@@ -31,7 +31,7 @@ export const SubtopicNodeDisplay = (
 	const focusClassName = IsSelectedNode(props);
 
 	const finalClassName = clsx(
-		'rounded-md overflow-hidden border-[2px] min-h-fit min-w-fit h-full w-full bg-background relative flex items-center justify-center',
+		'relative group h-full w-full bg-background flex items-center justify-center border-[2px] rounded-md',
 		isTopicNode() ? 'border-primary' : 'border-border',
 		focusClassName
 	);
@@ -40,27 +40,22 @@ export const SubtopicNodeDisplay = (
 
 	return (
 		<article
-			className="relative group min-h-fit min-w-fit h-full w-full inline-block"
-			style={{ minHeight: minHeight }}
+			className={finalClassName}
+			style={{
+				minHeight: minHeight,
+				backgroundColor:
+					data.dataTProps.blockProps?.backgroundColor ??
+					(isTopicNode()
+						? BackgroundColorEnum.Primary
+						: BackgroundColorEnum.Highlight),
+			}}
 		>
-			<div
-				className={finalClassName}
-				style={{
-					width: '',
-					height: '',
-					backgroundColor:
-						data.dataTProps.blockProps?.backgroundColor ??
-						(isTopicNode()
-							? BackgroundColorEnum.Primary
-							: BackgroundColorEnum.Highlight),
-				}}
-			>
+			<div ref={containerRef}>
 				<p
-					className="leading-none whitespace-normal text-center p-4 flex-shrink-0"
+					className="leading-none whitespace-pre-wrap text-center p-3 flex-shrink-0 text-nowrap"
 					style={{
 						fontSize: data.dataTProps.fontProps?.fontSize,
 					}}
-					ref={containerRef}
 				>
 					{data.dataTProps.labelProps.label ||
 						(isTopicNode() ? topicLabel : subTopicLabel)}

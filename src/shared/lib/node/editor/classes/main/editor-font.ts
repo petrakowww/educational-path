@@ -8,7 +8,6 @@ import {
 export class GraphNodeFontEditor extends GraphNodeBaseEditor {
 	static changeFontSize(size: number | undefined): void {
 		this.updateProperty('fontProps', 'fontSize', size);
-		this.autoSize();
 	}
 
 	static changeTextColor(color: string): void {

@@ -14,26 +14,21 @@ export const TodoNodeDisplay = (props: NodeProps<TodoNodeComponent>) => {
 	const focusClassName = IsSelectedNode(props);
 
 	const finalClassName = clsx(
-		'rounded-md overflow-hidden min-h-fit min-w-fit h-full w-full bg-background border-[2px] relative flex items-center justify-center',
+		'relative group h-full w-full bg-background flex items-start justify-start border-[2px] rounded-md',
 		focusClassName
 	);
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	return (
 		<article
-			className="relative group min-h-fit min-w-fit h-full w-full inline-block"
-			style={{ minHeight: minHeight }}
+			className={finalClassName}
+			style={{
+				backgroundColor: data.dataTProps?.blockProps?.backgroundColor,
+				borderColor: data.dataTProps?.blockProps?.borderColor,
+				minHeight: minHeight,
+			}}
 		>
-			<div
-				className={finalClassName}
-				style={{
-					width: '',
-					height: '',
-					backgroundColor:
-						data.dataTProps?.blockProps?.backgroundColor,
-					borderColor: data.dataTProps?.blockProps?.borderColor,
-				}}
-			>
+			<div>
 				<div
 					ref={containerRef}
 					className="inline-flex gap-2 p-3 items-center"
@@ -43,7 +38,7 @@ export const TodoNodeDisplay = (props: NodeProps<TodoNodeComponent>) => {
 				>
 					<div className="w-6 border border-foreground/50 rounded-md flex-shrink-0 pointer-events-none aspect-square" />
 					<p
-						className="text-left flex-shrink-0  whitespace-pre-wrap text-nowrap  w-full"
+						className="text-left flex-shrink-0  whitespace-pre-wrap text-nowrap"
 						style={{
 							fontSize: data.dataTProps?.fontProps?.fontSize,
 							color: data.dataTProps?.fontProps?.fontColor,
@@ -52,10 +47,8 @@ export const TodoNodeDisplay = (props: NodeProps<TodoNodeComponent>) => {
 						{data.dataTProps.labelProps.label || todoLabel}
 					</p>
 				</div>
-
-				<ResizeNodeComponent ref={containerRef} />
 			</div>
-
+			<ResizeNodeComponent ref={containerRef} />
 			<DeleteNodeComponent node={props} />
 		</article>
 	);

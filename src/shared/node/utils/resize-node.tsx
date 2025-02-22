@@ -1,4 +1,5 @@
 import { MoveDownRightIcon } from 'lucide-react';
+import { useRef } from 'react';
 import {
 	NodeResizeControl,
 	ResizeDragEvent,
@@ -18,6 +19,10 @@ export const ResizeNodeComponent = (props: ResizeNodeComponentProps) => {
 	const { ref, minHeight, minWidth, onlyXaxis, onlyYaxis, ignoreFitContent } =
 		props;
 
+	const previousSizeRef = useRef<{ width: number; height: number } | null>(
+		null
+	);
+
 	const handleShouldResize = (
 		event: ResizeDragEvent,
 		params: ResizeParamsWithDirection
@@ -27,8 +32,39 @@ export const ResizeNodeComponent = (props: ResizeNodeComponentProps) => {
 		const intrinsicWidth = ref.current.scrollWidth;
 		const intrinsicHeight = ref.current.scrollHeight;
 
-		const canResizeWidth = params.width >= intrinsicWidth;
-		const canResizeHeight = params.height >= intrinsicHeight;
+		const previousSize = previousSizeRef.current;
+
+		if (!previousSize) {
+			previousSizeRef.current = {
+				width: params.width,
+				height: params.height,
+			};
+			return true;
+		}
+
+		const isIncreasingWidth = params.width >= previousSize.width;
+		const isIncreasingHeight = params.height >= previousSize.height;
+
+		if (isIncreasingWidth && isIncreasingHeight) {
+			previousSizeRef.current = {
+				width: params.width,
+				height: params.height,
+			};
+			return true;
+		}
+
+		const canResizeWidth =
+			isIncreasingWidth || params.width >= intrinsicWidth;
+		const canResizeHeight =
+			isIncreasingHeight || params.height >= intrinsicHeight;
+
+		if (canResizeWidth && canResizeHeight) {
+			previousSizeRef.current = {
+				width: params.width,
+				height: params.height,
+			};
+		}
+
 		if (onlyXaxis) return canResizeWidth;
 		if (onlyYaxis) return canResizeHeight;
 
@@ -45,7 +81,7 @@ export const ResizeNodeComponent = (props: ResizeNodeComponentProps) => {
 				minWidth={minWidth}
 			>
 				<MoveDownRightIcon
-					className="text-primary font-bold"
+					className="text-black font-bold"
 					width={15}
 					height={15}
 				/>

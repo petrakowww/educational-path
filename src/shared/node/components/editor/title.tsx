@@ -15,24 +15,15 @@ export const TitleNodeDisplay = (props: NodeProps<TitleNodeComponent>) => {
 	const focusClassName = IsSelectedNode(props);
 
 	const finalClassName = clsx(
-		'rounded-md overflow-hidden border-[2px] min-h-fit min-w-fit h-full w-full bg-background relative flex items-center justify-center',
+		'relative group h-full w-full bg-background flex items-center justify-center border-[2px] rounded-md',
 		focusClassName
 	);
 
 	return (
-		<article
-			className="relative group min-h-fit min-w-fit h-full w-full inline-block"
-			style={{ minHeight: minHeight }}
-		>
-			<div
-				className={finalClassName}
-				style={{
-					width: '',
-					height: '',
-				}}
-			>
+		<article className={finalClassName} style={{ minHeight: minHeight }}>
+			<div>
 				<p
-					className="leading-none whitespace-normal text-center p-4 flex-shrink-0"
+					className="leading-none whitespace-normal text-nowrap text-center p-3 flex-shrink-0"
 					style={{
 						fontSize: data.dataTProps.fontProps?.fontSize,
 					}}
