@@ -1,11 +1,13 @@
 import { TitleNodeComponent } from '@/shared/lib/node/component';
 import { memo } from 'react';
 import { NodeProps } from 'reactflow';
-import { DeleteNodeComponent } from '../utils/delete-node';
-import { IsSelectedNode } from '../utils/is-selected-node';
+import { DeleteNodeComponent } from '../../utils/delete-node';
+import { IsSelectedNode } from '../../utils/is-selected-node';
 import clsx from 'clsx';
 
 const minHeight = 52;
+
+const titleLabel = 'Title Label';
 
 export const TitleNodeDisplay = (props: NodeProps<TitleNodeComponent>) => {
 	const { data } = props;
@@ -35,7 +37,7 @@ export const TitleNodeDisplay = (props: NodeProps<TitleNodeComponent>) => {
 						fontSize: data.dataTProps.fontProps?.fontSize,
 					}}
 				>
-					{data.dataTProps.labelProps.label}
+					{data.dataTProps.labelProps.label || titleLabel}
 				</p>
 			</div>
 

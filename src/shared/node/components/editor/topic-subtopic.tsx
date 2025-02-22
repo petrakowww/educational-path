@@ -4,24 +4,18 @@ import {
 	TopicNodeComponent,
 } from '@/shared/lib/node/component/classes/collectors/topic-node-component';
 import { memo } from 'react';
-import { ResizeNodeComponent } from '../utils/resize-node';
-import { DeleteNodeComponent } from '../utils/delete-node';
+import { ResizeNodeComponent } from '../../utils/resize-node';
+import { DeleteNodeComponent } from '../../utils/delete-node';
 import { useRef } from 'react';
-import {
-	BackgroundColorEnum,
-	GraphNodeLegendProps,
-} from '@/shared/lib/node/component';
-import { IsSelectedNode } from '../utils/is-selected-node';
+import { BackgroundColorEnum } from '@/shared/lib/node/component';
+import { IsSelectedNode } from '../../utils/is-selected-node';
 import clsx from 'clsx';
 import { BoxesIcon } from 'lucide-react';
-import {
-	GraphNodeBaseEditor,
-	GraphNodeLegendEditor,
-	GraphNodeTopicEditor,
-} from '@/shared/lib/node/editor';
-import { GraphNodeTopicBaseProps } from '@/shared/lib/node/component/interfaces/main/node-topic';
 
 const minHeight = 52;
+
+const topicLabel = 'Topic Label';
+const subTopicLabel = 'SubTopic Label';
 
 export const SubtopicNodeDisplay = (
 	props: NodeProps<SubTopicNodeComponent | TopicNodeComponent>
@@ -42,19 +36,7 @@ export const SubtopicNodeDisplay = (
 		focusClassName
 	);
 
-	const nodeInfo = {
-		nodeId: data.dataTProps.legendTopicProps.topic?.nodeId,
-		topicId: data.dataTProps.legendTopicProps.topic?.topicItemId,
-	};
-
-	const topicNode = GraphNodeBaseEditor.getNode<GraphNodeLegendProps>(
-		nodeInfo.nodeId
-	);
-
-	const topicItem = GraphNodeLegendEditor.getTopicInfoByNode(
-		topicNode?.data.dataTProps?.legendProps?.legendItems,
-		nodeInfo.topicId
-	);
+	const topicGroup = data.dataTProps.legendTopicProps?.topicItem;
 
 	return (
 		<article
@@ -80,15 +62,16 @@ export const SubtopicNodeDisplay = (
 					}}
 					ref={containerRef}
 				>
-					{data.dataTProps.labelProps.label}
+					{data.dataTProps.labelProps.label ||
+						(isTopicNode() ? topicLabel : subTopicLabel)}
 				</p>
 				<ResizeNodeComponent minHeight={minHeight} ref={containerRef} />
 			</div>
 
-			{topicItem && (
+			{topicGroup && (
 				<article className="flex gap-2 mt-2 flex-shrink-0">
-					<BoxesIcon style={{ color: topicItem.color }} />
-					<p className="whitespace-nowrap">{topicItem.label}</p>
+					<BoxesIcon style={{ color: topicGroup.color }} />
+					<p className="whitespace-nowrap">{topicGroup.label}</p>
 				</article>
 			)}
 

@@ -6,3 +6,4 @@ export { GraphNodeAlignmentEditor } from './classes/main/editor-alignment';
 export { GraphNodeTopicEditor } from './classes/main/editor-topic';
 export { GraphNodeLinkEditor } from './classes/main/editor-link';
 export { GraphNodeLegendEditor } from './classes/main/editor-legend';
+export { GraphNodeChecklistEditor } from './classes/main/editor-checklist';

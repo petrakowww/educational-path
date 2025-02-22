@@ -1,4 +1,5 @@
 import {
+	GraphNodeLegendItem,
 	SubTopicNodeComponent,
 	TopicNodeComponent,
 } from '../../../component';
@@ -20,9 +21,12 @@ export class GraphNodeTopicEditor extends GraphNodeBaseEditor {
 				componentType: type,
 			},
 		});
+		if (!editedNode.data.dataTProps?.labelProps?.label) {
+			GraphNodeBaseEditor.autoSize();
+		}
 	}
 
-	static setLegendGroupsForTopic(topicItemId: string, nodeId: string) {
-		this.updateProperty('legendTopicProps', 'topic', {topicItemId: topicItemId, nodeId: nodeId});
+	static setLegendGroupsForTopic(legend: GraphNodeLegendItem) {
+		this.updateProperty('legendTopicProps', 'topicItem', legend);
 	}
 }

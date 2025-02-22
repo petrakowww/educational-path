@@ -1,13 +1,19 @@
 import {
 	GraphNodeLegendItem,
 	GraphNodeLegendProps,
+	LegendIconEnum,
 } from '@/shared/lib/node/component';
 import { Input, Button } from '@/shared/ui';
 import { PaintBucketIcon, TrashIcon } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Node } from 'reactflow';
 import { GraphNodeComponent } from '@/shared/lib/node/component';
 import { GraphNodeLegendEditor } from '@/shared/lib/node/editor';
+import {
+	setSelectedLegend,
+	useAppDispatch,
+	useAppSelector,
+} from '@/shared/managers';
 interface ComponentEditorLegendProps {
 	editedNode: Node<GraphNodeComponent<GraphNodeLegendProps>>;
 }
@@ -18,6 +24,16 @@ export const ComponentLegend = (props: ComponentEditorLegendProps) => {
 	const [legends, setLegends] = useState<GraphNodeLegendItem[]>(
 		editedNode.data.dataTProps.legendProps.legendItems
 	);
+
+	const dispatch = useAppDispatch();
+
+	const focusedLegendId = useAppSelector(
+		(state) => state.aside_editor.selectedLegendId
+	);
+
+	const clearSelectedLegend = useCallback(() => {
+		dispatch(setSelectedLegend(null));
+	}, [dispatch]);
 
 	const handleUpdateNode = (
 		nodeId: string,
@@ -30,7 +46,7 @@ export const ComponentLegend = (props: ComponentEditorLegendProps) => {
 	const addLegend = () => {
 		const newLegend = {
 			idItem: crypto.randomUUID(),
-			color: '#000000',
+			color: LegendIconEnum.baseColor,
 			label: '',
 		};
 		handleUpdateNode(editedNode.id, [...legends, newLegend]);
@@ -44,6 +60,10 @@ export const ComponentLegend = (props: ComponentEditorLegendProps) => {
 			legend.idItem === id ? { ...legend, ...newData } : legend
 		);
 		handleUpdateNode(editedNode.id, updatedLegends);
+		GraphNodeLegendEditor.updateOrDeleteLegendSubdcribed(
+			updatedLegends,
+			id
+		);
 	};
 
 	const removeLegend = (id: string) => {
@@ -51,10 +71,15 @@ export const ComponentLegend = (props: ComponentEditorLegendProps) => {
 			(legend) => legend.idItem !== id
 		);
 		handleUpdateNode(editedNode.id, filteredLegends);
+		GraphNodeLegendEditor.updateOrDeleteLegendSubdcribed(
+			filteredLegends,
+			id,
+			true
+		);
 	};
 
 	useEffect(() => {
-		setLegends(GraphNodeLegendEditor.getLegentItemsArray());
+		setLegends(GraphNodeLegendEditor.getLegendItemsArray());
 	}, [editedNode]);
 
 	return (
@@ -68,9 +93,11 @@ export const ComponentLegend = (props: ComponentEditorLegendProps) => {
 					legends.map((legend) => (
 						<LegendItemRow
 							key={legend.idItem}
+							focusedLegendId={focusedLegendId}
 							legend={legend}
 							onUpdate={updateLegend}
 							onRemove={removeLegend}
+							onFocusClear={clearSelectedLegend}
 						/>
 					))
 				) : (
@@ -93,13 +120,24 @@ export const ComponentLegend = (props: ComponentEditorLegendProps) => {
 
 interface LegendItemRowProps {
 	legend: GraphNodeLegendItem;
+	focusedLegendId: string | null;
 	onUpdate: (id: string, newData: Partial<GraphNodeLegendItem>) => void;
 	onRemove: (id: string) => void;
+	onFocusClear: () => void;
 }
 
 const LegendItemRow = (props: LegendItemRowProps) => {
-	const { legend, onUpdate, onRemove } = props;
+	const { legend, focusedLegendId, onUpdate, onRemove, onFocusClear } = props;
 	const colorPickerRef = useRef<HTMLInputElement>(null);
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		if (legend.idItem === focusedLegendId) {
+			inputRef.current?.focus();
+			inputRef.current?.select();
+			onFocusClear();
+		}
+	}, [focusedLegendId, legend.idItem, onFocusClear]);
 
 	return (
 		<div className="flex items-center gap-2 relative">
@@ -125,6 +163,7 @@ const LegendItemRow = (props: LegendItemRowProps) => {
 				type="text"
 				placeholder="Legend label"
 				value={legend.label}
+				ref={inputRef}
 				onChange={(e) =>
 					onUpdate(legend.idItem, { label: e.target.value })
 				}

@@ -9,7 +9,11 @@ import {
 	TooltipTrigger,
 } from '@/shared/ui';
 import { InfoIcon, OctagonMinusIcon } from 'lucide-react';
-import { GraphNodeBaseEditor } from '@/shared/lib/node/editor';
+import {
+	GraphNodeBaseEditor,
+	GraphNodeLegendEditor,
+} from '@/shared/lib/node/editor';
+import { hasLegendProps } from '../../../utils/has-legend-properties';
 
 interface ComponentDestroyNodeProps {
 	editedNode: Node<GraphNodeComponent<never>>;
@@ -19,6 +23,9 @@ export const ComponentDestroyNode = (props: ComponentDestroyNodeProps) => {
 	const { editedNode } = props;
 
 	const handleDelete = () => {
+		if (hasLegendProps(editedNode)) {
+			GraphNodeLegendEditor.deleteLegendComponent(editedNode.id);
+		}
 		GraphNodeBaseEditor.deleteNode(editedNode.id);
 	};
 

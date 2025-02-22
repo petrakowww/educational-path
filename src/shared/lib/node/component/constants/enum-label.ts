@@ -6,4 +6,6 @@ export enum NodeLabelEnum {
 	label = 'label node',
 	button = 'button node',
 	legend = 'legend node',
+	todo = 'todo node',
+	checklist = 'checklist node',
 }

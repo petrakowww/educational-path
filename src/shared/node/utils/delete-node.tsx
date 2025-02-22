@@ -5,12 +5,15 @@ import { NodeProps } from 'reactflow';
 import React from 'react';
 interface DeleteNodeComponentProps {
 	node: NodeProps<unknown>;
+	callbackDeleteNode?: () => void;
 }
 
 export const DeleteNodeComponent = (props: DeleteNodeComponentProps) => {
-	const { node } = props;
+	const { node, callbackDeleteNode } = props;
+
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
+		callbackDeleteNode?.();
 		GraphNodeBaseEditor.deleteNode(node.id);
 	};
 	return (

@@ -1,13 +1,14 @@
 import { ParagraphNodeComponent } from '@/shared/lib/node/component';
 import { memo, useRef } from 'react';
 import { NodeProps } from 'reactflow';
-import { ResizeNodeComponent } from '../utils/resize-node';
-import { DeleteNodeComponent } from '../utils/delete-node';
-import { IsSelectedNode } from '../utils/is-selected-node';
+import { ResizeNodeComponent } from '../../utils/resize-node';
+import { DeleteNodeComponent } from '../../utils/delete-node';
+import { IsSelectedNode } from '../../utils/is-selected-node';
 import clsx from 'clsx';
 
 const minHeight = 52;
 const minWidth = 52;
+const paragraphLabel = 'Paragraph Label';
 
 export const ParagraphNodeDisplay = (
 	props: NodeProps<ParagraphNodeComponent>
@@ -18,13 +19,13 @@ export const ParagraphNodeDisplay = (
 	const focusClassName = IsSelectedNode(props);
 
 	const finalClassName = clsx(
-		'rounded-md overflow-hidden h-full w-full bg-transparent relative flex items-center justify-center',
+		'rounded-md overflow-hidden min-h-fit min-w-fit h-full w-full bg-transparent relative flex items-center justify-center',
 		focusClassName
 	);
 
 	return (
 		<article
-			className="relative group h-full w-full inline-block"
+			className="relative group min-h-fit min-w-fit h-full w-full inline-block"
 			style={{ minHeight: minHeight }}
 		>
 			<div
@@ -43,7 +44,7 @@ export const ParagraphNodeDisplay = (
 				}}
 			>
 				<p
-					className="leading-none whitespace-normal text-center px-3"
+					className="leading-none whitespace-pre-wrap text-nowrap  text-center px-3 flex-shrink-0"
 					style={{
 						fontSize: data.dataTProps.fontProps?.fontSize,
 						color: data.dataTProps.fontProps?.fontColor,
@@ -54,7 +55,7 @@ export const ParagraphNodeDisplay = (
 					}}
 					ref={containerRef}
 				>
-					{data.dataTProps.labelProps.label}
+					{data.dataTProps.labelProps.label || paragraphLabel}
 				</p>
 				<ResizeNodeComponent
 					ref={containerRef}

@@ -10,9 +10,20 @@ export const nodeAsideSlice = createSlice({
 		},
 		setFocusingLabel: (state, action: PayloadAction<boolean>) => {
 			state.isFocusingOnLabel = action.payload;
-		}
+		},
+		setSelectedLegend: (state, action: PayloadAction<string | null>) => {
+			state.selectedLegendId = action.payload;
+		},
+		setSelectedTodo: (state, action: PayloadAction<string | null>) => {
+			state.selectedTodoId = action.payload;
+		},
 	},
 });
 
-export const { setEditorStatusMenu, setFocusingLabel } = nodeAsideSlice.actions;
+export const {
+	setEditorStatusMenu,
+	setFocusingLabel,
+	setSelectedLegend,
+	setSelectedTodo,
+} = nodeAsideSlice.actions;
 export const nodeEditorAsideReducer = nodeAsideSlice.reducer;

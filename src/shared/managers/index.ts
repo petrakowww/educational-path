@@ -16,6 +16,7 @@ export {
 	nodeEditorAsideReducer,
 	setEditorStatusMenu,
 	setFocusingLabel,
+	setSelectedLegend,
 } from './reducers/node-aside-slice';
 
 export { dndEditorReduser, setType, resetType } from './reducers/dnd-slice';

@@ -55,6 +55,8 @@ import { ComponentBaseUrl } from '../elements/component-url/component-base-url';
 import { hasLegendProps } from '../../utils/has-legend-properties';
 import { ComponentLegend } from '../elements/component-legend/component-legend';
 import { ComponentTopicLegend } from '../elements/component-legend/component-topic-legend';
+import { hasChecklistProps } from '../../utils/has-checklist-properties';
+import { ComponentCheckList } from '../elements/component-checklist/component-checklist';
 
 export const AsideBarWidgetComponentEditor = () => {
 	const isOpenMenu = useAppSelector((state) => state.aside_editor.isOpenMenu);
@@ -233,6 +235,13 @@ export const AsideBarWidgetComponentEditor = () => {
 						{hasLegendProps(memoizedSelectedNode) && (
 							<>
 								<ComponentLegend
+									editedNode={memoizedSelectedNode}
+								/>
+							</>
+						)}
+						{hasChecklistProps(memoizedSelectedNode) && (
+							<>
+								<ComponentCheckList
 									editedNode={memoizedSelectedNode}
 								/>
 							</>

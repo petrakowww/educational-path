@@ -1,12 +1,13 @@
 import { LabelNodeComponent } from '@/shared/lib/node/component';
 import { memo } from 'react';
 import { NodeProps } from 'reactflow';
-import { DeleteNodeComponent } from '../utils/delete-node';
+import { DeleteNodeComponent } from '../../utils/delete-node';
 import { useRef } from 'react';
-import { IsSelectedNode } from '../utils/is-selected-node';
+import { IsSelectedNode } from '../../utils/is-selected-node';
 import clsx from 'clsx';
 
 const minHeight = 52;
+const label = 'Label';
 
 export const LabelNodeDisplay = (props: NodeProps<LabelNodeComponent>) => {
 	const { data } = props;
@@ -32,14 +33,14 @@ export const LabelNodeDisplay = (props: NodeProps<LabelNodeComponent>) => {
 				}}
 			>
 				<p
-					className="leading-none whitespace-normal text-center flex-shrink-0 px-3"
+					className="leading-none whitespace-pre-wrap text-nowrap text-center flex-shrink-0 px-3"
 					style={{
 						fontSize: data.dataTProps.fontProps?.fontSize,
 						color: data.dataTProps?.fontProps.fontColor,
 					}}
 					ref={containerRef}
 				>
-					{data.dataTProps.labelProps.label}
+					{data.dataTProps.labelProps.label || label}
 				</p>
 			</div>
 

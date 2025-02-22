@@ -1,5 +1,6 @@
 import { GraphNodeAlignmentTextProps } from '../auxiliary/type-alignment';
 import { GraphNodeBlockProps } from '../auxiliary/type-block';
+import { GraphNodeChecklistProps } from '../auxiliary/type-checklist';
 import { GraphNodeFontProps } from '../auxiliary/type-font';
 import { GraphNodeLabelProps } from '../auxiliary/type-label';
 import {
@@ -14,4 +15,5 @@ export type GraphNodeProps = GraphNodeBlockProps &
 	GraphNodeLabelProps &
 	GraphNodeLinkProps &
 	GraphNodeLegendProps &
-	GraphNodeLegendTopicProps;
+	GraphNodeLegendTopicProps &
+	GraphNodeChecklistProps;

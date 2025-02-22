@@ -1,5 +1,5 @@
 import {
-	GraphNodeLegendItemExtended,
+	GraphNodeLegendItem,
 	GraphNodeLegendTopicProps,
 } from '@/shared/lib/node/component';
 import { Node } from 'reactflow';
@@ -11,22 +11,22 @@ import {
 } from '@/shared/lib/node/editor';
 import { Button } from '@/shared/ui';
 import { BoxesIcon } from 'lucide-react';
+import { useAppSelector } from '@/shared/managers';
 interface ComponentTopicLegendProps {
 	editedNode: Node<GraphNodeComponent<GraphNodeLegendTopicProps>>;
 }
 
 export const ComponentTopicLegend = (props: ComponentTopicLegendProps) => {
-	const [legendItems, setLegendItems] = useState<
-		GraphNodeLegendItemExtended[]
-	>([]);
+	const [legendItems, setLegendItems] = useState<GraphNodeLegendItem[]>([]);
 	const { editedNode } = props;
+	const nodes = useAppSelector((state) => state.editor.nodes);
 
 	useEffect(() => {
 		setLegendItems(GraphNodeLegendEditor.getAllLegendGroups());
-	}, [editedNode]);
+	}, [editedNode, nodes]);
 
-	const handleSetTopicGroup = (topicId: string, nodeId: string) => {
-		GraphNodeTopicEditor.setLegendGroupsForTopic(topicId, nodeId);
+	const handleSetTopicGroup = (value: GraphNodeLegendItem) => {
+		GraphNodeTopicEditor.setLegendGroupsForTopic(value);
 	};
 
 	return (
@@ -40,9 +40,7 @@ export const ComponentTopicLegend = (props: ComponentTopicLegendProps) => {
 						variant={'outline'}
 						className="m-0 h-6 justify-between"
 						key={element.idItem}
-						onClick={() =>
-							handleSetTopicGroup(element.idItem, element.nodeId)
-						}
+						onClick={() => handleSetTopicGroup(element)}
 					>
 						<BoxesIcon style={{ color: element.color }} />
 						<span className="max-w-40 text-ellipsis whitespace-nowrap overflow-hidden text-sm">

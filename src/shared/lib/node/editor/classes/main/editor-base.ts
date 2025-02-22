@@ -24,6 +24,8 @@ import {
 	TitleNodeComponent,
 	TopicNodeComponent,
 	LegendNodeComponent,
+	ChecklistNodeComponent,
+	TodoNodeComponent,
 } from '../../../component';
 import { GraphNodeBaseEditorAllStyles } from '../../interfaces/main/editor-styles';
 
@@ -36,7 +38,10 @@ export abstract class GraphNodeBaseEditor {
 		[NodeLabelEnum.label]: LabelNodeComponent,
 		[NodeLabelEnum.button]: ButtonNodeComponent,
 		[NodeLabelEnum.legend]: LegendNodeComponent,
+		[NodeLabelEnum.checklist]: ChecklistNodeComponent,
+		[NodeLabelEnum.todo]: TodoNodeComponent,
 	};
+
 	static getEditedNode<T>(): Node<GraphNodeComponent<T>> | null {
 		return getSelectedNode<T>(store.getState());
 	}
@@ -192,9 +197,10 @@ export abstract class GraphNodeBaseEditor {
 	protected static dispatchIfEdited<T extends { id: string }>(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		actionCreator: (payload: T) => any,
-		payload: Omit<T, 'id'>
+		payload: Omit<T, 'id'>,
+		node?: Node<GraphNodeComponent<unknown>>
 	): void {
-		const editedNode = this.getEditedNode();
+		const editedNode = node ?? this.getEditedNode();
 		if (!editedNode) return;
 		store.dispatch(actionCreator({ id: editedNode.id, ...payload } as T));
 	}
@@ -203,15 +209,24 @@ export abstract class GraphNodeBaseEditor {
 		T extends keyof GraphNodeProps,
 		K extends keyof GraphNodeProps[T],
 		V extends GraphNodeProps[T][K],
-	>(targetObject: T, key: K, value: V): void {
-		const editedNode = this.getEditedNode();
+	>(
+		targetObject: T,
+		key: K,
+		value: V,
+		node?: Node<GraphNodeComponent<unknown>>
+	): void {
+		const editedNode = node ?? this.getEditedNode();
 		if (!editedNode) return;
 
-		this.dispatchIfEdited(updateNodeProperty, {
-			targetObject: targetObject as never,
-			key,
-			value: value as never,
-		});
+		this.dispatchIfEdited(
+			updateNodeProperty,
+			{
+				targetObject: targetObject as never,
+				key,
+				value: value as never,
+			},
+			editedNode
+		);
 	}
 
 	protected static getProperty<
