@@ -16,7 +16,6 @@ import {
 	setNodes,
 	setEditorStatusMenu,
 	setFocusingLabel,
-	recalculateNodeSize,
 } from '@/shared/managers';
 import { useAppDispatch, useAppSelector } from '@/shared/managers';
 import React, { useCallback, useMemo } from 'react';

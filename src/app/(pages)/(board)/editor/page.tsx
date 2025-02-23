@@ -17,7 +17,6 @@ import {
 import { useRef, useState } from 'react';
 import { ThemeButton } from '@/widgets/ui';
 
-// TODO: проблема с загрузкой (ширина сначала не вычислена из-за чего появляется прокрутка)
 
 export default function Page() {
 	const sidePartOfEditorRef = useRef<HTMLDivElement | null>(null);
