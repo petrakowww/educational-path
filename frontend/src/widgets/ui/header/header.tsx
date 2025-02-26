@@ -24,7 +24,7 @@ export const Header = () => {
 
 	return (
 		<header className="w-full bg-primary flex items-center justify-center">
-			<div className="container mx-auto flex items-center justify-between py-4 px-4 max-w-6xl">
+			<div className="container mx-auto flex items-center justify-between py-4 px-4 max-w-7xl">
 				<div className="flex gap-2 items-center">
 					<Link
 						href="/"

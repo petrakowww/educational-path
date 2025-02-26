@@ -2,16 +2,15 @@ import './globals.css';
 import { StoreProvider, ThemeProviderApp } from '@/app/providers';
 import React from 'react';
 import { RootProvider } from './providers/root/root-provider';
+import { TanstackProvider } from './providers/tanstack/tanstack-provider';
 
-export default function GeneralLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<RootProvider>
 			<StoreProvider>
-				<ThemeProviderApp>{children}</ThemeProviderApp>
+				<TanstackProvider>
+					<ThemeProviderApp>{children}</ThemeProviderApp>
+				</TanstackProvider>
 			</StoreProvider>
 		</RootProvider>
 	);
