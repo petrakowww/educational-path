@@ -8,3 +8,5 @@ export const cookieOptionsSettings: SessionOptions['cookieOptions'] = {
 };
 
 export const cookieName = 'education-path-cookie-app';
+
+export const COOKIE_MAX_AGE = 300;

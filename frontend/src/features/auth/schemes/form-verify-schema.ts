@@ -5,4 +5,6 @@ export const formVerifySchema = z.object({
 		.string()
 		.min(6, 'Code must be 6 characters')
 		.max(6, 'Code must be 6 characters'),
+	email: z.string().email(),
+	type: z.string().min(3),
 });

@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { signUpRequest } from '../api/signup-api';
+import { signUpApiRequest } from '../api/signup-api';
 import { AppRoutes } from '@/shared/config';
 
 export const useRegistration = (redirectPath: AppRoutes) => {
 	const router = useRouter();
 
 	const mutation = useMutation({
-		mutationFn: signUpRequest,
+		mutationFn: signUpApiRequest,
 		onSuccess: () => {
 			router.push(redirectPath);
 		},

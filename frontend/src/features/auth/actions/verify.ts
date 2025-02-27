@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { verifyCodeRequest } from '../api/verify-api';
+import { verifyCodeAndSetSession } from '../api/verify-api';
 
 export const useVerify = (redirectPath: string) => {
 	const router = useRouter();
 
 	const mutation = useMutation({
-		mutationFn: verifyCodeRequest,
+		mutationFn: verifyCodeAndSetSession,
 		onSuccess: () => {
 			router.push(redirectPath);
 		},
@@ -14,5 +14,5 @@ export const useVerify = (redirectPath: string) => {
 
 	const errorMessage = mutation.error?.message;
 
-	return { mutation, errorMessage, resendCode };
+	return { mutation, errorMessage };
 };

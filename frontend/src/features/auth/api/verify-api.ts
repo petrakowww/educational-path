@@ -6,23 +6,23 @@ import { getSession } from '../actions/session';
 export const verifyCodeRequest = async (
 	data: z.infer<typeof formVerifySchema>
 ) => {
-	const response = await strapiApi.post(ApiStrapiPathes.Verify, data);
-	return response.data;
+	try {
+		const response = await strapiApi.post(ApiStrapiPathes.Verify, data);
+		return response.data;
+	} catch (error) {
+		handleAxiosError(error);
+	}
 };
 
 export const verifyCodeAndSetSession = async (
 	data: z.infer<typeof formVerifySchema>
 ) => {
-	try {
-		const responseData = await verifyCodeRequest(data);
-		const session = await getSession();
+	const responseData = await verifyCodeRequest(data);
+	const session = await getSession();
 
-		session.username = responseData.username;
-		session.isLoggedIn = true;
-		session.jwt = responseData.jwt;
+	session.username = responseData.username;
+	session.isLoggedIn = true;
+	session.jwt = responseData.jwt;
 
-		await session.save();
-	} catch (error) {
-		handleAxiosError(error);
-	}
+	await session.save();
 };

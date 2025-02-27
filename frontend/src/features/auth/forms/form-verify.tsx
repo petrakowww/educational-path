@@ -25,9 +25,7 @@ export const FormVerify = () => {
 		defaultValues: { code: '' },
 	});
 
-	const { mutation, errorMessage, resendCode } = useVerify(
-		AppRoutes.Dashboard
-	);
+	const { mutation, errorMessage } = useVerify(AppRoutes.Dashboard);
 	const errors = form.formState.errors;
 
 	const onSubmit = (values: z.infer<typeof formVerifySchema>) => {
@@ -79,14 +77,6 @@ export const FormVerify = () => {
 				)}
 				<Button type="submit" disabled={mutation.isPending}>
 					Verify
-				</Button>
-				<Button
-					type="button"
-					variant="link"
-					onClick={resendCode}
-					disabled={mutation.isPending}
-				>
-					Resend Code
 				</Button>
 			</form>
 		</Form>

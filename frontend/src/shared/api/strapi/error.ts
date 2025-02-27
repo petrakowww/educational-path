@@ -1,9 +1,10 @@
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 
-export const handleAxiosError = (error: unknown): string => {
-	console.log(error);
+export const handleAxiosError = (error: unknown): never => {
 	if (error instanceof AxiosError && error.response) {
-		return error.response.data?.error?.message || 'Something went wrong';
+		throw new Error(
+			error.response.data?.error?.message || 'Something went wrong'
+		);
 	}
-	return (error as Error)?.message || 'Network error, please try again';
+	throw new Error('Network error. Please try again.');
 };

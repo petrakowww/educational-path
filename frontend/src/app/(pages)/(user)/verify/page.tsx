@@ -3,7 +3,7 @@
 import { Button, Separator } from '@/shared/ui';
 import { Header } from '@/widgets/ui';
 import Link from 'next/link';
-import { FormSignUp, FormVerify } from '@/features/auth';
+import { FormVerify } from '@/features/auth';
 import { AppRoutes } from '@/shared/config';
 import { useSession } from '@/app/providers';
 

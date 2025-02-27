@@ -14,6 +14,7 @@ import {
 import { useMediaQuery } from '@/shared/lib';
 import { useTransition } from 'react';
 import { logout } from '@/features/auth/actions/logout';
+import { AppRoutes } from '@/shared/config';
 const links = [
 	{ href: '/', label: 'Home' },
 	{ href: '/dashboard', label: 'Dashboard' },
@@ -63,14 +64,14 @@ export const Header = (props: HeaderProps) => {
 								variant={'default'}
 								className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
 							>
-								<Link href="/signin">Sign in</Link>
+								<Link href={AppRoutes.SignIn}>Sign in</Link>
 							</Button>
 
 							<Button
 								variant={'default'}
 								className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
 							>
-								<Link href="/signin">Sign up</Link>
+								<Link href={AppRoutes.SignUp}>Sign up</Link>
 							</Button>
 						</div>
 					</nav>
@@ -110,13 +111,13 @@ export const Header = (props: HeaderProps) => {
 									) : (
 										<>
 											<Link
-												href="/signin"
+												href={AppRoutes.SignIn}
 												className="text-lg text-foreground/80 hover:text-foreground transition-colors"
 											>
 												Sign in
 											</Link>
 											<Link
-												href="/signup"
+												href={AppRoutes.SignUp}
 												className="text-lg text-foreground/80 hover:text-foreground transition-colors"
 											>
 												Sign up
@@ -143,7 +144,7 @@ export const HeaderLogout = () => {
 			disabled={isPending}
 			className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
 		>
-			{isPending ? "Logging out..." : "Logout"}
+			{isPending ? 'Logging out...' : 'Logout'}
 		</Button>
 	);
 };
