@@ -12,6 +12,8 @@ import {
 	SheetTrigger,
 } from '@/shared/ui';
 import { useMediaQuery } from '@/shared/lib';
+import { useTransition } from 'react';
+import { logout } from '@/features/auth/actions/logout';
 const links = [
 	{ href: '/', label: 'Home' },
 	{ href: '/dashboard', label: 'Dashboard' },
@@ -19,8 +21,14 @@ const links = [
 	{ href: '/courses', label: 'Courses' },
 ];
 
-export const Header = () => {
+export interface HeaderProps {
+	isLoggedIn: boolean;
+}
+
+export const Header = (props: HeaderProps) => {
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+	const { isLoggedIn } = props;
 
 	return (
 		<header className="w-full bg-primary flex items-center justify-center">
@@ -46,22 +54,27 @@ export const Header = () => {
 						))}
 					</nav>
 				</div>
-				<nav className="hidden md:flex">
-					<div className="grid grid-cols-2 rounded-md overflow-hidden">
-						<Link
-							href="/signin"
-							className="peer text-center px-2 p-1 bg-foreground text-primary-foreground hover:bg-background hover:text-foreground transition-colors duration-300"
-						>
-							Sign in
-						</Link>
-						<Link
-							href="/signup"
-							className="peer text-center px-2 p-1 bg-background text-foreground peer-hover:bg-foreground peer-hover:text-primary-foreground transition-colors duration-300 hover:bg-foreground/70 hover:text-primary-foreground"
-						>
-							Sign up
-						</Link>
-					</div>
-				</nav>
+				{isLoggedIn ? (
+					<HeaderLogout />
+				) : (
+					<nav className="hidden md:flex">
+						<div className="grid grid-cols-2 rounded-md overflow-hidden gap-2">
+							<Button
+								variant={'default'}
+								className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
+							>
+								<Link href="/signin">Sign in</Link>
+							</Button>
+
+							<Button
+								variant={'default'}
+								className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
+							>
+								<Link href="/signin">Sign up</Link>
+							</Button>
+						</div>
+					</nav>
+				)}
 
 				{!isDesktop && (
 					<div className="md:hidden">
@@ -92,18 +105,24 @@ export const Header = () => {
 										</Link>
 									))}
 									<Separator />
-									<Link
-										href="/signin"
-										className="text-lg text-foreground/80 hover:text-foreground transition-colors"
-									>
-										Sign in
-									</Link>
-									<Link
-										href="/signup"
-										className="text-lg text-foreground/80 hover:text-foreground transition-colors"
-									>
-										Sign up
-									</Link>
+									{isLoggedIn ? (
+										<HeaderLogout />
+									) : (
+										<>
+											<Link
+												href="/signin"
+												className="text-lg text-foreground/80 hover:text-foreground transition-colors"
+											>
+												Sign in
+											</Link>
+											<Link
+												href="/signup"
+												className="text-lg text-foreground/80 hover:text-foreground transition-colors"
+											>
+												Sign up
+											</Link>
+										</>
+									)}
 								</nav>
 							</SheetContent>
 						</Sheet>
@@ -111,5 +130,20 @@ export const Header = () => {
 				)}
 			</div>
 		</header>
+	);
+};
+
+export const HeaderLogout = () => {
+	const [isPending, startLogout] = useTransition();
+
+	return (
+		<Button
+			onClick={() => startLogout(() => logout())}
+			variant="outline"
+			disabled={isPending}
+			className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
+		>
+			{isPending ? "Logging out..." : "Logout"}
+		</Button>
 	);
 };

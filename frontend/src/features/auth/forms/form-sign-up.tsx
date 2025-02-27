@@ -7,11 +7,11 @@ import {
 	Button,
 } from '@/shared/ui';
 import { useForm } from 'react-hook-form';
-import { formSignUpSchema } from '../../schemes/form-sing-up-schema';
+import { formSignUpSchema } from '../schemes/form-sing-up-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { signUpRequest } from '../../api/signup-api';
-import { useMutation } from '@tanstack/react-query';
+import { useRegistration } from '../actions/register';
+import { AppRoutes } from '@/shared/config';
 
 export const FormSignUp = () => {
 	const form = useForm<z.infer<typeof formSignUpSchema>>({
@@ -23,21 +23,14 @@ export const FormSignUp = () => {
 		},
 	});
 
-	const mutation = useMutation({
-		mutationFn: signUpRequest,
-		onSuccess: (data) => {
-			console.log('User created', data);
-		},
-		onError: (data) => {
-			console.log(data);
-		},
-	});
+	const { mutation, errorMessage } = useRegistration(AppRoutes.SignIn);
+
+	const errors = form.formState.errors;
 
 	const onSubmit = (values: z.infer<typeof formSignUpSchema>) => {
 		mutation.mutate(values);
 	};
 
-	const errors = form.formState.errors;
 	return (
 		<Form {...form}>
 			<form
@@ -54,7 +47,7 @@ export const FormSignUp = () => {
 									placeholder="Username..."
 									className="text-sm"
 									{...field}
-                                    required
+									required
 								/>
 							</FormControl>
 						</FormItem>
@@ -71,7 +64,7 @@ export const FormSignUp = () => {
 									className="text-sm"
 									{...field}
 									type="email"
-                                    required
+									required
 								/>
 							</FormControl>
 						</FormItem>
@@ -88,13 +81,13 @@ export const FormSignUp = () => {
 									className="text-sm"
 									{...field}
 									type="password"
-                                    required
+									required
 								/>
 							</FormControl>
 						</FormItem>
 					)}
 				/>
-				{Object.keys(errors).length > 0 && (
+				{(Object.keys(errors).length > 0 || errorMessage) && (
 					<div className="bg-destructive/70 text-destructive-foreground text-sm p-2 rounded-md">
 						<div>
 							{Object.values(errors).map((error, index) => (
@@ -103,9 +96,16 @@ export const FormSignUp = () => {
 								</span>
 							))}
 						</div>
+						{errorMessage && (
+							<div>
+								<span>{errorMessage}</span>
+							</div>
+						)}
 					</div>
 				)}
-				<Button type="submit">Continue to verify email</Button>
+				<Button type="submit" disabled={form.formState.isSubmitting}>
+					Continue to verify email
+				</Button>
 			</form>
 		</Form>
 	);

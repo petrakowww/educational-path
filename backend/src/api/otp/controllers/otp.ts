@@ -112,13 +112,18 @@ export default factories.createCoreController("api::otp.otp", ({ strapi }) => ({
         if (failedAttempts) {
             const firstAttemptTime =
                 failedAttempts.updatedAt || failedAttempts.createdAt;
-            if (isAfter(now, addMinutes(firstAttemptTime, 15))) {
+            if (
+                isAfter(
+                    now,
+                    addMinutes(firstAttemptTime, otpConfig.resetCounter)
+                )
+            ) {
                 await strapi.db.query("api::otp.failedAttempts").delete({
                     where: { id: failedAttempts.id },
                 });
-            } else if (failedAttempts.count >= 5) {
+            } else if (failedAttempts.count >= otpConfig.maxRepeats) {
                 throw new ValidationError(
-                    "Too many failed attempts. Try again after 15 minutes."
+                    `Too many failed attempts. Try again after ${otpConfig.resetCounter} minutes.`
                 );
             }
         }

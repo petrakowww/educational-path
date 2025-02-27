@@ -1,21 +1,19 @@
 'use client';
 
-import {
-	Button,
-	Separator,
-} from '@/shared/ui';
+import { Button, Separator } from '@/shared/ui';
 import { Header } from '@/widgets/ui';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVk, faGoogle, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { FormSignUp } from '@/features/auth';
-
-
-
+import { AppRoutes } from '@/shared/config';
+import { useSession } from '@/app/providers';
 export default function Page() {
+	const { session } = useSession();
+
 	return (
 		<div className="min-h-screen flex flex-col gap-14">
-			<Header />
+			<Header isLoggedIn={session.isLoggedIn} />
 			<main className="h-full flex-1 items-center flex flex-col">
 				<div className="max-w-7xl w-full px-4">
 					<div className="w-full text-center flex flex-col gap-4 mb-6">
@@ -78,10 +76,10 @@ export default function Page() {
 								variant={'outline'}
 								className="w-full"
 							>
-								<Link href={'/signin'}>
-									Already have an account?{' '}
+								<Link href={AppRoutes.SignIn}>
+									Already have an account?
 									<span className="text-blue-700 font-bold">
-										Login
+										Sign In
 									</span>
 								</Link>
 							</Button>
