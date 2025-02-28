@@ -1,34 +1,77 @@
 import { Request, Response } from 'express';
 
+import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
-import { Controller, HttpCode, HttpStatus, Req, Res } from '@nestjs/common';
+import { BadRequestException, Controller, Get, HttpCode, HttpStatus, Param, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { Body, Post } from '@nestjs/common';
+import { Recaptcha } from '@nestlab/google-recaptcha';
 
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
+import { AuthProviderGuard } from './guard/provider.guard';
+import { ProviderService } from './provider/provider.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
-    public constructor(private readonly authService: AuthService) {}
+    public constructor(private readonly authService: AuthService,
+        private readonly providerService: ProviderService,
+        private readonly configService: ConfigService
+    ) {}
 
+    @Recaptcha()
     @Post('register')
     @HttpCode(HttpStatus.OK)
     public async register(@Req() req: Request, @Body() dto: RegisterDto) {
         return this.authService.register(req, dto);
     }
 
+    @Recaptcha()
     @Post('login')
-	@HttpCode(HttpStatus.OK)
-	public async login(@Req() req: Request, @Body() dto: LoginDto) {
-		return this.authService.login(req, dto)
+    @HttpCode(HttpStatus.OK)
+    public async login(@Req() req: Request, @Body() dto: LoginDto) {
+        return this.authService.login(req, dto);
+    }
+
+    @UseGuards(AuthProviderGuard)
+	@Get('/oauth/callback/:provider')
+	public async callback(
+		@Req() req: Request,
+		@Res({ passthrough: true }) res: Response,
+		@Query('code') code: string,
+		@Param('provider') provider: string
+	) {
+		if (!code) {
+			throw new BadRequestException(
+				'Authorization code was not provided.'
+			)
+		}
+
+		await this.authService.extractProfileFromCode(req, provider, code)
+
+        const frontendRedirectPath = this.configService.getOrThrow<string>('FRONTEND_REDIRECT_URL');
+        const frontendUrl = this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
+		return res.redirect(
+			`${frontendUrl}${frontendRedirectPath}`
+		)
 	}
 
+    @UseGuards(AuthProviderGuard)
+    @Get('/oauth/connect/:provider')
+    public connectOAuth(@Param('provider') provider: string) {
+        const providerInstance = this.providerService.findByService(provider);
+
+        return {
+            url: providerInstance.getRedirectUrl()
+        }
+    }
+
+
     @Post('logout')
-	@HttpCode(HttpStatus.OK)
-	public async logout(
-		@Req() req: Request,
-		@Res({ passthrough: true }) res: Response
-	) {
-		return this.authService.logout(req, res)
-	}
+    @HttpCode(HttpStatus.OK)
+    public async logout(
+        @Req() req: Request,
+        @Res({ passthrough: true }) res: Response,
+    ) {
+        return this.authService.logout(req, res);
+    }
 }

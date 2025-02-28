@@ -51,6 +51,9 @@ export class UserService {
                 isVerified: props.isVerified,
                 method: props.method,
             },
+            include: {
+                accounts: true,
+            },
         });
 
         return user;

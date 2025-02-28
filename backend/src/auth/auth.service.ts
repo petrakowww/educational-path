@@ -1,11 +1,12 @@
 import { verify } from 'argon2';
 import { Request, Response } from 'express';
 
+import { PrismaService } from '@/prisma/prisma.service';
 import { UserService } from '@/user/user.service';
-import { ConfigService } from '@nestjs/config';
 
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { ProviderService } from './provider/provider.service';
 import {
     ConflictException,
     Injectable,
@@ -13,13 +14,17 @@ import {
     NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AuthMethod, User } from '@prisma/__generated__';
 
 @Injectable()
 export class AuthService {
     public constructor(
-        private readonly userService: UserService, 
-        private readonly configService: ConfigService,) {}
+        private readonly userService: UserService,
+        private readonly configService: ConfigService,
+        private readonly providerService: ProviderService,
+        private readonly prismaService: PrismaService,
+    ) {}
     public async register(req: Request, dto: RegisterDto) {
         const isExistsEmail = await this.userService.findByEmail(dto.email);
 
@@ -61,6 +66,60 @@ export class AuthService {
         return this.saveSession(req, user);
     }
 
+    public async extractProfileFromCode(
+        req: Request,
+        provider: string,
+        code: string,
+    ) {
+        const providerInstance = this.providerService.findByService(provider);
+
+        if (!providerInstance) {
+            throw new Error(`OAuth provider '${provider}' not found`);
+        }
+
+        const profile = await providerInstance.exchangeAccessCode(code);
+
+        const account = await this.prismaService.account.findFirst({
+            where: {
+                id: profile.id,
+                provider: profile.provider,
+            },
+        });
+
+        const user = account?.userId
+            ? await this.userService.findById(account.userId)
+            : null;
+
+        if (user) {
+            return this.saveSession(req, user);
+        }
+
+        const [newUser] = await this.prismaService.$transaction([
+            this.prismaService.user.create({
+                data: {
+                    email: profile.email,
+                    password: '',
+                    displayName: profile.name,
+                    method: profile.provider,
+                    isVerified: true,
+                    picture: profile.picture,
+                },
+            }),
+            this.prismaService.account.create({
+                data: {
+                    userId: profile.id,
+                    type: 'oauth',
+                    provider: profile.provider,
+                    accessToken: profile.accessToken,
+                    refreshToken: profile.refreshToken,
+                    expiresAt: profile.expiresAt,
+                },
+            }),
+        ]);
+
+        return this.saveSession(req, newUser);
+    }
+
     public async logout(req: Request, res: Response): Promise<void> {
         return new Promise((resolve, reject) => {
             req.session.destroy(err => {
@@ -72,9 +131,9 @@ export class AuthService {
                     );
                 }
                 res.clearCookie(
-					this.configService.getOrThrow<string>('SESSION_NAME')
-				)
-				resolve()
+                    this.configService.getOrThrow<string>('SESSION_NAME'),
+                );
+                resolve();
             });
         });
     }
