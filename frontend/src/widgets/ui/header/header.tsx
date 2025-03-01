@@ -13,8 +13,8 @@ import {
 } from '@/shared/ui';
 import { useMediaQuery } from '@/shared/lib';
 import { useTransition } from 'react';
-import { logout } from '@/features/auth/actions/logout';
 import { AppRoutes } from '@/shared/config';
+import { ThemeButton } from '../theme/theme-button';
 const links = [
 	{ href: '/', label: 'Home' },
 	{ href: '/dashboard', label: 'Dashboard' },
@@ -55,80 +55,85 @@ export const Header = (props: HeaderProps) => {
 						))}
 					</nav>
 				</div>
-				{isLoggedIn ? (
-					<HeaderLogout />
-				) : (
-					<nav className="hidden md:flex">
-						<div className="grid grid-cols-2 rounded-md overflow-hidden gap-2">
-							<Button
-								variant={'default'}
-								className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
-							>
-								<Link href={AppRoutes.SignIn}>Sign in</Link>
-							</Button>
-
-							<Button
-								variant={'default'}
-								className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
-							>
-								<Link href={AppRoutes.SignUp}>Sign up</Link>
-							</Button>
-						</div>
-					</nav>
-				)}
-
-				{!isDesktop && (
-					<div className="md:hidden">
-						<Sheet>
-							<SheetTrigger asChild>
+				<div className="flex gap-x-2">
+					<ThemeButton />
+					{isLoggedIn ? (
+						<HeaderLogout />
+					) : (
+						<nav className="hidden md:flex">
+							<div className="grid grid-cols-2 rounded-md overflow-hidden gap-2">
 								<Button
-									variant="ghost"
-									className="text-primary-foreground flex items-center w-8 h-8 justify-center [&_svg]:size-6 aspect-square"
+									variant={'default'}
+									className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
 								>
-									<MenuIcon />
+									<Link href={AppRoutes.SignIn}>Sign in</Link>
 								</Button>
-							</SheetTrigger>
-							<SheetContent
-								side="right"
-								className="flex flex-col gap-4 p-6 [&>button]:bg-primary [&>button]:p-1 [&>button]:text-primary-foreground [&>button]:opacity-100"
-							>
-								<SheetTitle>Navigation by Edu Path</SheetTitle>
-								<SheetDescription className="hidden" />
-								<Separator />
-								<nav className="flex flex-col gap-4">
-									{links.map((link) => (
-										<Link
-											key={link.href}
-											href={link.href}
-											className="text-lg text-foreground/80 hover:text-foreground transition-colors"
-										>
-											{link.label}
-										</Link>
-									))}
+
+								<Button
+									variant={'default'}
+									className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
+								>
+									<Link href={AppRoutes.SignUp}>Sign up</Link>
+								</Button>
+							</div>
+						</nav>
+					)}
+
+					{!isDesktop && (
+						<div className="md:hidden">
+							<Sheet>
+								<SheetTrigger asChild>
+									<Button
+										variant="ghost"
+										className="text-primary-foreground flex items-center w-8 h-8 justify-center [&_svg]:size-6 aspect-square"
+									>
+										<MenuIcon />
+									</Button>
+								</SheetTrigger>
+								<SheetContent
+									side="right"
+									className="flex flex-col gap-4 p-6 [&>button]:bg-primary [&>button]:p-1 [&>button]:text-primary-foreground [&>button]:opacity-100"
+								>
+									<SheetTitle>
+										Navigation by Edu Path
+									</SheetTitle>
+									<SheetDescription className="hidden" />
 									<Separator />
-									{isLoggedIn ? (
-										<HeaderLogout />
-									) : (
-										<>
+									<nav className="flex flex-col gap-4">
+										{links.map((link) => (
 											<Link
-												href={AppRoutes.SignIn}
+												key={link.href}
+												href={link.href}
 												className="text-lg text-foreground/80 hover:text-foreground transition-colors"
 											>
-												Sign in
+												{link.label}
 											</Link>
-											<Link
-												href={AppRoutes.SignUp}
-												className="text-lg text-foreground/80 hover:text-foreground transition-colors"
-											>
-												Sign up
-											</Link>
-										</>
-									)}
-								</nav>
-							</SheetContent>
-						</Sheet>
-					</div>
-				)}
+										))}
+										<Separator />
+										{isLoggedIn ? (
+											<HeaderLogout />
+										) : (
+											<>
+												<Link
+													href={AppRoutes.SignIn}
+													className="text-lg text-foreground/80 hover:text-foreground transition-colors"
+												>
+													Sign in
+												</Link>
+												<Link
+													href={AppRoutes.SignUp}
+													className="text-lg text-foreground/80 hover:text-foreground transition-colors"
+												>
+													Sign up
+												</Link>
+											</>
+										)}
+									</nav>
+								</SheetContent>
+							</Sheet>
+						</div>
+					)}
+				</div>
 			</div>
 		</header>
 	);
@@ -139,7 +144,6 @@ export const HeaderLogout = () => {
 
 	return (
 		<Button
-			onClick={() => startLogout(() => logout())}
 			variant="outline"
 			disabled={isPending}
 			className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"

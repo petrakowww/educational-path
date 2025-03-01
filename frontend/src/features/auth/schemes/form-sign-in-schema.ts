@@ -1,13 +1,18 @@
 import { z } from 'zod';
 
 export const formSignInSchema = z.object({
-	identifier: z
-		.string()
-		.min(1, { message: 'Username or Email is required.' })
-		.refine((value) => value.includes('@') || value.length >= 7, {
-			message: 'Must be a valid email or at least 7 characters username.',
-		}),
-	password: z.string().min(10, {
-		message: "Incorrect password, the password can't be that long.",
-	}),
-});
+	email: z
+	  .string()
+	  .email({message: 'Check the correctness of the mail'}),
+	password: z
+	  .string()
+	  .min(10, {
+		message: 'Password must be at least 10 characters long.',
+	  })
+	  .regex(/^(?=.*[A-Z])(?=.*\d).{10,}$/, {
+		message: 'Password must be at least 10 characters long, contain at least 1 uppercase letter, and 1 number.',
+	  }),
+	code: z.string().optional(),
+  });
+
+  export type TypeLoginSchema = z.infer<typeof formSignInSchema>

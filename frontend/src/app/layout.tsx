@@ -1,20 +1,20 @@
-import './globals.css';
+import '@/shared/styles/globals.css';
+
 import { StoreProvider, ThemeProviderApp } from '@/app/providers';
 import React from 'react';
 import { RootProvider } from './providers/root/root-provider';
 import { TanstackProvider } from './providers/tanstack/tanstack-provider';
-import { SessionProvider } from './providers/session/session-provider';
+import { ToastProvider } from './providers/toast/toast-provider';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<RootProvider>
-			<SessionProvider>
-				<StoreProvider>
-					<TanstackProvider>
-						<ThemeProviderApp>{children}</ThemeProviderApp>
-					</TanstackProvider>
-				</StoreProvider>
-			</SessionProvider>
+			<StoreProvider>
+				<TanstackProvider>
+					<ThemeProviderApp>{children}</ThemeProviderApp>
+				</TanstackProvider>
+			</StoreProvider>
+			<ToastProvider />
 		</RootProvider>
 	);
 }

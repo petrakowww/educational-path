@@ -32,7 +32,7 @@ export class AuthService {
         private readonly emailConfirmationService: EmailConfirmationService,
         private readonly twoFactorAuthService: TwoFactorAuthService
     ) {}
-    public async register(req: Request, dto: RegisterDto) {
+    public async register(dto: RegisterDto) {
         const isExistsEmail = await this.userService.findByEmail(dto.email);
 
         if (isExistsEmail) {

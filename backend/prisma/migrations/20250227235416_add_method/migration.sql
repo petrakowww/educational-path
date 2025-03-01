@@ -6,3 +6,6 @@
 */
 -- AlterTable
 ALTER TABLE "users" ADD COLUMN     "method" "AuthMethod" NOT NULL;
+
+
+

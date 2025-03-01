@@ -25,3 +25,5 @@ export * from './select/select';
 export * from './tooltip/tooltip';
 
 export * from './sheet/sheet';
+
+export * from './sonner/sonner';

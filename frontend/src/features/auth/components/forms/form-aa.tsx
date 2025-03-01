@@ -1,0 +1,73 @@
+import {
+	Form,
+	FormField,
+	FormItem,
+	FormControl,
+	Input,
+	Button,
+} from '@/shared/ui';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { formVerifySchema } from '../../schemes/form-verify-schema';
+
+
+export const FormVerify = () => {
+
+
+	const form = useForm<z.infer<typeof formVerifySchema>>({
+		resolver: zodResolver(formVerifySchema),
+		defaultValues: { code: '' },
+	});
+
+	const errors = form.formState.errors;
+
+	const onSubmit = (values: z.infer<typeof formVerifySchema>) => {
+
+	};
+
+	return (
+		<Form {...form}>
+			<form
+				onSubmit={form.handleSubmit(onSubmit)}
+				className="flex flex-col w-full gap-4"
+			>
+				<FormField
+					control={form.control}
+					name="code"
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<Input
+									placeholder="Enter confirmation code..."
+									className="text-sm"
+									{...field}
+									required
+								/>
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				{(Object.keys(errors).length > 0 || errorMessage) && (
+					<div className="bg-destructive/70 text-destructive-foreground text-sm p-2 rounded-md">
+						<div>
+							{Object.values(errors).map((error, index) => (
+								<span key={index}>
+									{error.message as string}
+								</span>
+							))}
+						</div>
+						{errorMessage && (
+							<div>
+								<span>{errorMessage}</span>
+							</div>
+						)}
+					</div>
+				)}
+				<Button type="submit" disabled={mutation.isPending}>
+					Verify
+				</Button>
+			</form>
+		</Form>
+	);
+};
