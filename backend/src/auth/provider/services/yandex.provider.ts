@@ -20,6 +20,7 @@ export class YandexProvider extends BaseOAuthService {
 
     public extractUserInfo(data: YandexProfile): TypeUserInfo {
         return super.extractUserInfo({
+            ...data,
             email: data.emails[0],
             name: data.display_name,
             picture: data.default_avatar_id

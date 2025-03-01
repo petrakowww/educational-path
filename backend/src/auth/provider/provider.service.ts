@@ -16,6 +16,9 @@ export class ProviderService implements OnModuleInit {
     }
 
     public findByService(service: string): BaseOAuthService | null {
-        return this.options.services.find(s => s.name === service) ?? null;
+        return (
+            this.options.services.find(s => s.name === service.toUpperCase()) ??
+            null
+        );
     }
 }

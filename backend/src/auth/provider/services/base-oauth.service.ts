@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import { PickTypeUserInfo } from '@/auth/provider/services/types/pick-user-info.type';
-
 import { BaseProviderOptionsProps } from './types/base-provider.options.type';
 import { TokenResponse } from './types/token.options.type';
 import { TypeUserInfo } from './types/user-info.type';
@@ -14,10 +12,9 @@ export class BaseOAuthService {
 
     public constructor(private readonly options: BaseProviderOptionsProps) {}
 
-    protected extractUserInfo<T extends Partial<TypeUserInfo>>(
-        data: PickTypeUserInfo<T>,
-    ): TypeUserInfo {
+    protected extractUserInfo(data: Partial<TypeUserInfo>): TypeUserInfo {
         return {
+            ...data,
             id: data.id ?? '',
             email: data.email ?? '',
             name: data.name ?? '',
@@ -33,7 +30,7 @@ export class BaseOAuthService {
         const query = new URLSearchParams({
             response_type: 'code',
             client_id: this.options.clientId,
-            redirect_uri: this.getRedirectUrl(), // Было redirectUrl (ошибка)
+            redirect_uri: this.getRedirectUrl(),
             scope: (this.options.scopes ?? []).join(' '),
             access_type: 'offline',
             prompt: 'select_account',
@@ -58,6 +55,7 @@ export class BaseOAuthService {
                 await axios.post(accessUrl, tokenQuery.toString(), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
+                        Accept: 'application/json',
                     },
                 });
 
@@ -76,13 +74,15 @@ export class BaseOAuthService {
                 },
             );
 
-            return this.extractUserInfo({
-                ...userInfo,
+            const userData = this.extractUserInfo(userInfo);
+
+            return {
+                ...userData,
                 accessToken: tokenResponse.access_token,
                 refreshToken: tokenResponse.refresh_token ?? null,
                 expiresAt: this.calculateExpiry(tokenResponse.expires_in),
                 provider: this.options.name,
-            });
+            };
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 throw new BadRequestException(

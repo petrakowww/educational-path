@@ -20,6 +20,7 @@ export class GitHubProvider extends BaseOAuthService {
 
     public extractUserInfo(data: GitHubProfile): TypeUserInfo {
         return super.extractUserInfo({
+            ...data,
             email: data.email,
             name: data.name ?? data.login,
             picture: data.avatar_url,

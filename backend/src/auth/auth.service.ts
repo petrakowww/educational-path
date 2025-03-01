@@ -6,9 +6,12 @@ import { UserService } from '@/user/user.service';
 
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
 import { ProviderService } from './provider/provider.service';
 import {
     ConflictException,
+    forwardRef,
+    Inject,
     Injectable,
     InternalServerErrorException,
     NotFoundException,
@@ -24,6 +27,8 @@ export class AuthService {
         private readonly configService: ConfigService,
         private readonly providerService: ProviderService,
         private readonly prismaService: PrismaService,
+        @Inject(forwardRef(() => EmailConfirmationService))
+        private readonly emailConfirmationService: EmailConfirmationService,
     ) {}
     public async register(req: Request, dto: RegisterDto) {
         const isExistsEmail = await this.userService.findByEmail(dto.email);
@@ -43,7 +48,14 @@ export class AuthService {
             isVerified: false,
         });
 
-        return this.saveSession(req, newUser);
+        await this.emailConfirmationService.sendVerificationToken(
+            newUser.email,
+        );
+
+        return {
+            message:
+                'You have successfully registered. Please confirm your email address. The message has been sent to your email address.',
+        };
     }
 
     public async login(req: Request, dto: LoginDto) {
@@ -63,6 +75,15 @@ export class AuthService {
             );
         }
 
+        if (!user.isVerified) {
+            await this.emailConfirmationService.sendVerificationToken(
+                user.email,
+            );
+            throw new UnauthorizedException(
+                'Your email has not been verified. Please check your email and confirm the address.',
+            );
+        }
+
         return this.saveSession(req, user);
     }
 
@@ -74,50 +95,49 @@ export class AuthService {
         const providerInstance = this.providerService.findByService(provider);
 
         if (!providerInstance) {
-            throw new Error(`OAuth provider '${provider}' not found`);
+            throw new Error(`OAuth provider '${provider}' not found.`);
         }
 
         const profile = await providerInstance.exchangeAccessCode(code);
 
-        const account = await this.prismaService.account.findFirst({
-            where: {
-                id: profile.id,
-                provider: profile.provider,
-            },
-        });
+        let user = await this.userService.findByEmail(profile.email);
 
-        const user = account?.userId
-            ? await this.userService.findById(account.userId)
-            : null;
+        let account = null;
 
         if (user) {
+            account = await this.prismaService.account.findFirst({
+                where: {
+                    userId: user.id,
+                    provider: profile.provider,
+                },
+            });
+
             return this.saveSession(req, user);
         }
 
-        const [newUser] = await this.prismaService.$transaction([
-            this.prismaService.user.create({
+        user = await this.userService.create({
+            email: profile.email,
+            password: '',
+            displayName: profile.name,
+            method: profile.provider,
+            isVerified: true,
+            picture: profile.picture,
+        });
+
+        if (!account) {
+            await this.prismaService.account.create({
                 data: {
-                    email: profile.email,
-                    password: '',
-                    displayName: profile.name,
-                    method: profile.provider,
-                    isVerified: true,
-                    picture: profile.picture,
-                },
-            }),
-            this.prismaService.account.create({
-                data: {
-                    userId: profile.id,
+                    userId: user.id,
                     type: 'oauth',
                     provider: profile.provider,
                     accessToken: profile.accessToken,
                     refreshToken: profile.refreshToken,
                     expiresAt: profile.expiresAt,
                 },
-            }),
-        ]);
+            });
+        }
 
-        return this.saveSession(req, newUser);
+        return this.saveSession(req, user);
     }
 
     public async logout(req: Request, res: Response): Promise<void> {

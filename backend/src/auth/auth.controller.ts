@@ -2,20 +2,32 @@ import { Request, Response } from 'express';
 
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
-import { BadRequestException, Controller, Get, HttpCode, HttpStatus, Param, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { AuthProviderGuard } from './guard/provider.guard';
+import { ProviderService } from './provider/provider.service';
+import {
+    BadRequestException,
+    Controller,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    Query,
+    Req,
+    Res,
+    UseGuards,
+} from '@nestjs/common';
 import { Body, Post } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Recaptcha } from '@nestlab/google-recaptcha';
 
 import { AuthService } from './auth.service';
-import { AuthProviderGuard } from './guard/provider.guard';
-import { ProviderService } from './provider/provider.service';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
-    public constructor(private readonly authService: AuthService,
+    public constructor(
+        private readonly authService: AuthService,
         private readonly providerService: ProviderService,
-        private readonly configService: ConfigService
+        private readonly configService: ConfigService,
     ) {}
 
     @Recaptcha()
@@ -33,27 +45,28 @@ export class AuthController {
     }
 
     @UseGuards(AuthProviderGuard)
-	@Get('/oauth/callback/:provider')
-	public async callback(
-		@Req() req: Request,
-		@Res({ passthrough: true }) res: Response,
-		@Query('code') code: string,
-		@Param('provider') provider: string
-	) {
-		if (!code) {
-			throw new BadRequestException(
-				'Authorization code was not provided.'
-			)
-		}
+    @Get('/oauth/callback/:provider')
+    public async callback(
+        @Req() req: Request,
+        @Res({ passthrough: true }) res: Response,
+        @Query('code') code: string,
+        @Param('provider') provider: string,
+    ) {
+        if (!code) {
+            throw new BadRequestException(
+                'Authorization code was not provided.',
+            );
+        }
 
-		await this.authService.extractProfileFromCode(req, provider, code)
+        await this.authService.extractProfileFromCode(req, provider, code);
 
-        const frontendRedirectPath = this.configService.getOrThrow<string>('FRONTEND_REDIRECT_URL');
-        const frontendUrl = this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
-		return res.redirect(
-			`${frontendUrl}${frontendRedirectPath}`
-		)
-	}
+        const frontendRedirectPath = this.configService.getOrThrow<string>(
+            'FRONTEND_REDIRECT_URL',
+        );
+        const frontendUrl =
+            this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
+        return res.redirect(`${frontendUrl}${frontendRedirectPath}`);
+    }
 
     @UseGuards(AuthProviderGuard)
     @Get('/oauth/connect/:provider')
@@ -61,10 +74,9 @@ export class AuthController {
         const providerInstance = this.providerService.findByService(provider);
 
         return {
-            url: providerInstance.getRedirectUrl()
-        }
+            url: providerInstance.loginRequestUrl(),
+        };
     }
-
 
     @Post('logout')
     @HttpCode(HttpStatus.OK)
