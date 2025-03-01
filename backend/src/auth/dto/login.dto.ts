@@ -1,6 +1,7 @@
 import {
     IsEmail,
     IsNotEmpty,
+    IsOptional,
     IsString,
     Matches,
     MinLength,
@@ -22,4 +23,8 @@ export class LoginDto {
             'Password must be at least 10 characters long, contain at least 1 uppercase letter, and 1 number.',
     })
     password: string;
+
+    @IsOptional()
+	@IsString()
+	code: string
 }

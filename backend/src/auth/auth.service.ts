@@ -19,6 +19,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthMethod, User } from '@prisma/__generated__';
+import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
 
 @Injectable()
 export class AuthService {
@@ -29,6 +30,7 @@ export class AuthService {
         private readonly prismaService: PrismaService,
         @Inject(forwardRef(() => EmailConfirmationService))
         private readonly emailConfirmationService: EmailConfirmationService,
+        private readonly twoFactorAuthService: TwoFactorAuthService
     ) {}
     public async register(req: Request, dto: RegisterDto) {
         const isExistsEmail = await this.userService.findByEmail(dto.email);
@@ -83,6 +85,22 @@ export class AuthService {
                 'Your email has not been verified. Please check your email and confirm the address.',
             );
         }
+
+        if (user.isTwoFactorEnabled) {
+			if (!dto.code) {
+				await this.twoFactorAuthService.sendTwoFactorToken(user.email)
+
+				return {
+					message:
+						'Check your email. A two-factor authentication code is required.'
+				}
+			}
+
+			await this.twoFactorAuthService.validateTwoFactorToken(
+				user.email,
+				dto.code
+			)
+		}
 
         return this.saveSession(req, user);
     }

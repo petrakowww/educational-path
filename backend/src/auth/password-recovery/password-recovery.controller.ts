@@ -1,9 +1,16 @@
-import { Body, Controller, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import { NewPasswordDto } from './dto/new-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import {
+    Body,
+    Controller,
+    HttpCode,
+    HttpStatus,
+    Param,
+    Post,
+} from '@nestjs/common';
+import { Recaptcha } from '@nestlab/google-recaptcha';
 
 import { PasswordRecoveryService } from './password-recovery.service';
-import { Recaptcha } from '@nestlab/google-recaptcha';
-import { ResetPasswordDto } from './dto/reset-password.dto';
-import { NewPasswordDto } from './dto/new-password.dto';
 
 @Controller('auth/password-recovery')
 export class PasswordRecoveryController {
@@ -12,19 +19,19 @@ export class PasswordRecoveryController {
     ) {}
 
     @Recaptcha()
-	@Post('reset')
-	@HttpCode(HttpStatus.OK)
-	public async resetPassword(@Body() dto: ResetPasswordDto) {
-		return this.passwordRecoveryService.resetPassword(dto)
-	}
+    @Post('reset')
+    @HttpCode(HttpStatus.OK)
+    public async resetPassword(@Body() dto: ResetPasswordDto) {
+        return this.passwordRecoveryService.resetPassword(dto);
+    }
 
-	@Recaptcha()
-	@Post('new/:token')
-	@HttpCode(HttpStatus.OK)
-	public async newPassword(
-		@Body() dto: NewPasswordDto,
-		@Param('token') token: string
-	) {
-		return this.passwordRecoveryService.newPassword(dto, token)
-	}
+    @Recaptcha()
+    @Post('new/:token')
+    @HttpCode(HttpStatus.OK)
+    public async newPassword(
+        @Body() dto: NewPasswordDto,
+        @Param('token') token: string,
+    ) {
+        return this.passwordRecoveryService.newPassword(dto, token);
+    }
 }

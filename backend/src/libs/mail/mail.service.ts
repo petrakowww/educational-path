@@ -2,6 +2,7 @@ import { SentMessageInfo } from 'nodemailer';
 
 import { ConfirmationTemplate } from './templates/confirmation.template';
 import { ResetPasswordTemplate } from './templates/reset-password.template';
+import { TwoFactorAuthTemplate } from './templates/two-factor-auth.template';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -32,6 +33,15 @@ export class MailService {
         const html = await render(ResetPasswordTemplate({ domain, token }));
 
         return this.sendMail(email, 'Password Reset', html);
+    }
+
+    public async sendTwoFactorTokenEmail(
+        email: string,
+        token: string,
+    ): Promise<SentMessageInfo> {
+        const html = await render(TwoFactorAuthTemplate({ token }));
+
+        return this.sendMail(email, 'Подтверждение вашей личности', html);
     }
 
     private sendMail(email: string, subject: string, html: string) {
