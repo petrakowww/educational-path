@@ -1,14 +1,16 @@
-import * as React from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 
 export function useComponentDimensions(
 	ref: React.RefObject<HTMLElement | null>
 ) {
-	const [dimensions, setDimensions] = React.useState({
+	const [dimensions, setDimensions] = useState({
 		width: 0,
 		height: 0,
 	});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		function updateDimensions() {
 			if (ref?.current) {
 				setDimensions({

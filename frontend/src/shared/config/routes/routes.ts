@@ -5,7 +5,8 @@ export enum AppRoutes {
 	View = '/view',
 	SignUp = '/auth/signup',
 	SignIn = '/auth/signin',
-	ForgotPassword = '/auth/forgot-password',
+	NewPassword = '/auth/new-password',
+	ResetPassword='/auth/reset-password',
 	VerifyAccountEmail = '/auth/new-verification',
 }
 

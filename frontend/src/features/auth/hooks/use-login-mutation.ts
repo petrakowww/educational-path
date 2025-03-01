@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { authService } from '../services/auth.services';
+import { authService } from '../services/auth.service';
 import { toastMessageHandler } from '@/shared/lib/utils/toast-message.handler';
 import { toast } from 'sonner';
 import { TypeLoginSchema } from '../schemes/form-sign-in-schema';
@@ -19,12 +19,9 @@ export const useLoginMutation = () => {
 			recaptcha: string;
 		}) => authService.login(values, recaptcha),
 		onSuccess() {
-			toast.success(
-				`You have successfully logged in your account`,
-				{
-					description: 'Have a nice time :)',
-				}
-			);
+			toast.success(`You have successfully logged in your account`, {
+				description: 'Have a nice time :)',
+			});
 			router.push(AppRoutes.Dashboard);
 		},
 		onError(err) {

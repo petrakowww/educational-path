@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { authService } from '../services/auth.services';
+import { authService } from '../services/auth.service';
 import { TypeRegisterSchema } from '../schemes/form-sing-up-schema';
 import { toastMessageHandler } from '@/shared/lib/utils/toast-message.handler';
 import { toast } from 'sonner';

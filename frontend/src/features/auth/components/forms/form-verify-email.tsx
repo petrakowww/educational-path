@@ -1,3 +1,5 @@
+'use client';
+
 import { useVerificationMutation } from '../../hooks/use-verification-mutation';
 import { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
@@ -5,22 +7,18 @@ import { Button, Card, CardContent } from '@/shared/ui';
 import { useRouter } from 'next/navigation';
 import { AppRoutes } from '@/shared/config';
 
-interface FormVerifyEmailProps {
-	token: string;
-}
-
-export const FormVerifyEmail = ({ token }: FormVerifyEmailProps) => {
+export const FormVerifyEmail = () => {
 	const { verification } = useVerificationMutation();
 	const router = useRouter();
 	const [isVerifying, setIsVerifying] = useState(true);
 	const [success, setSuccess] = useState(false);
 
 	useEffect(() => {
-		verification(token)
+		verification()
 			.then(() => setSuccess(true))
 			.catch(() => setSuccess(false))
 			.finally(() => setIsVerifying(false));
-	}, [token, verification]);
+	}, [verification]);
 
 	return (
 		<Card className="w-full max-w-md mx-auto p-6 text-center">

@@ -1,13 +1,13 @@
 export enum ApiRoutesAuth {
-    register='auth/register',
-    login='auth/login',
-    logout='auth/logout',
-    providerConnect='auth/oauth/connect/',
-    emailConfirmation='auth/email-confirmation/'
+	register = 'auth/register',
+	login = 'auth/login',
+	logout = 'auth/logout',
+	providerConnect = 'auth/oauth/connect/',
+	emailConfirmation = 'auth/email-confirmation/',
+	passwordNew = 'auth/password-recovery/new/',
+	passwordReset = 'auth/password-recovery/reset',
 }
 
 export const apiRoutes = {
-    auth: ApiRoutesAuth
-}
-
-
+	auth: ApiRoutesAuth,
+};

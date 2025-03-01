@@ -8,7 +8,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { ProviderServiceType } from '../../types/service.oauth.type';
-import { authService } from '../../services/auth.services';
+import { authService } from '../../services/auth.service';
 
 export const AuthSocial = () => {
 	const router = useRouter();

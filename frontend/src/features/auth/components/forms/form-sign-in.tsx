@@ -1,3 +1,5 @@
+'use client';
+
 import {
 	Form,
 	FormField,
@@ -93,7 +95,7 @@ export const FormSignIn = () => {
 					className="justify-start px-0 font-normal py-1 w-fit"
 					asChild
 				>
-					<Link href={AppRoutes.ForgotPassword}>
+					<Link href={AppRoutes.ResetPassword}>
 						Reset your password?
 					</Link>
 				</Button>
