@@ -16,6 +16,8 @@ import { TokenType } from '@prisma/__generated__';
 
 @Injectable()
 export class PasswordRecoveryService {
+    private readonly TOKEN_EXPIRATION_MS = 3600 * 1000; // 1 час
+
     public constructor(
         private readonly prismaService: PrismaService,
         private readonly userService: UserService,
@@ -46,7 +48,7 @@ export class PasswordRecoveryService {
     public async newPassword(dto: NewPasswordDto, token: string) {
         const existingToken = await this.prismaService.token.findFirst({
             where: {
-                token,
+                token: token,
                 type: TokenType.PASSWORD_RESET,
             },
         });
@@ -96,23 +98,13 @@ export class PasswordRecoveryService {
 
     private async generatePasswordResetToken(email: string) {
         const token = uuidv4();
-        const expiresIn = new Date(new Date().getTime() + 3600 * 1000);
+        const expiresIn = new Date(
+            new Date().getTime() + this.TOKEN_EXPIRATION_MS,
+        );
 
-        const existingToken = await this.prismaService.token.findFirst({
-            where: {
-                email,
-                type: TokenType.PASSWORD_RESET,
-            },
+        await this.prismaService.token.deleteMany({
+            where: { email, type: TokenType.PASSWORD_RESET },
         });
-
-        if (existingToken) {
-            await this.prismaService.token.delete({
-                where: {
-                    id: existingToken.id,
-                    type: TokenType.PASSWORD_RESET,
-                },
-            });
-        }
 
         const passwordResetToken = await this.prismaService.token.create({
             data: {

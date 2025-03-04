@@ -5,9 +5,15 @@ import { toast } from 'sonner';
 import { TypeLoginSchema } from '../schemes/form-sign-in-schema';
 import { useRouter } from 'next/navigation';
 import { AppRoutes } from '@/shared/config';
+import { OTPResponseProps } from '../types/response.type';
+import { UserProps } from '../types/user.type';
 
-export const useLoginMutation = () => {
+export const useLoginMutation = (callback: (value: boolean) => void) => {
 	const router = useRouter();
+
+	const otpHandler = (value: boolean) => {
+		callback(value);
+	};
 
 	const { mutate: login, isPending: isLoadingLogin } = useMutation({
 		mutationKey: ['login user'],
@@ -18,11 +24,16 @@ export const useLoginMutation = () => {
 			values: TypeLoginSchema;
 			recaptcha: string;
 		}) => authService.login(values, recaptcha),
-		onSuccess() {
-			toast.success(`You have successfully logged in your account`, {
-				description: 'Have a nice time :)',
-			});
-			router.push(AppRoutes.Dashboard);
+		onSuccess(data: UserProps | OTPResponseProps) {
+			if ('message' in data && 'otpResponse' in data) {
+				toastMessageHandler(data);
+				otpHandler(data.otpResponse);
+			} else {
+				toast.success(`You have successfully logged in your account`, {
+					description: 'Have a nice time :)',
+				});
+				router.push(AppRoutes.Dashboard);
+			}
 		},
 		onError(err) {
 			toastMessageHandler(err);

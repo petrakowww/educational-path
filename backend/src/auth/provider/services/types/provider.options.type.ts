@@ -3,3 +3,4 @@ export type TypeProviderOptions = {
     clientId: string;
     clientSecret: string;
 };
+

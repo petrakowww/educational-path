@@ -23,16 +23,16 @@ export class AxiosClient {
 		this.axiosInstance = axios.create({
 			baseURL: init.baseUrl,
 			headers: init.headers,
-			withCredentials: true, 
+			withCredentials: true,
 		});
 	}
 
 	private handleError(error: AxiosError) {
 		if (error.response) {
 			const data = error.response.data as { message?: string };
-			throw new Error(data?.message || error.response.statusText);
+			return data?.message || error.response.statusText;
 		}
-		throw error;
+		return 'Unknown error occurred';
 	}
 
 	public async request<T>(
@@ -48,8 +48,8 @@ export class AxiosClient {
 			});
 			return data;
 		} catch (error) {
-			this.handleError(error as AxiosError);
-			throw error;
+			console.log(error);
+			throw new Error(this.handleError(error as AxiosError));
 		}
 	}
 

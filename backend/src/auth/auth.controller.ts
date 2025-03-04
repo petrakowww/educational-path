@@ -58,14 +58,14 @@ export class AuthController {
             );
         }
 
-        await this.authService.extractProfileFromCode(req, provider, code);
-
-        const frontendRedirectPath = this.configService.getOrThrow<string>(
-            'FRONTEND_REDIRECT_URL',
+        const redirectUrl = await this.authService.handleOAuthResult(
+            req,
+            res,
+            provider,
+            code,
         );
-        const frontendUrl =
-            this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
-        return res.redirect(`${frontendUrl}${frontendRedirectPath}`);
+
+        return res.redirect(redirectUrl);
     }
 
     @UseGuards(AuthProviderGuard)

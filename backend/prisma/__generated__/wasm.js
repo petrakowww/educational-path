@@ -121,7 +121,7 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
-  displayName: 'displayName',
+  name: 'name',
   picture: 'picture',
   role: 'role',
   isVerified: 'isVerified',
@@ -133,6 +133,7 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
+  accountId: 'accountId',
   type: 'type',
   provider: 'provider',
   refreshToken: 'refreshToken',
@@ -148,7 +149,8 @@ exports.Prisma.TokenScalarFieldEnum = {
   email: 'email',
   token: 'token',
   type: 'type',
-  expiresIn: 'expiresIn'
+  expiresIn: 'expiresIn',
+  oauthToken: 'oauthToken'
 };
 
 exports.Prisma.SortOrder = {

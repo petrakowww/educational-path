@@ -17,10 +17,10 @@ datasource db {
 model User {
   id String @id @default(uuid())
 
-  email    String @unique
+  email    String @unique @db.Citext
   password String
 
-  displayName String
+  name String
   picture     String?
 
   role UserRole @default(REGULAR)
@@ -41,6 +41,8 @@ model User {
 model Account {
   id String @id @default(uuid())
 
+  accountId String @map("unique_id")
+
   type     String
   provider String
 
@@ -54,6 +56,7 @@ model Account {
   user   User   @relation(fields: [userId], references: [id])
   userId String @map("user_id")
 
+  @@unique([accountId, provider])
   @@map("accounts")
 }
 
@@ -61,10 +64,13 @@ model Token {
   id String @id @default(uuid())
 
   email     String
-  token     String    @unique
+  token     String
   type      TokenType
   expiresIn DateTime  @map("expires_in")
 
+  oauthToken String? @unique @map("oauth_token")
+
+  @@unique([token, type])
   @@map("tokens")
 }
 

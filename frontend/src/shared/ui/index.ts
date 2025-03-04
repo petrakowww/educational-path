@@ -27,3 +27,5 @@ export * from './tooltip/tooltip';
 export * from './sheet/sheet';
 
 export * from './sonner/sonner';
+
+export * from './otp/input-otp';

@@ -24,6 +24,7 @@ export class GitHubProvider extends BaseOAuthService {
             email: data.email,
             name: data.name ?? data.login,
             picture: data.avatar_url,
+            accountId: data.id,
         });
     }
 }

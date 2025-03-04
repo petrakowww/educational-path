@@ -65,6 +65,7 @@ export const Header = (props: HeaderProps) => {
 								<Button
 									variant={'default'}
 									className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
+									asChild
 								>
 									<Link href={AppRoutes.SignIn}>Sign in</Link>
 								</Button>
@@ -72,6 +73,7 @@ export const Header = (props: HeaderProps) => {
 								<Button
 									variant={'default'}
 									className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
+									asChild
 								>
 									<Link href={AppRoutes.SignUp}>Sign up</Link>
 								</Button>

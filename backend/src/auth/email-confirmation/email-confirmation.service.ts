@@ -18,6 +18,8 @@ import { TokenType } from '@prisma/__generated__';
 
 @Injectable()
 export class EmailConfirmationService {
+    private readonly TOKEN_EXPIRATION_MS = 3600 * 1000; // 1 час
+
     public constructor(
         private readonly prismaService: PrismaService,
         private readonly mailService: MailService,
@@ -27,7 +29,7 @@ export class EmailConfirmationService {
     ) {}
 
     public async newVerification(req: Request, dto: ConfirmationDto) {
-        const existingToken = await this.prismaService.token.findUnique({
+        const existingToken = await this.prismaService.token.findFirst({
             where: {
                 token: dto.token,
                 type: TokenType.VERIFICATION,
@@ -70,7 +72,6 @@ export class EmailConfirmationService {
         await this.prismaService.token.delete({
             where: {
                 id: existingToken.id,
-                type: TokenType.VERIFICATION,
             },
         });
 
@@ -91,23 +92,13 @@ export class EmailConfirmationService {
     public async generateVerificationToken(email: string) {
         const token = uuidv4();
 
-        const expiresIn = new Date(new Date().getTime() + 3600 * 1000);
+        const expiresIn = new Date(
+            new Date().getTime() + this.TOKEN_EXPIRATION_MS,
+        );
 
-        const existingToken = await this.prismaService.token.findFirst({
-            where: {
-                email,
-                type: TokenType.VERIFICATION,
-            },
+        await this.prismaService.token.deleteMany({
+            where: { email, type: TokenType.VERIFICATION },
         });
-
-        if (existingToken) {
-            await this.prismaService.token.delete({
-                where: {
-                    id: existingToken.id,
-                    type: TokenType.VERIFICATION,
-                },
-            });
-        }
 
         const verificationToken = await this.prismaService.token.create({
             data: {

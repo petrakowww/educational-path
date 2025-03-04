@@ -2,7 +2,7 @@ import { api } from '@/shared/api';
 import { TypeLoginSchema } from '../schemes/form-sign-in-schema';
 import { TypeRegisterSchema } from '../schemes/form-sing-up-schema';
 import { UserProps } from '../types/user.type';
-import { ResponseProps } from '../types/response.type';
+import { OTPResponseProps, ResponseProps } from '../types/response.type';
 import { ProviderServiceType } from '../types/service.oauth.type';
 import { apiRoutes } from '@/shared/config';
 
@@ -23,7 +23,7 @@ export class AuthService {
 	public async login(
 		body: TypeLoginSchema,
 		recaptcha?: string
-	) {
+	): Promise<UserProps | OTPResponseProps> {
 		const headers = recaptcha ? { recaptcha } : undefined;
 
 		const response = await api.post<UserProps>(apiRoutes.auth.login, body, {

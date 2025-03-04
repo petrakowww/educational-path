@@ -4,10 +4,13 @@ import { Request, Response } from 'express';
 import { PrismaService } from '@/prisma/prisma.service';
 import { UserService } from '@/user/user.service';
 
+import { AccountService } from './account/account.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
 import { ProviderService } from './provider/provider.service';
+import { OAuthLoginResult } from './provider/services/types/user-info.type';
+import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
 import {
     ConflictException,
     forwardRef,
@@ -19,30 +22,31 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthMethod, User } from '@prisma/__generated__';
-import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
 
 @Injectable()
 export class AuthService {
     public constructor(
         private readonly userService: UserService,
+        private readonly accountService: AccountService,
         private readonly configService: ConfigService,
         private readonly providerService: ProviderService,
         private readonly prismaService: PrismaService,
         @Inject(forwardRef(() => EmailConfirmationService))
         private readonly emailConfirmationService: EmailConfirmationService,
-        private readonly twoFactorAuthService: TwoFactorAuthService
+        @Inject(forwardRef(() => TwoFactorAuthService))
+        private readonly twoFactorAuthService: TwoFactorAuthService,
     ) {}
     public async register(dto: RegisterDto) {
-        const isExistsEmail = await this.userService.findByEmail(dto.email);
+        const existingEmail = await this.userService.findByEmail(dto.email);
 
-        if (isExistsEmail) {
+        if (existingEmail) {
             throw new ConflictException(
-                'Registration failed. The user with this email already exists, please use another email.',
+                'Registration failed. A user with this email already exists, please use another email.',
             );
         }
 
         const newUser = await this.userService.create({
-            displayName: dto.name,
+            name: dto.name,
             email: dto.email,
             password: dto.password,
             picture: '',
@@ -87,20 +91,21 @@ export class AuthService {
         }
 
         if (user.isTwoFactorEnabled) {
-			if (!dto.code) {
-				await this.twoFactorAuthService.sendTwoFactorToken(user.email)
+            if (!dto.code) {
+                await this.twoFactorAuthService.sendTwoFactorToken(user.email);
 
-				return {
-					message:
-						'Check your email. A two-factor authentication code is required.'
-				}
-			}
+                return {
+                    message:
+                        'Check your email. A two-factor authentication code is required.',
+                    otpResponse: true,
+                };
+            }
 
-			await this.twoFactorAuthService.validateTwoFactorToken(
-				user.email,
-				dto.code
-			)
-		}
+            await this.twoFactorAuthService.validateTwoFactorToken(
+                user.email,
+                dto.code,
+            );
+        }
 
         return this.saveSession(req, user);
     }
@@ -109,7 +114,7 @@ export class AuthService {
         req: Request,
         provider: string,
         code: string,
-    ) {
+    ): Promise<OAuthLoginResult> {
         const providerInstance = this.providerService.findByService(provider);
 
         if (!providerInstance) {
@@ -117,45 +122,84 @@ export class AuthService {
         }
 
         const profile = await providerInstance.exchangeAccessCode(code);
+        const account = await this.accountService.findOAuthAccount(
+            profile.accountId,
+            profile.provider,
+        );
 
-        let user = await this.userService.findByEmail(profile.email);
+        let user: User;
 
-        let account = null;
+        if (account) {
+            user = await this.userService.findById(account.userId);
 
-        if (user) {
-            account = await this.prismaService.account.findFirst({
-                where: {
-                    userId: user.id,
-                    provider: profile.provider,
-                },
-            });
+            if (!user) {
+                throw new NotFoundException(
+                    'The user was not found for this account.',
+                );
+            }
+            await this.accountService.updateOAuthAccountTokens(profile);
+        } else {
+            if (profile.email) {
+                user = await this.userService.findByEmail(profile.email);
+            }
 
-            return this.saveSession(req, user);
+            if (!user) {
+                user = await this.userService.create({
+                    email: profile.email,
+                    password: '',
+                    name: profile.name,
+                    method: profile.provider,
+                    isVerified: true,
+                    picture: profile.picture,
+                });
+            }
+
+            await this.accountService.createOAuthAccount(user.id, profile);
         }
 
-        user = await this.userService.create({
-            email: profile.email,
-            password: '',
-            displayName: profile.name,
-            method: profile.provider,
-            isVerified: true,
-            picture: profile.picture,
-        });
-
-        if (!account) {
-            await this.prismaService.account.create({
-                data: {
-                    userId: user.id,
-                    type: 'oauth',
-                    provider: profile.provider,
-                    accessToken: profile.accessToken,
-                    refreshToken: profile.refreshToken,
-                    expiresAt: profile.expiresAt,
-                },
-            });
+        if (user.isTwoFactorEnabled) {
+            const oauthToken =
+                (await this.twoFactorAuthService.sendTwoFactorToken(
+                    user.email,
+                    true,
+                )) as string;
+            return {
+                requires2FA: true,
+                oauthToken: oauthToken,
+                email: profile.email,
+                message:
+                    'A two-factor authentication code was sent to your email.',
+            };
         }
 
         return this.saveSession(req, user);
+    }
+
+    public async handleOAuthResult(
+        req: Request,
+        res: Response,
+        provider: string,
+        code: string,
+    ): Promise<string> {
+        const result = await this.extractProfileFromCode(req, provider, code);
+        const frontendUrl =
+            this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
+
+        if ('requires2FA' in result && result.requires2FA) {
+            const oauthToken =
+                await this.twoFactorAuthService.sendTwoFactorToken(
+                    result.email,
+                    true,
+                );
+            const frontendRedirectPath =
+                this.configService.getOrThrow<string>('FRONTEND_2FA_URL');
+            return `${frontendUrl}${frontendRedirectPath}?oua=${oauthToken}`;
+        }
+
+        const frontendRedirectPath = this.configService.getOrThrow<string>(
+            'FRONTEND_REDIRECT_URL',
+        );
+        return `${frontendUrl}${frontendRedirectPath}`;
     }
 
     public async logout(req: Request, res: Response): Promise<void> {

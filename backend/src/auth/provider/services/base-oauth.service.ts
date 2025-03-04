@@ -23,6 +23,7 @@ export class BaseOAuthService {
             refreshToken: data.refreshToken ?? '',
             expiresAt: data.expiresAt ?? new Date(),
             provider: this.options.name,
+            accountId: data.accountId ?? '',
         };
     }
 

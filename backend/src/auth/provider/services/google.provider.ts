@@ -24,6 +24,7 @@ export class GoogleProvider extends BaseOAuthService {
             email: data.email,
             name: data.name,
             picture: data.picture,
+            accountId: data.sub,
         });
     }
 }

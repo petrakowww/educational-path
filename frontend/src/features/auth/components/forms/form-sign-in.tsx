@@ -7,6 +7,10 @@ import {
 	FormControl,
 	Input,
 	Button,
+	InputOTP,
+	InputOTPGroup,
+	InputOTPSlot,
+	InputOTPSeparator,
 } from '@/shared/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,9 +25,12 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useLoginMutation } from '../../hooks/use-login-mutation';
+import { useEffect } from 'react';
 
 export const FormSignIn = () => {
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
+	const [isShowTwoFactor, setIsShowFactor] = useState(false);
+
 	const theme = useTheme();
 
 	const form = useForm<TypeLoginSchema>({
@@ -31,10 +38,17 @@ export const FormSignIn = () => {
 		defaultValues: {
 			email: '',
 			password: '',
+			code: '',
 		},
 	});
 
-	const { login, isLoadingLogin } = useLoginMutation();
+	const { login, isLoadingLogin } = useLoginMutation(setIsShowFactor);
+
+	useEffect(() => {
+		if (isShowTwoFactor) {
+			form.setValue('code', '');
+		}
+	}, [isShowTwoFactor, form]);
 
 	const onSubmit = (values: TypeLoginSchema) => {
 		if (recaptchaValue) {
@@ -43,6 +57,7 @@ export const FormSignIn = () => {
 			toast.error('Please complete reCAPTCHA before authorization');
 		}
 	};
+
 	const errors = form.formState.errors;
 
 	return (
@@ -52,42 +67,74 @@ export const FormSignIn = () => {
 				className="flex flex-col w-full gap-1"
 			>
 				<div className="flex flex-col w-full gap-4">
-					<FormField
-						control={form.control}
-						name="email"
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input
-										placeholder="Email..."
-										className="text-sm"
-										disabled={isLoadingLogin}
-										{...field}
-										required
-										type="email"
-									/>
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="password"
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input
-										placeholder="Password..."
-										className="text-sm"
-										disabled={isLoadingLogin}
-										{...field}
-										type="password"
-										required
-									/>
-								</FormControl>
-							</FormItem>
-						)}
-					/>
+					{!isShowTwoFactor ? (
+						<>
+							<FormField
+								control={form.control}
+								name="email"
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<Input
+												placeholder="Email..."
+												className="text-sm"
+												disabled={isLoadingLogin}
+												{...field}
+												required
+												type="email"
+											/>
+										</FormControl>
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="password"
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<Input
+												placeholder="Password..."
+												className="text-sm"
+												disabled={isLoadingLogin}
+												{...field}
+												type="password"
+												required
+											/>
+										</FormControl>
+									</FormItem>
+								)}
+							/>
+						</>
+					) : (
+						<FormField
+							control={form.control}
+							name="code"
+							render={({ field }) => (
+								<FormItem className="flex items-center justify-center">
+									<FormControl>
+										<InputOTP
+											maxLength={6}
+											value={field.value}
+											onChange={field.onChange}
+										>
+											<InputOTPGroup>
+												<InputOTPSlot index={0} />
+												<InputOTPSlot index={1} />
+												<InputOTPSlot index={2} />
+											</InputOTPGroup>
+											<InputOTPSeparator />
+											<InputOTPGroup>
+												<InputOTPSlot index={3} />
+												<InputOTPSlot index={4} />
+												<InputOTPSlot index={5} />
+											</InputOTPGroup>
+										</InputOTP>
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+					)}
 				</div>
 
 				<Button

@@ -12,6 +12,10 @@ import { IsPasswordsMatchingConstraint } from '@/libs/common/decorators/is-passw
 export class RegisterDto {
     @IsString({ message: 'Name must be a string.' })
     @IsNotEmpty({ message: 'Name is required.' })
+	@MinLength(3, { message: 'Username must be at least 3 characters long' })
+	@Matches(/^[a-zA-Z0-9_]+$/, {
+		message: 'Username can only contain letters, numbers, and underscores',
+	})
     name: string;
 
     @IsString({ message: 'Email must be a string.' })

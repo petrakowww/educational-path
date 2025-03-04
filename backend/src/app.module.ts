@@ -9,6 +9,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { AccountModule } from './auth/account/account.module';
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { ConfigModule } from '@nestjs/config';
         PrismaModule,
         AuthModule,
         UserModule,
+        AccountModule,
         ProviderModule,
         MailModule,
         EmailConfirmationModule,

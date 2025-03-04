@@ -14,15 +14,17 @@ import {
 import { toast } from 'sonner';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useTheme } from 'next-themes';
-import { formResetPasswordSchema } from '../../schemes/form-reset-password-schema';
-import { TypeRegisterSchema } from '../../schemes/form-sing-up-schema';
+import {
+	formResetPasswordSchema,
+	TypeResetPasswordSchema,
+} from '../../schemes/form-reset-password-schema';
 import { useResetPasswordMutation } from '../../hooks/use-reset-password-mutation';
 
 export const FormResetPassword = () => {
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const theme = useTheme();
 
-	const form = useForm<TypeRegisterSchema>({
+	const form = useForm<TypeResetPasswordSchema>({
 		resolver: zodResolver(formResetPasswordSchema),
 		defaultValues: {
 			email: '',
@@ -33,7 +35,7 @@ export const FormResetPassword = () => {
 
 	const { reset, isLoadingReset } = useResetPasswordMutation();
 
-	const onSubmit = (values: TypeRegisterSchema) => {
+	const onSubmit = (values: TypeResetPasswordSchema) => {
 		if (recaptchaValue) {
 			reset({ values, recaptcha: recaptchaValue });
 		} else {

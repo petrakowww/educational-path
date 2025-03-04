@@ -10,7 +10,7 @@ import {
 export class LoginDto {
     @IsString({ message: 'Email must be a string.' })
     @IsEmail({}, { message: 'Invalid email format.' })
-    @IsNotEmpty({ message: 'Email is required.' })
+    @IsNotEmpty({ message: 'Email is required field.' })
     email: string;
 
     @IsString({ message: 'Password must be a string.' })
@@ -25,6 +25,6 @@ export class LoginDto {
     password: string;
 
     @IsOptional()
-	@IsString()
-	code: string
+    @IsString()
+    code?: string;
 }

@@ -1,20 +1,35 @@
 import { randomInt } from 'crypto';
+import { Request } from 'express';
 
 import { MailService } from '@/libs/mail/mail.service';
 import { PrismaService } from '@/prisma/prisma.service';
+import { UserService } from '@/user/user.service';
 
+import { AuthService } from '../auth.service';
+import { TwoFactorDto } from './dto/two-factor.dto';
 import {
     BadRequestException,
+    forwardRef,
+    Inject,
     Injectable,
+    InternalServerErrorException,
     NotFoundException,
 } from '@nestjs/common';
 import { TokenType } from '@prisma/__generated__';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class TwoFactorAuthService {
+    private readonly COOKIE_EMAIL = '2fa_email';
+    private readonly TOKEN_EXPIRATION_MS = 5 * 60 * 1000; // 5 минут
+    private readonly TOKEN_RANGE = [100000, 1000000];
+
     constructor(
         private readonly prismaService: PrismaService,
         private readonly mailService: MailService,
+        @Inject(forwardRef(() => AuthService))
+        private readonly authService: AuthService,
+        private readonly userService: UserService,
     ) {}
 
     public async validateTwoFactorToken(
@@ -56,20 +71,76 @@ export class TwoFactorAuthService {
         return true;
     }
 
-    public async sendTwoFactorToken(email: string): Promise<boolean> {
-        const twoFactorToken = await this.generateTwoFactorToken(email);
+    public async verifyTwoFactorAuthentication(
+        req: Request,
+        dto: TwoFactorDto,
+        oauthToken: string,
+    ) {
+        if (!oauthToken) {
+            throw new BadRequestException('Missing OAuth token.');
+        }
+
+        const token = await this.prismaService.token.findUnique({
+            where: {
+                oauthToken: oauthToken,
+            },
+        });
+
+        if (!token) {
+            throw new BadRequestException('Invalid authentication code.');
+        }
+
+        const isValid = await this.validateTwoFactorToken(token.email, dto.code);
+        if (!isValid) {
+            throw new BadRequestException('Invalid authentication code.');
+        }
+
+        const user = await this.userService.findByEmail(token.email);
+        if (!user) {
+            throw new NotFoundException('User not found.');
+        }
+
+        return this.authService.saveSession(req, user);
+    }
+
+    public async sendTwoFactorToken(
+        email: string,
+        isOAuth = false,
+    ): Promise<string | boolean> {
+        const twoFactorToken = await this.generateTwoFactorToken(
+            email,
+            isOAuth,
+        );
+
+        if (!twoFactorToken) {
+            throw new InternalServerErrorException(
+                'Server error when creating a token',
+            );
+        }
 
         await this.mailService.sendTwoFactorTokenEmail(
             twoFactorToken.email,
             twoFactorToken.token,
         );
 
+        if (isOAuth) {
+            if (!twoFactorToken.oauthToken) {
+                throw new InternalServerErrorException(
+                    'OAuth token generation failed',
+                );
+            }
+            return twoFactorToken.oauthToken as string;
+        }
+
         return true;
     }
 
-    private async generateTwoFactorToken(email: string) {
-        const token = randomInt(100000, 1000000).toString();
-        const expiresIn = new Date(Date.now() + 5 * 60 * 1000);
+    private async generateTwoFactorToken(email: string, isOAuth: boolean) {
+        const [start, end] = this.TOKEN_RANGE;
+        const token = randomInt(start, end).toString();
+        const expiresIn = new Date(Date.now() + this.TOKEN_EXPIRATION_MS);
+
+        const oauthToken = isOAuth ? randomUUID() : null;
 
         await this.prismaService.token.deleteMany({
             where: {
@@ -84,6 +155,7 @@ export class TwoFactorAuthService {
                 token,
                 expiresIn,
                 type: TokenType.TWO_FACTOR,
+                oauthToken,
             },
         });
 

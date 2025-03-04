@@ -4,6 +4,7 @@ export enum ApiRoutesAuth {
 	logout = 'auth/logout',
 	providerConnect = 'auth/oauth/connect/',
 	emailConfirmation = 'auth/email-confirmation/',
+	twoFactorVerification='auth/twa/oauth/',
 	passwordNew = 'auth/password-recovery/new/',
 	passwordReset = 'auth/password-recovery/reset',
 }

@@ -3,41 +3,31 @@ import { hash } from 'argon2';
 import { PrismaService } from '@/prisma/prisma.service';
 
 import { UserDataProps } from './interfaces/user.interface';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Prisma } from '@prisma/__generated__';
 
 @Injectable()
 export class UserService {
     public constructor(private readonly prismaService: PrismaService) {}
+    
+    private async findUniqueUser(where: Prisma.UserWhereUniqueInput) {
+        const user = await this.prismaService.user.findUnique({
+            where,
+            include: { accounts: true },
+        });
+    
+        return user;
+    }
 
     public async findById(id: string) {
-        const user = await this.prismaService.user.findUnique({
-            where: {
-                id,
-            },
-            include: {
-                accounts: true,
-            },
-        });
-
-        if (!user) {
-            throw new NotFoundException(
-                'The user was not found, please check the entered data.',
-            );
-        }
+        const user = await this.findUniqueUser({ id });
 
         return user;
     }
 
     public async findByEmail(email: string) {
-        const user = await this.prismaService.user.findUnique({
-            where: {
-                email,
-            },
-            include: {
-                accounts: true,
-            },
-        });
+        const user = await this.findUniqueUser({email: email});
 
         return user;
     }
@@ -47,7 +37,7 @@ export class UserService {
             data: {
                 email: props.email,
                 password: props.password ? await hash(props.password) : '',
-                displayName: props.displayName,
+                name: props.name,
                 picture: props.picture,
                 isVerified: props.isVerified,
                 method: props.method,
@@ -69,7 +59,7 @@ export class UserService {
 			},
 			data: {
 				email: dto.email,
-				displayName: dto.name,
+				name: dto.name,
 				isTwoFactorEnabled: dto.isTwoFactorEnabled
 			}
 		})
