@@ -21,7 +21,7 @@ export const navigation: AccountNavMainProps = {
 	},
 };
 
-export function AccountSidebar() {
+export const AccountSidebar = () => {
 	return (
 		<Sidebar className="absolute h-full">
 			<SidebarContent>

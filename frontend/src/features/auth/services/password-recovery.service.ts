@@ -1,6 +1,6 @@
 import { api } from '@/shared/api';
 import { TypeResetPasswordSchema } from '../schemes/form-reset-password-schema';
-import { UserProps } from '../types/user.type';
+import { UserProps } from '../../user/types/user.type';
 import { TypeNewPasswordSchema } from '../schemes/form-new-password-schema';
 import { apiRoutes } from '@/shared/config';
 

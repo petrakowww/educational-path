@@ -1,3 +1,5 @@
+'use client';
+
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
 
 export type TypeSearchParams = Record<
@@ -46,9 +48,9 @@ export class AxiosClient {
 				url: endpoint,
 				...options,
 			});
+
 			return data;
 		} catch (error) {
-			console.log(error);
 			throw new Error(this.handleError(error as AxiosError));
 		}
 	}

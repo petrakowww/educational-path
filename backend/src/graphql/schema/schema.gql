@@ -1,0 +1,27 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Mutation {
+  updateProfile(dto: UpdateUserDto!): UserModel!
+}
+
+type Query {
+  findById(id: String!): UserModel!
+  findProfile: UserModel!
+}
+
+input UpdateUserDto {
+  email: String!
+  isTwoFactorEnabled: Boolean!
+  name: String!
+}
+
+type UserModel {
+  email: String!
+  id: ID!
+  isTwoFactorEnabled: Boolean!
+  isVerified: Boolean!
+  name: String!
+  picture: String
+}

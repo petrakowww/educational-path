@@ -232,9 +232,8 @@ export class AuthService {
                             "Couldn't save session",
                         ),
                     );
-                } else {
-                    resolve();
                 }
+                resolve();
             });
         });
     }

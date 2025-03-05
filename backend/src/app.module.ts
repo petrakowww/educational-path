@@ -1,3 +1,4 @@
+import { GraphQLModule } from '@nestjs/graphql';
 import { AccountModule } from './auth/account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { EmailConfirmationModule } from './auth/email-confirmation/email-confirmation.module';
@@ -9,13 +10,21 @@ import { MailModule } from './libs/mail/mail.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ApolloDriver } from '@nestjs/apollo';
+import { getGraphQLConfig } from './config/graphql.config';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             ignoreEnvFile: !IS_DEV_ENV,
             isGlobal: true,
+        }),
+        GraphQLModule.forRootAsync({
+            driver: ApolloDriver,
+            imports: [ConfigModule],
+            useFactory: getGraphQLConfig,
+            inject: [ConfigService],
         }),
         PrismaModule,
         AuthModule,

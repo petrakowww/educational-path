@@ -16,8 +16,15 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { ChevronsUpDownIcon, PenIcon } from 'lucide-react';
 
-export const AccountProfileLogo = () => {
+interface AccountProfileLogoProps {
+	picture?: string;
+	username: string;
+}
+
+export const AccountProfileLogo = (props: AccountProfileLogoProps) => {
+	const { picture, username } = props;
 	const { isMobile } = useSidebar();
+
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -29,8 +36,10 @@ export const AccountProfileLogo = () => {
 						>
 							<div className="flex aspect-square size-8 items-center justify-center">
 								<Avatar className="rounded-[50%] overflow-hidden">
-									<AvatarImage src="https://github.com/shadcn.png" />
-									<AvatarFallback>CN</AvatarFallback>
+									<AvatarImage src={picture} />
+									<AvatarFallback>
+										{username.slice(0, 1)}
+									</AvatarFallback>
 								</Avatar>
 							</div>
 							<div className="grid flex-1 text-left text-sm leading-tight">

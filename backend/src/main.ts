@@ -23,11 +23,17 @@ async function bootstrap() {
 
     app.use(cookieParser(config.getOrThrow<string>('COOKIES_SECRET')));
 
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true,
+        }),
+    );
+
     app.use(
         session({
             secret: config.getOrThrow<string>('SESSION_SECRET'),
             name: config.getOrThrow<string>('SESSION_NAME'),
-            resave: false,
+            resave: true,
             saveUninitialized: false,
             cookie: {
                 domain: config.getOrThrow<string>('SESSION_DOMAIN'),
@@ -47,12 +53,6 @@ async function bootstrap() {
                 client: redis,
                 prefix: config.getOrThrow<string>('SESSION_FOLDER'),
             }),
-        }),
-    );
-
-    app.useGlobalPipes(
-        new ValidationPipe({
-            transform: true,
         }),
     );
 
