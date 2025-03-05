@@ -29,3 +29,7 @@ export * from './sheet/sheet';
 export * from './sonner/sonner';
 
 export * from './otp/input-otp';
+
+export * from './collapsible/collapsible';
+
+export * from './sidebar/sidebar';

@@ -24,16 +24,16 @@ export const useLoginMutation = (callback: (value: boolean) => void) => {
 			values: TypeLoginSchema;
 			recaptcha: string;
 		}) => authService.login(values, recaptcha),
-		onSuccess(data: UserProps | OTPResponseProps) {
-			if ('message' in data && 'otpResponse' in data) {
+		onSuccess(data?: UserProps | OTPResponseProps) {
+			if (data && 'message' in data && 'otpResponse' in data) {
 				toastMessageHandler(data);
 				otpHandler(data.otpResponse);
-			} else {
-				toast.success(`You have successfully logged in your account`, {
-					description: 'Have a nice time :)',
-				});
-				router.push(AppRoutes.Dashboard);
+				return;
 			}
+			toast.success(`You have successfully logged in your account`, {
+				description: 'Have a nice time :)',
+			});
+			router.push(AppRoutes.Dashboard);
 		},
 		onError(err) {
 			toastMessageHandler(err);

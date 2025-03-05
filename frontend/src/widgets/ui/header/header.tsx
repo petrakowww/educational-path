@@ -22,36 +22,43 @@ const links = [
 	{ href: '/courses', label: 'Courses' },
 ];
 
-export interface HeaderProps {
-	isLoggedIn: boolean;
-}
-
-export const Header = (props: HeaderProps) => {
+export const Header = () => {
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-	const { isLoggedIn } = props;
+	const isLoggedIn = false;
 
 	return (
-		<header className="w-full bg-primary flex items-center justify-center">
-			<div className="container mx-auto flex items-center justify-between py-4 px-4 max-w-7xl">
+		<header className="w-full bg-primary flex">
+			<div className="mx-auto flex w-full justify-between py-4 px-2">
 				<div className="flex gap-2 items-center">
-					<Link
-						href="/"
-						className="text-xl font-bold text-primary-foreground flex gap-2 items-center mr-8"
+					<Button
+						asChild
+						variant={'link'}
+						className="items-center gap-2 px-2 text-xl font-bold text-primary-foreground border-none flex-shrink-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-inset hover:no-underline"
 					>
-						Edu Path
-						<LibraryBigIcon />
-					</Link>
+						<Link href="/">
+							<div className="flex items-center gap-2 h-full w-full">
+								<span>Edu Path</span>
+								<LibraryBigIcon className="h-30" />
+							</div>
+						</Link>
+					</Button>
 
-					<nav className="hidden md:flex gap-6">
+					<nav className="hidden md:flex flex-shrink">
 						{links.map((link) => (
-							<Link
+							<Button
+								asChild
 								key={link.href}
-								href={link.href}
-								className="text-primary-foreground hover:text-accent-foreground transition-colors"
+								variant={'link'}
+								className="items-center justify-center leading-none align-middle h-auto px-2"
 							>
-								{link.label}
-							</Link>
+								<Link
+									href={link.href}
+									className="text-primary-foreground hover:text-accent-foreground transition-colors"
+								>
+									{link.label}
+								</Link>
+							</Button>
 						))}
 					</nav>
 				</div>
@@ -60,24 +67,14 @@ export const Header = (props: HeaderProps) => {
 					{isLoggedIn ? (
 						<HeaderLogout />
 					) : (
-						<nav className="hidden md:flex">
-							<div className="grid grid-cols-2 rounded-md overflow-hidden gap-2">
-								<Button
-									variant={'default'}
-									className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
-									asChild
-								>
-									<Link href={AppRoutes.SignIn}>Sign in</Link>
-								</Button>
+						<nav className="md:flex flex gap-2">
+							<Button variant={'outline'} asChild>
+								<Link href={AppRoutes.SignIn}>Sign in</Link>
+							</Button>
 
-								<Button
-									variant={'default'}
-									className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
-									asChild
-								>
-									<Link href={AppRoutes.SignUp}>Sign up</Link>
-								</Button>
-							</div>
+							<Button variant={'outline'} asChild>
+								<Link href={AppRoutes.SignUp}>Sign up</Link>
+							</Button>
 						</nav>
 					)}
 
@@ -86,8 +83,8 @@ export const Header = (props: HeaderProps) => {
 							<Sheet>
 								<SheetTrigger asChild>
 									<Button
-										variant="ghost"
-										className="text-primary-foreground flex items-center w-8 h-8 justify-center [&_svg]:size-6 aspect-square"
+										variant={'outline'}
+										className="text-foreground flex items-center justify-center [&_svg]:size-6 aspect-square"
 									>
 										<MenuIcon />
 									</Button>

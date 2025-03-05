@@ -129,7 +129,7 @@ export class TwoFactorAuthService {
                     'OAuth token generation failed',
                 );
             }
-            return twoFactorToken.oauthToken as string;
+            return twoFactorToken.oauthToken;
         }
 
         return true;

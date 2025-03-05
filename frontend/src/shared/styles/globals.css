@@ -34,6 +34,14 @@
 
 		--shadow-default-left: -4px 0 10px rgba(0, 0, 0, 0.1);
 		--shadow-default-right: 4px 0 10px rgba(0, 0, 0, 0.1);
+		--sidebar-background: 0 0% 98%;
+		--sidebar-foreground: 240 5.3% 26.1%;
+		--sidebar-primary: 142.1 76.2% 36.3%;
+		--sidebar-primary-foreground: 355.7 100% 97.3%;
+		--sidebar-accent: 240 4.8% 95.9%;
+		--sidebar-accent-foreground: 240 5.9% 10%;
+		--sidebar-border: 152 0% 83%;
+		--sidebar-ring: 142.1 76.2% 36.3%;
 	}
 
 	.dark {
@@ -70,6 +78,15 @@
 		--xy-controls-button-background-color: #1b1b1b;
 		--xy-controls-button-border-color: #464646;
 		--xy-controls-button-background-color-hover: rgba(50, 50, 50, 0.93);
+
+		--sidebar-background: 240 5.9% 10%;
+		--sidebar-foreground: 240 4.8% 95.9%;
+		--sidebar-primary: 142.1 70.6% 45.3%;
+		--sidebar-primary-foreground: 144.9 80.4% 10%;
+		--sidebar-accent: 12 6.5% 15.1%;
+		--sidebar-accent-foreground: 0 0% 98%;
+		--sidebar-border: 152 0% 30%;
+		--sidebar-ring: 142.4 71.8% 29.2%;
 	}
 }
 
@@ -83,13 +100,20 @@
 	}
 }
 
-
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+}
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+	* {
+		@apply border-border;
 	}
-  body {
-    @apply bg-background text-foreground;
+	body {
+		@apply bg-background text-foreground;
 	}
 }

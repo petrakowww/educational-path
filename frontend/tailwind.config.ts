@@ -47,16 +47,32 @@ export default {
 				editor: {
 					chart_1: 'hsl(var(--editor-1))',
 				},
+				sidebar: {
+					DEFAULT: 'hsl(var(--sidebar-background))',
+					foreground: 'hsl(var(--sidebar-foreground))',
+					primary: 'hsl(var(--sidebar-primary))',
+					'primary-foreground':
+						'hsl(var(--sidebar-primary-foreground))',
+					accent: 'hsl(var(--sidebar-accent))',
+					'accent-foreground':
+						'hsl(var(--sidebar-accent-foreground))',
+					border: 'hsl(var(--sidebar-border))',
+					ring: 'hsl(var(--sidebar-ring))',
+				},
 			},
 			borderRadius: {
-				lg: `var(--radius)`,
-				md: `calc(var(--radius) - 2px)`,
+				lg: 'var(--radius)',
+				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)',
 			},
 			keyframes: {
 				'caret-blink': {
-					'0%,70%,100%': { opacity: '1' },
-					'20%,50%': { opacity: '0' },
+					'0%,70%,100%': {
+						opacity: '1',
+					},
+					'20%,50%': {
+						opacity: '0',
+					},
 				},
 			},
 			animation: {

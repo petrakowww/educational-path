@@ -172,7 +172,8 @@ export class AuthService {
             };
         }
 
-        return this.saveSession(req, user);
+        await this.saveSession(req, user);
+        return { requires2FA: false };
     }
 
     public async handleOAuthResult(
@@ -235,6 +236,6 @@ export class AuthService {
                     resolve();
                 }
             });
-        }).then(() => ({ user }));
+        });
     }
 }

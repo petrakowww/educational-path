@@ -1,19 +1,15 @@
 'use client';
 
-import { Header } from '@/widgets/ui';
 import { FormVerifyEmail } from '@/features/auth/components/forms/form-verify-email';
 import { VerifyWrapper } from '@/features/auth/components/wrapper/verify-wrapper';
 
 export default function Page() {
 	return (
-		<div className="min-h-screen flex flex-col gap-14">
-			<Header isLoggedIn={false} />
-			<VerifyWrapper
+		<VerifyWrapper
 				title="Email Confirmation"
 				description="Wait a bit, we'll confirm your email."
 			>
 				<FormVerifyEmail />
 			</VerifyWrapper>
-		</div>
 	);
 }

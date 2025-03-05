@@ -27,7 +27,7 @@ async function bootstrap() {
         session({
             secret: config.getOrThrow<string>('SESSION_SECRET'),
             name: config.getOrThrow<string>('SESSION_NAME'),
-            resave: true,
+            resave: false,
             saveUninitialized: false,
             cookie: {
                 domain: config.getOrThrow<string>('SESSION_DOMAIN'),
@@ -41,6 +41,7 @@ async function bootstrap() {
                     config.getOrThrow<string>('SESSION_SECURE'),
                 ),
                 sameSite: 'lax',
+                signed: true,
             },
             store: new RedisStore({
                 client: redis,

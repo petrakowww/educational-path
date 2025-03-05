@@ -1,4 +1,4 @@
-import { AuthMethod, User } from '@prisma/__generated__';
+import { AuthMethod } from '@prisma/__generated__';
 
 export type TypeUserInfo = {
     id: string;
@@ -12,6 +12,9 @@ export type TypeUserInfo = {
     accountId: string;
 };
 
-export type OAuthLoginResult =
-    | { user: User }
-    | { requires2FA: true; message: string; oauthToken: string; email: string };
+export type OAuthLoginResult = {
+    requires2FA: boolean;
+    message?: string;
+    oauthToken?: string;
+    email?: string;
+};
