@@ -15,6 +15,7 @@ import { useMediaQuery } from '@/shared/lib';
 import { useTransition } from 'react';
 import { AppRoutes } from '@/shared/config';
 import { ThemeButton } from '../theme/theme-button';
+import { useAuth } from '@/app/providers/auth/auth-provider';
 const links = [
 	{ href: '/', label: 'Home' },
 	{ href: '/dashboard', label: 'Dashboard' },
@@ -25,7 +26,7 @@ const links = [
 export const Header = () => {
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-	const isLoggedIn = false;
+	const { isAuthenticated } = useAuth();
 
 	return (
 		<header className="w-full bg-primary flex">
@@ -64,7 +65,7 @@ export const Header = () => {
 				</div>
 				<div className="flex gap-x-2">
 					<ThemeButton />
-					{isLoggedIn ? (
+					{isAuthenticated ? (
 						<HeaderLogout />
 					) : (
 						<nav className="md:flex flex gap-2">
@@ -109,7 +110,7 @@ export const Header = () => {
 											</Link>
 										))}
 										<Separator />
-										{isLoggedIn ? (
+										{isAuthenticated ? (
 											<HeaderLogout />
 										) : (
 											<>

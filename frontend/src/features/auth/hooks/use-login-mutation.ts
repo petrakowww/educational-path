@@ -36,6 +36,7 @@ export const useLoginMutation = (callback: (value: boolean) => void) => {
 			router.push(AppRoutes.Dashboard);
 		},
 		onError(err) {
+			console.log(err);
 			toastMessageHandler(err);
 		},
 	});

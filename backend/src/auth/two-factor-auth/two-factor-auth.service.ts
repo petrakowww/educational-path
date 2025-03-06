@@ -17,6 +17,7 @@ import {
 } from '@nestjs/common';
 import { TokenType } from '@prisma/__generated__';
 import { randomUUID } from 'crypto';
+import { Response } from 'express';
 
 @Injectable()
 export class TwoFactorAuthService {
@@ -73,6 +74,7 @@ export class TwoFactorAuthService {
 
     public async verifyTwoFactorAuthentication(
         req: Request,
+        res: Response,
         dto: TwoFactorDto,
         oauthToken: string,
     ) {
@@ -100,7 +102,7 @@ export class TwoFactorAuthService {
             throw new NotFoundException('User not found.');
         }
 
-        return this.authService.saveSession(req, user);
+        return this.authService.saveSession(req, res, user);
     }
 
     public async sendTwoFactorToken(

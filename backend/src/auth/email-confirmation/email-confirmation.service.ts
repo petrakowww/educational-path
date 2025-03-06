@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 import { MailService } from '@/libs/mail/mail.service';
@@ -28,7 +28,7 @@ export class EmailConfirmationService {
         private readonly authService: AuthService,
     ) {}
 
-    public async newVerification(req: Request, dto: ConfirmationDto) {
+    public async newVerification(req: Request, res: Response, dto: ConfirmationDto) {
         const existingToken = await this.prismaService.token.findFirst({
             where: {
                 token: dto.token,
@@ -75,7 +75,7 @@ export class EmailConfirmationService {
             },
         });
 
-        return this.authService.saveSession(req, existingUser);
+        return this.authService.saveSession(req, res, existingUser);
     }
 
     public async sendVerificationToken(email: string) {

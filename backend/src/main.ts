@@ -35,6 +35,7 @@ async function bootstrap() {
             name: config.getOrThrow<string>('SESSION_NAME'),
             resave: true,
             saveUninitialized: false,
+            rolling: true,
             cookie: {
                 domain: config.getOrThrow<string>('SESSION_DOMAIN'),
                 maxAge: parse(

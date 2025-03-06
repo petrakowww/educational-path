@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { Authorization } from './decorators/auth.decorator';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { AuthProviderGuard } from './guard/provider.guard';
@@ -17,7 +18,6 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { Body, Post } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Recaptcha } from '@nestlab/google-recaptcha';
 
 import { AuthService } from './auth.service';
@@ -27,7 +27,6 @@ export class AuthController {
     public constructor(
         private readonly authService: AuthService,
         private readonly providerService: ProviderService,
-        private readonly configService: ConfigService,
     ) {}
 
     @Recaptcha()
@@ -40,8 +39,12 @@ export class AuthController {
     @Recaptcha()
     @Post('login')
     @HttpCode(HttpStatus.OK)
-    public async login(@Req() req: Request, @Body() dto: LoginDto) {
-        return this.authService.login(req, dto);
+    public async login(
+        @Req() req: Request,
+        @Res() res: Response,
+        @Body() dto: LoginDto,
+    ) {
+        await this.authService.login(req, res, dto);
     }
 
     @UseGuards(AuthProviderGuard)
@@ -86,4 +89,14 @@ export class AuthController {
     ) {
         return this.authService.logout(req, res);
     }
+
+    // @Post('/check-session')
+    // @Authorization()
+    // @HttpCode(HttpStatus.ACCEPTED)
+    // public checkAuthorization(
+    //     @Req() req: Request,
+    //     @Res({ passthrough: true }) res: Response,
+    // ) {
+    //     return this.authService.updateAuthorizationSession(req, res);
+    // }
 }

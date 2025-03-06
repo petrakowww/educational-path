@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function HomePage() {
 	return (
 		<main className="min-h-screen flex flex-col gap-14">
-			<Header isLoggedIn={false} />
+			<Header />
 
 			<div className="w-full items-center flex flex-col">
 				<div className="max-w-7xl px-4">

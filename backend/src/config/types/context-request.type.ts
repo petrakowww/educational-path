@@ -11,3 +11,12 @@ export interface SessionRequest extends Request {
     };
     user?: User;
 }
+
+export interface AuthCookieRequest extends Request {
+    cookies: {
+        session?: string;
+        at?: string;
+    };
+}
+
+export type ExtendAuthCookieRequest = AuthCookieRequest & SessionRequest;

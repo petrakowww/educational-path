@@ -1,13 +1,14 @@
 import { verify } from 'argon2';
 import { Request, Response } from 'express';
 
-import { PrismaService } from '@/prisma/prisma.service';
+import { ExtendAuthCookieRequest } from '@/config/types/context-request.type';
 import { UserService } from '@/user/user.service';
 
 import { AccountService } from './account/account.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
+import { JwtService } from './jwt/jwt.service';
 import { ProviderService } from './provider/provider.service';
 import { OAuthLoginResult } from './provider/services/types/user-info.type';
 import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
@@ -25,17 +26,19 @@ import { AuthMethod, User } from '@prisma/__generated__';
 
 @Injectable()
 export class AuthService {
+    private readonly SESSION_NAME: string;
     public constructor(
         private readonly userService: UserService,
         private readonly accountService: AccountService,
         private readonly configService: ConfigService,
         private readonly providerService: ProviderService,
-        private readonly prismaService: PrismaService,
         @Inject(forwardRef(() => EmailConfirmationService))
         private readonly emailConfirmationService: EmailConfirmationService,
         @Inject(forwardRef(() => TwoFactorAuthService))
         private readonly twoFactorAuthService: TwoFactorAuthService,
-    ) {}
+    ) {
+        this.SESSION_NAME = configService.getOrThrow<string>('SESSION_NAME');
+    }
     public async register(dto: RegisterDto) {
         const existingEmail = await this.userService.findByEmail(dto.email);
 
@@ -64,7 +67,7 @@ export class AuthService {
         };
     }
 
-    public async login(req: Request, dto: LoginDto) {
+    public async login(req: Request, res: Response, dto: LoginDto) {
         const user = await this.userService.findByEmail(dto.email);
 
         if (!user || !user.password) {
@@ -107,11 +110,12 @@ export class AuthService {
             );
         }
 
-        return this.saveSession(req, user);
+        await this.saveSession(req, res, user);
     }
 
     public async extractProfileFromCode(
         req: Request,
+        res: Response,
         provider: string,
         code: string,
     ): Promise<OAuthLoginResult> {
@@ -172,7 +176,7 @@ export class AuthService {
             };
         }
 
-        await this.saveSession(req, user);
+        await this.saveSession(req, res, user);
         return { requires2FA: false };
     }
 
@@ -182,7 +186,12 @@ export class AuthService {
         provider: string,
         code: string,
     ): Promise<string> {
-        const result = await this.extractProfileFromCode(req, provider, code);
+        const result = await this.extractProfileFromCode(
+            req,
+            res,
+            provider,
+            code,
+        );
         const frontendUrl =
             this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
 
@@ -213,15 +222,14 @@ export class AuthService {
                         ),
                     );
                 }
-                res.clearCookie(
-                    this.configService.getOrThrow<string>('SESSION_NAME'),
-                );
+                res.clearCookie(this.SESSION_NAME);
+                // this.jwtService.clearTokenCookie(res);
                 resolve();
             });
         });
     }
 
-    public async saveSession(req: Request, user: User) {
+    public async saveSession(req: Request, res: Response, user: User) {
         req.session.userId = user.id;
 
         return new Promise<void>((resolve, reject) => {
@@ -236,5 +244,36 @@ export class AuthService {
                 resolve();
             });
         });
+    }
+
+    public updateAuthorizationSession(
+        req: ExtendAuthCookieRequest,
+        res: Response,
+    ) {
+        // const session: string | undefined = req.cookies?.session;
+        // const accessToken: string | undefined = req.cookies?.at;
+        // if (!session) {
+        //     if (accessToken) {
+        //         this.jwtService.clearTokenCookie(res);
+        //     }
+        //     throw new UnauthorizedException('The user is not logged in');
+        // }
+        // if (!req.session?.userId) {
+        //     if (accessToken) {
+        //         this.jwtService.clearTokenCookie(res);
+        //     }
+        //     res.clearCookie(this.SESSION_NAME);
+        //     throw new UnauthorizedException('Session is invalid or expired.');
+        // }
+        // this.jwtService.generatePublicJWTAuthToken(
+        //     {
+        //         sessionId: req.session.id,
+        //     },
+        //     res,
+        // );
+        // return {
+        //     status: true,
+        //     message: 'Session has been successfully set up.',
+        // };
     }
 }
