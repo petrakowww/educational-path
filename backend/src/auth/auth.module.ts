@@ -13,9 +13,11 @@ import { GoogleRecaptchaModule } from '@nestlab/google-recaptcha';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
     imports: [
+        JwtModule,
         ProviderModule.registerAsync({
             imports: [ConfigModule],
             useFactory: getProvidersConfig,

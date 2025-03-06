@@ -7,6 +7,7 @@ import { AccountService } from './account/account.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
+import { JwtService } from './jwt/jwt.service';
 import { ProviderService } from './provider/provider.service';
 import { OAuthLoginResult } from './provider/services/types/user-info.type';
 import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
@@ -15,24 +16,24 @@ import {
     forwardRef,
     Inject,
     Injectable,
-    InternalServerErrorException,
     NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthMethod, User } from '@prisma/__generated__';
+import { ExtendAuthCookieRequest } from '@/config/types/context-request.type';
 
 @Injectable()
 export class AuthService {
     private readonly ALLOWED_ORIGIN: string;
     private readonly FRONTEND_2FA_URL: string;
     private readonly FRONTEND_REDIRECT_URL: string;
-    private readonly SESSION_NAME: string;
     public constructor(
         private readonly userService: UserService,
         private readonly accountService: AccountService,
         private readonly configService: ConfigService,
         private readonly providerService: ProviderService,
+        private readonly jwtService: JwtService,
         @Inject(forwardRef(() => EmailConfirmationService))
         private readonly emailConfirmationService: EmailConfirmationService,
         @Inject(forwardRef(() => TwoFactorAuthService))
@@ -45,8 +46,6 @@ export class AuthService {
         this.FRONTEND_REDIRECT_URL = this.configService.getOrThrow<string>(
             'FRONTEND_REDIRECT_URL',
         );
-        this.SESSION_NAME =
-            this.configService.getOrThrow<string>('SESSION_NAME');
     }
     public async register(dto: RegisterDto) {
         const existingEmail = await this.userService.findByEmail(dto.email);
@@ -76,7 +75,7 @@ export class AuthService {
         };
     }
 
-    public async login(req: Request, dto: LoginDto) {
+    public async login(res: Response, dto: LoginDto) {
         const user = await this.userService.findByEmail(dto.email);
 
         if (!user || !user.password) {
@@ -119,7 +118,7 @@ export class AuthService {
             );
         }
 
-        return await this.saveSession(req, user);
+        await this.issueTokens(res, user);
     }
 
     public async extractProfileFromCode(
@@ -185,7 +184,7 @@ export class AuthService {
             };
         }
 
-        await this.saveSession(req, user);
+        await this.issueTokens(res, user);
         return { requires2FA: false };
     }
 
@@ -214,39 +213,22 @@ export class AuthService {
     }
 
     public async logout(req: Request, res: Response): Promise<void> {
-        return new Promise((resolve, reject) => {
-            req.session.destroy(err => {
-                if (err) {
-                    return reject(
-                        new InternalServerErrorException(
-                            'Failed to end the session. There may be a problem with the server or the session has already been completed.',
-                        ),
-                    );
-                }
-                res.clearCookie(this.SESSION_NAME);
-                resolve();
-            });
-        });
+        await this.jwtService.logout(req, res);
     }
 
-    public async saveSession(req: Request, user: User) {
-        req.session.userId = user.id;
+    public async issueTokens(res: Response, user: User) {
+        const payload = { userId: user.id, sessionId: user.id };
+        const accessToken = this.jwtService.generateAccessToken(payload);
+        const refreshToken =
+            await this.jwtService.generateRefreshToken(payload);
 
-        return new Promise<boolean>((resolve, reject) => {
-            console.log('Saving session for user:', user.id);
-            req.session.save(err => {
-                if (err) {
-                    console.error('Error saving session:', err);
-                    reject(
-                        new InternalServerErrorException(
-                            "Couldn't save session",
-                        ),
-                    );
-                } else {
-                    console.log('Session saved successfully.');
-                    resolve(true);
-                }
-            });
-        });
+        this.jwtService.setTokenCookie(res, accessToken, false);
+        this.jwtService.setTokenCookie(res, refreshToken, true);
+
+        return { accessToken, refreshToken };
+    }
+
+    public async refreshTokens(req: ExtendAuthCookieRequest, res: Response) {
+        return await this.jwtService.validateOrRefreshAccessToken(req, res);
     }
 }

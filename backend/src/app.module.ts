@@ -4,6 +4,7 @@ import { EmailConfirmationModule } from './auth/email-confirmation/email-confirm
 import { JwtModule } from './auth/jwt/jwt.module';
 import { PasswordRecoveryModule } from './auth/password-recovery/password-recovery.module';
 import { ProviderModule } from './auth/provider/provider.module';
+import { RedisModule } from './auth/redis/redis.module';
 import { TwoFactorAuthModule } from './auth/two-factor-auth/two-factor-auth.module';
 import { getGraphQLConfig } from './config/graphql.config';
 import { IS_DEV_ENV } from './libs/common/utils/is-dev.util';

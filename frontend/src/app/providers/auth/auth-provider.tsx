@@ -2,6 +2,8 @@
 
 import { createContext, useState, useEffect, useContext, useMemo } from 'react';
 import { useAuthMutation } from './hook/use-auth-mutation';
+import { isTokenValid } from './utils/is-valid';
+import Cookies from 'js-cookie';
 
 interface AuthContextProps {
 	isAuthenticated: boolean;
@@ -13,7 +15,7 @@ const AuthContextInit: AuthContextProps = {
 	isLoading: true,
 };
 
-const AuthContext = createContext(AuthContextInit);
+const AuthContext = createContext<AuthContextProps>(AuthContextInit);
 
 interface AuthProviderProps {
 	children: React.ReactNode;
@@ -28,9 +30,22 @@ export const AuthProvider = (props: AuthProviderProps) => {
 		setIsLoading(false)
 	);
 
-	// useEffect(() => {
-	// 	authorization();
-	// }, [authorization]);
+	useEffect(() => {
+		const token = Cookies.get(process.env.ACCESS_TOKEN || '');
+		if (token) {
+			isTokenValid(token).then((isValid) => {
+				if (isValid) {
+					setIsAuthenticated(true);
+				} else {
+					setIsAuthenticated(false);
+					authorization();
+				}
+			});
+		} else {
+			setIsAuthenticated(false);
+			authorization();
+		}
+	}, [authorization]);
 
 	const value = useMemo(
 		() => ({ isAuthenticated, isLoading }),
@@ -38,9 +53,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 	);
 
 	return (
-		<AuthContext.Provider value={AuthContextInit}>
-			{children}
-		</AuthContext.Provider>
+		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 	);
 };
 

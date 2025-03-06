@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { ExtendAuthCookieRequest } from '@/config/types/context-request.type';
+
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { AuthProviderGuard } from './guard/provider.guard';
@@ -38,8 +40,9 @@ export class AuthController {
     @Recaptcha()
     @Post('login')
     @HttpCode(HttpStatus.OK)
-    public async login(@Req() req: Request, @Body() dto: LoginDto) {
-        return this.authService.login(req, dto);
+    public async login(@Res() res: Response, @Body() dto: LoginDto) {
+        const result = await this.authService.login(res, dto);
+        return res.status(HttpStatus.OK).json(result);
     }
 
     @UseGuards(AuthProviderGuard)
@@ -76,12 +79,24 @@ export class AuthController {
         };
     }
 
+    @Post('refresh-tokens')
+    @HttpCode(HttpStatus.OK)
+    public async refreshTokens(
+        @Req() req: ExtendAuthCookieRequest,
+        @Res() res: Response,
+    ) {
+        await this.authService.refreshTokens(req, res);
+        return res
+            .status(HttpStatus.OK)
+            .json({ message: 'Successfully update tokens' });
+    }
+
     @Post('logout')
     @HttpCode(HttpStatus.OK)
-    public async logout(
-        @Req() req: Request,
-        @Res({ passthrough: true }) res: Response,
-    ) {
-        return this.authService.logout(req, res);
+    public async logout(@Req() req: Request, @Res() res: Response) {
+        await this.authService.logout(req, res);
+        return res
+            .status(HttpStatus.OK)
+            .json({ message: 'Successfully logged out' });
     }
 }

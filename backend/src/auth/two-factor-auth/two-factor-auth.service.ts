@@ -1,5 +1,6 @@
 import { randomInt } from 'crypto';
-import { Request } from 'express';
+import { randomUUID } from 'crypto';
+import { Response } from 'express';
 
 import { MailService } from '@/libs/mail/mail.service';
 import { PrismaService } from '@/prisma/prisma.service';
@@ -16,7 +17,6 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { TokenType } from '@prisma/__generated__';
-import { randomUUID } from 'crypto';
 
 @Injectable()
 export class TwoFactorAuthService {
@@ -72,7 +72,7 @@ export class TwoFactorAuthService {
     }
 
     public async verifyTwoFactorAuthentication(
-        req: Request,
+        res: Response,
         dto: TwoFactorDto,
         oauthToken: string,
     ) {
@@ -90,7 +90,10 @@ export class TwoFactorAuthService {
             throw new BadRequestException('Invalid authentication code.');
         }
 
-        const isValid = await this.validateTwoFactorToken(token.email, dto.code);
+        const isValid = await this.validateTwoFactorToken(
+            token.email,
+            dto.code,
+        );
         if (!isValid) {
             throw new BadRequestException('Invalid authentication code.');
         }
@@ -100,7 +103,7 @@ export class TwoFactorAuthService {
             throw new NotFoundException('User not found.');
         }
 
-        return this.authService.saveSession(req, user);
+        return this.authService.issueTokens(res, user);
     }
 
     public async sendTwoFactorToken(

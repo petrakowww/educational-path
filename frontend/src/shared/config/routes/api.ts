@@ -7,7 +7,7 @@ export enum ApiRoutesAuth {
 	twoFactorVerification = 'auth/twa/oauth/',
 	passwordNew = 'auth/password-recovery/new/',
 	passwordReset = 'auth/password-recovery/reset',
-	checkSession = 'auth/check-session',
+	checkSession = 'auth/refresh-tokens',
 }
 
 export const apiRoutes = {

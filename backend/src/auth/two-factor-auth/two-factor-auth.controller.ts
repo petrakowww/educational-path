@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Response } from 'express';
 
 import { TwoFactorDto } from './dto/two-factor.dto';
 import {
@@ -8,7 +8,7 @@ import {
     HttpStatus,
     Param,
     Post,
-    Req,
+    Res,
 } from '@nestjs/common';
 import { Recaptcha } from '@nestlab/google-recaptcha';
 
@@ -22,14 +22,16 @@ export class TwoFactorAuthController {
     @Post('/oauth/:oua')
     @HttpCode(HttpStatus.OK)
     public async newVerification(
-        @Req() req: Request,
+        @Res() res: Response,
         @Body() dto: TwoFactorDto,
         @Param('oua') ouaToken: string,
     ) {
-        return await this.twoFactourAuthService.verifyTwoFactorAuthentication(
-            req,
-            dto,
-            ouaToken,
-        );
+        const result =
+            await this.twoFactourAuthService.verifyTwoFactorAuthentication(
+                res,
+                dto,
+                ouaToken,
+            );
+        return res.status(HttpStatus.OK).json(result);
     }
 }
