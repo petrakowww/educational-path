@@ -1,14 +1,12 @@
 import { verify } from 'argon2';
 import { Request, Response } from 'express';
 
-import { ExtendAuthCookieRequest } from '@/config/types/context-request.type';
 import { UserService } from '@/user/user.service';
 
 import { AccountService } from './account/account.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
-import { JwtService } from './jwt/jwt.service';
 import { ProviderService } from './provider/provider.service';
 import { OAuthLoginResult } from './provider/services/types/user-info.type';
 import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
@@ -26,6 +24,9 @@ import { AuthMethod, User } from '@prisma/__generated__';
 
 @Injectable()
 export class AuthService {
+    private readonly ALLOWED_ORIGIN: string;
+    private readonly FRONTEND_2FA_URL: string;
+    private readonly FRONTEND_REDIRECT_URL: string;
     private readonly SESSION_NAME: string;
     public constructor(
         private readonly userService: UserService,
@@ -37,7 +38,15 @@ export class AuthService {
         @Inject(forwardRef(() => TwoFactorAuthService))
         private readonly twoFactorAuthService: TwoFactorAuthService,
     ) {
-        this.SESSION_NAME = configService.getOrThrow<string>('SESSION_NAME');
+        this.ALLOWED_ORIGIN =
+            this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
+        this.FRONTEND_2FA_URL =
+            this.configService.getOrThrow<string>('FRONTEND_2FA_URL');
+        this.FRONTEND_REDIRECT_URL = this.configService.getOrThrow<string>(
+            'FRONTEND_REDIRECT_URL',
+        );
+        this.SESSION_NAME =
+            this.configService.getOrThrow<string>('SESSION_NAME');
     }
     public async register(dto: RegisterDto) {
         const existingEmail = await this.userService.findByEmail(dto.email);
@@ -67,7 +76,7 @@ export class AuthService {
         };
     }
 
-    public async login(req: Request, res: Response, dto: LoginDto) {
+    public async login(req: Request, dto: LoginDto) {
         const user = await this.userService.findByEmail(dto.email);
 
         if (!user || !user.password) {
@@ -110,7 +119,7 @@ export class AuthService {
             );
         }
 
-        await this.saveSession(req, res, user);
+        return await this.saveSession(req, user);
     }
 
     public async extractProfileFromCode(
@@ -176,7 +185,7 @@ export class AuthService {
             };
         }
 
-        await this.saveSession(req, res, user);
+        await this.saveSession(req, user);
         return { requires2FA: false };
     }
 
@@ -192,8 +201,6 @@ export class AuthService {
             provider,
             code,
         );
-        const frontendUrl =
-            this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
 
         if ('requires2FA' in result && result.requires2FA) {
             const oauthToken =
@@ -201,15 +208,9 @@ export class AuthService {
                     result.email,
                     true,
                 );
-            const frontendRedirectPath =
-                this.configService.getOrThrow<string>('FRONTEND_2FA_URL');
-            return `${frontendUrl}${frontendRedirectPath}?oua=${oauthToken}`;
+            return `${this.ALLOWED_ORIGIN}${this.FRONTEND_2FA_URL}?oua=${oauthToken}`;
         }
-
-        const frontendRedirectPath = this.configService.getOrThrow<string>(
-            'FRONTEND_REDIRECT_URL',
-        );
-        return `${frontendUrl}${frontendRedirectPath}`;
+        return `${this.ALLOWED_ORIGIN}${this.FRONTEND_REDIRECT_URL}`;
     }
 
     public async logout(req: Request, res: Response): Promise<void> {
@@ -223,57 +224,29 @@ export class AuthService {
                     );
                 }
                 res.clearCookie(this.SESSION_NAME);
-                // this.jwtService.clearTokenCookie(res);
                 resolve();
             });
         });
     }
 
-    public async saveSession(req: Request, res: Response, user: User) {
+    public async saveSession(req: Request, user: User) {
         req.session.userId = user.id;
 
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<boolean>((resolve, reject) => {
+            console.log('Saving session for user:', user.id);
             req.session.save(err => {
                 if (err) {
+                    console.error('Error saving session:', err);
                     reject(
                         new InternalServerErrorException(
                             "Couldn't save session",
                         ),
                     );
+                } else {
+                    console.log('Session saved successfully.');
+                    resolve(true);
                 }
-                resolve();
             });
         });
-    }
-
-    public updateAuthorizationSession(
-        req: ExtendAuthCookieRequest,
-        res: Response,
-    ) {
-        // const session: string | undefined = req.cookies?.session;
-        // const accessToken: string | undefined = req.cookies?.at;
-        // if (!session) {
-        //     if (accessToken) {
-        //         this.jwtService.clearTokenCookie(res);
-        //     }
-        //     throw new UnauthorizedException('The user is not logged in');
-        // }
-        // if (!req.session?.userId) {
-        //     if (accessToken) {
-        //         this.jwtService.clearTokenCookie(res);
-        //     }
-        //     res.clearCookie(this.SESSION_NAME);
-        //     throw new UnauthorizedException('Session is invalid or expired.');
-        // }
-        // this.jwtService.generatePublicJWTAuthToken(
-        //     {
-        //         sessionId: req.session.id,
-        //     },
-        //     res,
-        // );
-        // return {
-        //     status: true,
-        //     message: 'Session has been successfully set up.',
-        // };
     }
 }

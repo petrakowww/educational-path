@@ -42,7 +42,7 @@ export class JwtService {
         res.cookie(this.COOKIE_TEMPORARY, token, {
             httpOnly: true,
             secure: isDev(this.configService),
-            sameSite: 'strict',
+            sameSite: 'lax',
             maxAge: this.EXPIRES_IN,
         });
     }
@@ -60,7 +60,6 @@ export class JwtService {
         });
 
         this.setTokenCookie(res, newAccessToken);
-
         return newAccessToken;
     }
 }

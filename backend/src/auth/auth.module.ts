@@ -5,7 +5,6 @@ import { UserService } from '@/user/user.service';
 
 import { AccountService } from './account/account.service';
 import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module';
-import { JwtService } from './jwt/jwt.service';
 import { ProviderModule } from './provider/provider.module';
 import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
 import { forwardRef, Module } from '@nestjs/common';

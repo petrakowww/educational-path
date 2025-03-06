@@ -36,6 +36,7 @@ import { GraphQLModule } from '@nestjs/graphql';
         EmailConfirmationModule,
         PasswordRecoveryModule,
         TwoFactorAuthModule,
+        JwtModule,
     ],
 })
 export class AppModule {}

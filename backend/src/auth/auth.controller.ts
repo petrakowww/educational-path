@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 
-import { Authorization } from './decorators/auth.decorator';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { AuthProviderGuard } from './guard/provider.guard';
@@ -39,12 +38,8 @@ export class AuthController {
     @Recaptcha()
     @Post('login')
     @HttpCode(HttpStatus.OK)
-    public async login(
-        @Req() req: Request,
-        @Res() res: Response,
-        @Body() dto: LoginDto,
-    ) {
-        await this.authService.login(req, res, dto);
+    public async login(@Req() req: Request, @Body() dto: LoginDto) {
+        return this.authService.login(req, dto);
     }
 
     @UseGuards(AuthProviderGuard)
@@ -89,14 +84,4 @@ export class AuthController {
     ) {
         return this.authService.logout(req, res);
     }
-
-    // @Post('/check-session')
-    // @Authorization()
-    // @HttpCode(HttpStatus.ACCEPTED)
-    // public checkAuthorization(
-    //     @Req() req: Request,
-    //     @Res({ passthrough: true }) res: Response,
-    // ) {
-    //     return this.authService.updateAuthorizationSession(req, res);
-    // }
 }
