@@ -1,21 +1,22 @@
 import { useMutation } from '@tanstack/react-query';
-import { authorizationService } from '../service/authorization.service';
+import { api } from '@/shared/api';
+import { apiRoutes } from '@/shared/config';
 
-export const useAuthMutation = (
+export const useAuthorizationMutation = (
 	callback: (value: boolean) => void,
 	onComplete: () => void
 ) => {
 	const { mutate: authorization, isPending: isLoadingAuthorization } =
 		useMutation({
 			mutationKey: ['authorization user'],
-			mutationFn: () => authorizationService.authorization(),
+			mutationFn: () => api.get(apiRoutes.auth.checkSession),
 			onSuccess() {
 				callback(true);
 				onComplete();
 			},
 			onError() {
 				callback(false);
-				onComplete(); 
+				onComplete();
 			},
 		});
 

@@ -10,12 +10,14 @@ import {
 	SheetDescription,
 	SheetTitle,
 	SheetTrigger,
+	Skeleton,
 } from '@/shared/ui';
 import { useMediaQuery } from '@/shared/lib';
-import { useTransition } from 'react';
 import { AppRoutes } from '@/shared/config';
 import { ThemeButton } from '../theme/theme-button';
 import { useAuth } from '@/app/providers/auth/auth-provider';
+import { useLogoutMutation } from '@/features/auth/hooks/use-logout-mutation';
+
 const links = [
 	{ href: '/', label: 'Home' },
 	{ href: '/dashboard', label: 'Dashboard' },
@@ -25,8 +27,7 @@ const links = [
 
 export const Header = () => {
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
-
-	const { isAuthenticated } = useAuth();
+	const { isAuthenticated, isLoading, logout } = useAuth();
 
 	return (
 		<header className="w-full bg-primary flex">
@@ -65,8 +66,15 @@ export const Header = () => {
 				</div>
 				<div className="flex gap-x-2">
 					<ThemeButton />
-					{isAuthenticated ? (
-						<HeaderLogout />
+
+					{isLoading ? (
+						// Скелетон пока не загрузится статус аутентификации
+						<div className="flex gap-2">
+							<Skeleton className="w-20 h-10 rounded-md" />
+							<Skeleton className="w-20 h-10 rounded-md" />
+						</div>
+					) : isAuthenticated ? (
+						<HeaderLogout callback={logout} />
 					) : (
 						<nav className="md:flex flex gap-2">
 							<Button variant={'outline'} asChild>
@@ -110,8 +118,13 @@ export const Header = () => {
 											</Link>
 										))}
 										<Separator />
-										{isAuthenticated ? (
-											<HeaderLogout />
+										{isLoading ? (
+											<div className="flex flex-col gap-2">
+												<Skeleton className="w-24 h-10 rounded-md" />
+												<Skeleton className="w-24 h-10 rounded-md" />
+											</div>
+										) : isAuthenticated ? (
+											<HeaderLogout callback={logout} />
 										) : (
 											<>
 												<Link
@@ -139,16 +152,25 @@ export const Header = () => {
 	);
 };
 
-export const HeaderLogout = () => {
-	const [isPending, startLogout] = useTransition();
+export const HeaderLogout = ({
+	callback,
+}: {
+	callback: (() => void) | undefined;
+}) => {
+	const { logout, isLoadingLogout } = useLogoutMutation();
 
+	const handleClick = () => {
+		logout();
+		callback?.();
+	};
 	return (
 		<Button
 			variant="outline"
-			disabled={isPending}
+			disabled={isLoadingLogout}
+			onClick={handleClick}
 			className="border-2 border-border hover:bg-secondary hover:text-secondary-foreground"
 		>
-			{isPending ? 'Logging out...' : 'Logout'}
+			{isLoadingLogout ? 'Logging out...' : 'Logout'}
 		</Button>
 	);
 };

@@ -1,6 +1,7 @@
 import { verify } from 'argon2';
 import { Request, Response } from 'express';
 
+import { ExtendAuthCookieRequest } from '@/config/types/context-request.type';
 import { UserService } from '@/user/user.service';
 
 import { AccountService } from './account/account.service';
@@ -21,7 +22,6 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthMethod, User } from '@prisma/__generated__';
-import { ExtendAuthCookieRequest } from '@/config/types/context-request.type';
 
 @Injectable()
 export class AuthService {
@@ -133,59 +133,64 @@ export class AuthService {
             throw new Error(`OAuth provider '${provider}' not found.`);
         }
 
-        const profile = await providerInstance.exchangeAccessCode(code);
-        const account = await this.accountService.findOAuthAccount(
-            profile.accountId,
-            profile.provider,
-        );
+        try {
+            const profile = await providerInstance.exchangeAccessCode(code);
 
-        let user: User;
+            const account = await this.accountService.findOAuthAccount(
+                profile.accountId,
+                profile.provider,
+            );
 
-        if (account) {
-            user = await this.userService.findById(account.userId);
+            let user: User;
 
-            if (!user) {
-                throw new NotFoundException(
-                    'The user was not found for this account.',
-                );
+            if (account) {
+                user = await this.userService.findById(account.userId);
+
+                if (!user) {
+                    throw new NotFoundException(
+                        'The user was not found for this account.',
+                    );
+                }
+                await this.accountService.updateOAuthAccountTokens(profile);
+            } else {
+                if (profile.email) {
+                    user = await this.userService.findByEmail(profile.email);
+                }
+
+                if (!user) {
+                    user = await this.userService.create({
+                        email: profile.email,
+                        password: '',
+                        name: profile.name,
+                        method: profile.provider,
+                        isVerified: true,
+                        picture: profile.picture,
+                    });
+                }
+
+                await this.accountService.createOAuthAccount(user.id, profile);
             }
-            await this.accountService.updateOAuthAccountTokens(profile);
-        } else {
-            if (profile.email) {
-                user = await this.userService.findByEmail(profile.email);
-            }
 
-            if (!user) {
-                user = await this.userService.create({
+            if (user.isTwoFactorEnabled) {
+                const oauthToken =
+                    (await this.twoFactorAuthService.sendTwoFactorToken(
+                        user.email,
+                        true,
+                    )) as string;
+                return {
+                    requires2FA: true,
+                    oauthToken: oauthToken,
                     email: profile.email,
-                    password: '',
-                    name: profile.name,
-                    method: profile.provider,
-                    isVerified: true,
-                    picture: profile.picture,
-                });
+                    message:
+                        'A two-factor authentication code was sent to your email.',
+                };
             }
 
-            await this.accountService.createOAuthAccount(user.id, profile);
+            await this.issueTokens(res, user);
+            return { requires2FA: false };
+    } catch {
+            res.redirect(`${this.ALLOWED_ORIGIN}/auth/signin`);
         }
-
-        if (user.isTwoFactorEnabled) {
-            const oauthToken =
-                (await this.twoFactorAuthService.sendTwoFactorToken(
-                    user.email,
-                    true,
-                )) as string;
-            return {
-                requires2FA: true,
-                oauthToken: oauthToken,
-                email: profile.email,
-                message:
-                    'A two-factor authentication code was sent to your email.',
-            };
-        }
-
-        await this.issueTokens(res, user);
-        return { requires2FA: false };
     }
 
     public async handleOAuthResult(

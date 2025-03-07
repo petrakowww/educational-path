@@ -79,7 +79,7 @@ export class AuthController {
         };
     }
 
-    @Post('refresh-tokens')
+    @Get('refresh-tokens')
     @HttpCode(HttpStatus.OK)
     public async refreshTokens(
         @Req() req: ExtendAuthCookieRequest,

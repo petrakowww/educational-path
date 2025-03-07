@@ -34,6 +34,7 @@ export class AxiosClient {
 			const data = error.response.data as { message?: string };
 			return data?.message || error.response.statusText;
 		}
+		
 		return 'Unknown error occurred';
 	}
 
@@ -85,5 +86,9 @@ export class AxiosClient {
 		options?: RequestOptions
 	) {
 		return this.request<T>('PATCH', endpoint, { ...options, data: body });
+	}
+
+	public getInstance() {
+		return this.axiosInstance;
 	}
 }

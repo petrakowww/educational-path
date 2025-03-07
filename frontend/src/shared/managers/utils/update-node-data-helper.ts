@@ -1,5 +1,5 @@
 import { GraphNodeComponent } from '@/shared/lib/node/component';
-import { NodeInterface } from '../interfaces/node-interface';
+import { NodeInterface } from '../types/node-interface';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 export function updateNodeDataHelper<T>(

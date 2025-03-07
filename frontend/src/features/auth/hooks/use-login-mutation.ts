@@ -6,7 +6,7 @@ import { TypeLoginSchema } from '../schemes/form-sign-in-schema';
 import { useRouter } from 'next/navigation';
 import { AppRoutes } from '@/shared/config';
 import { OTPResponseProps } from '../types/response.type';
-import { UserProps } from '../../user/types/user.type';
+import { UserProps } from '../types/user.type';
 
 export const useLoginMutation = (callback: (value: boolean) => void) => {
 	const router = useRouter();
@@ -36,7 +36,6 @@ export const useLoginMutation = (callback: (value: boolean) => void) => {
 			router.push(AppRoutes.Dashboard);
 		},
 		onError(err) {
-			console.log(err);
 			toastMessageHandler(err);
 		},
 	});

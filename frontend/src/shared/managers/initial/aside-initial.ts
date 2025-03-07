@@ -1,4 +1,4 @@
-import { AsideInterface } from '../interfaces/aside-interface';
+import { AsideInterface } from '../types/aside-interface';
 
 export const initialAsideState: AsideInterface = {
 	isOpenMenu: false,

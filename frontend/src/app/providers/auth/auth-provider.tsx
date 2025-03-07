@@ -1,18 +1,26 @@
 'use client';
 
-import { createContext, useState, useEffect, useContext, useMemo } from 'react';
-import { useAuthMutation } from './hook/use-auth-mutation';
+import {
+	createContext,
+	useState,
+	useEffect,
+	useContext,
+	useMemo,
+	useCallback,
+} from 'react';
 import { isTokenValid } from './utils/is-valid';
-import Cookies from 'js-cookie';
+import { cookieClient } from '@/shared/lib/utils/cookie-client';
 
 interface AuthContextProps {
 	isAuthenticated: boolean;
 	isLoading: boolean;
+	logout: () => void;
 }
 
 const AuthContextInit: AuthContextProps = {
 	isAuthenticated: false,
 	isLoading: true,
+	logout: () => {},
 };
 
 const AuthContext = createContext<AuthContextProps>(AuthContextInit);
@@ -21,39 +29,43 @@ interface AuthProviderProps {
 	children: React.ReactNode;
 }
 
-export const AuthProvider = (props: AuthProviderProps) => {
-	const { children } = props;
+export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
-	const { authorization } = useAuthMutation(setIsAuthenticated, () =>
-		setIsLoading(false)
-	);
+	const updateAuthState = useCallback((isAuthorized: boolean) => {
+		setIsAuthenticated(isAuthorized);
+		setIsLoading(false);
+	}, []);
 
 	useEffect(() => {
-		const token = Cookies.get(process.env.ACCESS_TOKEN || '');
+		const token = cookieClient.getAccessToken();
 		if (token) {
-			isTokenValid(token).then((isValid) => {
-				if (isValid) {
-					setIsAuthenticated(true);
-				} else {
-					setIsAuthenticated(false);
-					authorization();
-				}
-			});
+			isTokenValid(token)
+				.then(() => updateAuthState(true))
+				.catch(() => updateAuthState(false));
 		} else {
-			setIsAuthenticated(false);
-			authorization();
+			updateAuthState(false);
 		}
-	}, [authorization]);
+	}, [updateAuthState]);
+
+	const logout = useCallback(() => {
+		cookieClient.logout();
+		updateAuthState(false);
+	}, [updateAuthState]);
 
 	const value = useMemo(
-		() => ({ isAuthenticated, isLoading }),
-		[isAuthenticated, isLoading]
+		() => ({
+			isAuthenticated,
+			logout,
+		}),
+		[isAuthenticated, logout]
 	);
 
 	return (
-		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+		<AuthContext.Provider value={{ ...value, isLoading: isLoading }}>
+			{children}
+		</AuthContext.Provider>
 	);
 };
 

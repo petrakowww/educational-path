@@ -33,3 +33,5 @@ export * from './otp/input-otp';
 export * from './collapsible/collapsible';
 
 export * from './sidebar/sidebar';
+
+export * from './skeleton/skeleton';

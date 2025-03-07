@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { ProviderServiceType } from '../../types/service.oauth.type';
 import { authService } from '../../services/auth.service';
+import { toast } from 'sonner';
 
 export const AuthSocial = () => {
 	const router = useRouter();
@@ -20,10 +21,13 @@ export const AuthSocial = () => {
 	});
 
 	const handleOnClick = async (provider: ProviderServiceType) => {
-		const response = await mutateAsync(provider);
-
-		if (response) {
-			router.push(response.url);
+		try {
+			const response = await mutateAsync(provider);
+			if (response) {
+				router.push(response.url);
+			}
+		} catch (error) {
+			toast.error('Error during authorization. Try again.');
 		}
 	};
 

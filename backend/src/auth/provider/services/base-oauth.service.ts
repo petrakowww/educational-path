@@ -66,24 +66,31 @@ export class BaseOAuthService {
                 );
             }
 
-            const { data: userInfo } = await axios.get<TypeUserInfo>(
-                profileUrl,
-                {
-                    headers: {
-                        Authorization: `Bearer ${tokenResponse.access_token}`,
+            try {
+                const { data: userInfo } = await axios.get<TypeUserInfo>(
+                    profileUrl,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${tokenResponse.access_token}`,
+                        },
                     },
-                },
-            );
+                );
 
-            const userData = this.extractUserInfo(userInfo);
+                const userData = this.extractUserInfo(userInfo);
 
-            return {
-                ...userData,
-                accessToken: tokenResponse.access_token,
-                refreshToken: tokenResponse.refresh_token ?? null,
-                expiresAt: this.calculateExpiry(tokenResponse.expires_in),
-                provider: this.options.name,
-            };
+                return {
+                    ...userData,
+                    accessToken: tokenResponse.access_token,
+                    refreshToken: tokenResponse.refresh_token ?? null,
+                    expiresAt: this.calculateExpiry(tokenResponse.expires_in),
+                    provider: this.options.name,
+                };
+            } catch (profileError) {
+                throw new BadRequestException(
+                    'Failed to fetch user profile: ' +
+                        (profileError as Error)?.message,
+                );
+            }
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 throw new BadRequestException(

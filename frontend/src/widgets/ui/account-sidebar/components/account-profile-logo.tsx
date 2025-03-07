@@ -1,5 +1,6 @@
 'use client';
 
+import { useQueryProfileLogo } from '@/features/user/query/use-profile-mutation';
 import {
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -16,15 +17,10 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { ChevronsUpDownIcon, PenIcon } from 'lucide-react';
 
-interface AccountProfileLogoProps {
-	picture?: string;
-	username: string;
-}
-
-export const AccountProfileLogo = (props: AccountProfileLogoProps) => {
-	const { picture, username } = props;
+export const AccountProfileLogo = () => {
 	const { isMobile } = useSidebar();
-
+	const {data, loading, error} = useQueryProfileLogo();
+	
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -36,15 +32,15 @@ export const AccountProfileLogo = (props: AccountProfileLogoProps) => {
 						>
 							<div className="flex aspect-square size-8 items-center justify-center">
 								<Avatar className="rounded-[50%] overflow-hidden">
-									<AvatarImage src={picture} />
+									<AvatarImage src={data?.picture} />
 									<AvatarFallback>
-										{username.slice(0, 1)}
+										{data?.name.slice(0, 1)}
 									</AvatarFallback>
 								</Avatar>
 							</div>
 							<div className="grid flex-1 text-left text-sm leading-tight">
 								<span className="truncate font-semibold">
-									Petrakowww
+									{data.name}
 								</span>
 								<span className="truncate text-xs">
 									Edu user

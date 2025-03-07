@@ -21,7 +21,29 @@ export class RedisService {
         );
     }
 
+    private async removeOldSessions(userId: string): Promise<void> {
+        const pattern = `${this.REFRESH_TOKEN_PREFIX}:${userId}:*`;
+        let cursor = '0';
+
+        do {
+            const result = await this.redisClient.scan(
+                cursor,
+                'MATCH',
+                pattern,
+                'COUNT',
+                100,
+            );
+            cursor = result[0];
+            const keys = result[1];
+
+            if (keys.length > 0) {
+                await this.redisClient.del(...keys);
+            }
+        } while (cursor !== '0');
+    }
+
     public async setRefreshToken(
+        userId: string,
         sessionId: string,
         refreshToken: string,
         expiresIn: number = 3600,
@@ -29,6 +51,7 @@ export class RedisService {
         const tokenKey = `${this.REFRESH_TOKEN_PREFIX}:${sessionId}`;
 
         try {
+            await this.removeOldSessions(userId);
             await this.redisClient.set(tokenKey, refreshToken, 'EX', expiresIn);
         } catch {
             throw new UnauthorizedException('Failed to set refresh token');

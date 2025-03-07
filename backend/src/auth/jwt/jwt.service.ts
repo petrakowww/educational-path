@@ -54,6 +54,7 @@ export class JwtService {
         });
 
         await this.redisService.setRefreshToken(
+            payload.userId,
             payload.sessionId,
             refreshToken,
             this.REFRESH_TOKEN_EXPIRES_IN,
@@ -72,7 +73,10 @@ export class JwtService {
 
     public async verifyRefreshToken<T = JwtPayload>(token: string): Promise<T> {
         try {
-            const payload = jwt.verify(token, this.REFRESH_TOKEN_SECRET_KEY) as T;
+            const payload = jwt.verify(
+                token,
+                this.REFRESH_TOKEN_SECRET_KEY,
+            ) as T;
             const sessionId = (payload as JwtPayload).sessionId;
 
             const storedToken =
@@ -135,6 +139,7 @@ export class JwtService {
         const refreshToken = req.cookies[this.REFRESH_TOKEN_COOKIE_NAME] as
             | string
             | undefined;
+
         if (!refreshToken) {
             throw new UnauthorizedException('No valid tokens provided');
         }

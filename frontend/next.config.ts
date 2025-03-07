@@ -5,7 +5,9 @@ const nextConfig: NextConfig = {
 		SERVER_URL: process.env.SERVER_URL,
 		GOOGLE_RECAPTCHA_SITE_KEY: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
 		JWT_SECRET_KEY: process.env.JWT_ACCESS_TOKEN,
-		ACCESS_TOKEN: process.env.ACCESS_TOKEN
+		ACCESS_TOKEN: process.env.ACCESS_TOKEN,
+		REFRESH_TOKEN: process.env.REFRESH_TOKEN,
+		GRAPHQL_URL: process.env.GRAPHQL_URL
 	},
 	images: {
 		remotePatterns: [

@@ -1,22 +1,25 @@
-import { AppGroupRoutes, AppRoutes } from '@/shared/config';
+import { apiRoutes, AppGroupRoutes, AppRoutes } from '@/shared/config';
 import { NextResponse, type NextRequest } from 'next/server';
 
 import { jwtVerify } from 'jose';
 
 export class AuthMiddleware {
 	private request: NextRequest;
-	private token: string | null;
+	private accessToken: string | null;
+	private refreshToken: string | null;
 
 	constructor(request: NextRequest) {
 		this.request = request;
-		this.token = this.getToken();
+		this.accessToken = this.getToken(
+			process.env.ACCESS_TOKEN || 'access_token'
+		);
+		this.refreshToken = this.getToken(
+			process.env.REFRESH_TOKEN || 'refresh_token'
+		);
 	}
 
-	private getToken(): string | null {
-		return (
-			this.request.cookies.get(process.env.ACCESS_TOKEN || 'access_token')
-				?.value ?? null
-		);
+	private getToken(cookieName: string): string | null {
+		return this.request.cookies.get(cookieName)?.value ?? null;
 	}
 
 	private isAuthPage(): boolean {
@@ -38,32 +41,45 @@ export class AuthMiddleware {
 	public async handle(): Promise<NextResponse> {
 		if (this.isAuthPage()) {
 			const isValid = await this.isTokenValid();
-			return this.token && isValid
+			return isValid
 				? this.redirectIfAuthenticated()
 				: NextResponse.next();
 		}
 
 		const isValid = await this.isTokenValid();
-		return this.token && isValid
-			? NextResponse.next()
-			: this.redirectIfNotAuthenticated();
+		if (isValid) {
+			return NextResponse.next();
+		}
+
+		return this.redirectIfNotAuthenticated();
 	}
 
 	private async isTokenValid(): Promise<boolean> {
-		if (!this.token) return false;
+		if (this.accessToken) {
+			try {
+				const { payload } = await jwtVerify(
+					this.accessToken,
+					new TextEncoder().encode(
+						process.env.JWT_SECRET_KEY || 'secret'
+					)
+				);
 
-		try {
-			const { payload } = await jwtVerify(
-				this.token,
-				new TextEncoder().encode(process.env.JWT_SECRET_KEY || 'secret')
-			);
-
-			if (payload.exp === undefined) {
-				return false;
+				if (
+					payload.exp &&
+					payload.exp > Math.floor(Date.now() / 1000)
+				) {
+					return true;
+				}
+			} catch {
+				if (!this.refreshToken) {
+					return false;
+				}
 			}
-			return payload.exp > Math.floor(Date.now() / 1000);
-		} catch {
-			return false;
 		}
+		if (this.refreshToken) {
+			
+		}
+
+		return false;
 	}
 }

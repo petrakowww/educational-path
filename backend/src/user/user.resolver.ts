@@ -3,7 +3,7 @@ import { CurrentUser } from '@/auth/decorators/user.decorator';
 
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserModel } from './model/user.model';
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserRole } from '@prisma/__generated__';
 
 import { UserService } from './user.service';
