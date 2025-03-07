@@ -1,7 +1,5 @@
 import { verify } from 'argon2';
 import { Request, Response } from 'express';
-
-import { ExtendAuthCookieRequest } from '@/config/types/context-request.type';
 import { UserService } from '@/user/user.service';
 
 import { AccountService } from './account/account.service';
@@ -118,7 +116,7 @@ export class AuthService {
             );
         }
 
-        await this.issueTokens(res, user);
+        await this.generateJwtTokens(res, user);
     }
 
     public async extractProfileFromCode(
@@ -186,9 +184,9 @@ export class AuthService {
                 };
             }
 
-            await this.issueTokens(res, user);
+            await this.generateJwtTokens(res, user);
             return { requires2FA: false };
-    } catch {
+        } catch {
             res.redirect(`${this.ALLOWED_ORIGIN}/auth/signin`);
         }
     }
@@ -221,19 +219,36 @@ export class AuthService {
         await this.jwtService.logout(req, res);
     }
 
-    public async issueTokens(res: Response, user: User) {
+    public async generateJwtTokens(res: Response, user: User) {
         const payload = { userId: user.id, sessionId: user.id };
         const accessToken = this.jwtService.generateAccessToken(payload);
         const refreshToken =
             await this.jwtService.generateRefreshToken(payload);
 
-        this.jwtService.setTokenCookie(res, accessToken, false);
-        this.jwtService.setTokenCookie(res, refreshToken, true);
+        this.jwtService.setTokenCookie(res, accessToken, 'Access Token');
+        this.jwtService.setTokenCookie(res, refreshToken, 'Refresh Token');
 
         return { accessToken, refreshToken };
     }
 
-    public async refreshTokens(req: ExtendAuthCookieRequest, res: Response) {
-        return await this.jwtService.validateOrRefreshAccessToken(req, res);
+    public async refreshJwtTokens(req: Request, res: Response) {
+        const oldAccessToken = this.jwtService.getToken(req, 'Access Token');
+
+        if (oldAccessToken) {
+            try {
+                this.jwtService.verifyAccessToken(oldAccessToken);
+                this.jwtService.setTokenCookie(res, oldAccessToken, 'Access Token');
+
+                return { accessToken: oldAccessToken };
+            } catch {
+                console.warn('Access token invalid, attempting refresh...');
+            }
+        }
+        const {accessToken, refreshToken} = await this.jwtService.refreshTokens(req);
+
+        this.jwtService.setTokenCookie(res, accessToken, 'Access Token');
+        this.jwtService.setTokenCookie(res, refreshToken, 'Refresh Token');
+
+        return {accessToken, refreshToken}
     }
 }

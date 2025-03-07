@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client';
 import { FIND_PROFILE_LOGO } from '../graphql/profile.query';
-import client from '@/shared/lib/graphql/apollo-client';
 import { FindProfileResponse } from '../types/user-query.type';
 import { UNKNOWN_USER } from '@/shared/lib/constants/fallback.constants';
 

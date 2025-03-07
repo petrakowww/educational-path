@@ -1,8 +1,9 @@
 'use client';
 
-import { setCookie, getCookie, deleteCookie } from 'cookies-next';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next/client';
+import { ICookieClient } from './cookie.type';
 
-class CookieClient {
+export class CookieClient implements ICookieClient {
 	private accessToken: string;
 	private refreshToken: string;
 
@@ -19,11 +20,11 @@ class CookieClient {
 		return getCookie(this.refreshToken) as string | undefined;
 	}
 
-	setAccessToken(value: string, options?: { [key: string]: unknown }) {
+	setAccessToken(_: unknown, __: unknown, value: string, options?: object) {
 		setCookie(this.accessToken, value, options);
 	}
 
-	setRefreshToken(value: string, options?: { [key: string]: unknown }) {
+	setRefreshToken(_: unknown, __: unknown, value: string, options?: object) {
 		setCookie(this.refreshToken, value, options);
 	}
 

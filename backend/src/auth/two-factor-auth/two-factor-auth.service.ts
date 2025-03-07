@@ -103,7 +103,7 @@ export class TwoFactorAuthService {
             throw new NotFoundException('User not found.');
         }
 
-        return this.authService.issueTokens(res, user);
+        return this.authService.generateJwtTokens(res, user);
     }
 
     public async sendTwoFactorToken(

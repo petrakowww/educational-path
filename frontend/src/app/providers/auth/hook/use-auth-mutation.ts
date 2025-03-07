@@ -9,7 +9,7 @@ export const useAuthorizationMutation = (
 	const { mutate: authorization, isPending: isLoadingAuthorization } =
 		useMutation({
 			mutationKey: ['authorization user'],
-			mutationFn: () => api.get(apiRoutes.auth.checkSession),
+			mutationFn: () => api.get(apiRoutes.auth.refreshTokens),
 			onSuccess() {
 				callback(true);
 				onComplete();

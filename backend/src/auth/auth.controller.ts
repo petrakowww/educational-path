@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { ExtendAuthCookieRequest } from '@/config/types/context-request.type';
+import { UserRequest } from '@/config/types/context-request.type';
 
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -81,14 +81,9 @@ export class AuthController {
 
     @Get('refresh-tokens')
     @HttpCode(HttpStatus.OK)
-    public async refreshTokens(
-        @Req() req: ExtendAuthCookieRequest,
-        @Res() res: Response,
-    ) {
-        await this.authService.refreshTokens(req, res);
-        return res
-            .status(HttpStatus.OK)
-            .json({ message: 'Successfully update tokens' });
+    public async refreshTokens(@Req() req: UserRequest, @Res() res: Response) {
+        const response = await this.authService.refreshJwtTokens(req, res);
+        return res.status(HttpStatus.OK).json(response);
     }
 
     @Post('logout')

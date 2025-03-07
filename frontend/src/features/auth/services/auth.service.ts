@@ -52,7 +52,7 @@ export class AuthService {
 	}
 
 	public async refreshToken() {
-		const response = await api.get(apiRoutes.auth.checkSession);
+		const response = await api.get(apiRoutes.auth.refreshTokens);
 		return response;
 	}
 }

@@ -1,15 +1,18 @@
-import { apiRoutes, AppGroupRoutes, AppRoutes } from '@/shared/config';
+import { apiRoutes, AppGroupRoutes } from '@/shared/config';
 import { NextResponse, type NextRequest } from 'next/server';
-
 import { jwtVerify } from 'jose';
+import { RedirectMiddleware } from './redirect-middleware';
 
 export class AuthMiddleware {
 	private request: NextRequest;
+	private response: NextResponse;
 	private accessToken: string | null;
 	private refreshToken: string | null;
+    private readonly REDIRECT_PARAM = 'redirect';
 
-	constructor(request: NextRequest) {
+	constructor(request: NextRequest, response: NextResponse) {
 		this.request = request;
+		this.response = response;
 		this.accessToken = this.getToken(
 			process.env.ACCESS_TOKEN || 'access_token'
 		);
@@ -27,34 +30,57 @@ export class AuthMiddleware {
 	}
 
 	private redirectIfAuthenticated(): NextResponse {
-		return NextResponse.redirect(
-			new URL(AppRoutes.Dashboard, this.request.url)
-		);
+        return RedirectMiddleware.redirectIfAuthenticated(this.request);
 	}
 
 	private redirectIfNotAuthenticated(): NextResponse {
-		return NextResponse.redirect(
-			new URL(AppRoutes.SignIn, this.request.url)
-		);
+        return RedirectMiddleware.redirectIfNotAuthenticated(this.request);
 	}
 
 	public async handle(): Promise<NextResponse> {
 		if (this.isAuthPage()) {
-			const isValid = await this.isTokenValid();
-			return isValid
-				? this.redirectIfAuthenticated()
-				: NextResponse.next();
+			const isValid = await this.isAccessTokenValid();
+
+			if (isValid) {
+				return this.redirectIfAuthenticated();
+			}
+
+			if (this.refreshToken) {
+				const redirectUrl = new URL(
+					apiRoutes.client.refreshTokenRedirect,
+					this.request.url
+				);
+				redirectUrl.searchParams.set(
+					this.REDIRECT_PARAM,
+					this.request.url
+				);
+				return NextResponse.redirect(redirectUrl);
+			} else {
+				return NextResponse.next();
+			}
 		}
 
-		const isValid = await this.isTokenValid();
+		const isValid = await this.isAccessTokenValid();
 		if (isValid) {
 			return NextResponse.next();
 		}
 
-		return this.redirectIfNotAuthenticated();
+		if (this.refreshToken) {
+			const redirectUrl = new URL(
+                apiRoutes.client.refreshTokenRedirect,
+                this.request.url
+            );
+            redirectUrl.searchParams.set(
+                this.REDIRECT_PARAM,
+                this.request.url
+            );
+            return NextResponse.redirect(redirectUrl);
+		}
+
+        return this.redirectIfNotAuthenticated();
 	}
 
-	private async isTokenValid(): Promise<boolean> {
+	private async isAccessTokenValid(): Promise<boolean> {
 		if (this.accessToken) {
 			try {
 				const { payload } = await jwtVerify(
@@ -71,13 +97,11 @@ export class AuthMiddleware {
 					return true;
 				}
 			} catch {
-				if (!this.refreshToken) {
-					return false;
-				}
+				this.request.cookies.delete(
+					process.env.ACCESS_TOKEN || 'access_token'
+				);
+				return false;
 			}
-		}
-		if (this.refreshToken) {
-			
 		}
 
 		return false;

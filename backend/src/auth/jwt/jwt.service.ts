@@ -1,7 +1,6 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { ExtendAuthCookieRequest } from '@/config/types/context-request.type';
 import { isDev } from '@/libs/common/utils/is-dev.util';
 import { parse } from '@/libs/common/utils/ms.util';
 
@@ -9,17 +8,16 @@ import { RedisService } from '../redis/redis.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { JwtPayload } from './jwt.payload';
+import { JwtPayload, RefreshTokens, TokenType } from './jwt.types';
 
 @Injectable()
 export class JwtService {
     private readonly ACCESS_TOKEN_SECRET_KEY: jwt.Secret;
     private readonly REFRESH_TOKEN_SECRET_KEY: jwt.Secret;
-    private readonly EXPIRES_IN: number;
+    private readonly ACCESS_TOKEN_EXPIRES_IN: number;
     private readonly REFRESH_TOKEN_EXPIRES_IN: number;
     public readonly ACCESS_TOKEN_COOKIE_NAME = 'access_token';
     public readonly REFRESH_TOKEN_COOKIE_NAME = 'refresh_token';
-    private readonly JWT_HTTP_ONLY: boolean;
     private readonly JWT_HOST: string;
 
     public constructor(
@@ -32,19 +30,17 @@ export class JwtService {
         this.REFRESH_TOKEN_SECRET_KEY = configService.getOrThrow<jwt.Secret>(
             'JWT_REFRESH_SECRET_KEY',
         );
-        this.EXPIRES_IN = parse(
+        this.ACCESS_TOKEN_EXPIRES_IN = parse(
             configService.get<string>('JWT_EXPIRES_IN', '1h'),
         );
         this.REFRESH_TOKEN_EXPIRES_IN = parse(
             configService.get<string>('JWT_REFRESH_EXPIRES_IN', '7d'),
         );
-        this.JWT_HTTP_ONLY = configService.getOrThrow<boolean>('JWT_HTTP_ONLY');
-        this.JWT_HOST = configService.getOrThrow<string>('JWT_HOST');
     }
 
     public generateAccessToken(payload: JwtPayload): string {
         return jwt.sign(payload, this.ACCESS_TOKEN_SECRET_KEY, {
-            expiresIn: this.EXPIRES_IN,
+            expiresIn: this.ACCESS_TOKEN_EXPIRES_IN,
         });
     }
 
@@ -93,55 +89,11 @@ export class JwtService {
         }
     }
 
-    public setTokenCookie(
-        res: Response,
-        token: string,
-        isRefreshToken = false,
-    ): void {
-        const maxAge = isRefreshToken
-            ? this.REFRESH_TOKEN_EXPIRES_IN
-            : this.EXPIRES_IN;
-        const cookieName = isRefreshToken
-            ? this.REFRESH_TOKEN_COOKIE_NAME
-            : this.ACCESS_TOKEN_COOKIE_NAME;
-
-        res.cookie(cookieName, token, {
-            httpOnly: isRefreshToken,
-            secure: !isDev(this.configService),
-            sameSite: 'lax',
-            maxAge: maxAge,
-            domain: this.JWT_HOST,
-        });
-    }
-
-    public clearTokenCookie(res: Response, isRefreshToken = false): void {
-        const cookieName = isRefreshToken
-            ? this.REFRESH_TOKEN_COOKIE_NAME
-            : this.ACCESS_TOKEN_COOKIE_NAME;
-        res.clearCookie(cookieName);
-    }
-
-    public async validateOrRefreshAccessToken(
-        req: ExtendAuthCookieRequest,
-        res: Response,
-    ): Promise<JwtPayload> {
-        const accessToken = req.cookies[this.ACCESS_TOKEN_COOKIE_NAME] as
-            | string
-            | undefined;
-        if (accessToken) {
-            try {
-                return this.verifyAccessToken<JwtPayload>(accessToken);
-            } catch {
-                console.warn('Access token invalid, attempting refresh...');
-            }
-        }
-
-        const refreshToken = req.cookies[this.REFRESH_TOKEN_COOKIE_NAME] as
-            | string
-            | undefined;
-
+    public async refreshTokens(req: Request): Promise<RefreshTokens> {
+        const refreshToken = this.getToken(req, 'Refresh Token');
+    
         if (!refreshToken) {
-            throw new UnauthorizedException('No valid tokens provided');
+            throw new UnauthorizedException('No refresh token provided');
         }
 
         const refreshPayload =
@@ -156,20 +108,60 @@ export class JwtService {
             sessionId: refreshPayload.sessionId,
             userId: refreshPayload.userId,
         });
-
-        this.setTokenCookie(res, newAccessToken, false);
-        this.setTokenCookie(res, newRefreshToken, true);
-
-        return this.verifyAccessToken<JwtPayload>(newAccessToken);
+        
+        return {
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+        };
     }
 
-    public async logout(
-        req: ExtendAuthCookieRequest,
-        res: Response,
-    ): Promise<void> {
-        const refreshToken = req.cookies[this.REFRESH_TOKEN_COOKIE_NAME] as
-            | string
-            | undefined;
+    public setTokenCookie(res: Response, token: string, type: TokenType): void {
+        const tokenSettings: {
+            [key in TokenType]: {
+                cookieName: string;
+                maxAge: number;
+                httpOnly: boolean;
+            };
+        } = {
+            'Refresh Token': {
+                cookieName: this.REFRESH_TOKEN_COOKIE_NAME,
+                maxAge: this.REFRESH_TOKEN_EXPIRES_IN,
+                httpOnly: true,
+            },
+            'Access Token': {
+                cookieName: this.ACCESS_TOKEN_COOKIE_NAME,
+                maxAge: this.ACCESS_TOKEN_EXPIRES_IN,
+                httpOnly: false,
+            },
+        };
+
+        const { cookieName, maxAge, httpOnly } = tokenSettings[type];
+
+        res.cookie(cookieName, token, {
+            httpOnly: httpOnly,
+            secure: !isDev(this.configService),
+            sameSite: 'lax',
+            maxAge: maxAge,
+            domain: this.JWT_HOST,
+        });
+    }
+
+    public clearTokenCookie(res: Response, type: TokenType): void {
+        const tokenSettings: { [key in TokenType]: { cookieName: string } } = {
+            'Refresh Token': {
+                cookieName: this.REFRESH_TOKEN_COOKIE_NAME,
+            },
+            'Access Token': {
+                cookieName: this.ACCESS_TOKEN_COOKIE_NAME,
+            },
+        };
+
+        const { cookieName } = tokenSettings[type];
+        res.clearCookie(cookieName);
+    }
+
+    public async logout(req: Request, res: Response): Promise<void> {
+        const refreshToken = this.getToken(req, 'Refresh Token');
         if (refreshToken) {
             try {
                 const payload = jwt.verify(
@@ -183,8 +175,19 @@ export class JwtService {
                 );
             }
         }
+        this.clearTokenCookie(res, 'Access Token');
+        this.clearTokenCookie(res, 'Refresh Token');
+    }
 
-        this.clearTokenCookie(res, false);
-        this.clearTokenCookie(res, true);
+    public getToken(req: Request, type: TokenType): string | null {
+        const tokenNames: { [key in TokenType]: string } = {
+            'Access Token': this.ACCESS_TOKEN_COOKIE_NAME,
+            'Refresh Token': this.REFRESH_TOKEN_COOKIE_NAME,
+        };
+
+        const tokenName = tokenNames[type];
+        const token = req.cookies[tokenName] as string | undefined;
+
+        return token || null;
     }
 }

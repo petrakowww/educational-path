@@ -9,7 +9,8 @@ import {
 	useCallback,
 } from 'react';
 import { isTokenValid } from './utils/is-valid';
-import { cookieClient } from '@/shared/lib/utils/cookie-client';
+import { cookieClient } from '@/shared/lib/utils/cookie/cookie.client';
+
 
 interface AuthContextProps {
 	isAuthenticated: boolean;

@@ -75,7 +75,7 @@ export class EmailConfirmationService {
             },
         });
 
-        return this.authService.issueTokens(res, existingUser);
+        return this.authService.generateJwtTokens(res, existingUser);
     }
 
     public async sendVerificationToken(email: string) {
