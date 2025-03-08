@@ -54,7 +54,7 @@ export const FormSignIn = () => {
 		if (recaptchaValue) {
 			login({ values, recaptcha: recaptchaValue });
 		} else {
-			toast.error('Please complete reCAPTCHA before authorization');
+			toast.error('Пожалуйста, завершите reCAPTCHA перед авторизацией');
 		}
 	};
 
@@ -94,7 +94,7 @@ export const FormSignIn = () => {
 									<FormItem>
 										<FormControl>
 											<Input
-												placeholder="Password..."
+												placeholder="Пароль..."
 												className="text-sm"
 												disabled={isLoadingLogin}
 												{...field}
@@ -143,7 +143,7 @@ export const FormSignIn = () => {
 					asChild
 				>
 					<Link href={AppRoutes.ResetPassword}>
-						Reset your password?
+						Сбросить пароль?
 					</Link>
 				</Button>
 				<div className="flex flex-col w-full gap-4">
@@ -160,15 +160,13 @@ export const FormSignIn = () => {
 					)}
 					<div className="flex justify-center">
 						<ReCAPTCHA
-							sitekey={
-								process.env.GOOGLE_RECAPTCHA_SITE_KEY as string
-							}
+							sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
 							onChange={setRecaptchaValue}
 							theme={theme.theme === 'light' ? 'light' : 'dark'}
 						/>
 					</div>
 					<Button type="submit" disabled={isLoadingLogin}>
-						Continue
+						Продолжить
 					</Button>
 				</div>
 			</form>

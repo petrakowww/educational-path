@@ -7,6 +7,7 @@ export enum AuthMethod {
 	Credentials = 'CREDENTIALS',
 	Google = 'GOOGLE',
 	Yandex = 'YANDEX',
+	GitHub = 'GITHUB',
 }
 
 export interface AccountProps {

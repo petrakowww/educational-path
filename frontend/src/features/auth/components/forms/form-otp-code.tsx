@@ -42,7 +42,7 @@ export const FormTwoFactorAuth = () => {
 			verify({ recaptcha: recaptchaValue, values: values });
 		} else {
 			toast.error(
-				'Please complete reCAPTCHA before verifying your authentication code.'
+				'Пожалуйста, завершите reCAPTCHA перед подтверждением кода аутентификации.'
 			);
 		}
 	};
@@ -95,7 +95,7 @@ export const FormTwoFactorAuth = () => {
 				</div>
 
 				<Button type="submit" disabled={isLoadingVerify}>
-					Verify Code
+					Подтвердить код
 				</Button>
 			</form>
 		</Form>

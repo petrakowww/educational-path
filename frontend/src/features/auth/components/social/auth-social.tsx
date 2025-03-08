@@ -26,8 +26,8 @@ export const AuthSocial = () => {
 			if (response) {
 				router.push(response.url);
 			}
-		} catch (error) {
-			toast.error('Error during authorization. Try again.');
+		} catch {
+			toast.error('Ошибка авторизации. Попробуйте снова.');
 		}
 	};
 
@@ -38,7 +38,7 @@ export const AuthSocial = () => {
 				className="w-full gap-3"
 				onClick={() => handleOnClick('github')}
 			>
-				Continue with GitHub{' '}
+				Продолжить через GitHub{' '}
 				<FontAwesomeIcon
 					icon={faGithub}
 					style={{ width: 20, height: 20 }}
@@ -49,7 +49,7 @@ export const AuthSocial = () => {
 				className="w-full gap-3"
 				onClick={() => handleOnClick('google')}
 			>
-				Continue with Google{' '}
+				Продолжить через Google{' '}
 				<FontAwesomeIcon
 					icon={faGoogle}
 					style={{ width: 20, height: 20 }}
@@ -60,7 +60,7 @@ export const AuthSocial = () => {
 				className="w-full gap-3"
 				onClick={() => handleOnClick('yandex')}
 			>
-				Continue with Yandex{' '}
+				Продолжить через Yandex{' '}
 				<FontAwesomeIcon
 					icon={faYandex}
 					style={{ width: 20, height: 20 }}

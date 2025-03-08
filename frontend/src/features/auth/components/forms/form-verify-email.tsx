@@ -26,25 +26,25 @@ export const FormVerifyEmail = () => {
 				{isVerifying ? (
 					<div className="flex flex-col items-center gap-4">
 						<Loader2 className="w-6 h-6 animate-spin" />
-						<p>Verifying your email, please wait...</p>
+						<p>Пожалуйста, подождите, идет проверка вашего email...</p>
 					</div>
 				) : success ? (
 					<div className="flex flex-col gap-4">
-						<p>Your email has been successfully verified.</p>
+						<p>Ваш email был успешно подтвержден.</p>
 						<Button
 							onClick={() => router.replace(AppRoutes.Dashboard)}
 						>
-							Go to Dashboard
+							Перейти в панель управления
 						</Button>
 					</div>
 				) : (
 					<div className="flex flex-col gap-4">
-						<p>Email verification failed. Please try again.</p>
+						<p>Ошибка при проверке email. Пожалуйста, попробуйте снова.</p>
 						<Button
 							onClick={() => router.replace(AppRoutes.SignIn)}
 							variant="destructive"
 						>
-							Go to Sign In
+							Перейти к входу
 						</Button>
 					</div>
 				)}

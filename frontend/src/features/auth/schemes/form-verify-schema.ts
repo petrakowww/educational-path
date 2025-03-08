@@ -3,8 +3,8 @@ import { z } from 'zod';
 export const formVerifySchema = z.object({
 	code: z
 		.string()
-		.min(6, 'Code must be 6 characters')
-		.max(6, 'Code must be 6 characters'),
+		.length(6, 'Код должен состоять ровно из 6 символов')
+		.regex(/^\d{6}$/, 'Код должен быть числовым'),
 	email: z.string().email(),
 	type: z.string().min(3),
 });

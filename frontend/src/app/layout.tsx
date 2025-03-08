@@ -8,21 +8,18 @@ import { RootProvider } from './providers/root/root-provider';
 import { TanstackProvider } from './providers/tanstack/tanstack-provider';
 import { ToastProvider } from './providers/toast/toast-provider';
 import { AuthProvider } from './providers/auth/auth-provider';
-import { ApolloProvider } from '@apollo/client';
-import client from '@/shared/lib/graphql/apollo-client';
+import { ApolloClientProvider } from './providers/apollo/apollo-provider';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-
-
 	return (
 		<RootProvider>
 			<StoreProvider>
 				<TanstackProvider>
-					<ApolloProvider client={client}>
+					<ApolloClientProvider>
 						<AuthProvider>
 							<ThemeProviderApp>{children}</ThemeProviderApp>
 						</AuthProvider>
-					</ApolloProvider>
+					</ApolloClientProvider>
 				</TanstackProvider>
 			</StoreProvider>
 			<ToastProvider />

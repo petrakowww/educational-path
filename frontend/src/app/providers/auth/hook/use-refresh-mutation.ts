@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { api } from '@/shared/api';
 import { apiRoutes } from '@/shared/config';
+import { cookieClient } from '@/shared/lib/utils/cookie.client';
 
 export const useAuthorizationMutation = (
-	callback: (value: boolean) => void,
-	onComplete: () => void
+	callback: (value: boolean) => void
 ) => {
 	const { mutate: authorization, isPending: isLoadingAuthorization } =
 		useMutation({
@@ -12,11 +12,11 @@ export const useAuthorizationMutation = (
 			mutationFn: () => api.get(apiRoutes.auth.refreshTokens),
 			onSuccess() {
 				callback(true);
-				onComplete();
 			},
 			onError() {
 				callback(false);
-				onComplete();
+
+				cookieClient.logout();
 			},
 		});
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useQueryProfileLogo } from '@/features/user/query/use-profile-mutation';
+import { useFindProfileLogoQuery } from '@/shared/graphql/generated/output';
 import {
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -16,11 +16,17 @@ import {
 	DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
 import { ChevronsUpDownIcon, PenIcon } from 'lucide-react';
+import {
+	getUserCredentialType,
+	getUserRoleType,
+} from '../constants/account-convert-info';
+import Link from 'next/link';
+import { AppRoutes } from '@/shared/config';
 
 export const AccountProfileLogo = () => {
 	const { isMobile } = useSidebar();
-	const {data, loading, error} = useQueryProfileLogo();
-	
+	const { data } = useFindProfileLogoQuery();
+
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -32,18 +38,28 @@ export const AccountProfileLogo = () => {
 						>
 							<div className="flex aspect-square size-8 items-center justify-center">
 								<Avatar className="rounded-[50%] overflow-hidden">
-									<AvatarImage src={data?.picture} />
+									<AvatarImage
+										src={
+											data?.findProfile
+												.picture as undefined
+										}
+									/>
 									<AvatarFallback>
-										{data?.name.slice(0, 1)}
+										{data?.findProfile.name.slice(0, 1)}
 									</AvatarFallback>
 								</Avatar>
 							</div>
 							<div className="grid flex-1 text-left text-sm leading-tight">
 								<span className="truncate font-semibold">
-									{data.name}
+									{data?.findProfile.name || 'unknown user'}
 								</span>
 								<span className="truncate text-xs">
-									Edu user
+									{getUserRoleType(data?.findProfile.role)}
+									{' ('}
+									{getUserCredentialType(
+										data?.findProfile.method
+									)}
+									{')'}
 								</span>
 							</div>
 							<ChevronsUpDownIcon className="ml-auto" />
@@ -56,14 +72,14 @@ export const AccountProfileLogo = () => {
 						sideOffset={4}
 					>
 						<DropdownMenuLabel className="text-xs text-foreground/90">
-							Profile
+							Профиль
 						</DropdownMenuLabel>
 						<DropdownMenuItem className="gap-2 cursor-pointer">
-							<div className="flex size-6 items-center justify-center rounded-md border border-primary bg-background">
+							<div className="flex size-6 items-center justify-center rounded-md border border-border bg-background">
 								<PenIcon className="size-4" />
 							</div>
 							<div className="text-foreground/80">
-								Change profile
+								<Link href={AppRoutes.AccountProfile}>Изменить профиль</Link>
 							</div>
 						</DropdownMenuItem>
 					</DropdownMenuContent>

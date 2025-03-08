@@ -34,16 +34,15 @@ export const FormSignUp = () => {
 		},
 	});
 
-
 	const errors = form.formState.errors;
 
 	const { register, isLoadingRegister } = useRegisterMutation();
 
 	const onSubmit = (values: TypeRegisterSchema) => {
 		if (recaptchaValue) {
-			register({values, recaptcha: recaptchaValue});
+			register({ values, recaptcha: recaptchaValue });
 		} else {
-			toast.error('Please complete the reCAPTCHA before registering');
+			toast.error('Пожалуйста, завершите reCAPTCHA перед регистрацией');
 		}
 	};
 
@@ -60,7 +59,7 @@ export const FormSignUp = () => {
 						<FormItem>
 							<FormControl>
 								<Input
-									placeholder="Username..."
+									placeholder="Ваше имя..."
 									className="text-sm"
 									{...field}
 									required
@@ -77,7 +76,7 @@ export const FormSignUp = () => {
 						<FormItem>
 							<FormControl>
 								<Input
-									placeholder="Email Address..."
+									placeholder="Адрес электронной почты..."
 									className="text-sm"
 									{...field}
 									type="email"
@@ -95,7 +94,7 @@ export const FormSignUp = () => {
 						<FormItem>
 							<FormControl>
 								<Input
-									placeholder="Password..."
+									placeholder="Пароль..."
 									className="text-sm"
 									{...field}
 									type="password"
@@ -113,7 +112,7 @@ export const FormSignUp = () => {
 						<FormItem>
 							<FormControl>
 								<Input
-									placeholder="Repeat password..."
+									placeholder="Повторите пароль..."
 									className="text-sm"
 									{...field}
 									type="password"
@@ -124,7 +123,7 @@ export const FormSignUp = () => {
 						</FormItem>
 					)}
 				/>
-				{(Object.keys(errors).length > 0) && (
+				{Object.keys(errors).length > 0 && (
 					<div className="bg-destructive/70 text-destructive-foreground text-sm p-2 rounded-md">
 						<div>
 							{Object.values(errors).map((error, index) => (
@@ -145,7 +144,7 @@ export const FormSignUp = () => {
 					/>
 				</div>
 				<Button type="submit" disabled={isLoadingRegister}>
-					Continue to verify email
+					Продолжить для подтверждения почты
 				</Button>
 			</form>
 		</Form>

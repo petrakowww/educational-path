@@ -22,7 +22,7 @@ export class MailService {
         const domain = this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
         const html = await render(ConfirmationTemplate({ domain, token }));
 
-        return this.sendMail(email, 'Email Confirmation', html);
+        return this.sendMail(email, 'Подтверждение по электронной почте', html);
     }
 
     public async sendPasswordResetEmail(
@@ -32,7 +32,7 @@ export class MailService {
         const domain = this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
         const html = await render(ResetPasswordTemplate({ domain, token }));
 
-        return this.sendMail(email, 'Password Reset', html);
+        return this.sendMail(email, 'Сброс пароля', html);
     }
 
     public async sendTwoFactorTokenEmail(

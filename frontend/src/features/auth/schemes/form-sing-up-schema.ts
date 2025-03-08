@@ -4,25 +4,25 @@ export const formSignUpSchema = z
 	.object({
 		name: z
 			.string()
-			.min(3, { message: 'Username must be at least 3 characters long.' })
-			.regex(/^[a-zA-Z0-9_]+$/, {
+			.min(3, { message: 'Имя пользователя должно содержать не менее 3 символов.' })
+			.regex(/^[\p{L}\p{N}_ ]+$/u, {
 				message:
-					'Username can only contain letters, numbers, and underscores',
+					'Имя может содержать только буквы, цифры, подчеркивания и пробелы',
 			}),
-		email: z.string().email({ message: 'Invalid email address.' }),
+		email: z.string().email({ message: 'Неверный адрес электронной почты.' }),
 		password: z
 			.string()
 			.min(10, {
-				message: 'Password must be at least 10 characters long.',
+				message: 'Пароль должен содержать не менее 10 символов.',
 			})
-			.regex(/^(?=.*[A-Z])(?=.*\d).{10,}$/, {
+			.regex(/(?=.*\p{Lu})(?=.*\d)/u, {
 				message:
-					'Password must be at least 10 characters long, contain at least 1 uppercase letter, and 1 number.',
+					'Пароль должен содержать не менее 10 символов, включать хотя бы 1 заглавную букву и 1 цифру.',
 			}),
 		passwordRepeat: z.string(),
 	})
 	.refine((data) => data.password === data.passwordRepeat, {
-		message: 'Passwords do not match.',
+		message: 'Пароли не совпадают.',
 		path: ['passwordRepeat'],
 	});
 

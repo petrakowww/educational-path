@@ -4,17 +4,21 @@ import { toast } from 'sonner';
 import { useSearchParams } from 'next/navigation';
 export const useVerificationMutation = () => {
 	const searchParams = useSearchParams();
-	const token = searchParams.get('token');
+	const token = searchParams?.get('token');
 
 	const { mutateAsync: verification } = useMutation({
 		mutationKey: ['new verification'],
-		mutationFn: () =>
-			verificationService.newVerification(token),
+		mutationFn: () => {
+			if (!token) {
+				throw new Error('Токен не найден');
+			}
+			return verificationService.newVerification(token);
+		},
 		onSuccess() {
-			toast.success('Your email has been successfully confirmed!');
+			toast.success('Ваш адрес электронной почты был успешно подтвержден!');
 		},
 		onError() {
-			toast.error('Email verification failed. Please try again.');
+			toast.error('Не удалось подтвердить адрес электронной почты. Пожалуйста, попробуйте снова.');
 		},
 	});
 

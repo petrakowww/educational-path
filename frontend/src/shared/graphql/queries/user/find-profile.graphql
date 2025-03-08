@@ -1,0 +1,19 @@
+query FindProfile {
+	findProfile {
+		name
+		picture
+		method
+		isTwoFactorEnabled
+		email
+		accounts {
+			type
+		}
+		skillProfile {
+			githubUrl
+			vkUrl
+			telegramUrl
+			headline
+			profilename
+		}
+	}
+}

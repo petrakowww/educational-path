@@ -1,0 +1,8 @@
+query FindProfileLogo {
+	findProfile {
+		name
+		picture
+		method
+		role
+	}
+}

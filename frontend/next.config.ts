@@ -7,7 +7,8 @@ const nextConfig: NextConfig = {
 		JWT_SECRET_KEY: process.env.JWT_ACCESS_TOKEN,
 		ACCESS_TOKEN: process.env.ACCESS_TOKEN,
 		REFRESH_TOKEN: process.env.REFRESH_TOKEN,
-		GRAPHQL_URL: process.env.GRAPHQL_URL
+		GRAPHQL_URL: process.env.GRAPHQL_URL,
+		FRONTEND_URL: process.env.FRONTEND_URL,
 	},
 	images: {
 		remotePatterns: [

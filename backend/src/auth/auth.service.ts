@@ -1,8 +1,9 @@
 import { verify } from 'argon2';
 import { Request, Response } from 'express';
+
 import { UserService } from '@/user/user.service';
 
-import { AccountService } from './account/account.service';
+import { AccountService } from '../user/account/account.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
@@ -11,6 +12,7 @@ import { ProviderService } from './provider/provider.service';
 import { OAuthLoginResult } from './provider/services/types/user-info.type';
 import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
 import {
+    BadRequestException,
     ConflictException,
     forwardRef,
     Inject,
@@ -50,7 +52,7 @@ export class AuthService {
 
         if (existingEmail) {
             throw new ConflictException(
-                'Registration failed. A user with this email already exists, please use another email.',
+                'Не удалось зарегистрироваться. Пользователь с таким адресом электронной почты уже существует, пожалуйста, используйте другой адрес электронной почты.',
             );
         }
 
@@ -69,7 +71,7 @@ export class AuthService {
 
         return {
             message:
-                'You have successfully registered. Please confirm your email address. The message has been sent to your email address.',
+                'Вы успешно зарегистрировались. Пожалуйста, подтвердите свой адрес электронной почты. Сообщение было отправлено на ваш электронный адрес.',
         };
     }
 
@@ -78,7 +80,7 @@ export class AuthService {
 
         if (!user || !user.password) {
             throw new NotFoundException(
-                'The user was not found, please check the entered data.',
+                'Пользователь не найден, пожалуйста, проверьте введенные данные.',
             );
         }
 
@@ -86,7 +88,7 @@ export class AuthService {
 
         if (!isValidPassword) {
             throw new UnauthorizedException(
-                'Invalid password, please check the password you entered and try again.',
+                'Неверный пароль, пожалуйста, проверьте введенный вами пароль и повторите попытку.',
             );
         }
 
@@ -95,7 +97,7 @@ export class AuthService {
                 user.email,
             );
             throw new UnauthorizedException(
-                'Your email has not been verified. Please check your email and confirm the address.',
+                'Ваш адрес электронной почты не был подтвержден. Пожалуйста, проверьте свой адрес электронной почты и подтвердите указанный адрес.',
             );
         }
 
@@ -105,7 +107,7 @@ export class AuthService {
 
                 return {
                     message:
-                        'Check your email. A two-factor authentication code is required.',
+                        'Проверьте свою электронную почту. Требуется ввести код двухфакторной аутентификации.',
                     otpResponse: true,
                 };
             }
@@ -128,7 +130,7 @@ export class AuthService {
         const providerInstance = this.providerService.findByService(provider);
 
         if (!providerInstance) {
-            throw new Error(`OAuth provider '${provider}' not found.`);
+            throw new Error(`Поставщик OAuth '${provider}' не был найден.`);
         }
 
         try {
@@ -146,7 +148,7 @@ export class AuthService {
 
                 if (!user) {
                     throw new NotFoundException(
-                        'The user was not found for this account.',
+                        'Пользователь для этой учетной записи найден не был.',
                     );
                 }
                 await this.accountService.updateOAuthAccountTokens(profile);
@@ -163,6 +165,7 @@ export class AuthService {
                         method: profile.provider,
                         isVerified: true,
                         picture: profile.picture,
+                        github_url: profile.github_url
                     });
                 }
 
@@ -180,14 +183,17 @@ export class AuthService {
                     oauthToken: oauthToken,
                     email: profile.email,
                     message:
-                        'A two-factor authentication code was sent to your email.',
+                        'На ваш электронный адрес был отправлен код двухфакторной аутентификации.',
                 };
             }
 
             await this.generateJwtTokens(res, user);
             return { requires2FA: false };
         } catch {
-            res.redirect(`${this.ALLOWED_ORIGIN}/auth/signin`);
+            return {
+                oauthErrorMessage:
+                    "Ошибка на стороне службы авторизации. Пожалуйста, попробуйте снова",
+            };
         }
     }
 
@@ -203,6 +209,11 @@ export class AuthService {
             provider,
             code,
         );
+        if (!code) {
+            throw new BadRequestException(
+                'Код авторизации предоставлен не был.',
+            );
+        }
 
         if ('requires2FA' in result && result.requires2FA) {
             const oauthToken =
@@ -237,18 +248,23 @@ export class AuthService {
         if (oldAccessToken) {
             try {
                 this.jwtService.verifyAccessToken(oldAccessToken);
-                this.jwtService.setTokenCookie(res, oldAccessToken, 'Access Token');
+                this.jwtService.setTokenCookie(
+                    res,
+                    oldAccessToken,
+                    'Access Token',
+                );
 
                 return { accessToken: oldAccessToken };
             } catch {
-                console.warn('Access token invalid, attempting refresh...');
+                console.warn('Недействительный токен доступа, попытка обновления...');
             }
         }
-        const {accessToken, refreshToken} = await this.jwtService.refreshTokens(req);
+        const { accessToken, refreshToken } =
+            await this.jwtService.refreshTokens(req);
 
         this.jwtService.setTokenCookie(res, accessToken, 'Access Token');
         this.jwtService.setTokenCookie(res, refreshToken, 'Refresh Token');
 
-        return {accessToken, refreshToken}
+        return { accessToken, refreshToken };
     }
 }

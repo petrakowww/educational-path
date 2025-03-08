@@ -10,7 +10,7 @@ export const useVerifyTwoFactorMutation = () => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 
-	const oauthToken = searchParams.get('oua');
+	const oauthToken = searchParams?.get('oua');
 
 	const { mutate: verify, isPending: isLoadingVerify } = useMutation({
 		mutationKey: ['verify-2FA'],
@@ -22,7 +22,7 @@ export const useVerifyTwoFactorMutation = () => {
 			recaptcha: string;
 		}) => {
 			if (!oauthToken) {
-				throw new Error('token not found');
+				throw new Error('Токен не найден');
 			}
 
 			return verificationService.verifyTwoFactor(
@@ -32,13 +32,13 @@ export const useVerifyTwoFactorMutation = () => {
 			);
 		},
 		onSuccess() {
-			toast.success('Two-factor authentication successful!');
+			toast.success('Двухфакторная аутентификация прошла успешно!');
 			router.replace(AppRoutes.Dashboard);
 		},
 		onError(error) {
 			toast.error(
 				error.message ||
-					'Invalid authentication code. Please try again.'
+					'Неверный код аутентификации. Пожалуйста, попробуйте снова.'
 			);
 		},
 	});

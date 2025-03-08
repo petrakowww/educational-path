@@ -12,8 +12,8 @@ export const useLogoutMutation = () => {
 		mutationKey: ['authorization user'],
 		mutationFn: () => api.post(apiRoutes.auth.logout),
 		onSuccess() {
-			toast.success(`You have successfully logged out`, {
-				description: 'We will be waiting for you again!',
+			toast.success(`Вы успешно вышли из своего аккаунта`, {
+				description: 'Мы будем ждать вас снова!',
 			});
 			router.push(AppRoutes.SignIn);
 		},

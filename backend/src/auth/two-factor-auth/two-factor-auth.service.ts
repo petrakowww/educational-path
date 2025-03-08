@@ -45,19 +45,19 @@ export class TwoFactorAuthService {
 
         if (!existingToken) {
             throw new NotFoundException(
-                'The two-factor authentication token was not found. Make sure that you requested a token for this email address.',
+                'Токен двухфакторной аутентификации не найден. Убедитесь, что вы запрашивали токен для этого адреса электронной почты.',
             );
         }
 
         if (existingToken.token !== code) {
             throw new BadRequestException(
-                'Invalid two-factor authentication code. Please check the entered code and try again.',
+                'Неверный код двухфакторной аутентификации. Пожалуйста, проверьте введенный код и повторите попытку.',
             );
         }
 
         if (new Date(existingToken.expiresIn) < new Date()) {
             throw new BadRequestException(
-                'The two-factor authentication token has expired. Please request a new token.',
+                'Срок действия токена двухфакторной аутентификации истек. Пожалуйста, запросите новый токен.',
             );
         }
 
@@ -77,7 +77,7 @@ export class TwoFactorAuthService {
         oauthToken: string,
     ) {
         if (!oauthToken) {
-            throw new BadRequestException('Missing OAuth token.');
+            throw new BadRequestException('Отсутствует токен OAuth.');
         }
 
         const token = await this.prismaService.token.findUnique({
@@ -87,7 +87,7 @@ export class TwoFactorAuthService {
         });
 
         if (!token) {
-            throw new BadRequestException('Invalid authentication code.');
+            throw new BadRequestException('Неверный код аутентификации.');
         }
 
         const isValid = await this.validateTwoFactorToken(
@@ -95,12 +95,12 @@ export class TwoFactorAuthService {
             dto.code,
         );
         if (!isValid) {
-            throw new BadRequestException('Invalid authentication code.');
+            throw new BadRequestException('Неверный код аутентификации.');
         }
 
         const user = await this.userService.findByEmail(token.email);
         if (!user) {
-            throw new NotFoundException('User not found.');
+            throw new NotFoundException('Пользователь не найден.');
         }
 
         return this.authService.generateJwtTokens(res, user);
@@ -117,7 +117,7 @@ export class TwoFactorAuthService {
 
         if (!twoFactorToken) {
             throw new InternalServerErrorException(
-                'Server error when creating a token',
+                'Ошибка сервера при создании токена.',
             );
         }
 
@@ -129,7 +129,7 @@ export class TwoFactorAuthService {
         if (isOAuth) {
             if (!twoFactorToken.oauthToken) {
                 throw new InternalServerErrorException(
-                    'OAuth token generation failed',
+                    'Не удалось сгенерировать токен OAuth.',
                 );
             }
             return twoFactorToken.oauthToken;

@@ -9,24 +9,24 @@ import {
 import { IsPasswordsMatchingConstraint } from '@/libs/common/decorators/is-passwords-matching-constraint.decorator';
 
 export class NewPasswordDto {
-    @IsString({ message: 'Password must be a string.' })
-    @IsNotEmpty({ message: 'Password is required.' })
+    @IsString({ message: 'Пароль должен быть строкой.' })
+    @IsNotEmpty({ message: 'Пароль обязателен для заполнения.' })
     @MinLength(10, {
-        message: 'Password must be at least 10 characters long.',
+        message: 'Пароль должен содержать не менее 10 символов.',
     })
-    @Matches(/^(?=.*[A-Z])(?=.*\d).{10,}$/, {
+    @Matches(/(?=.*\p{Lu})(?=.*\d)/u, {
         message:
-            'Password must be at least 10 characters long, contain at least 1 uppercase letter, and 1 number.',
+            'Пароль должен содержать не менее 10 символов, включать хотя бы 1 заглавную букву и 1 цифру.',
     })
     password: string;
 
-    @IsString({ message: 'Password confirmation must be a string.' })
-    @IsNotEmpty({ message: 'Password confirmation is required.' })
+    @IsString({ message: 'Подтверждение пароля должно быть строкой.' })
+    @IsNotEmpty({ message: 'Подтверждение пароля обязательно для заполнения.' })
     @MinLength(10, {
-        message: 'Password confirmation must be at least 10 characters long.',
+        message: 'Подтверждение пароля должно содержать не менее 10 символов.',
     })
     @Validate(IsPasswordsMatchingConstraint, {
-        message: 'Passwords do not match.',
+        message: 'Пароли не совпадают.',
     })
     passwordRepeat: string;
 }

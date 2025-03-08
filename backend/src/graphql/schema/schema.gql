@@ -2,6 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AccountModel {
+  accessToken: String
+  accountId: String!
+  expiresAt: DateTime!
+  id: ID!
+  provider: String!
+  refreshToken: String
+  type: String!
+  user: UserModel!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Mutation {
   updateProfile(dto: UpdateUserDto!): UserModel!
 }
@@ -11,6 +27,16 @@ type Query {
   findProfile: UserModel!
 }
 
+type SkillProfile {
+  githubUrl: String
+  headline: String
+  id: ID!
+  profilename: String
+  telegramUrl: String
+  user: UserModel!
+  vkUrl: String
+}
+
 input UpdateUserDto {
   email: String!
   isTwoFactorEnabled: Boolean!
@@ -18,10 +44,14 @@ input UpdateUserDto {
 }
 
 type UserModel {
+  accounts: [AccountModel!]
   email: String!
   id: ID!
   isTwoFactorEnabled: Boolean!
   isVerified: Boolean!
+  method: String!
   name: String!
   picture: String
+  role: String!
+  skillProfile: [SkillProfile!]
 }

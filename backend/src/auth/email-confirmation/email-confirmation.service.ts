@@ -38,7 +38,7 @@ export class EmailConfirmationService {
 
         if (!existingToken) {
             throw new NotFoundException(
-                'The confirmation token was not found. Please make sure that you have the correct token.',
+                'Токен подтверждения не найден. Пожалуйста, убедитесь, что у вас правильный токен.',
             );
         }
 
@@ -46,7 +46,7 @@ export class EmailConfirmationService {
 
         if (hasExpired) {
             throw new BadRequestException(
-                'The confirmation token has expired. Please request a new token for confirmation.',
+                'Срок действия токена подтверждения истек. Пожалуйста, запросите новый токен для подтверждения.',
             );
         }
 
@@ -56,7 +56,7 @@ export class EmailConfirmationService {
 
         if (!existingUser) {
             throw new NotFoundException(
-                'The user was not found. Please check the email address you entered and try again.',
+                'Пользователь не найден. Пожалуйста, проверьте введенный вами адрес электронной почты и повторите попытку.',
             );
         }
 

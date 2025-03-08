@@ -20,7 +20,7 @@ export class AuthProviderGuard implements CanActivate {
 
         if (!this.providerService.findByService(provider)) {
             throw new NotFoundException(
-                `OAuth provider "${provider}" not found. Check your entry is correct.`,
+                `Поставщик "${provider}" не найден. Проверьте правильность введенных данных.`,
             );
         }
 

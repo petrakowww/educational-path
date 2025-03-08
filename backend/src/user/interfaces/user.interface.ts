@@ -7,4 +7,5 @@ export interface UserDataProps {
     picture: string;
     method: AuthMethod;
     isVerified: boolean;
+    github_url?: string;
 }

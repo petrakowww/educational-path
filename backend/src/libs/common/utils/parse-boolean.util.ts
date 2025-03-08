@@ -5,6 +5,6 @@ export function parseBoolean(value: BooleanInput): boolean {
     if (value === false || value === 'false' || value === '0') return false;
 
     throw new Error(
-        `Couldn't convert the value: ${value} to a Boolean literal`,
+        `Не удалось преобразовать значение: ${value} в логический литерал`,
     );
 }

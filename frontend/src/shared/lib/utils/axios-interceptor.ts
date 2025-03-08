@@ -6,7 +6,7 @@ import {
 } from 'axios';
 import { api } from '@/shared/api';
 import { authService } from '@/features/auth/services/auth.service';
-import { cookieClient } from './cookie/cookie.client';
+import { cookieClient } from './cookie.client';
 
 interface AxiosRequestConfigWithRetry extends AxiosRequestConfig {
 	_isRetry?: boolean;
@@ -39,7 +39,7 @@ class AuthInterceptor {
 							(err as AxiosError).status ===
 							HttpStatusCode.Unauthorized
 						) {
-							this.clearCookies();
+							cookieClient.logout();
 						}
 					}
 				}
@@ -47,10 +47,6 @@ class AuthInterceptor {
 				throw error;
 			}
 		);
-	}
-
-	private clearCookies() {
-		cookieClient.logout();
 	}
 }
 

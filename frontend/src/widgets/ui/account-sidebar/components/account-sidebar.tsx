@@ -13,28 +13,28 @@ import { AccountProfileLogo } from './account-profile-logo';
 export const navigation: AccountNavMainProps = {
 	map: {
 		items: mapArray,
-		label: 'Maps',
+		label: 'Карты',
 	},
 	account: {
 		items: accountArray,
-		label: 'Account Settings',
+		label: 'Настройки аккаунта',
 	},
 };
 
 export const AccountSidebar = () => {
 	return (
-		<Sidebar className="absolute h-full">
-			<SidebarContent>
+		<Sidebar className="absolute h-full flex flex-grow min-h-full">
+			<SidebarContent className="pt-2 min-h-full">
 				<SidebarHeader>
 					<AccountProfileLogo />
 				</SidebarHeader>
 				<SidebarGroup>
 					<SidebarGroupLabel className="text-foreground/80 text-md rounded-none border-b mb-1">
-						Account panel
+						Панель управления
 					</SidebarGroupLabel>
 					<AccountNavMain {...navigation} />
 				</SidebarGroup>
 			</SidebarContent>
 		</Sidebar>
 	);
-}
+};

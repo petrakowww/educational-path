@@ -1,34 +1,39 @@
 import { PrismaService } from '@/prisma/prisma.service';
+
+import { TypeUserInfo } from '../../auth/provider/services/types/user-info.type';
 import { Injectable } from '@nestjs/common';
-import { TypeUserInfo } from '../provider/services/types/user-info.type';
 
 @Injectable()
 export class AccountService {
     constructor(private readonly prismaService: PrismaService) {}
 
     public async findOAuthAccount(accountId: string, provider: string) {
-        const account = this.prismaService.account.findUnique({where: {
-            accountId_provider: {
-                accountId: accountId.toString(),
-                provider: provider,
-            }
-        }})
+        const account = this.prismaService.account.findUnique({
+            where: {
+                accountId_provider: {
+                    accountId: accountId.toString(),
+                    provider: provider,
+                },
+            },
+        });
 
         return account;
     }
 
     public async updateOAuthAccountTokens(profile: TypeUserInfo) {
         await this.prismaService.account.update({
-            where: {accountId_provider: {
-                accountId: profile.accountId.toString(),
-                provider: profile.provider
-              }},
+            where: {
+                accountId_provider: {
+                    accountId: profile.accountId.toString(),
+                    provider: profile.provider,
+                },
+            },
             data: {
                 accessToken: profile.accessToken ?? undefined,
                 refreshToken: profile.refreshToken ?? undefined,
-                expiresAt: new Date(profile.expiresAt)
-            }
-        })
+                expiresAt: new Date(profile.expiresAt),
+            },
+        });
     }
 
     public async createOAuthAccount(userId: string, profile: TypeUserInfo) {
@@ -43,5 +48,5 @@ export class AccountService {
                 expiresAt: new Date(profile.expiresAt),
             },
         });
-    } 
+    }
 }

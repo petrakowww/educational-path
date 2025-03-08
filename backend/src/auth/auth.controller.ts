@@ -7,7 +7,6 @@ import { RegisterDto } from './dto/register.dto';
 import { AuthProviderGuard } from './guard/provider.guard';
 import { ProviderService } from './provider/provider.service';
 import {
-    BadRequestException,
     Controller,
     Get,
     HttpCode,
@@ -53,12 +52,6 @@ export class AuthController {
         @Query('code') code: string,
         @Param('provider') provider: string,
     ) {
-        if (!code) {
-            throw new BadRequestException(
-                'Authorization code was not provided.',
-            );
-        }
-
         const redirectUrl = await this.authService.handleOAuthResult(
             req,
             res,
@@ -92,6 +85,6 @@ export class AuthController {
         await this.authService.logout(req, res);
         return res
             .status(HttpStatus.OK)
-            .json({ message: 'Successfully logged out' });
+            .json({ message: 'Успешно вышел из системы.' });
     }
 }

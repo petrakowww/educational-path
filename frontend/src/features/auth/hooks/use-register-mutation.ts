@@ -15,7 +15,7 @@ export const useRegisterMutation = () => {
 			recaptcha: string;
 		}) => authService.register(values, recaptcha),
 		onSuccess(data) {
-			toast.success('You have successfully registered', {
+			toast.success('Вы успешно зарегистрировались.', {
 				description: data.message,
 			});
 		},

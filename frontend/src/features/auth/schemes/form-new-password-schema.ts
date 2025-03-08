@@ -5,16 +5,16 @@ export const formNewPasswordSchema = z
 		password: z
 			.string()
 			.min(10, {
-				message: 'Password must be at least 10 characters long.',
+				message: 'Пароль должен содержать как минимум 10 символов.',
 			})
-			.regex(/^(?=.*[A-Z])(?=.*\d).{10,}$/, {
+			.regex(/(?=.*\p{Lu})(?=.*\d)/u, {
 				message:
-					'Password must be at least 10 characters long, contain at least 1 uppercase letter, and 1 number.',
+					'Пароль должен содержать как минимум 10 символов, включать хотя бы 1 заглавную букву и 1 цифру.',
 			}),
 		passwordRepeat: z.string(),
 	})
 	.refine((data) => data.password === data.passwordRepeat, {
-		message: 'Passwords do not match',
+		message: 'Пароли не совпадают.',
 		path: ['passwordRepeat'],
 	});
 

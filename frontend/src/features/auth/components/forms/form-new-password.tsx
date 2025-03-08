@@ -38,7 +38,7 @@ export const FormNewPassword = () => {
 			newPassword({ values, recaptcha: recaptchaValue });
 		} else {
 			toast.error(
-				'Please complete reCAPTCHA before setting a new password.'
+				'Пожалуйста, завершите reCAPTCHA перед установкой нового пароля.'
 			);
 		}
 	};
@@ -56,7 +56,7 @@ export const FormNewPassword = () => {
 						<FormItem>
 							<FormControl>
 								<Input
-									placeholder="New Password..."
+									placeholder="Новый пароль..."
 									className="text-sm"
 									{...field}
 									type="password"
@@ -74,7 +74,7 @@ export const FormNewPassword = () => {
 						<FormItem>
 							<FormControl>
 								<Input
-									placeholder="Repeat New Password..."
+									placeholder="Повторите новый пароль..."
 									className="text-sm"
 									{...field}
 									type="password"
@@ -95,16 +95,14 @@ export const FormNewPassword = () => {
 
 				<div className="flex justify-center">
 					<ReCAPTCHA
-						sitekey={
-							process.env.GOOGLE_RECAPTCHA_SITE_KEY as string
-						}
+						sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
 						onChange={setRecaptchaValue}
 						theme={theme.theme === 'light' ? 'light' : 'dark'}
 					/>
 				</div>
 
 				<Button type="submit" disabled={isLoadingNew}>
-					Set new password
+					Установить новый пароль
 				</Button>
 			</form>
 		</Form>

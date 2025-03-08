@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/shared/ui';
 import { Header } from '@/widgets/ui';
 import Link from 'next/link';

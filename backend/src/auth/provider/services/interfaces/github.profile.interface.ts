@@ -9,4 +9,5 @@ export interface GitHubProfile extends Record<string, any> {
     email?: string;
     bio?: string;
     created_at: string;
+    html_url: string;
 }

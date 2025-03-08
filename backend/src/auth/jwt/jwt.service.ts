@@ -63,7 +63,7 @@ export class JwtService {
         try {
             return jwt.verify(token, this.ACCESS_TOKEN_SECRET_KEY) as T;
         } catch {
-            throw new UnauthorizedException('Invalid or expired access token');
+            throw new UnauthorizedException('Недействительный или просроченный токен доступа');
         }
     }
 
@@ -79,13 +79,13 @@ export class JwtService {
                 await this.redisService.getRefreshToken(sessionId);
             if (storedToken !== token) {
                 throw new UnauthorizedException(
-                    'Refresh token mismatch or expired',
+                    'Несоответствие токена обновления или срок действия которого истек',
                 );
             }
 
             return payload;
         } catch {
-            throw new UnauthorizedException('Invalid or expired refresh token');
+            throw new UnauthorizedException('Недействительный или просроченный токен доступа');
         }
     }
 
@@ -93,7 +93,7 @@ export class JwtService {
         const refreshToken = this.getToken(req, 'Refresh Token');
     
         if (!refreshToken) {
-            throw new UnauthorizedException('No refresh token provided');
+            throw new UnauthorizedException('Токен обновления не предоставлен');
         }
 
         const refreshPayload =
@@ -171,7 +171,7 @@ export class JwtService {
                 await this.redisService.removeRefreshToken(payload.sessionId);
             } catch {
                 console.warn(
-                    'Failed to remove refresh token, possibly already expired.',
+                    'Не удалось удалить токен обновления, возможно, срок действия которого уже истек.',
                 );
             }
         }

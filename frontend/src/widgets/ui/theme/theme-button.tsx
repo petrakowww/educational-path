@@ -26,13 +26,13 @@ export function ThemeButton() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="z-[10]">
 				<DropdownMenuItem onClick={() => setTheme('light')}>
-					Light
+					Светлая
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={() => setTheme('dark')}>
-					Dark
+					Темная
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={() => setTheme('system')}>
-					System
+					Система
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

@@ -15,9 +15,9 @@ export function useResetPasswordMutation() {
 			recaptcha: string;
 		}) => passwordRecoveryService.reset(values, recaptcha),
 		onSuccess() {
-			toast.success('Check your email', {
+			toast.success('Проверьте свою электронную почту', {
 				description:
-					'A confirmation link has been sent to your email to change your password.',
+					'На ваш электронный адрес была отправлена ссылка для подтверждения смены пароля.',
 			});
 		},
 		onError(error) {

@@ -9,8 +9,8 @@ import {
 	useCallback,
 } from 'react';
 import { isTokenValid } from './utils/is-valid';
-import { cookieClient } from '@/shared/lib/utils/cookie/cookie.client';
-
+import { useAuthorizationMutation } from './hook/use-refresh-mutation';
+import { cookieClient } from '@/shared/lib/utils/cookie.client';
 
 interface AuthContextProps {
 	isAuthenticated: boolean;
@@ -34,6 +34,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
+	const { authorization } = useAuthorizationMutation((value: boolean) =>
+		updateAuthState(value)
+	);
+
 	const updateAuthState = useCallback((isAuthorized: boolean) => {
 		setIsAuthenticated(isAuthorized);
 		setIsLoading(false);
@@ -44,11 +48,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		if (token) {
 			isTokenValid(token)
 				.then(() => updateAuthState(true))
-				.catch(() => updateAuthState(false));
+				.catch(() => authorization());
 		} else {
-			updateAuthState(false);
+			authorization();
 		}
-	}, [updateAuthState]);
+	}, [updateAuthState, authorization]);
 
 	const logout = useCallback(() => {
 		cookieClient.logout();

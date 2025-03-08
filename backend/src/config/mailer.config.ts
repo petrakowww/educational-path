@@ -25,7 +25,7 @@ export const getMailerConfig = (
     return {
         transport,
         defaults: {
-            from: `"EduPath Team" ${login || 'no-reply@example.com'}`,
+            from: `"Команда EduPath" ${login || 'no-reply@edu-path.com'}`,
         },
     };
 };

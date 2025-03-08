@@ -10,6 +10,7 @@ export type TypeUserInfo = {
     expiresAt: Date;
     provider: AuthMethod;
     accountId: string;
+    github_url?: string;
 };
 
 export type OAuthLoginResult =
@@ -19,4 +20,5 @@ export type OAuthLoginResult =
           message?: string;
           oauthToken?: string;
           email?: string;
-      };
+      }
+    | { oauthErrorMessage?: string };

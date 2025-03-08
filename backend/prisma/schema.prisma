@@ -34,8 +34,26 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   accounts Account[]
+  skillProfile SkillProfile?
 
   @@map("users")
+}
+
+model SkillProfile {
+  id String @id @default(uuid())
+
+  headline String?
+
+  profilename String? @unique @map("profile_name")
+
+  githubUrl String? @map("github_url")
+  vkUrl String? @map("vk_url")
+  telegramUrl String? @map("telegram_url")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id")
+
+  @@map("skill_profile")
 }
 
 model Account {
@@ -53,7 +71,7 @@ model Account {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
   @@unique([accountId, provider])

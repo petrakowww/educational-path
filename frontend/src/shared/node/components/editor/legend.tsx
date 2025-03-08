@@ -89,7 +89,7 @@ export const LegendNodeDisplay = (props: NodeProps<LegendNodeComponent>) => {
 						</div>
 					) : (
 						<span className="flex gap-2 flex-shrink-0 whitespace-nowrap text-destructive">
-							Legend is empty
+							Группа пуста
 							<OctagonAlertIcon />
 						</span>
 					)}

@@ -13,24 +13,25 @@ export function ConfirmationTemplate({ domain, token }: ConfirmationTemplateProp
     <Html>
       <Tailwind>
         <Head>
-          <title>Email Confirmation</title>
+          <title>Подтверждение почты</title>
         </Head>
-        <Preview>Confirm your email address to complete the registration.</Preview>
+        <Preview>Подтвердите свой адрес электронной почты для завершения регистрации.</Preview>
         <Body className="bg-gray-100 text-gray-900 font-sans">
           <Container className="mx-auto max-w-lg px-6 py-8 bg-white rounded-lg shadow-md">
             <Section className="text-center">
-              <Heading className="text-2xl font-bold text-gray-800">Email Confirmation</Heading>
+              <Heading className="text-2xl font-bold text-gray-800">Подтверждение почты</Heading>
               <Text className="text-gray-600">
-              Hi! To confirm your email address, click the button below:
+                Здравствуйте! Чтобы подтвердить ваш адрес электронной почты, нажмите на кнопку ниже:
               </Text>
               <Button
                 href={confirmLink}
-                className="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow hover:bg-blue-700 transition-all"
+                className="bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow hover:bg-green-700 transition-all"
               >
-                Confirm email
+                Подтвердить почту
               </Button>
               <Text className="text-gray-500 text-sm mt-4">
-              This link is valid for <strong>1 hour</strong>. If you have not requested confirmation, simply ignore this message.
+                Эта ссылка действительна в течение <strong>1 часа</strong>. 
+                Если вы не запрашивали подтверждение, просто проигнорируйте это сообщение.
               </Text>
             </Section>
           </Container>

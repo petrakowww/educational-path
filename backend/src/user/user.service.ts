@@ -2,21 +2,21 @@ import { hash } from 'argon2';
 
 import { PrismaService } from '@/prisma/prisma.service';
 
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDataProps } from './interfaces/user.interface';
 import { Injectable } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { Prisma } from '@prisma/__generated__';
 
 @Injectable()
 export class UserService {
     public constructor(private readonly prismaService: PrismaService) {}
-    
+
     private async findUniqueUser(where: Prisma.UserWhereUniqueInput) {
         const user = await this.prismaService.user.findUnique({
             where,
             include: { accounts: true },
         });
-    
+
         return user;
     }
 
@@ -27,7 +27,7 @@ export class UserService {
     }
 
     public async findByEmail(email: string) {
-        const user = await this.findUniqueUser({email: email});
+        const user = await this.findUniqueUser({ email: email });
 
         return user;
     }
@@ -41,9 +41,15 @@ export class UserService {
                 picture: props.picture,
                 isVerified: props.isVerified,
                 method: props.method,
+                skillProfile: {
+                    create: {
+                        githubUrl: props.github_url || '',
+                    },
+                },
             },
             include: {
                 accounts: true,
+                skillProfile: true,
             },
         });
 
@@ -51,19 +57,19 @@ export class UserService {
     }
 
     public async update(userId: string, dto: UpdateUserDto) {
-		const user = await this.findById(userId)
+        const user = await this.findById(userId);
 
-		const updatedUser = await this.prismaService.user.update({
-			where: {
-				id: user.id
-			},
-			data: {
-				email: dto.email,
-				name: dto.name,
-				isTwoFactorEnabled: dto.isTwoFactorEnabled
-			}
-		})
+        const updatedUser = await this.prismaService.user.update({
+            where: {
+                id: user.id,
+            },
+            data: {
+                email: dto.email,
+                name: dto.name,
+                isTwoFactorEnabled: dto.isTwoFactorEnabled,
+            },
+        });
 
-		return updatedUser
-	}
+        return updatedUser;
+    }
 }

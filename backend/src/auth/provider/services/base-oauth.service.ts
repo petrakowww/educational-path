@@ -62,7 +62,7 @@ export class BaseOAuthService {
 
             if (!tokenResponse.access_token) {
                 throw new BadRequestException(
-                    `OAuth token is missing in response from ${accessUrl}`,
+                    `Токен OAuth отсутствует в ответе от ${accessUrl}`,
                 );
             }
 
@@ -87,25 +87,24 @@ export class BaseOAuthService {
                 };
             } catch (profileError) {
                 throw new BadRequestException(
-                    'Failed to fetch user profile: ' +
-                        (profileError as Error)?.message,
+                    `Не удалось получить профиль пользователя: ${(profileError as Error)?.message}`,
                 );
             }
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 throw new BadRequestException(
-                    `OAuth request failed: ${error.message}`,
+                    `Не удалось выполнить запрос OAuth: ${error.message}`,
                 );
             }
             throw new BadRequestException(
-                `Unexpected error: ${(error as Error).message}`,
+                `Непредвиденная ошибка: ${(error as Error).message}`,
             );
         }
     }
 
     public getRedirectUrl() {
         if (!this.BASE_URL) {
-            throw new Error('BASE_URL is not set');
+            throw new Error('URL не установлен');
         }
         return new URL(
             `${this.OAUTH_URL}${this.options.name.toLowerCase()}`,
@@ -121,7 +120,7 @@ export class BaseOAuthService {
         try {
             this.BASE_URL = new URL(value).toString();
         } catch {
-            throw new Error('Invalid BASE_URL');
+            throw new Error('Невалидный URL');
         }
     }
 

@@ -24,6 +24,10 @@ export class EmailConfirmationController {
         @Res() res: Response,
         @Body() dto: ConfirmationDto,
     ) {
-        return this.emailConfirmationService.newVerification(res, dto);
+        const tokens = await this.emailConfirmationService.newVerification(
+            res,
+            dto,
+        );
+        return res.json(tokens);
     }
 }

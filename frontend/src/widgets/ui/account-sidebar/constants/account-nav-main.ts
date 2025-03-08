@@ -5,14 +5,14 @@ import { CircleUserIcon, MapIcon } from 'lucide-react';
 
 export const mapArray: ArrayNavMainProps[] = [
 	{
-		title: 'Educational Maps',
+		title: 'Образовательные карты',
 		url: '#',
 		icon: MapIcon,
 		isActive: false,
 		items: [
 			{
 				url: '#',
-				title: 'roadmaps',
+				title: 'Ваши карты',
 			},
 		],
 	},
@@ -20,18 +20,18 @@ export const mapArray: ArrayNavMainProps[] = [
 
 export const accountArray: ArrayNavMainProps[] = [
 	{
-		title: 'Account',
+		title: 'Аккаунт',
 		url: '#',
 		icon: CircleUserIcon,
 		isActive: false,
 		items: [
 			{
 				url: '#',
-				title: 'profile',
+				title: 'Профиль',
 			},
 			{
 				url: '#',
-				title: 'settings',
+				title: 'Настройки',
 			},
 		],
 	},

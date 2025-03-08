@@ -131,6 +131,16 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SkillProfileScalarFieldEnum = {
+  id: 'id',
+  headline: 'headline',
+  profilename: 'profilename',
+  githubUrl: 'githubUrl',
+  vkUrl: 'vkUrl',
+  telegramUrl: 'telegramUrl',
+  userId: 'userId'
+};
+
 exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
   accountId: 'accountId',
@@ -187,6 +197,7 @@ exports.TokenType = exports.$Enums.TokenType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  SkillProfile: 'SkillProfile',
   Account: 'Account',
   Token: 'Token'
 };

@@ -33,14 +33,14 @@ export class AuthGuard implements CanActivate {
                 request.user = await this.userService.findById(payload.userId);
                 return true;
             } catch {
-                console.warn('Access token invalid or expired');
+                console.warn('Недействительный или просроченный токен доступа');
             }
         }
 
         await this.tryRefreshToken(request, response);
 
         if (!request.user) {
-            throw new UnauthorizedException('User not authenticated');
+            throw new UnauthorizedException('Пользователь не прошел проверку подлинности');
         }
 
         return true;
@@ -86,7 +86,7 @@ export class AuthGuard implements CanActivate {
                 this.jwtService.verifyAccessToken<JwtPayload>(accessToken);
             request.user = await this.userService.findById(payload.userId);
         } catch {
-            throw new UnauthorizedException('User not authenticated');
+            throw new UnauthorizedException('Пользователь не прошел проверку подлинности');
         }
     }
 }

@@ -1,9 +1,9 @@
-import { AccountModule } from './auth/account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { EmailConfirmationModule } from './auth/email-confirmation/email-confirmation.module';
 import { JwtModule } from './auth/jwt/jwt.module';
 import { PasswordRecoveryModule } from './auth/password-recovery/password-recovery.module';
 import { ProviderModule } from './auth/provider/provider.module';
+import { TokenService } from './auth/tokens/token.service';
 import { TwoFactorAuthModule } from './auth/two-factor-auth/two-factor-auth.module';
 import { getGraphQLConfig } from './config/graphql.config';
 import { IS_DEV_ENV } from './libs/common/utils/is-dev.util';
@@ -14,6 +14,8 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { ScheduleModule } from '@nestjs/schedule';
+import { AccountService } from './user/account/account.service';
 
 @Module({
     imports: [
@@ -27,10 +29,10 @@ import { GraphQLModule } from '@nestjs/graphql';
             useFactory: getGraphQLConfig,
             inject: [ConfigService],
         }),
+        ScheduleModule.forRoot(),
         PrismaModule,
         AuthModule,
         UserModule,
-        AccountModule,
         ProviderModule,
         MailModule,
         EmailConfirmationModule,
@@ -38,5 +40,6 @@ import { GraphQLModule } from '@nestjs/graphql';
         TwoFactorAuthModule,
         JwtModule,
     ],
+    providers: [TokenService, AccountService],
 })
 export class AppModule {}

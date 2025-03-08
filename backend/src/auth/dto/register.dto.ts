@@ -10,37 +10,37 @@ import {
 import { IsPasswordsMatchingConstraint } from '@/libs/common/decorators/is-passwords-matching-constraint.decorator';
 
 export class RegisterDto {
-    @IsString({ message: 'Name must be a string.' })
-    @IsNotEmpty({ message: 'Name is required.' })
-	@MinLength(3, { message: 'Username must be at least 3 characters long' })
-	@Matches(/^[a-zA-Z0-9_]+$/, {
-		message: 'Username can only contain letters, numbers, and underscores',
-	})
+    @IsString({ message: 'Имя должно быть строкой.' })
+    @IsNotEmpty({ message: 'Имя — обязательное поле.' })
+    @MinLength(3, { message: 'Имя пользователя должно содержать минимум 3 символа.' })
+    @Matches(/^[\p{L}\p{N}_ ]+$/u, {
+        message: 'Имя может содержать только буквы, цифры и символы подчеркивания.',
+    })
     name: string;
 
-    @IsString({ message: 'Email must be a string.' })
-    @IsEmail({}, { message: 'Invalid email format.' })
-    @IsNotEmpty({ message: 'Email is required.' })
+    @IsString({ message: 'Email должен быть строкой.' })
+    @IsEmail({}, { message: 'Некорректный формат email.' })
+    @IsNotEmpty({ message: 'Email — обязательное поле.' })
     email: string;
 
-    @IsString({ message: 'Password must be a string.' })
-    @IsNotEmpty({ message: 'Password is required.' })
+    @IsString({ message: 'Пароль должен быть строкой.' })
+    @IsNotEmpty({ message: 'Пароль — обязательное поле.' })
     @MinLength(10, {
-        message: 'Password must be at least 10 characters long.',
+        message: 'Пароль должен содержать минимум 10 символов.',
     })
-    @Matches(/^(?=.*[A-Z])(?=.*\d).{10,}$/, {
+    @Matches(/(?=.*\p{Lu})(?=.*\d)/u, {
         message:
-            'Password must be at least 10 characters long, contain at least 1 uppercase letter, and 1 number.',
+            'Пароль должен содержать минимум 10 символов, хотя бы 1 заглавную букву и 1 цифру.',
     })
     password: string;
 
-    @IsString({ message: 'Password confirmation must be a string.' })
-    @IsNotEmpty({ message: 'Password confirmation is required.' })
+    @IsString({ message: 'Подтверждение пароля должно быть строкой.' })
+    @IsNotEmpty({ message: 'Подтверждение пароля — обязательное поле.' })
     @MinLength(10, {
-        message: 'Password confirmation must be at least 10 characters long.',
+        message: 'Подтверждение пароля должно содержать минимум 10 символов.',
     })
     @Validate(IsPasswordsMatchingConstraint, {
-        message: 'Passwords do not match.',
+        message: 'Пароли не совпадают.',
     })
     passwordRepeat: string;
 }

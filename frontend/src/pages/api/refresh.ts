@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getCookie } from 'cookies-next';
 import { RedirectMiddleware } from '@/shared/lib/middlewares/redirect-middleware';
-import { cookieServer } from '@/shared/lib/utils/cookie/cookie.server';
 import { apiRoutes } from '@/shared/config';
+import { cookieClient } from '@/shared/lib/utils/cookie.client';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -17,13 +17,29 @@ export default async function handler(
 
 	if (refreshTokenCookie) {
 		try {
-			const response = await refreshToken(refreshTokenCookie);
-      
+			const response = await fetch(
+				`${process.env.SERVER_URL}/${apiRoutes.auth.refreshTokens}`,
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Cookie: `${process.env.REFRESH_TOKEN}=${refreshTokenCookie};`,
+					},
+					credentials: 'include',
+				}
+			);
 			if (!response.ok) {
-				throw new Error('Unauthorized');
+				throw new Error('Неавторизованный пользователь');
+			}
+
+			const data = await response.json();
+
+			if (!data.accessToken) {
+				throw new Error('Неавторизованный пользователь');
 			}
 
 			res.setHeaders(response.headers);
+
 			if (redirectUrl) {
 				return RedirectMiddleware.redirectIfUrlExist(
 					req,
@@ -34,23 +50,10 @@ export default async function handler(
 
 			return RedirectMiddleware.redirectIfProblem(req, res);
 		} catch {
-			cookieServer.logout(req, res);
+			cookieClient.logout(req, res);
 			return RedirectMiddleware.redirectIfNotAuthenticatedApi(req, res);
 		}
 	}
 
 	return RedirectMiddleware.redirectIfProblem(req, res);
-}
-
-async function refreshToken(refreshToken: string): Promise<Response> {
-    const response = await fetch(`${process.env.SERVER_URL}/${apiRoutes.auth.refreshTokens}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Cookie: `${process.env.REFRESH_TOKEN}=${refreshToken};`,
-      },
-      credentials: 'include',
-    });
-
-    return response;
 }

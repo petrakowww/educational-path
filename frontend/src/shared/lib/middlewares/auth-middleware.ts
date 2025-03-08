@@ -8,7 +8,7 @@ export class AuthMiddleware {
 	private response: NextResponse;
 	private accessToken: string | null;
 	private refreshToken: string | null;
-    private readonly REDIRECT_PARAM = 'redirect';
+	private readonly REDIRECT_PARAM = 'redirect';
 
 	constructor(request: NextRequest, response: NextResponse) {
 		this.request = request;
@@ -30,11 +30,11 @@ export class AuthMiddleware {
 	}
 
 	private redirectIfAuthenticated(): NextResponse {
-        return RedirectMiddleware.redirectIfAuthenticated(this.request);
+		return RedirectMiddleware.redirectIfAuthenticated(this.request);
 	}
 
 	private redirectIfNotAuthenticated(): NextResponse {
-        return RedirectMiddleware.redirectIfNotAuthenticated(this.request);
+		return RedirectMiddleware.redirectIfNotAuthenticated(this.request);
 	}
 
 	public async handle(): Promise<NextResponse> {
@@ -46,13 +46,8 @@ export class AuthMiddleware {
 			}
 
 			if (this.refreshToken) {
-				const redirectUrl = new URL(
-					apiRoutes.client.refreshTokenRedirect,
-					this.request.url
-				);
-				redirectUrl.searchParams.set(
-					this.REDIRECT_PARAM,
-					this.request.url
+				const redirectUrl = this.createRedirectUrl(
+					apiRoutes.client.refreshTokenRedirect
 				);
 				return NextResponse.redirect(redirectUrl);
 			} else {
@@ -66,18 +61,13 @@ export class AuthMiddleware {
 		}
 
 		if (this.refreshToken) {
-			const redirectUrl = new URL(
-                apiRoutes.client.refreshTokenRedirect,
-                this.request.url
-            );
-            redirectUrl.searchParams.set(
-                this.REDIRECT_PARAM,
-                this.request.url
-            );
-            return NextResponse.redirect(redirectUrl);
+			const redirectUrl = this.createRedirectUrl(
+				apiRoutes.client.refreshTokenRedirect
+			);
+			return NextResponse.redirect(redirectUrl);
 		}
 
-        return this.redirectIfNotAuthenticated();
+		return this.redirectIfNotAuthenticated();
 	}
 
 	private async isAccessTokenValid(): Promise<boolean> {
@@ -105,5 +95,13 @@ export class AuthMiddleware {
 		}
 
 		return false;
+	}
+
+	private createRedirectUrl(redirectUrl: string): URL {
+		const url = new URL(redirectUrl, process.env.FRONTEND_URL);
+		if (!url.searchParams.has(this.REDIRECT_PARAM)) {
+			url.searchParams.set(this.REDIRECT_PARAM, this.request.url);
+		}
+		return url;
 	}
 }

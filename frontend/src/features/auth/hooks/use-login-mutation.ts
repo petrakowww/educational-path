@@ -25,13 +25,19 @@ export const useLoginMutation = (callback: (value: boolean) => void) => {
 			recaptcha: string;
 		}) => authService.login(values, recaptcha),
 		onSuccess(data?: UserProps | OTPResponseProps) {
+			if (data && 'oauthErrorMessage' in data) {
+				toastMessageHandler({
+					message: data.oauthErrorMessage as string,
+				});
+				return;
+			}
 			if (data && 'message' in data && 'otpResponse' in data) {
 				toastMessageHandler(data);
 				otpHandler(data.otpResponse);
 				return;
 			}
-			toast.success(`You have successfully logged in your account`, {
-				description: 'Have a nice time :)',
+			toast.success(`Вы успешно вошли в свой аккаунт`, {
+				description: 'Удачного времяпровождения :)',
 			});
 			router.push(AppRoutes.Dashboard);
 		},

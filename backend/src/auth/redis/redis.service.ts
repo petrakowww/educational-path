@@ -54,7 +54,7 @@ export class RedisService {
             await this.removeOldSessions(userId);
             await this.redisClient.set(tokenKey, refreshToken, 'EX', expiresIn);
         } catch {
-            throw new UnauthorizedException('Failed to set refresh token');
+            throw new UnauthorizedException('Не удалось установить токен обновления');
         }
     }
 
@@ -66,13 +66,13 @@ export class RedisService {
 
             if (!refreshToken) {
                 throw new UnauthorizedException(
-                    'Refresh token not found or expired',
+                    'Токен обновления не найден или срок действия истек',
                 );
             }
 
             return refreshToken;
         } catch {
-            throw new UnauthorizedException('Error retrieving refresh token');
+            throw new UnauthorizedException('Ошибка при извлечении токена');
         }
     }
 
@@ -82,7 +82,7 @@ export class RedisService {
         try {
             await this.redisClient.del(tokenKey);
         } catch {
-            throw new UnauthorizedException('Error removing refresh token');
+            throw new UnauthorizedException('Ошибка при удалении токена');
         }
     }
 

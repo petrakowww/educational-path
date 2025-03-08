@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model SkillProfile
+ * 
+ */
+export type SkillProfile = $Result.DefaultSelection<Prisma.$SkillProfilePayload>
+/**
  * Model Account
  * 
  */
@@ -207,6 +212,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.skillProfile`: Exposes CRUD operations for the **SkillProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SkillProfiles
+    * const skillProfiles = await prisma.skillProfile.findMany()
+    * ```
+    */
+  get skillProfile(): Prisma.SkillProfileDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.account`: Exposes CRUD operations for the **Account** model.
@@ -668,6 +683,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    SkillProfile: 'SkillProfile',
     Account: 'Account',
     Token: 'Token'
   };
@@ -685,7 +701,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "account" | "token"
+      modelProps: "user" | "skillProfile" | "account" | "token"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -760,6 +776,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      SkillProfile: {
+        payload: Prisma.$SkillProfilePayload<ExtArgs>
+        fields: Prisma.SkillProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SkillProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SkillProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.SkillProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SkillProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload>
+          }
+          findMany: {
+            args: Prisma.SkillProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload>[]
+          }
+          create: {
+            args: Prisma.SkillProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload>
+          }
+          createMany: {
+            args: Prisma.SkillProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SkillProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.SkillProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload>
+          }
+          update: {
+            args: Prisma.SkillProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.SkillProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SkillProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SkillProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.SkillProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SkillProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.SkillProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSkillProfile>
+          }
+          groupBy: {
+            args: Prisma.SkillProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SkillProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SkillProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<SkillProfileCountAggregateOutputType> | number
           }
         }
       }
@@ -996,6 +1086,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    skillProfile?: SkillProfileOmit
     account?: AccountOmit
     token?: TokenOmit
   }
@@ -1335,6 +1426,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
+    skillProfile?: boolean | User$skillProfileArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1383,6 +1475,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "picture" | "role" | "isVerified" | "isTwoFactorEnabled" | "method" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
+    skillProfile?: boolean | User$skillProfileArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1392,6 +1485,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
+      skillProfile: Prisma.$SkillProfilePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1800,6 +1894,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
+    skillProfile<T extends User$skillProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$skillProfileArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | null, null, ExtArgs, ClientOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2252,6 +2347,25 @@ export namespace Prisma {
   }
 
   /**
+   * User.skillProfile
+   */
+  export type User$skillProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    where?: SkillProfileWhereInput
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2267,6 +2381,1090 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SkillProfile
+   */
+
+  export type AggregateSkillProfile = {
+    _count: SkillProfileCountAggregateOutputType | null
+    _min: SkillProfileMinAggregateOutputType | null
+    _max: SkillProfileMaxAggregateOutputType | null
+  }
+
+  export type SkillProfileMinAggregateOutputType = {
+    id: string | null
+    headline: string | null
+    profilename: string | null
+    githubUrl: string | null
+    vkUrl: string | null
+    telegramUrl: string | null
+    userId: string | null
+  }
+
+  export type SkillProfileMaxAggregateOutputType = {
+    id: string | null
+    headline: string | null
+    profilename: string | null
+    githubUrl: string | null
+    vkUrl: string | null
+    telegramUrl: string | null
+    userId: string | null
+  }
+
+  export type SkillProfileCountAggregateOutputType = {
+    id: number
+    headline: number
+    profilename: number
+    githubUrl: number
+    vkUrl: number
+    telegramUrl: number
+    userId: number
+    _all: number
+  }
+
+
+  export type SkillProfileMinAggregateInputType = {
+    id?: true
+    headline?: true
+    profilename?: true
+    githubUrl?: true
+    vkUrl?: true
+    telegramUrl?: true
+    userId?: true
+  }
+
+  export type SkillProfileMaxAggregateInputType = {
+    id?: true
+    headline?: true
+    profilename?: true
+    githubUrl?: true
+    vkUrl?: true
+    telegramUrl?: true
+    userId?: true
+  }
+
+  export type SkillProfileCountAggregateInputType = {
+    id?: true
+    headline?: true
+    profilename?: true
+    githubUrl?: true
+    vkUrl?: true
+    telegramUrl?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type SkillProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SkillProfile to aggregate.
+     */
+    where?: SkillProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkillProfiles to fetch.
+     */
+    orderBy?: SkillProfileOrderByWithRelationInput | SkillProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SkillProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkillProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkillProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SkillProfiles
+    **/
+    _count?: true | SkillProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SkillProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SkillProfileMaxAggregateInputType
+  }
+
+  export type GetSkillProfileAggregateType<T extends SkillProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateSkillProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSkillProfile[P]>
+      : GetScalarType<T[P], AggregateSkillProfile[P]>
+  }
+
+
+
+
+  export type SkillProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SkillProfileWhereInput
+    orderBy?: SkillProfileOrderByWithAggregationInput | SkillProfileOrderByWithAggregationInput[]
+    by: SkillProfileScalarFieldEnum[] | SkillProfileScalarFieldEnum
+    having?: SkillProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SkillProfileCountAggregateInputType | true
+    _min?: SkillProfileMinAggregateInputType
+    _max?: SkillProfileMaxAggregateInputType
+  }
+
+  export type SkillProfileGroupByOutputType = {
+    id: string
+    headline: string | null
+    profilename: string | null
+    githubUrl: string | null
+    vkUrl: string | null
+    telegramUrl: string | null
+    userId: string
+    _count: SkillProfileCountAggregateOutputType | null
+    _min: SkillProfileMinAggregateOutputType | null
+    _max: SkillProfileMaxAggregateOutputType | null
+  }
+
+  type GetSkillProfileGroupByPayload<T extends SkillProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SkillProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SkillProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SkillProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], SkillProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SkillProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    headline?: boolean
+    profilename?: boolean
+    githubUrl?: boolean
+    vkUrl?: boolean
+    telegramUrl?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["skillProfile"]>
+
+  export type SkillProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    headline?: boolean
+    profilename?: boolean
+    githubUrl?: boolean
+    vkUrl?: boolean
+    telegramUrl?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["skillProfile"]>
+
+  export type SkillProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    headline?: boolean
+    profilename?: boolean
+    githubUrl?: boolean
+    vkUrl?: boolean
+    telegramUrl?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["skillProfile"]>
+
+  export type SkillProfileSelectScalar = {
+    id?: boolean
+    headline?: boolean
+    profilename?: boolean
+    githubUrl?: boolean
+    vkUrl?: boolean
+    telegramUrl?: boolean
+    userId?: boolean
+  }
+
+  export type SkillProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "headline" | "profilename" | "githubUrl" | "vkUrl" | "telegramUrl" | "userId", ExtArgs["result"]["skillProfile"]>
+  export type SkillProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SkillProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SkillProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SkillProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SkillProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      headline: string | null
+      profilename: string | null
+      githubUrl: string | null
+      vkUrl: string | null
+      telegramUrl: string | null
+      userId: string
+    }, ExtArgs["result"]["skillProfile"]>
+    composites: {}
+  }
+
+  type SkillProfileGetPayload<S extends boolean | null | undefined | SkillProfileDefaultArgs> = $Result.GetResult<Prisma.$SkillProfilePayload, S>
+
+  type SkillProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SkillProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SkillProfileCountAggregateInputType | true
+    }
+
+  export interface SkillProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SkillProfile'], meta: { name: 'SkillProfile' } }
+    /**
+     * Find zero or one SkillProfile that matches the filter.
+     * @param {SkillProfileFindUniqueArgs} args - Arguments to find a SkillProfile
+     * @example
+     * // Get one SkillProfile
+     * const skillProfile = await prisma.skillProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SkillProfileFindUniqueArgs>(args: SelectSubset<T, SkillProfileFindUniqueArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "findUnique", ClientOptions> | null, null, ExtArgs, ClientOptions>
+
+    /**
+     * Find one SkillProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SkillProfileFindUniqueOrThrowArgs} args - Arguments to find a SkillProfile
+     * @example
+     * // Get one SkillProfile
+     * const skillProfile = await prisma.skillProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SkillProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, SkillProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Find the first SkillProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillProfileFindFirstArgs} args - Arguments to find a SkillProfile
+     * @example
+     * // Get one SkillProfile
+     * const skillProfile = await prisma.skillProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SkillProfileFindFirstArgs>(args?: SelectSubset<T, SkillProfileFindFirstArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "findFirst", ClientOptions> | null, null, ExtArgs, ClientOptions>
+
+    /**
+     * Find the first SkillProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillProfileFindFirstOrThrowArgs} args - Arguments to find a SkillProfile
+     * @example
+     * // Get one SkillProfile
+     * const skillProfile = await prisma.skillProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SkillProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, SkillProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "findFirstOrThrow", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Find zero or more SkillProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SkillProfiles
+     * const skillProfiles = await prisma.skillProfile.findMany()
+     * 
+     * // Get first 10 SkillProfiles
+     * const skillProfiles = await prisma.skillProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const skillProfileWithIdOnly = await prisma.skillProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SkillProfileFindManyArgs>(args?: SelectSubset<T, SkillProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "findMany", ClientOptions>>
+
+    /**
+     * Create a SkillProfile.
+     * @param {SkillProfileCreateArgs} args - Arguments to create a SkillProfile.
+     * @example
+     * // Create one SkillProfile
+     * const SkillProfile = await prisma.skillProfile.create({
+     *   data: {
+     *     // ... data to create a SkillProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends SkillProfileCreateArgs>(args: SelectSubset<T, SkillProfileCreateArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "create", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Create many SkillProfiles.
+     * @param {SkillProfileCreateManyArgs} args - Arguments to create many SkillProfiles.
+     * @example
+     * // Create many SkillProfiles
+     * const skillProfile = await prisma.skillProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SkillProfileCreateManyArgs>(args?: SelectSubset<T, SkillProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SkillProfiles and returns the data saved in the database.
+     * @param {SkillProfileCreateManyAndReturnArgs} args - Arguments to create many SkillProfiles.
+     * @example
+     * // Create many SkillProfiles
+     * const skillProfile = await prisma.skillProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SkillProfiles and only return the `id`
+     * const skillProfileWithIdOnly = await prisma.skillProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SkillProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, SkillProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "createManyAndReturn", ClientOptions>>
+
+    /**
+     * Delete a SkillProfile.
+     * @param {SkillProfileDeleteArgs} args - Arguments to delete one SkillProfile.
+     * @example
+     * // Delete one SkillProfile
+     * const SkillProfile = await prisma.skillProfile.delete({
+     *   where: {
+     *     // ... filter to delete one SkillProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SkillProfileDeleteArgs>(args: SelectSubset<T, SkillProfileDeleteArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "delete", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Update one SkillProfile.
+     * @param {SkillProfileUpdateArgs} args - Arguments to update one SkillProfile.
+     * @example
+     * // Update one SkillProfile
+     * const skillProfile = await prisma.skillProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SkillProfileUpdateArgs>(args: SelectSubset<T, SkillProfileUpdateArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "update", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Delete zero or more SkillProfiles.
+     * @param {SkillProfileDeleteManyArgs} args - Arguments to filter SkillProfiles to delete.
+     * @example
+     * // Delete a few SkillProfiles
+     * const { count } = await prisma.skillProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SkillProfileDeleteManyArgs>(args?: SelectSubset<T, SkillProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SkillProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SkillProfiles
+     * const skillProfile = await prisma.skillProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SkillProfileUpdateManyArgs>(args: SelectSubset<T, SkillProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SkillProfiles and returns the data updated in the database.
+     * @param {SkillProfileUpdateManyAndReturnArgs} args - Arguments to update many SkillProfiles.
+     * @example
+     * // Update many SkillProfiles
+     * const skillProfile = await prisma.skillProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SkillProfiles and only return the `id`
+     * const skillProfileWithIdOnly = await prisma.skillProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SkillProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, SkillProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "updateManyAndReturn", ClientOptions>>
+
+    /**
+     * Create or update one SkillProfile.
+     * @param {SkillProfileUpsertArgs} args - Arguments to update or create a SkillProfile.
+     * @example
+     * // Update or create a SkillProfile
+     * const skillProfile = await prisma.skillProfile.upsert({
+     *   create: {
+     *     // ... data to create a SkillProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SkillProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SkillProfileUpsertArgs>(args: SelectSubset<T, SkillProfileUpsertArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "upsert", ClientOptions>, never, ExtArgs, ClientOptions>
+
+
+    /**
+     * Count the number of SkillProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillProfileCountArgs} args - Arguments to filter SkillProfiles to count.
+     * @example
+     * // Count the number of SkillProfiles
+     * const count = await prisma.skillProfile.count({
+     *   where: {
+     *     // ... the filter for the SkillProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends SkillProfileCountArgs>(
+      args?: Subset<T, SkillProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SkillProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SkillProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SkillProfileAggregateArgs>(args: Subset<T, SkillProfileAggregateArgs>): Prisma.PrismaPromise<GetSkillProfileAggregateType<T>>
+
+    /**
+     * Group by SkillProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SkillProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SkillProfileGroupByArgs['orderBy'] }
+        : { orderBy?: SkillProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SkillProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSkillProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SkillProfile model
+   */
+  readonly fields: SkillProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SkillProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SkillProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | Null, Null, ExtArgs, ClientOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SkillProfile model
+   */ 
+  interface SkillProfileFieldRefs {
+    readonly id: FieldRef<"SkillProfile", 'String'>
+    readonly headline: FieldRef<"SkillProfile", 'String'>
+    readonly profilename: FieldRef<"SkillProfile", 'String'>
+    readonly githubUrl: FieldRef<"SkillProfile", 'String'>
+    readonly vkUrl: FieldRef<"SkillProfile", 'String'>
+    readonly telegramUrl: FieldRef<"SkillProfile", 'String'>
+    readonly userId: FieldRef<"SkillProfile", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SkillProfile findUnique
+   */
+  export type SkillProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which SkillProfile to fetch.
+     */
+    where: SkillProfileWhereUniqueInput
+  }
+
+  /**
+   * SkillProfile findUniqueOrThrow
+   */
+  export type SkillProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which SkillProfile to fetch.
+     */
+    where: SkillProfileWhereUniqueInput
+  }
+
+  /**
+   * SkillProfile findFirst
+   */
+  export type SkillProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which SkillProfile to fetch.
+     */
+    where?: SkillProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkillProfiles to fetch.
+     */
+    orderBy?: SkillProfileOrderByWithRelationInput | SkillProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SkillProfiles.
+     */
+    cursor?: SkillProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkillProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkillProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SkillProfiles.
+     */
+    distinct?: SkillProfileScalarFieldEnum | SkillProfileScalarFieldEnum[]
+  }
+
+  /**
+   * SkillProfile findFirstOrThrow
+   */
+  export type SkillProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which SkillProfile to fetch.
+     */
+    where?: SkillProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkillProfiles to fetch.
+     */
+    orderBy?: SkillProfileOrderByWithRelationInput | SkillProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SkillProfiles.
+     */
+    cursor?: SkillProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkillProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkillProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SkillProfiles.
+     */
+    distinct?: SkillProfileScalarFieldEnum | SkillProfileScalarFieldEnum[]
+  }
+
+  /**
+   * SkillProfile findMany
+   */
+  export type SkillProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which SkillProfiles to fetch.
+     */
+    where?: SkillProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SkillProfiles to fetch.
+     */
+    orderBy?: SkillProfileOrderByWithRelationInput | SkillProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SkillProfiles.
+     */
+    cursor?: SkillProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SkillProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SkillProfiles.
+     */
+    skip?: number
+    distinct?: SkillProfileScalarFieldEnum | SkillProfileScalarFieldEnum[]
+  }
+
+  /**
+   * SkillProfile create
+   */
+  export type SkillProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SkillProfile.
+     */
+    data: XOR<SkillProfileCreateInput, SkillProfileUncheckedCreateInput>
+  }
+
+  /**
+   * SkillProfile createMany
+   */
+  export type SkillProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SkillProfiles.
+     */
+    data: SkillProfileCreateManyInput | SkillProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SkillProfile createManyAndReturn
+   */
+  export type SkillProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many SkillProfiles.
+     */
+    data: SkillProfileCreateManyInput | SkillProfileCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SkillProfile update
+   */
+  export type SkillProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SkillProfile.
+     */
+    data: XOR<SkillProfileUpdateInput, SkillProfileUncheckedUpdateInput>
+    /**
+     * Choose, which SkillProfile to update.
+     */
+    where: SkillProfileWhereUniqueInput
+  }
+
+  /**
+   * SkillProfile updateMany
+   */
+  export type SkillProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SkillProfiles.
+     */
+    data: XOR<SkillProfileUpdateManyMutationInput, SkillProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which SkillProfiles to update
+     */
+    where?: SkillProfileWhereInput
+    /**
+     * Limit how many SkillProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SkillProfile updateManyAndReturn
+   */
+  export type SkillProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update SkillProfiles.
+     */
+    data: XOR<SkillProfileUpdateManyMutationInput, SkillProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which SkillProfiles to update
+     */
+    where?: SkillProfileWhereInput
+    /**
+     * Limit how many SkillProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SkillProfile upsert
+   */
+  export type SkillProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SkillProfile to update in case it exists.
+     */
+    where: SkillProfileWhereUniqueInput
+    /**
+     * In case the SkillProfile found by the `where` argument doesn't exist, create a new SkillProfile with this data.
+     */
+    create: XOR<SkillProfileCreateInput, SkillProfileUncheckedCreateInput>
+    /**
+     * In case the SkillProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SkillProfileUpdateInput, SkillProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * SkillProfile delete
+   */
+  export type SkillProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
+    /**
+     * Filter which SkillProfile to delete.
+     */
+    where: SkillProfileWhereUniqueInput
+  }
+
+  /**
+   * SkillProfile deleteMany
+   */
+  export type SkillProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SkillProfiles to delete
+     */
+    where?: SkillProfileWhereInput
+    /**
+     * Limit how many SkillProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SkillProfile without action
+   */
+  export type SkillProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillProfile
+     */
+    select?: SkillProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SkillProfile
+     */
+    omit?: SkillProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillProfileInclude<ExtArgs> | null
   }
 
 
@@ -4432,6 +5630,19 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const SkillProfileScalarFieldEnum: {
+    id: 'id',
+    headline: 'headline',
+    profilename: 'profilename',
+    githubUrl: 'githubUrl',
+    vkUrl: 'vkUrl',
+    telegramUrl: 'telegramUrl',
+    userId: 'userId'
+  };
+
+  export type SkillProfileScalarFieldEnum = (typeof SkillProfileScalarFieldEnum)[keyof typeof SkillProfileScalarFieldEnum]
+
+
   export const AccountScalarFieldEnum: {
     id: 'id',
     accountId: 'accountId',
@@ -4599,6 +5810,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
+    skillProfile?: XOR<SkillProfileNullableScalarRelationFilter, SkillProfileWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4614,6 +5826,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
+    skillProfile?: SkillProfileOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4632,6 +5845,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
+    skillProfile?: XOR<SkillProfileNullableScalarRelationFilter, SkillProfileWhereInput> | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -4666,6 +5880,71 @@ export namespace Prisma {
     method?: EnumAuthMethodWithAggregatesFilter<"User"> | $Enums.AuthMethod
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type SkillProfileWhereInput = {
+    AND?: SkillProfileWhereInput | SkillProfileWhereInput[]
+    OR?: SkillProfileWhereInput[]
+    NOT?: SkillProfileWhereInput | SkillProfileWhereInput[]
+    id?: StringFilter<"SkillProfile"> | string
+    headline?: StringNullableFilter<"SkillProfile"> | string | null
+    profilename?: StringNullableFilter<"SkillProfile"> | string | null
+    githubUrl?: StringNullableFilter<"SkillProfile"> | string | null
+    vkUrl?: StringNullableFilter<"SkillProfile"> | string | null
+    telegramUrl?: StringNullableFilter<"SkillProfile"> | string | null
+    userId?: StringFilter<"SkillProfile"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type SkillProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    headline?: SortOrderInput | SortOrder
+    profilename?: SortOrderInput | SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    vkUrl?: SortOrderInput | SortOrder
+    telegramUrl?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SkillProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    profilename?: string
+    userId?: string
+    AND?: SkillProfileWhereInput | SkillProfileWhereInput[]
+    OR?: SkillProfileWhereInput[]
+    NOT?: SkillProfileWhereInput | SkillProfileWhereInput[]
+    headline?: StringNullableFilter<"SkillProfile"> | string | null
+    githubUrl?: StringNullableFilter<"SkillProfile"> | string | null
+    vkUrl?: StringNullableFilter<"SkillProfile"> | string | null
+    telegramUrl?: StringNullableFilter<"SkillProfile"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "profilename" | "userId">
+
+  export type SkillProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    headline?: SortOrderInput | SortOrder
+    profilename?: SortOrderInput | SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    vkUrl?: SortOrderInput | SortOrder
+    telegramUrl?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    _count?: SkillProfileCountOrderByAggregateInput
+    _max?: SkillProfileMaxOrderByAggregateInput
+    _min?: SkillProfileMinOrderByAggregateInput
+  }
+
+  export type SkillProfileScalarWhereWithAggregatesInput = {
+    AND?: SkillProfileScalarWhereWithAggregatesInput | SkillProfileScalarWhereWithAggregatesInput[]
+    OR?: SkillProfileScalarWhereWithAggregatesInput[]
+    NOT?: SkillProfileScalarWhereWithAggregatesInput | SkillProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SkillProfile"> | string
+    headline?: StringNullableWithAggregatesFilter<"SkillProfile"> | string | null
+    profilename?: StringNullableWithAggregatesFilter<"SkillProfile"> | string | null
+    githubUrl?: StringNullableWithAggregatesFilter<"SkillProfile"> | string | null
+    vkUrl?: StringNullableWithAggregatesFilter<"SkillProfile"> | string | null
+    telegramUrl?: StringNullableWithAggregatesFilter<"SkillProfile"> | string | null
+    userId?: StringWithAggregatesFilter<"SkillProfile"> | string
   }
 
   export type AccountWhereInput = {
@@ -4820,6 +6099,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
+    skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -4835,6 +6115,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -4850,6 +6131,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4865,6 +6147,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4907,6 +6190,75 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SkillProfileCreateInput = {
+    id?: string
+    headline?: string | null
+    profilename?: string | null
+    githubUrl?: string | null
+    vkUrl?: string | null
+    telegramUrl?: string | null
+    user: UserCreateNestedOneWithoutSkillProfileInput
+  }
+
+  export type SkillProfileUncheckedCreateInput = {
+    id?: string
+    headline?: string | null
+    profilename?: string | null
+    githubUrl?: string | null
+    vkUrl?: string | null
+    telegramUrl?: string | null
+    userId: string
+  }
+
+  export type SkillProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    profilename?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    vkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutSkillProfileNestedInput
+  }
+
+  export type SkillProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    profilename?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    vkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SkillProfileCreateManyInput = {
+    id?: string
+    headline?: string | null
+    profilename?: string | null
+    githubUrl?: string | null
+    vkUrl?: string | null
+    telegramUrl?: string | null
+    userId: string
+  }
+
+  export type SkillProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    profilename?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    vkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SkillProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    profilename?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    vkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type AccountCreateInput = {
@@ -5128,6 +6480,11 @@ export namespace Prisma {
     none?: AccountWhereInput
   }
 
+  export type SkillProfileNullableScalarRelationFilter = {
+    is?: SkillProfileWhereInput | null
+    isNot?: SkillProfileWhereInput | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -5262,6 +6619,36 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type SkillProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    headline?: SortOrder
+    profilename?: SortOrder
+    githubUrl?: SortOrder
+    vkUrl?: SortOrder
+    telegramUrl?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SkillProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    headline?: SortOrder
+    profilename?: SortOrder
+    githubUrl?: SortOrder
+    vkUrl?: SortOrder
+    telegramUrl?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SkillProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    headline?: SortOrder
+    profilename?: SortOrder
+    githubUrl?: SortOrder
+    vkUrl?: SortOrder
+    telegramUrl?: SortOrder
+    userId?: SortOrder
+  }
+
   export type AccountAccountIdProviderCompoundUniqueInput = {
     accountId: string
     provider: string
@@ -5362,11 +6749,23 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
+  export type SkillProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<SkillProfileCreateWithoutUserInput, SkillProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SkillProfileCreateOrConnectWithoutUserInput
+    connect?: SkillProfileWhereUniqueInput
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
     createMany?: AccountCreateManyUserInputEnvelope
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+  }
+
+  export type SkillProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<SkillProfileCreateWithoutUserInput, SkillProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SkillProfileCreateOrConnectWithoutUserInput
+    connect?: SkillProfileWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5407,6 +6806,16 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
+  export type SkillProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<SkillProfileCreateWithoutUserInput, SkillProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SkillProfileCreateOrConnectWithoutUserInput
+    upsert?: SkillProfileUpsertWithoutUserInput
+    disconnect?: SkillProfileWhereInput | boolean
+    delete?: SkillProfileWhereInput | boolean
+    connect?: SkillProfileWhereUniqueInput
+    update?: XOR<XOR<SkillProfileUpdateToOneWithWhereWithoutUserInput, SkillProfileUpdateWithoutUserInput>, SkillProfileUncheckedUpdateWithoutUserInput>
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -5419,6 +6828,30 @@ export namespace Prisma {
     update?: AccountUpdateWithWhereUniqueWithoutUserInput | AccountUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AccountUpdateManyWithWhereWithoutUserInput | AccountUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
+  }
+
+  export type SkillProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<SkillProfileCreateWithoutUserInput, SkillProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SkillProfileCreateOrConnectWithoutUserInput
+    upsert?: SkillProfileUpsertWithoutUserInput
+    disconnect?: SkillProfileWhereInput | boolean
+    delete?: SkillProfileWhereInput | boolean
+    connect?: SkillProfileWhereUniqueInput
+    update?: XOR<XOR<SkillProfileUpdateToOneWithWhereWithoutUserInput, SkillProfileUpdateWithoutUserInput>, SkillProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserCreateNestedOneWithoutSkillProfileInput = {
+    create?: XOR<UserCreateWithoutSkillProfileInput, UserUncheckedCreateWithoutSkillProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSkillProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSkillProfileNestedInput = {
+    create?: XOR<UserCreateWithoutSkillProfileInput, UserUncheckedCreateWithoutSkillProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSkillProfileInput
+    upsert?: UserUpsertWithoutSkillProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSkillProfileInput, UserUpdateWithoutSkillProfileInput>, UserUncheckedUpdateWithoutSkillProfileInput>
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -5646,6 +7079,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SkillProfileCreateWithoutUserInput = {
+    id?: string
+    headline?: string | null
+    profilename?: string | null
+    githubUrl?: string | null
+    vkUrl?: string | null
+    telegramUrl?: string | null
+  }
+
+  export type SkillProfileUncheckedCreateWithoutUserInput = {
+    id?: string
+    headline?: string | null
+    profilename?: string | null
+    githubUrl?: string | null
+    vkUrl?: string | null
+    telegramUrl?: string | null
+  }
+
+  export type SkillProfileCreateOrConnectWithoutUserInput = {
+    where: SkillProfileWhereUniqueInput
+    create: XOR<SkillProfileCreateWithoutUserInput, SkillProfileUncheckedCreateWithoutUserInput>
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -5678,6 +7134,111 @@ export namespace Prisma {
     userId?: StringFilter<"Account"> | string
   }
 
+  export type SkillProfileUpsertWithoutUserInput = {
+    update: XOR<SkillProfileUpdateWithoutUserInput, SkillProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<SkillProfileCreateWithoutUserInput, SkillProfileUncheckedCreateWithoutUserInput>
+    where?: SkillProfileWhereInput
+  }
+
+  export type SkillProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: SkillProfileWhereInput
+    data: XOR<SkillProfileUpdateWithoutUserInput, SkillProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SkillProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    profilename?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    vkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SkillProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    profilename?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    vkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserCreateWithoutSkillProfileInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    picture?: string | null
+    role?: $Enums.UserRole
+    isVerified?: boolean
+    isTwoFactorEnabled?: boolean
+    method: $Enums.AuthMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSkillProfileInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    picture?: string | null
+    role?: $Enums.UserRole
+    isVerified?: boolean
+    isTwoFactorEnabled?: boolean
+    method: $Enums.AuthMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSkillProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSkillProfileInput, UserUncheckedCreateWithoutSkillProfileInput>
+  }
+
+  export type UserUpsertWithoutSkillProfileInput = {
+    update: XOR<UserUpdateWithoutSkillProfileInput, UserUncheckedUpdateWithoutSkillProfileInput>
+    create: XOR<UserCreateWithoutSkillProfileInput, UserUncheckedCreateWithoutSkillProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSkillProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSkillProfileInput, UserUncheckedUpdateWithoutSkillProfileInput>
+  }
+
+  export type UserUpdateWithoutSkillProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    picture?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isTwoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSkillProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    picture?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isTwoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     email: string
@@ -5690,6 +7251,7 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -5704,6 +7266,7 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -5734,6 +7297,7 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -5748,6 +7312,7 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {

@@ -1,21 +1,20 @@
 import { IsBoolean, IsEmail, IsNotEmpty, IsString } from 'class-validator';
-
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateUserDto {
     @Field()
-    @IsString({ message: 'The name must be a string.' })
-    @IsNotEmpty({ message: 'The name is required.' })
+    @IsString({ message: 'Имя должно быть строкой.' })
+    @IsNotEmpty({ message: 'Имя является обязательным полем.' })
     name: string;
 
     @Field()
-    @IsString({ message: 'The email must be a string.' })
-    @IsEmail({}, { message: 'Incorrect email format.' })
-    @IsNotEmpty({ message: 'Email is required to fill in.' })
+    @IsString({ message: 'Email должен быть строкой.' })
+    @IsEmail({}, { message: 'Некорректный формат email.' })
+    @IsNotEmpty({ message: 'Email является обязательным полем.' })
     email: string;
 
     @Field()
-    @IsBoolean({ message: 'isTwoFactorEnabled must be a Boolean value.' })
+    @IsBoolean({ message: 'isTwoFactorEnabled должно быть булевым значением.' })
     isTwoFactorEnabled: boolean;
 }

@@ -68,7 +68,7 @@ export const TodoNodeDisplay = (props: NodeProps<ChecklistNodeComponent>) => {
 						</div>
 					) : (
 						<span className="flex gap-2 flex-shrink-0 whitespace-nowrap text-destructive">
-							Checklist is empty
+							Список пуст
 							<OctagonAlertIcon />
 						</span>
 					)}

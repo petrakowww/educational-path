@@ -16,6 +16,6 @@ export class IsPasswordsMatchingConstraint
     }
 
     public defaultMessage() {
-        return 'Passwords do not match.';
+        return 'Пароли не совпадают.';
     }
 }

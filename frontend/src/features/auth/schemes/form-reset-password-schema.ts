@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const formResetPasswordSchema = z.object({
 	email: z.string().email({
-		message: 'Incorrectly entered email address',
+		message: 'Неправильно введенный адрес электронной почты.',
 	}),
 });
 

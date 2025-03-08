@@ -40,7 +40,7 @@ export const FormResetPassword = () => {
 			reset({ values, recaptcha: recaptchaValue });
 		} else {
 			toast.error(
-				'Please complete reCAPTCHA before resetting your password.'
+				'Пожалуйста, завершите reCAPTCHA перед сбросом пароля.'
 			);
 		}
 	};
@@ -58,7 +58,7 @@ export const FormResetPassword = () => {
 						<FormItem>
 							<FormControl>
 								<Input
-									placeholder="Email Address..."
+									placeholder="Адрес электронной почты..."
 									className="text-sm"
 									{...field}
 									type="email"
@@ -79,16 +79,14 @@ export const FormResetPassword = () => {
 
 				<div className="flex justify-center">
 					<ReCAPTCHA
-						sitekey={
-							process.env.GOOGLE_RECAPTCHA_SITE_KEY as string
-						}
+						sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
 						onChange={setRecaptchaValue}
 						theme={theme.theme === 'light' ? 'light' : 'dark'}
 					/>
 				</div>
 
 				<Button type="submit" disabled={isLoadingReset}>
-					Continue
+					Продолжить
 				</Button>
 			</form>
 		</Form>
