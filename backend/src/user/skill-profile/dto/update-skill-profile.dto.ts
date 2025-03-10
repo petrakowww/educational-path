@@ -10,7 +10,7 @@ import {
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateSkillProfileDto {
+export class SkillProfileDto {
     @Field({ nullable: true })
     @IsString({ message: 'Имя профиля должно быть строкой.' })
     @MinLength(3, {

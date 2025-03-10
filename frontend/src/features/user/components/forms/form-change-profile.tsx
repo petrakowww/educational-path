@@ -26,14 +26,16 @@ import { useForm } from 'react-hook-form';
 import {
 	profileSchema,
 	TypeChangeProfileSchema,
-} from '../../schemes/form-change-profile-schema';
+} from '../../schemes/form-change-social-profile-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
 	useFindProfileQuery,
 	useUpdateProfileMutation,
 } from '@/shared/graphql/generated/output';
 import { toast } from 'sonner';
+import { staticResources } from '@/shared/lib/utils/public-client';
+import { useAvatarUpdate } from '../../hooks/use-avatar-update';
 
 export const FormChangeProfile = () => {
 	const { data, loading } = useFindProfileQuery();
@@ -47,7 +49,7 @@ export const FormChangeProfile = () => {
 		onError(data) {
 			console.log(data);
 			toast.error('Что-то пошло не так.', {
-				description: 'Пожалуйста повторите попытку',
+				description: `${data.message}`,
 			});
 		},
 	});
@@ -56,24 +58,18 @@ export const FormChangeProfile = () => {
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
 			profilename: '',
-			name: '',
 			telegram: '',
 			github: '',
 			vk: '',
-			avatar: '',
 			headline: '',
 		},
 	});
 
-	const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+	const { avatarPreview, fileInputRef, setAvatarPreview, handleAvatarUpload, handleAvatarDelete, handleResetAvatar  } = useAvatarUpdate();
 
 	const onSubmit = (data: TypeChangeProfileSchema) => {
 		update({
 			variables: {
-				userExternalDto: {
-					name: data.name,
-					avatar: data.avatar || null,
-				},
 				skillProfileDto: {
 					profilename: data.profilename || null,
 					headline: data.headline || null,
@@ -87,204 +83,135 @@ export const FormChangeProfile = () => {
 
 	useEffect(() => {
 		if (data?.findProfile) {
+			setAvatarPreview(
+				staticResources.getAvatarUrl(data.findProfile.avatar || '')
+			);
 			form.reset({
 				profilename: data.findProfile.skillProfile?.profilename || '',
-				name: data.findProfile.name || '',
 				telegram: data.findProfile.skillProfile?.telegramUrl || '',
 				github: data.findProfile.skillProfile?.githubUrl || '',
 				vk: data.findProfile.skillProfile?.vkUrl || '',
-				avatar: data.findProfile.avatar || '',
 				headline: data.findProfile.skillProfile?.headline || '',
 			});
 		}
-	}, [data, form]);
-
-	const handleAvatarUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const file = event.target.files?.[0];
-		if (file) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				setAvatarPreview(reader.result as string);
-				form.setValue('avatar', reader.result as string);
-			};
-			reader.readAsDataURL(file);
-		}
-	};
+	}, [data, form, setAvatarPreview]);
 
 	if (loading) {
 		return (
-			<Skeleton className="w-full p-5 text-center">
+			<Skeleton className="w-full p-5 text-center text-sm">
 				Загружаем профиль
 			</Skeleton>
 		);
 	}
 
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)}>
-				<div className="mb-4">
-					<FormField
-						name="profilename"
-						control={form.control}
-						render={({ field }) => (
-							<FormItem className="mb-2">
-								<FormLabel>
-									URL профиля{' '}
-									<span className="text-red-500">*</span>
-								</FormLabel>
-								<div className="flex mb-2">
-									<span className="bg-gray-200 border border-r-0 rounded-l-md text-sm flex items-center justify-center px-3">
-										edupath.com/u/
-									</span>
-									<FormControl>
-										<Input
-											placeholder="example"
-											className="rounded-l-none p-0 text-sm h-10 px-3"
-											required
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</div>
-							</FormItem>
-						)}
-					/>
-					<p className="text-sm text-destructive">
-						Если вы хотите обновить свой профиль, обязательно
-						укажите новую ссылку на него.
-					</p>
-				</div>
-
-				<div className="grid gap-4 grid-cols-1 xl:grid-cols-2">
-					<div>
-						<Card className="h-full">
-							<CardContent className="h-full p-6">
-								<CardHeader className="p-0 mb-6">
-									<CardTitle>Аватар профиля</CardTitle>
-									<CardDescription>
-										Измените фотографию профиля
-									</CardDescription>
-								</CardHeader>
-								<div className="flex gap-6">
-									<div className="relative w-32 h-32">
-										<Avatar className="overflow-hidden w-32 h-32">
-											<AvatarImage
-												className="object-cover"
-												src={avatarPreview || undefined}
-											/>
-											<AvatarFallback>
-												{data?.findProfile.name.slice(
-													0,
-													1
-												)}
-											</AvatarFallback>
-										</Avatar>
-
-										<div className="absolute right-[-5px] bottom-[0] flex flex-col gap-2 bg-secondary p-2 rounded-lg shadow-md border-[1px] border-border">
-											<label htmlFor="avatar-upload">
-												<Button
-													size="icon"
-													className="p-1 aspect-square h-auto w-auto"
-													type="button"
-													onClick={() =>
-														document
-															.getElementById(
-																'avatar-upload'
-															)
-															?.click()
-													}
-												>
-													<PenIcon />
-												</Button>
-											</label>
-
-											<input
-												id="avatar-upload"
-												type="file"
-												accept="image/*"
-												className="hidden"
-												onChange={handleAvatarUpload}
-											/>
-
-											<Button
-												size="icon"
-												variant="destructive"
-												className="p-1 aspect-square h-auto w-auto"
-												type="button"
-												onClick={() => {
-													setAvatarPreview(null);
-													form.setValue('avatar', '');
-												}}
-											>
-												<XIcon />
-											</Button>
-										</div>
-									</div>
-									<p className="text-foreground/80 text-sm">
-										Вы можете изменить свой аватар. Аватар
-										виден всем пользователям.
-									</p>
-								</div>
-							</CardContent>
-						</Card>
-					</div>
-
-					<div>
-						<Card className="h-full">
-							<CardContent className="p-6 h-full flex flex-col gap-2">
-								<CardHeader className="p-0 mb-2">
-									<CardTitle>
-										Информация об аккаунте
-									</CardTitle>
-									<CardDescription>
-										Почту можно поменять в разделе основных
-										настроек аккаунта
-									</CardDescription>
-								</CardHeader>
-
-								<FormField
-									name="name"
-									control={form.control}
-									render={({ field }) => (
-										<FormItem className="space-y-0">
-											<FormLabel>
-												Имя{' '}
-												<span className="text-red-500">
-													*
-												</span>
-											</FormLabel>
-											<FormControl>
-												<Input
-													className="text-sm"
-													placeholder="Ваше имя"
-													{...field}
-												/>
-											</FormControl>
-											<FormMessage className="text-destructive/80" />
-										</FormItem>
-									)}
-								/>
-
-								<div>
-									<Label>
-										Почта{' '}
-										<sup className="text-foreground/80">
-											Для просмотра
-										</sup>
-									</Label>
-									<Input
-										className="text-sm"
-										defaultValue="example.ex@example.com"
-										type="email"
-										disabled
+		<div className="grid gap-4 grid-cols-1 xl:grid-cols-2">
+			<div>
+				<Card className="h-full">
+					<CardContent className="h-full p-6">
+						<CardHeader className="p-0 mb-6">
+							<CardTitle>Аватар профиля</CardTitle>
+							<CardDescription>
+								Измените фотографию профиля
+							</CardDescription>
+						</CardHeader>
+						<div className="flex gap-6">
+							<div className="relative w-32 h-32">
+								<Avatar className="overflow-hidden w-32 h-32">
+									<AvatarImage
+										className="object-cover"
+										src={avatarPreview || undefined}
 									/>
-								</div>
-							</CardContent>
-						</Card>
-					</div>
+									<AvatarFallback>
+										{data?.findProfile.name.slice(0, 1)}
+									</AvatarFallback>
+								</Avatar>
 
-					{/* Социальные сети */}
-					<div className="col-span-full">
+								<div className="absolute right-[-5px] bottom-[0] flex flex-col gap-2 bg-secondary p-2 rounded-lg shadow-md border-[1px] border-border">
+									<label htmlFor="avatar-upload">
+										<Button
+											size="icon"
+											className="p-1 aspect-square h-auto w-auto"
+											type="button"
+											onClick={() => fileInputRef.current?.click()}
+										>
+											<PenIcon />
+										</Button>
+									</label>
+
+									<input
+                                        ref={fileInputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={handleAvatarUpload}
+                                        onClick={handleResetAvatar}
+                                        />
+
+									<Button
+										size="icon"
+										variant="destructive"
+										className="p-1 aspect-square h-auto w-auto"
+										type="button"
+										onClick={handleAvatarDelete}
+									>
+										<XIcon />
+									</Button>
+								</div>
+							</div>
+							<p className="text-foreground/80 text-sm">
+								Вы можете изменить свой аватар. Аватар виден
+								всем пользователям.
+							</p>
+						</div>
+					</CardContent>
+				</Card>
+			</div>
+
+			<div>
+				<Card className="h-full">
+					<CardContent className="p-6 h-full flex flex-col gap-2">
+						<CardHeader className="p-0 mb-2">
+							<CardTitle>Информация об аккаунте</CardTitle>
+							<CardDescription>
+								Почту и отображаемое имя можно поменять в
+								разделе основных настроек аккаунта
+							</CardDescription>
+						</CardHeader>
+
+						<div>
+							<Label className="dis[] min-w-full">Имя </Label>
+							<Input
+								className="text-sm"
+								placeholder={
+									data?.findProfile.name ||
+									'example.ex@example.com'
+								}
+								disabled
+							/>
+						</div>
+
+						<div>
+							<Label>Почта </Label>
+							<Input
+								className="text-sm"
+								defaultValue={
+									data?.findProfile.email ||
+									'example.ex@example.com'
+								}
+								type="email"
+								disabled
+							/>
+						</div>
+					</CardContent>
+				</Card>
+			</div>
+			<Form {...form}>
+				<form
+					onSubmit={form.handleSubmit(onSubmit)}
+					className="col-span-full"
+				>
+					<div className="mb-4">
 						<Card>
 							<CardContent className="p-6 flex flex-col gap-2">
 								<CardHeader className="p-0 mb-1">
@@ -295,6 +222,43 @@ export const FormChangeProfile = () => {
 										профиля
 									</CardDescription>
 								</CardHeader>
+
+								<div>
+									<FormField
+										name="profilename"
+										control={form.control}
+										render={({ field }) => (
+											<FormItem className="mb-2">
+												<FormLabel>
+													URL профиля{' '}
+													<span className="text-red-500">
+														*
+													</span>
+												</FormLabel>
+												<div className="flex mb-2">
+													<span className="bg-gray-200 border border-r-0 rounded-l-md text-sm flex items-center justify-center px-3">
+														edupath.com/u/
+													</span>
+													<FormControl>
+														<Input
+															placeholder="example"
+															className="rounded-l-none p-0 text-sm h-10 px-3"
+															required
+															{...field}
+														/>
+													</FormControl>
+													<FormMessage />
+												</div>
+											</FormItem>
+										)}
+									/>
+									<p className="text-sm text-destructive mb-3">
+										Если вы хотите обновить свой профиль,
+										обязательно укажите новую ссылку на
+										него.
+									</p>
+									<Separator />
+								</div>
 
 								<div>
 									<FormField
@@ -386,8 +350,8 @@ export const FormChangeProfile = () => {
 							Сохранить профиль
 						</Button>
 					</div>
-				</div>
-			</form>
-		</Form>
+				</form>
+			</Form>
+		</div>
 	);
 };

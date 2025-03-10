@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
 		REFRESH_TOKEN: process.env.REFRESH_TOKEN,
 		GRAPHQL_URL: process.env.GRAPHQL_URL,
 		FRONTEND_URL: process.env.FRONTEND_URL,
+		PUBLIC_URL: process.env.PUBLIC_URL
 	},
 	images: {
 		remotePatterns: [

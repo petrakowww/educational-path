@@ -10,16 +10,16 @@ export {
 	updateNode,
 	deleteNode,
 	updateNodeProperty,
-} from './reducers/node-slice';
+} from './reducers/management-node.slice';
 
 export {
 	nodeEditorAsideReducer,
 	setEditorStatusMenu,
 	setFocusingLabel,
 	setSelectedLegend,
-} from './reducers/node-aside-slice';
+} from './reducers/editor.slice';
 
-export { dndEditorReduser, setType, resetType } from './reducers/dnd-slice';
+export { dndEditorReduser, setType, resetType } from './reducers/dnd.slice';
 
 export {
 	getSelectedNode,

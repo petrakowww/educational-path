@@ -1,7 +1,21 @@
 import { applyNodeChanges } from 'reactflow';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initialNodeState } from '../initial/node-initial';
 import { updateNodePropertyFunction } from '../utils/update-node-data-helper';
+
+import { GraphNodeComponent } from '@/shared/lib/node/component';
+import { Node } from 'reactflow';
+
+export interface NodeInterface<T extends GraphNodeComponent<unknown>> {
+	selectedNodeId: string | null;
+	nodes: Node<T>[];
+}
+
+
+export const initialNodeState: NodeInterface<GraphNodeComponent<unknown>> = {
+	selectedNodeId: null,
+	nodes: [],
+};
+
 
 export const nodeSlice = createSlice({
 	name: 'NodeEditorBehaviour',

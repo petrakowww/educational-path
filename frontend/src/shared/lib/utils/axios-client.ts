@@ -62,7 +62,7 @@ export class AxiosClient {
 
 	public post<T>(
 		endpoint: string,
-		body?: Record<string, unknown>,
+		body?: FormData | Record<string, unknown>,
 		options?: RequestOptions
 	) {
 		return this.request<T>('POST', endpoint, { ...options, data: body });
@@ -70,7 +70,7 @@ export class AxiosClient {
 
 	public put<T>(
 		endpoint: string,
-		body?: Record<string, unknown>,
+		body?: FormData | Record<string, unknown>,
 		options?: RequestOptions
 	) {
 		return this.request<T>('PUT', endpoint, { ...options, data: body });
@@ -82,7 +82,7 @@ export class AxiosClient {
 
 	public patch<T>(
 		endpoint: string,
-		body?: Record<string, unknown>,
+		body?: FormData | Record<string, unknown>,
 		options?: RequestOptions
 	) {
 		return this.request<T>('PATCH', endpoint, { ...options, data: body });

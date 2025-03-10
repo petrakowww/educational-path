@@ -9,7 +9,7 @@ import { Button, Input } from '@/shared/ui';
 import { TrashIcon } from 'lucide-react';
 import { GraphNodeChecklistEditor } from '@/shared/lib/node/editor';
 import { useAppSelector, useAppDispatch } from '@/shared/managers';
-import { setSelectedTodo } from '@/shared/managers/reducers/node-aside-slice';
+import { setSelectedTodo } from '@/shared/managers/reducers/editor.slice';
 
 interface ComponentEditorChecklistProps {
 	editedNode: Node<GraphNodeComponent<GraphNodeChecklistProps>>;

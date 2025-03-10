@@ -1,4 +1,5 @@
 import * as cookieParser from 'cookie-parser';
+
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -17,7 +18,6 @@ async function bootstrap() {
             transform: true,
         }),
     );
-
 
     app.enableCors({
         origin: config.getOrThrow<string>('ALLOWED_ORIGIN'),

@@ -10,11 +10,17 @@ export enum ApiRoutesAuth {
 	refreshTokens = 'auth/refresh-tokens',
 }
 
-export enum ClientRoutesApi {
+export enum ApiRoutesToken {
 	refreshTokenRedirect = 'api/refresh',
+}
+
+export enum ApiRoutesUsers {
+	updateProfileAvatar = '/users/upload-avatar',
+	deleteProfileAvatar = '/users/delete-avatar',
 }
 
 export const apiRoutes = {
 	auth: ApiRoutesAuth,
-	client: ClientRoutesApi,
+	token: ApiRoutesToken,
+	users: ApiRoutesUsers,
 };

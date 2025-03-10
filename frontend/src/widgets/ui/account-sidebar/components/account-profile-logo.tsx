@@ -22,6 +22,7 @@ import {
 } from '../constants/account-convert-info';
 import Link from 'next/link';
 import { AppRoutes } from '@/shared/config';
+import { staticResources } from '@/shared/lib/utils/public-client';
 
 export const AccountProfileLogo = () => {
 	const { isMobile } = useSidebar();
@@ -40,10 +41,14 @@ export const AccountProfileLogo = () => {
 								<Avatar className="rounded-[50%] overflow-hidden">
 									<AvatarImage
 										src={
-											data?.findProfile
-												.avatar as undefined
+											data?.findProfile.avatar
+												? staticResources.getAvatarUrl(
+														data.findProfile.avatar
+													)
+												: undefined
 										}
 									/>
+
 									<AvatarFallback>
 										{data?.findProfile.name.slice(0, 1)}
 									</AvatarFallback>
@@ -79,7 +84,9 @@ export const AccountProfileLogo = () => {
 								<PenIcon className="size-4" />
 							</div>
 							<div className="text-foreground/80">
-								<Link href={AppRoutes.AccountProfile}>Изменить профиль</Link>
+								<Link href={AppRoutes.AccountProfile}>
+									Изменить профиль
+								</Link>
 							</div>
 						</DropdownMenuItem>
 					</DropdownMenuContent>

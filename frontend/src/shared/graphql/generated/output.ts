@@ -32,14 +32,13 @@ export type AccountModel = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  updateProfile: UpdateProfileResponse;
+  updateProfile: SkillProfile;
   updateSettings: UserModel;
 };
 
 
 export type MutationUpdateProfileArgs = {
-  skillProfileDto: UpdateSkillProfileDto;
-  userExternalDto: UpdateExternalUserDto;
+  skillProfileDto: SkillProfileDto;
 };
 
 export type Query = {
@@ -64,18 +63,7 @@ export type SkillProfile = {
   vkUrl?: Maybe<Scalars['String']['output']>;
 };
 
-export type UpdateExternalUserDto = {
-  avatar?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-};
-
-export type UpdateProfileResponse = {
-  __typename?: 'UpdateProfileResponse';
-  updateUserExternalFields: UserModel;
-  updatedProfile: SkillProfile;
-};
-
-export type UpdateSkillProfileDto = {
+export type SkillProfileDto = {
   githubUrl?: InputMaybe<Scalars['String']['input']>;
   headline?: InputMaybe<Scalars['String']['input']>;
   profilename?: InputMaybe<Scalars['String']['input']>;
@@ -98,17 +86,16 @@ export type UserModel = {
 };
 
 export type UpdateProfileMutationVariables = Exact<{
-  userExternalDto: UpdateExternalUserDto;
-  skillProfileDto: UpdateSkillProfileDto;
+  skillProfileDto: SkillProfileDto;
 }>;
 
 
-export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'UpdateProfileResponse', updateUserExternalFields: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null }, updatedProfile: { __typename?: 'SkillProfile', profilename?: string | null, headline?: string | null, githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null } } };
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'SkillProfile', profilename?: string | null, headline?: string | null, githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null } };
 
 export type FindProfileLogoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileLogoQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', name: string, avatar?: string | null, method: string, role: string } };
+export type FindProfileLogoQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: string, role: string } };
 
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -117,23 +104,13 @@ export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename
 
 
 export const UpdateProfileDocument = gql`
-    mutation updateProfile($userExternalDto: UpdateExternalUserDto!, $skillProfileDto: UpdateSkillProfileDto!) {
-  updateProfile(
-    userExternalDto: $userExternalDto
-    skillProfileDto: $skillProfileDto
-  ) {
-    updateUserExternalFields {
-      id
-      name
-      avatar
-    }
-    updatedProfile {
-      profilename
-      headline
-      githubUrl
-      vkUrl
-      telegramUrl
-    }
+    mutation updateProfile($skillProfileDto: SkillProfileDto!) {
+  updateProfile(skillProfileDto: $skillProfileDto) {
+    profilename
+    headline
+    githubUrl
+    vkUrl
+    telegramUrl
   }
 }
     `;
@@ -152,7 +129,6 @@ export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutat
  * @example
  * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
  *   variables: {
- *      userExternalDto: // value for 'userExternalDto'
  *      skillProfileDto: // value for 'skillProfileDto'
  *   },
  * });
@@ -167,6 +143,7 @@ export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProf
 export const FindProfileLogoDocument = gql`
     query FindProfileLogo {
   findProfile {
+    id
     name
     avatar
     method

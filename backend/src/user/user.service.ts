@@ -2,10 +2,9 @@ import { hash } from 'argon2';
 
 import { PrismaService } from '@/prisma/prisma.service';
 
-import { UpdateExternalUserDto } from './dto/update-user.dto';
 import { UserDataProps } from './interfaces/user.interface';
-import { StorageAvatarsService } from './storage/storage.service';
-import { Injectable } from '@nestjs/common';
+import { StorageAvatarsService } from './storage/storage-avatar.service';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/__generated__';
 
 @Injectable()
@@ -59,27 +58,38 @@ export class UserService {
         return user;
     }
 
-    public async updateExternalUser(
-        userId: string,
-        dto: UpdateExternalUserDto,
-    ) {
-        const user = await this.findById(userId);
-
-        let updatedAvatarPath = user.avatar;
-        if (dto.avatar) {
-            updatedAvatarPath = await this.storageAvatarsService.updateAvatar(
-                Buffer.from(dto.avatar, 'base64'),
-                userId,
-                user.avatar,
-            );
+    public async updateAvatar(userId: string, file: Express.Multer.File) {
+        if (!file) {
+            throw new BadRequestException('Файл аватара не был загружен');
         }
+
+        const currentUser = await this.findById(userId);
+        
+        const updatedAvatarPath = await this.storageAvatarsService.updateAvatar(
+            file.buffer,
+            userId,
+            currentUser.avatar,
+        );
 
         const updatedUser = await this.prismaService.user.update({
             where: { id: userId },
-            data: {
-                name: dto.name,
-                avatar: updatedAvatarPath,
-            },
+            data: { avatar: updatedAvatarPath },
+        });
+
+        return updatedUser;
+    }
+
+    public async deleteAvatar(userId: string) {
+        const currentUser = await this.findById(userId);
+        if (!currentUser.avatar) {
+            throw new BadRequestException('Аватар не был найден');
+        }
+
+        await this.storageAvatarsService.deleteAvatar(currentUser.avatar);
+
+        const updatedUser = await this.prismaService.user.update({
+            where: { id: userId },
+            data: { avatar: null },
         });
 
         return updatedUser;

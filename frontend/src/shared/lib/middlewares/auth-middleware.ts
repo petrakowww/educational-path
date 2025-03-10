@@ -47,7 +47,7 @@ export class AuthMiddleware {
 
 			if (this.refreshToken) {
 				const redirectUrl = this.createRedirectUrl(
-					apiRoutes.client.refreshTokenRedirect
+					apiRoutes.token.refreshTokenRedirect
 				);
 				return NextResponse.redirect(redirectUrl);
 			} else {
@@ -62,7 +62,7 @@ export class AuthMiddleware {
 
 		if (this.refreshToken) {
 			const redirectUrl = this.createRedirectUrl(
-				apiRoutes.client.refreshTokenRedirect
+				apiRoutes.token.refreshTokenRedirect
 			);
 			return NextResponse.redirect(redirectUrl);
 		}

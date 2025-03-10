@@ -1,6 +1,14 @@
 import { NodeLabelEnum } from '@/shared/lib/node/component';
-import { dndInitialState } from '../initial/dnd-initial';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export interface DnDState {
+	type: NodeLabelEnum | null;
+}
+
+export const dndInitialState: DnDState = {
+	type: null,
+};
+
 
 const dndSlice = createSlice({
 	name: 'dnd',

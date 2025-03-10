@@ -1,6 +1,6 @@
 import { GraphNodeTodoItem, initTodoListComponent } from '../../../component';
 import { GraphNodeBaseEditor } from './editor-base';
-import { setSelectedTodo } from '@/shared/managers/reducers/node-aside-slice';
+import { setSelectedTodo } from '@/shared/managers/reducers/editor.slice';
 import { store } from '@/shared/managers';
 
 export class GraphNodeChecklistEditor extends GraphNodeBaseEditor {

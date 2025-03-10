@@ -1,5 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initialAsideState } from '../initial/aside-initial';
+export interface EditorInterface {
+	isOpenMenu: boolean;
+	isFocusingOnLabel: boolean;
+	selectedLegendId: string | null;
+	selectedTodoId: string | null;
+}
+
+
+export const initialAsideState: EditorInterface = {
+	isOpenMenu: false,
+	isFocusingOnLabel: false,
+	selectedLegendId: null,
+	selectedTodoId: null,
+};
+
 
 export const nodeAsideSlice = createSlice({
 	name: 'AsideMenuBehaviour',

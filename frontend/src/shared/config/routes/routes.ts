@@ -3,7 +3,7 @@ export enum AppRoutes {
 	Editor = '/editor',
 	Dashboard = '/dashboard',
 	View = '/view',
-	
+
 	SignUp = '/auth/signup',
 	SignIn = '/auth/signin',
 	NewPassword = '/auth/new-password',

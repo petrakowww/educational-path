@@ -28,7 +28,7 @@ export interface UserProps {
 	updatedAt: string;
 	email: string;
 	password: string;
-	displayName: string;
+	name: string;
 	avatar: string;
 	role: UserRole;
 	isVerified: boolean;

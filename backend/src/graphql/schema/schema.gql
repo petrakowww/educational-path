@@ -19,7 +19,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Mutation {
-  updateProfile(skillProfileDto: UpdateSkillProfileDto!, userExternalDto: UpdateExternalUserDto!): UpdateProfileResponse!
+  updateProfile(skillProfileDto: SkillProfileDto!): SkillProfile!
   updateSettings: UserModel!
 }
 
@@ -38,17 +38,7 @@ type SkillProfile {
   vkUrl: String
 }
 
-input UpdateExternalUserDto {
-  avatar: String
-  name: String!
-}
-
-type UpdateProfileResponse {
-  updateUserExternalFields: UserModel!
-  updatedProfile: SkillProfile!
-}
-
-input UpdateSkillProfileDto {
+input SkillProfileDto {
   githubUrl: String
   headline: String
   profilename: String

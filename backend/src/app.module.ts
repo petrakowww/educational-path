@@ -15,6 +15,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
     imports: [
@@ -27,6 +29,10 @@ import { ScheduleModule } from '@nestjs/schedule';
             imports: [ConfigModule],
             useFactory: getGraphQLConfig,
             inject: [ConfigService],
+        }),
+        ServeStaticModule.forRoot({
+            rootPath: path.resolve(process.cwd(), 'src/public'),
+            serveRoot: '/public',
         }),
         ScheduleModule.forRoot(),
         PrismaModule,

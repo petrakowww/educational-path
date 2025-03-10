@@ -11,15 +11,6 @@ export const profileSchema = z.object({
 				'Имя профиля может содержать только буквы, цифры, подчеркивания и пробелы.',
 		})
 		.optional(),
-	name: z
-		.string()
-		.min(2, {
-			message: 'Имя пользователя должно содержать не менее 2 символов.',
-		})
-		.regex(/^[\p{L}\p{N}_ ]+$/u, {
-			message:
-				'Имя может содержать только буквы, цифры, подчеркивания и пробелы.',
-		}),
 	headline: z
 		.string()
 		.max(600, {
@@ -59,13 +50,6 @@ export const profileSchema = z.object({
 		})
 		.optional()
 		.or(z.literal('')),
-	avatar: z
-		.string()
-		.regex(/^data:image\/(jpeg|jpg|png|gif|webp);base64,/, {
-			message: 'Аватар должен быть корректным изображением в Base64.',
-		})
-		.optional()
-        .or(z.literal('')),
 });
 
 export type TypeChangeProfileSchema = z.infer<typeof profileSchema>;
