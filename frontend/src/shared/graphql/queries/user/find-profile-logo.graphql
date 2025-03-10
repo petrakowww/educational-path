@@ -1,7 +1,7 @@
 query FindProfileLogo {
 	findProfile {
 		name
-		picture
+		avatar
 		method
 		role
 	}

@@ -32,12 +32,14 @@ export type AccountModel = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  updateProfile: UserModel;
+  updateProfile: UpdateProfileResponse;
+  updateSettings: UserModel;
 };
 
 
 export type MutationUpdateProfileArgs = {
-  dto: UpdateUserDto;
+  skillProfileDto: UpdateSkillProfileDto;
+  userExternalDto: UpdateExternalUserDto;
 };
 
 export type Query = {
@@ -56,47 +58,117 @@ export type SkillProfile = {
   githubUrl?: Maybe<Scalars['String']['output']>;
   headline?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
+  profilename?: Maybe<Scalars['String']['output']>;
   telegramUrl?: Maybe<Scalars['String']['output']>;
   user: UserModel;
   vkUrl?: Maybe<Scalars['String']['output']>;
 };
 
-export type UpdateUserDto = {
-  email: Scalars['String']['input'];
-  isTwoFactorEnabled: Scalars['Boolean']['input'];
+export type UpdateExternalUserDto = {
+  avatar?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+};
+
+export type UpdateProfileResponse = {
+  __typename?: 'UpdateProfileResponse';
+  updateUserExternalFields: UserModel;
+  updatedProfile: SkillProfile;
+};
+
+export type UpdateSkillProfileDto = {
+  githubUrl?: InputMaybe<Scalars['String']['input']>;
+  headline?: InputMaybe<Scalars['String']['input']>;
+  profilename?: InputMaybe<Scalars['String']['input']>;
+  telegramUrl?: InputMaybe<Scalars['String']['input']>;
+  vkUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserModel = {
   __typename?: 'UserModel';
   accounts?: Maybe<Array<AccountModel>>;
+  avatar?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   isTwoFactorEnabled: Scalars['Boolean']['output'];
   isVerified: Scalars['Boolean']['output'];
   method: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  picture?: Maybe<Scalars['String']['output']>;
   role: Scalars['String']['output'];
-  skillProfile?: Maybe<Array<SkillProfile>>;
+  skillProfile?: Maybe<SkillProfile>;
 };
+
+export type UpdateProfileMutationVariables = Exact<{
+  userExternalDto: UpdateExternalUserDto;
+  skillProfileDto: UpdateSkillProfileDto;
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'UpdateProfileResponse', updateUserExternalFields: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null }, updatedProfile: { __typename?: 'SkillProfile', profilename?: string | null, headline?: string | null, githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null } } };
 
 export type FindProfileLogoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileLogoQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', name: string, picture?: string | null, method: string, role: string } };
+export type FindProfileLogoQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', name: string, avatar?: string | null, method: string, role: string } };
 
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', name: string, picture?: string | null, method: string, isTwoFactorEnabled: boolean, email: string, accounts?: Array<{ __typename?: 'AccountModel', type: string }> | null, skillProfile?: Array<{ __typename?: 'SkillProfile', githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null, headline?: string | null }> | null } };
+export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: string, isTwoFactorEnabled: boolean, email: string, accounts?: Array<{ __typename?: 'AccountModel', type: string }> | null, skillProfile?: { __typename?: 'SkillProfile', githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null, headline?: string | null, profilename?: string | null } | null } };
 
 
+export const UpdateProfileDocument = gql`
+    mutation updateProfile($userExternalDto: UpdateExternalUserDto!, $skillProfileDto: UpdateSkillProfileDto!) {
+  updateProfile(
+    userExternalDto: $userExternalDto
+    skillProfileDto: $skillProfileDto
+  ) {
+    updateUserExternalFields {
+      id
+      name
+      avatar
+    }
+    updatedProfile {
+      profilename
+      headline
+      githubUrl
+      vkUrl
+      telegramUrl
+    }
+  }
+}
+    `;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutation, UpdateProfileMutationVariables>;
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      userExternalDto: // value for 'userExternalDto'
+ *      skillProfileDto: // value for 'skillProfileDto'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileMutation, UpdateProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument, options);
+      }
+export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
+export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
 export const FindProfileLogoDocument = gql`
     query FindProfileLogo {
   findProfile {
     name
-    picture
+    avatar
     method
     role
   }
@@ -137,8 +209,9 @@ export type FindProfileLogoQueryResult = Apollo.QueryResult<FindProfileLogoQuery
 export const FindProfileDocument = gql`
     query FindProfile {
   findProfile {
+    id
     name
-    picture
+    avatar
     method
     isTwoFactorEnabled
     email
@@ -150,6 +223,7 @@ export const FindProfileDocument = gql`
       vkUrl
       telegramUrl
       headline
+      profilename
     }
   }
 }

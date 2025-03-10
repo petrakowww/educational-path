@@ -15,7 +15,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
-import { AccountService } from './user/account/account.service';
 
 @Module({
     imports: [
@@ -40,6 +39,6 @@ import { AccountService } from './user/account/account.service';
         TwoFactorAuthModule,
         JwtModule,
     ],
-    providers: [TokenService, AccountService],
+    providers: [TokenService],
 })
 export class AppModule {}

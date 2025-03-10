@@ -5,7 +5,13 @@ const client = new ApolloClient({
 		uri: process.env.GRAPHQL_URL,
 		credentials: 'include',
 	}),
-	cache: new InMemoryCache(),
+	cache: new InMemoryCache({
+		typePolicies: {
+			UserModel: {
+				keyFields: ['id'],
+			},
+		},
+	}),
 });
 
 export default client;

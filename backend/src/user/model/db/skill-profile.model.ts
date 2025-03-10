@@ -1,4 +1,4 @@
-import { UserModel } from '@/user/model/user.model';
+import { UserModel } from '@/user/model/db/user.model';
 
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
@@ -19,7 +19,7 @@ export class SkillProfile {
     @Field(() => String, { nullable: true })
     telegramUrl: string;
 
-    @Field(() => String, { nullable: true})
+    @Field(() => String, { nullable: true })
     profilename: string;
 
     @Field(() => UserModel)

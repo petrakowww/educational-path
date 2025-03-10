@@ -1,16 +1,22 @@
 import { Authorization } from '@/auth/decorators/auth.decorator';
 import { CurrentUser } from '@/auth/decorators/user.decorator';
 
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserModel } from './model/user.model';
+import { UpdateExternalUserDto } from './dto/update-user.dto';
+import { UserModel } from './model/db/user.model';
+import { UpdateSkillProfileDto } from './skill-profile/dto/update-skill-profile.dto';
+import { SkillProfileService } from './skill-profile/skill-profile.service';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserRole } from '@prisma/__generated__';
 
 import { UserService } from './user.service';
+import { UpdateProfileResponse } from './model/response/update-profile.model';
 
 @Resolver(() => UserModel)
 export class UserResolver {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+        private readonly userService: UserService,
+        private readonly skillProfileService: SkillProfileService,
+    ) {}
 
     @Authorization()
     @Query(() => UserModel)
@@ -26,10 +32,23 @@ export class UserResolver {
 
     @Authorization()
     @Mutation(() => UserModel)
-    public async updateProfile(
+    public async updateSettings(@CurrentUser('id') userId: string) {}
+
+    @Authorization()
+    @Mutation(() => UpdateProfileResponse)
+    async updateProfile(
         @CurrentUser('id') userId: string,
-        @Args('dto') dto: UpdateUserDto,
+        @Args('userExternalDto') userExternalDto: UpdateExternalUserDto,
+        @Args('skillProfileDto') skillProfileDto: UpdateSkillProfileDto,
     ) {
-        return this.userService.update(userId, dto);
+       
+        const updateUserExternalFields =
+            await this.userService.updateExternalUser(userId, userExternalDto);
+        const updatedProfile = await this.skillProfileService.updateProfile(
+            userId,
+            skillProfileDto,
+        );
+        
+        return { updateUserExternalFields, updatedProfile };
     }
 }

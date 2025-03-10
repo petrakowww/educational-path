@@ -29,7 +29,7 @@ export interface UserProps {
 	email: string;
 	password: string;
 	displayName: string;
-	picture: string;
+	avatar: string;
 	role: UserRole;
 	isVerified: boolean;
 	isTwoFactorEnabled: boolean;

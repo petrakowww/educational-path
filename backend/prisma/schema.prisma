@@ -21,7 +21,7 @@ model User {
   password String
 
   name String
-  picture     String?
+  avatar     String?
 
   role UserRole @default(REGULAR)
 

@@ -1,7 +1,8 @@
 query FindProfile {
 	findProfile {
+		id
 		name
-		picture
+		avatar
 		method
 		isTwoFactorEnabled
 		email

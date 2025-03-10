@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+
 import { AccountModel } from './account.model';
 import { SkillProfile } from './skill-profile.model';
 
@@ -14,7 +15,7 @@ export class UserModel {
     name: string;
 
     @Field(() => String, { nullable: true })
-    picture?: string;
+    avatar?: string;
 
     @Field(() => Boolean)
     isVerified: boolean;
@@ -31,6 +32,6 @@ export class UserModel {
     @Field(() => [AccountModel], { nullable: true })
     accounts?: AccountModel[];
 
-    @Field(() => [SkillProfile], {nullable: true})
+    @Field(() => SkillProfile, { nullable: true })
     skillProfile?: SkillProfile;
 }

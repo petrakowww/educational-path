@@ -18,7 +18,7 @@ export class BaseOAuthService {
             id: data.id ?? '',
             email: data.email ?? '',
             name: data.name ?? '',
-            picture: data.picture ?? '',
+            avatar: data.avatar ?? '',
             accessToken: data.accessToken ?? null,
             refreshToken: data.refreshToken ?? '',
             expiresAt: data.expiresAt ?? new Date(),

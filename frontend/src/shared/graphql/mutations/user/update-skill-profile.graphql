@@ -1,0 +1,22 @@
+mutation updateProfile(
+	$userExternalDto: UpdateExternalUserDto!
+	$skillProfileDto: UpdateSkillProfileDto!
+) {
+	updateProfile(
+		userExternalDto: $userExternalDto
+		skillProfileDto: $skillProfileDto
+	) {
+		updateUserExternalFields {
+            id
+			name
+			avatar
+		}
+		updatedProfile {
+			profilename
+			headline
+			githubUrl
+			vkUrl
+			telegramUrl
+		}
+	}
+}

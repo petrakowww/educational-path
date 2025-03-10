@@ -24,7 +24,7 @@ export class YandexProvider extends BaseOAuthService {
             email: data.emails[0],
             name: data.display_name,
             accountId: data.id,
-            picture: data.default_avatar_id
+            avatar: data.default_avatar_id
                 ? `https://avatars.yandex.net/get-yapic/${data.default_avatar_id}/islands-200`
                 : undefined,
         });

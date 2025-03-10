@@ -2,21 +2,24 @@ import { hash } from 'argon2';
 
 import { PrismaService } from '@/prisma/prisma.service';
 
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateExternalUserDto } from './dto/update-user.dto';
 import { UserDataProps } from './interfaces/user.interface';
+import { StorageAvatarsService } from './storage/storage.service';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/__generated__';
 
 @Injectable()
 export class UserService {
-    public constructor(private readonly prismaService: PrismaService) {}
+    private readonly storageAvatarsService: StorageAvatarsService;
+    public constructor(private readonly prismaService: PrismaService) {
+        this.storageAvatarsService = new StorageAvatarsService();
+    }
 
     private async findUniqueUser(where: Prisma.UserWhereUniqueInput) {
         const user = await this.prismaService.user.findUnique({
             where,
-            include: { accounts: true },
+            include: { accounts: true, skillProfile: true },
         });
-
         return user;
     }
 
@@ -38,7 +41,7 @@ export class UserService {
                 email: props.email,
                 password: props.password ? await hash(props.password) : '',
                 name: props.name,
-                picture: props.picture,
+                avatar: props.avatar,
                 isVerified: props.isVerified,
                 method: props.method,
                 skillProfile: {
@@ -56,17 +59,26 @@ export class UserService {
         return user;
     }
 
-    public async update(userId: string, dto: UpdateUserDto) {
+    public async updateExternalUser(
+        userId: string,
+        dto: UpdateExternalUserDto,
+    ) {
         const user = await this.findById(userId);
 
+        let updatedAvatarPath = user.avatar;
+        if (dto.avatar) {
+            updatedAvatarPath = await this.storageAvatarsService.updateAvatar(
+                Buffer.from(dto.avatar, 'base64'),
+                userId,
+                user.avatar,
+            );
+        }
+
         const updatedUser = await this.prismaService.user.update({
-            where: {
-                id: user.id,
-            },
+            where: { id: userId },
             data: {
-                email: dto.email,
                 name: dto.name,
-                isTwoFactorEnabled: dto.isTwoFactorEnabled,
+                avatar: updatedAvatarPath,
             },
         });
 

@@ -20,8 +20,8 @@ model User {
   email    String @unique @db.Citext
   password String
 
-  name    String
-  picture String?
+  name   String
+  avatar String?
 
   role UserRole @default(REGULAR)
 

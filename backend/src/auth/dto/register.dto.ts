@@ -12,7 +12,7 @@ import { IsPasswordsMatchingConstraint } from '@/libs/common/decorators/is-passw
 export class RegisterDto {
     @IsString({ message: 'Имя должно быть строкой.' })
     @IsNotEmpty({ message: 'Имя — обязательное поле.' })
-    @MinLength(3, { message: 'Имя пользователя должно содержать минимум 3 символа.' })
+    @MinLength(2, { message: 'Имя пользователя должно содержать минимум 2 символа.' })
     @Matches(/^[\p{L}\p{N}_ ]+$/u, {
         message: 'Имя может содержать только буквы, цифры и символы подчеркивания.',
     })

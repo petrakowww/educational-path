@@ -41,7 +41,7 @@ export const AccountProfileLogo = () => {
 									<AvatarImage
 										src={
 											data?.findProfile
-												.picture as undefined
+												.avatar as undefined
 										}
 									/>
 									<AvatarFallback>

@@ -60,7 +60,7 @@ export class AuthService {
             name: dto.name,
             email: dto.email,
             password: dto.password,
-            picture: '',
+            avatar: '',
             method: AuthMethod.CREDENTIALS,
             isVerified: false,
         });
@@ -164,7 +164,7 @@ export class AuthService {
                         name: profile.name,
                         method: profile.provider,
                         isVerified: true,
-                        picture: profile.picture,
+                        avatar: profile.avatar,
                         github_url: profile.github_url
                     });
                 }

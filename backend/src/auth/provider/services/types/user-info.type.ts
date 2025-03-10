@@ -2,7 +2,7 @@ import { AuthMethod, User } from '@prisma/__generated__';
 
 export type TypeUserInfo = {
     id: string;
-    picture: string;
+    avatar: string;
     name: string;
     email: string;
     accessToken?: string | null;

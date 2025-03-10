@@ -35,3 +35,5 @@ export * from './collapsible/collapsible';
 export * from './sidebar/sidebar';
 
 export * from './skeleton/skeleton';
+
+export * from './avatar/avatar';

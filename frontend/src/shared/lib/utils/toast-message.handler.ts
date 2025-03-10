@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 export const toastMessageHandler = (object: {message?: string}) => {
 	if (!object.message) return;
 
-	const message = object.message.trim();
+	const {message} = object;
 	const firstDotIndex = message.indexOf('.');
 
 	if (firstDotIndex !== -1) {
