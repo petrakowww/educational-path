@@ -6,9 +6,6 @@ query FindProfile {
 		method
 		isTwoFactorEnabled
 		email
-		accounts {
-			type
-		}
 		skillProfile {
 			githubUrl
 			vkUrl

@@ -1,0 +1,8 @@
+query FindProfileSettings {
+	findProfile {
+        id
+		email
+		isTwoFactorEnabled
+		password
+	}
+}

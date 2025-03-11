@@ -1,11 +1,5 @@
-import { AuthMethod } from '@prisma/__generated__';
+import { User } from '@prisma/__generated__';
 
-export interface UserDataProps {
-    email: string;
-    password: string;
-    name: string;
-    avatar: string;
-    method: AuthMethod;
-    isVerified: boolean;
-    github_url?: string;
+export interface UserDataProps extends Partial<User> {
+    githubUrl?: string;
 }

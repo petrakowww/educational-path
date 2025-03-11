@@ -13,6 +13,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { UserService } from './user.service';
+import { User } from '@prisma/__generated__';
 
 @Controller('users')
 export class UserController {
@@ -23,20 +24,20 @@ export class UserController {
     @UseInterceptors(FileInterceptor('file'))
     @HttpCode(HttpStatus.OK)
     public async uploadAvatar(
-        @CurrentUser('id') userId: string,
+        @CurrentUser() user: User,
         @UploadedFile() file: Express.Multer.File,
     ) {
-        const updatedUser = await this.userService.updateAvatar(userId, file);
+        const updatedUser = await this.userService.updateAvatar(user, file);
         return updatedUser;
     }
 
-@Authorization()
+    @Authorization()
     @Delete('delete-avatar')
     @HttpCode(HttpStatus.OK)
     public async deleteAvatar(
-        @CurrentUser('id') userId: string,
+        @CurrentUser() user: User,
     ) {
-        const updatedUser = await this.userService.deleteAvatar(userId);
+        const updatedUser = await this.userService.deleteAvatar(user);
         return updatedUser;
     }
 }

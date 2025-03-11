@@ -37,3 +37,5 @@ export * from './sidebar/sidebar';
 export * from './skeleton/skeleton';
 
 export * from './avatar/avatar';
+
+export * from './switch/switch';

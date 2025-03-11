@@ -31,10 +31,10 @@ export class JwtService {
             'JWT_REFRESH_SECRET_KEY',
         );
         this.ACCESS_TOKEN_EXPIRES_IN = parse(
-            configService.get<string>('JWT_EXPIRES_IN', '1h'),
+            configService.get<string>('JWT_EXPIRES_IN', '3d'),
         );
         this.REFRESH_TOKEN_EXPIRES_IN = parse(
-            configService.get<string>('JWT_REFRESH_EXPIRES_IN', '7d'),
+            configService.get<string>('JWT_REFRESH_EXPIRES_IN', '30d'),
         );
     }
 

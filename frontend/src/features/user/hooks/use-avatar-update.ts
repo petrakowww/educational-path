@@ -27,7 +27,7 @@ const updateCache = (user: UserProps) => {
 };
 
 export const useAvatarUpdate = () => {
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,12 +65,11 @@ export const useAvatarUpdate = () => {
     try {
       const user = await api.delete<UserProps>(apiRoutes.users.deleteProfileAvatar);
 
-      setAvatarPreview(null);
-      updateCache(user); // Используем общую функцию для обновления кэша
+      setAvatarPreview(undefined);
+      updateCache(user);
 
       toast.success('Аватар успешно удален!');
-    } catch (error) {
-      console.log(error);
+    } catch {
       toast.error('Ошибка при удалении аватара');
     }
   };

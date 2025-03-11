@@ -165,7 +165,7 @@ export class AuthService {
                         method: profile.provider,
                         isVerified: true,
                         avatar: profile.avatar,
-                        github_url: profile.github_url
+                        githubUrl: profile.github_url,
                     });
                 }
 
@@ -192,7 +192,7 @@ export class AuthService {
         } catch {
             return {
                 oauthErrorMessage:
-                    "Ошибка на стороне службы авторизации. Пожалуйста, попробуйте снова",
+                    'Ошибка на стороне службы авторизации. Пожалуйста, попробуйте снова',
             };
         }
     }
@@ -256,7 +256,9 @@ export class AuthService {
 
                 return { accessToken: oldAccessToken };
             } catch {
-                console.warn('Недействительный токен доступа, попытка обновления...');
+                console.warn(
+                    'Недействительный токен доступа, попытка обновления...',
+                );
             }
         }
         const { accessToken, refreshToken } =

@@ -11,7 +11,6 @@ class StaticResources {
 		}
 
 		if (avatarPath.startsWith('/avatars')) {
-			console.log(`${this.serverStaticUrl}${avatarPath}`);
 			return `${this.serverStaticUrl}${avatarPath}`;
 		}
 

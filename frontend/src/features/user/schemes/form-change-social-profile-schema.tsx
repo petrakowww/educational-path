@@ -1,6 +1,14 @@
 import { z } from 'zod';
 
 export const profileSchema = z.object({
+	name: z
+		.string()
+		.min(2, { message: 'Имя пользователя должно быть строкой.' })
+		.regex(/^[\p{L}\p{N}_ ]+$/u, {
+			message:
+				'Имя может содержать только буквы, цифры, подчеркивания и пробелы.',
+		})
+		.optional(),
 	profilename: z
 		.string()
 		.min(3, {

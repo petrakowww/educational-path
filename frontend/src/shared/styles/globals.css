@@ -34,8 +34,8 @@
 
 		--shadow-default-left: -4px 0 10px rgba(0, 0, 0, 0.1);
 		--shadow-default-right: 4px 0 10px rgba(0, 0, 0, 0.1);
-		--sidebar-background: 0 0% 98%;
-		--sidebar-foreground: 240 5.3% 26.1%;
+		--sidebar-background: 0 0% 100%;
+		--sidebar-foreground: 240 10% 3.9%;
 		--sidebar-primary: 142.1 76.2% 36.3%;
 		--sidebar-primary-foreground: 355.7 100% 97.3%;
 		--sidebar-accent: 240 4.8% 95.9%;
@@ -79,8 +79,8 @@
 		--xy-controls-button-border-color: #464646;
 		--xy-controls-button-background-color-hover: rgba(50, 50, 50, 0.93);
 
-		--sidebar-background: 240 5.9% 10%;
-		--sidebar-foreground: 240 4.8% 95.9%;
+		--sidebar-background: 20 14.3% 4.1%;
+		--sidebar-foreground: 0 0% 95%;
 		--sidebar-primary: 142.1 70.6% 45.3%;
 		--sidebar-primary-foreground: 144.9 80.4% 10%;
 		--sidebar-accent: 12 6.5% 15.1%;

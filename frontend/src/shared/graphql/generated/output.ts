@@ -30,15 +30,31 @@ export type AccountModel = {
   user: UserModel;
 };
 
+export type ChangePasswordDto = {
+  newPassword: Scalars['String']['input'];
+  oldPassword: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  updateProfile: SkillProfile;
-  updateSettings: UserModel;
+  updateSkillProfile: SkillProfile;
+  updateUserPassword: UserModel;
+  updateUserProfile: UserModel;
 };
 
 
-export type MutationUpdateProfileArgs = {
+export type MutationUpdateSkillProfileArgs = {
   skillProfileDto: SkillProfileDto;
+};
+
+
+export type MutationUpdateUserPasswordArgs = {
+  userPasswordDto: ChangePasswordDto;
+};
+
+
+export type MutationUpdateUserProfileArgs = {
+  userProfileDto: UserProfileDto;
 };
 
 export type Query = {
@@ -79,38 +95,96 @@ export type UserModel = {
   id: Scalars['ID']['output'];
   isTwoFactorEnabled: Scalars['Boolean']['output'];
   isVerified: Scalars['Boolean']['output'];
+  message?: Maybe<Scalars['String']['output']>;
   method: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  password: Scalars['String']['output'];
   role: Scalars['String']['output'];
   skillProfile?: Maybe<SkillProfile>;
 };
 
+export type UserProfileDto = {
+  isTwoFactorEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateUserPasswordMutationVariables = Exact<{
+  userPasswordDto: ChangePasswordDto;
+}>;
+
+
+export type UpdateUserPasswordMutation = { __typename?: 'Mutation', updateUserPassword: { __typename?: 'UserModel', id: string, message?: string | null } };
+
 export type UpdateProfileMutationVariables = Exact<{
+  userProfileDto: UserProfileDto;
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'UserModel', id: string, name: string, isTwoFactorEnabled: boolean } };
+
+export type UpdateSkillProfileMutationVariables = Exact<{
   skillProfileDto: SkillProfileDto;
 }>;
 
 
-export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'SkillProfile', profilename?: string | null, headline?: string | null, githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null } };
+export type UpdateSkillProfileMutation = { __typename?: 'Mutation', updateSkillProfile: { __typename?: 'SkillProfile', profilename?: string | null, headline?: string | null, githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null } };
 
 export type FindProfileLogoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindProfileLogoQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: string, role: string } };
 
+export type FindProfileSettingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindProfileSettingsQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, email: string, isTwoFactorEnabled: boolean, password: string } };
+
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: string, isTwoFactorEnabled: boolean, email: string, accounts?: Array<{ __typename?: 'AccountModel', type: string }> | null, skillProfile?: { __typename?: 'SkillProfile', githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null, headline?: string | null, profilename?: string | null } | null } };
+export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: string, isTwoFactorEnabled: boolean, email: string, skillProfile?: { __typename?: 'SkillProfile', githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null, headline?: string | null, profilename?: string | null } | null } };
 
 
+export const UpdateUserPasswordDocument = gql`
+    mutation updateUserPassword($userPasswordDto: ChangePasswordDto!) {
+  updateUserPassword(userPasswordDto: $userPasswordDto) {
+    id
+    message
+  }
+}
+    `;
+export type UpdateUserPasswordMutationFn = Apollo.MutationFunction<UpdateUserPasswordMutation, UpdateUserPasswordMutationVariables>;
+
+/**
+ * __useUpdateUserPasswordMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserPasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserPasswordMutation, { data, loading, error }] = useUpdateUserPasswordMutation({
+ *   variables: {
+ *      userPasswordDto: // value for 'userPasswordDto'
+ *   },
+ * });
+ */
+export function useUpdateUserPasswordMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserPasswordMutation, UpdateUserPasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserPasswordMutation, UpdateUserPasswordMutationVariables>(UpdateUserPasswordDocument, options);
+      }
+export type UpdateUserPasswordMutationHookResult = ReturnType<typeof useUpdateUserPasswordMutation>;
+export type UpdateUserPasswordMutationResult = Apollo.MutationResult<UpdateUserPasswordMutation>;
+export type UpdateUserPasswordMutationOptions = Apollo.BaseMutationOptions<UpdateUserPasswordMutation, UpdateUserPasswordMutationVariables>;
 export const UpdateProfileDocument = gql`
-    mutation updateProfile($skillProfileDto: SkillProfileDto!) {
-  updateProfile(skillProfileDto: $skillProfileDto) {
-    profilename
-    headline
-    githubUrl
-    vkUrl
-    telegramUrl
+    mutation updateProfile($userProfileDto: UserProfileDto!) {
+  updateUserProfile(userProfileDto: $userProfileDto) {
+    id
+    name
+    isTwoFactorEnabled
   }
 }
     `;
@@ -129,7 +203,7 @@ export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutat
  * @example
  * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
  *   variables: {
- *      skillProfileDto: // value for 'skillProfileDto'
+ *      userProfileDto: // value for 'userProfileDto'
  *   },
  * });
  */
@@ -140,6 +214,43 @@ export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
 export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
 export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export const UpdateSkillProfileDocument = gql`
+    mutation updateSkillProfile($skillProfileDto: SkillProfileDto!) {
+  updateSkillProfile(skillProfileDto: $skillProfileDto) {
+    profilename
+    headline
+    githubUrl
+    vkUrl
+    telegramUrl
+  }
+}
+    `;
+export type UpdateSkillProfileMutationFn = Apollo.MutationFunction<UpdateSkillProfileMutation, UpdateSkillProfileMutationVariables>;
+
+/**
+ * __useUpdateSkillProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateSkillProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSkillProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSkillProfileMutation, { data, loading, error }] = useUpdateSkillProfileMutation({
+ *   variables: {
+ *      skillProfileDto: // value for 'skillProfileDto'
+ *   },
+ * });
+ */
+export function useUpdateSkillProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSkillProfileMutation, UpdateSkillProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSkillProfileMutation, UpdateSkillProfileMutationVariables>(UpdateSkillProfileDocument, options);
+      }
+export type UpdateSkillProfileMutationHookResult = ReturnType<typeof useUpdateSkillProfileMutation>;
+export type UpdateSkillProfileMutationResult = Apollo.MutationResult<UpdateSkillProfileMutation>;
+export type UpdateSkillProfileMutationOptions = Apollo.BaseMutationOptions<UpdateSkillProfileMutation, UpdateSkillProfileMutationVariables>;
 export const FindProfileLogoDocument = gql`
     query FindProfileLogo {
   findProfile {
@@ -183,6 +294,48 @@ export type FindProfileLogoQueryHookResult = ReturnType<typeof useFindProfileLog
 export type FindProfileLogoLazyQueryHookResult = ReturnType<typeof useFindProfileLogoLazyQuery>;
 export type FindProfileLogoSuspenseQueryHookResult = ReturnType<typeof useFindProfileLogoSuspenseQuery>;
 export type FindProfileLogoQueryResult = Apollo.QueryResult<FindProfileLogoQuery, FindProfileLogoQueryVariables>;
+export const FindProfileSettingsDocument = gql`
+    query FindProfileSettings {
+  findProfile {
+    id
+    email
+    isTwoFactorEnabled
+    password
+  }
+}
+    `;
+
+/**
+ * __useFindProfileSettingsQuery__
+ *
+ * To run a query within a React component, call `useFindProfileSettingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindProfileSettingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindProfileSettingsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindProfileSettingsQuery(baseOptions?: Apollo.QueryHookOptions<FindProfileSettingsQuery, FindProfileSettingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindProfileSettingsQuery, FindProfileSettingsQueryVariables>(FindProfileSettingsDocument, options);
+      }
+export function useFindProfileSettingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindProfileSettingsQuery, FindProfileSettingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindProfileSettingsQuery, FindProfileSettingsQueryVariables>(FindProfileSettingsDocument, options);
+        }
+export function useFindProfileSettingsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindProfileSettingsQuery, FindProfileSettingsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindProfileSettingsQuery, FindProfileSettingsQueryVariables>(FindProfileSettingsDocument, options);
+        }
+export type FindProfileSettingsQueryHookResult = ReturnType<typeof useFindProfileSettingsQuery>;
+export type FindProfileSettingsLazyQueryHookResult = ReturnType<typeof useFindProfileSettingsLazyQuery>;
+export type FindProfileSettingsSuspenseQueryHookResult = ReturnType<typeof useFindProfileSettingsSuspenseQuery>;
+export type FindProfileSettingsQueryResult = Apollo.QueryResult<FindProfileSettingsQuery, FindProfileSettingsQueryVariables>;
 export const FindProfileDocument = gql`
     query FindProfile {
   findProfile {
@@ -192,9 +345,6 @@ export const FindProfileDocument = gql`
     method
     isTwoFactorEnabled
     email
-    accounts {
-      type
-    }
     skillProfile {
       githubUrl
       vkUrl

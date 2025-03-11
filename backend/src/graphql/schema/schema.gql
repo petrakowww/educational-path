@@ -13,14 +13,20 @@ type AccountModel {
   user: UserModel!
 }
 
+input ChangePasswordDto {
+  newPassword: String!
+  oldPassword: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
 type Mutation {
-  updateProfile(skillProfileDto: SkillProfileDto!): SkillProfile!
-  updateSettings: UserModel!
+  updateSkillProfile(skillProfileDto: SkillProfileDto!): SkillProfile!
+  updateUserPassword(userPasswordDto: ChangePasswordDto!): UserModel!
+  updateUserProfile(userProfileDto: UserProfileDto!): UserModel!
 }
 
 type Query {
@@ -53,8 +59,15 @@ type UserModel {
   id: ID!
   isTwoFactorEnabled: Boolean!
   isVerified: Boolean!
+  message: String
   method: String!
   name: String!
+  password: String!
   role: String!
   skillProfile: SkillProfile
+}
+
+input UserProfileDto {
+  isTwoFactorEnabled: Boolean
+  name: String
 }

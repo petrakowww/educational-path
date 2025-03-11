@@ -1,5 +1,5 @@
-mutation updateProfile($skillProfileDto: SkillProfileDto!) {
-	updateProfile(skillProfileDto: $skillProfileDto) {
+mutation updateSkillProfile($skillProfileDto: SkillProfileDto!) {
+	updateSkillProfile(skillProfileDto: $skillProfileDto) {
 		profilename
 		headline
 		githubUrl

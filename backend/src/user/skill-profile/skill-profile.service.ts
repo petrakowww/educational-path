@@ -1,18 +1,18 @@
 import { PrismaService } from '@/prisma/prisma.service';
 
-import { SkillProfileDto } from './dto/update-skill-profile.dto';
+import { SkillProfileDto } from './dto/skill-profile.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { User } from '@prisma/__generated__';
 
 @Injectable()
 export class SkillProfileService {
     public constructor(private readonly prismaService: PrismaService) {}
 
-    public async updateProfile(userId: string, dto: SkillProfileDto) {
+    public async updateSkillProfile(user: User, dto: SkillProfileDto) {
         const existingProfile =
             await this.prismaService.skillProfile.findUnique({
-                where: { userId },
+                where: { userId: user.id },
             });
-
 
         if (dto.profilename) {
             const profileNameExists =
@@ -20,20 +20,20 @@ export class SkillProfileService {
                     where: { profilename: dto.profilename },
                 });
 
-            if (profileNameExists && profileNameExists.userId !== userId) {
+            if (profileNameExists && profileNameExists.userId !== user.id) {
                 throw new BadRequestException('Имя профиля уже занято.');
             }
         }
 
         if (existingProfile) {
             return await this.prismaService.skillProfile.update({
-                where: { userId },
+                where: { userId: user.id },
                 data: dto,
             });
         } else {
             return await this.prismaService.skillProfile.create({
                 data: {
-                    userId,
+                    userId: user.id,
                     ...dto,
                 },
             });

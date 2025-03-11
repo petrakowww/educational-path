@@ -34,4 +34,10 @@ export class UserModel {
 
     @Field(() => SkillProfile, { nullable: true })
     skillProfile?: SkillProfile;
+
+    @Field(() => String)
+    password: string;
+
+    @Field({ nullable: true })
+    message?: string;
 }

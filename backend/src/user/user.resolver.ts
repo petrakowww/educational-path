@@ -1,9 +1,11 @@
 import { Authorization } from '@/auth/decorators/auth.decorator';
 import { CurrentUser } from '@/auth/decorators/user.decorator';
 
+import { ChangePasswordDto } from './dto/user-password.dto';
+import { UserProfileDto } from './dto/user-profile.dto';
 import { UserModel } from './model/db/user.model';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { UserRole } from '@prisma/__generated__';
+import { User, UserRole } from '@prisma/__generated__';
 
 import { UserService } from './user.service';
 
@@ -25,5 +27,22 @@ export class UserResolver {
 
     @Authorization()
     @Mutation(() => UserModel)
-    public async updateSettings(@CurrentUser('id') userId: string) {}
+    public async updateUserProfile(
+        @CurrentUser() user: User,
+        @Args('userProfileDto') userProfileDto: UserProfileDto,
+    ) {
+        return await this.userService.updateUser(user, {
+            name: userProfileDto.name,
+            isTwoFactorEnabled: userProfileDto.isTwoFactorEnabled,
+        });
+    }
+
+    @Authorization()
+    @Mutation(() => UserModel)
+    public async updateUserPassword(
+        @CurrentUser() user: User,
+        @Args('userPasswordDto') userPasswordDto: ChangePasswordDto,
+    ) {
+        return await this.userService.updatePassword(user, userPasswordDto);
+    }
 }

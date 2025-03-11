@@ -26,11 +26,11 @@ export const accountArray: ArrayNavMainProps[] = [
 		isActive: false,
 		items: [
 			{
-				url: '#',
+				url: '/account/profile',
 				title: 'Профиль',
 			},
 			{
-				url: '#',
+				url: '/account/settings',
 				title: 'Настройки',
 			},
 		],
