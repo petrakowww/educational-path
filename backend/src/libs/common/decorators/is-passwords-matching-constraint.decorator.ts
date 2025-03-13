@@ -1,21 +1,33 @@
 import {
+    registerDecorator,
     ValidationArguments,
     ValidatorConstraint,
     ValidatorConstraintInterface,
 } from 'class-validator';
 
-import { RegisterDto } from '@/auth/dto/register.dto';
+@ValidatorConstraint({ name: 'IsMatching', async: false })
+export class IsMatchingConstraint implements ValidatorConstraintInterface {
+    public validate(value: any, args: ValidationArguments) {
+        const fieldToMatch = args.constraints[0] as string;
+        const obj = args.object as Record<string, any>;
 
-@ValidatorConstraint({ name: 'IsPasswordsMatching', async: false })
-export class IsPasswordsMatchingConstraint
-    implements ValidatorConstraintInterface
-{
-    public validate(passwordRepeat: string, args: ValidationArguments) {
-        const obj = args.object as RegisterDto;
-        return obj.password === passwordRepeat;
+        return obj[fieldToMatch] === value;
     }
 
-    public defaultMessage() {
-        return 'Пароли не совпадают.';
+    public defaultMessage(args: ValidationArguments) {
+        const fieldToMatch = args.constraints[0] as string;
+        return `Значение должно совпадать с ${fieldToMatch}.`;
     }
+}
+
+export function IsMatching(fieldToMatch: string, validationOptions?: unknown) {
+    return function (object: object, propertyName: string) {
+        registerDecorator({
+            target: object.constructor,
+            propertyName,
+            options: validationOptions,
+            constraints: [fieldToMatch],
+            validator: IsMatchingConstraint,
+        });
+    };
 }

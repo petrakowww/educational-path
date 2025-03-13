@@ -153,7 +153,7 @@ export const FormChangeSocialProfile = () => {
 												</span>
 											</FormLabel>
 											<div className="flex mb-2">
-												<span className="bg-gray-200 border border-r-0 rounded-l-md text-sm flex items-center justify-center px-3">
+												<span className="bg-secondary rounded-l-md text-sm flex items-center justify-center px-3">
 													edupath.com/u/
 												</span>
 												<FormControl>

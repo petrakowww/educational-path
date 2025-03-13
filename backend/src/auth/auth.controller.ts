@@ -6,6 +6,7 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { AuthProviderGuard } from './guard/provider.guard';
 import { ProviderService } from './provider/provider.service';
+import { TwoFactorDto } from './two-factor-auth/dto/two-factor.dto';
 import {
     Controller,
     Get,
@@ -21,8 +22,9 @@ import { Body, Post } from '@nestjs/common';
 import { Recaptcha } from '@nestlab/google-recaptcha';
 
 import { AuthService } from './auth.service';
+import { ConfirmationDto } from './email-confirmation/dto/confirmation.dto';
 
-@Controller('auth')
+@Controller('/auth')
 export class AuthController {
     public constructor(
         private readonly authService: AuthService,
@@ -30,18 +32,48 @@ export class AuthController {
     ) {}
 
     @Recaptcha()
-    @Post('register')
+    @Post('/register')
     @HttpCode(HttpStatus.OK)
     public async register(@Body() dto: RegisterDto) {
         return this.authService.register(dto);
     }
 
     @Recaptcha()
-    @Post('login')
+    @Post('/login')
     @HttpCode(HttpStatus.OK)
     public async login(@Res() res: Response, @Body() dto: LoginDto) {
         const result = await this.authService.login(res, dto);
         return res.status(HttpStatus.OK).json(result);
+    }
+
+    @Recaptcha()
+    @Post('/oauth/twa/:oua')
+    @HttpCode(HttpStatus.OK)
+    public async newOAuthVerification(
+        @Res() res: Response,
+        @Body() dto: TwoFactorDto,
+        @Param('oua') ouaToken: string,
+    ) {
+        const result =
+            await this.authService.verifyOAuthTwoFactorAuthentication(
+                res,
+                dto,
+                ouaToken,
+            );
+        return res.status(HttpStatus.OK).json(result);
+    }
+
+    @Post('/email-confirmation')
+    @HttpCode(HttpStatus.OK)
+    public async newEmailVerification(
+        @Res() res: Response,
+        @Body() dto: ConfirmationDto,
+    ) {
+        const tokens = await this.authService.verifyEmailAuthentication(
+            res,
+            dto,
+        );
+        return res.json(tokens);
     }
 
     @UseGuards(AuthProviderGuard)
@@ -52,6 +84,7 @@ export class AuthController {
         @Query('code') code: string,
         @Param('provider') provider: string,
     ) {
+        
         const redirectUrl = await this.authService.handleOAuthResult(
             req,
             res,
@@ -72,14 +105,14 @@ export class AuthController {
         };
     }
 
-    @Get('refresh-tokens')
+    @Get('/refresh-tokens')
     @HttpCode(HttpStatus.OK)
     public async refreshTokens(@Req() req: UserRequest, @Res() res: Response) {
         const response = await this.authService.refreshJwtTokens(req, res);
         return res.status(HttpStatus.OK).json(response);
     }
 
-    @Post('logout')
+    @Post('/logout')
     @HttpCode(HttpStatus.OK)
     public async logout(@Req() req: Request, @Res() res: Response) {
         await this.authService.logout(req, res);

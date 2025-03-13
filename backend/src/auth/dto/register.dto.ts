@@ -4,10 +4,9 @@ import {
     IsString,
     Matches,
     MinLength,
-    Validate,
 } from 'class-validator';
 
-import { IsPasswordsMatchingConstraint } from '@/libs/common/decorators/is-passwords-matching-constraint.decorator';
+import { IsMatching } from '@/libs/common/decorators/is-passwords-matching-constraint.decorator';
 
 export class RegisterDto {
     @IsString({ message: 'Имя должно быть строкой.' })
@@ -39,8 +38,6 @@ export class RegisterDto {
     @MinLength(10, {
         message: 'Подтверждение пароля должно содержать минимум 10 символов.',
     })
-    @Validate(IsPasswordsMatchingConstraint, {
-        message: 'Пароли не совпадают.',
-    })
+    @IsMatching('password', { message: 'Пароли не совпадают.' })
     passwordRepeat: string;
 }

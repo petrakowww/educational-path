@@ -26,7 +26,7 @@ export const ChangeProfile2FANotifications = ({
 
 		try {
 			await updateProfile({
-				variables: { userProfileDto: { isTwoFactorEnabled: newState } },
+				variables: { dto: { isTwoFactorEnabled: newState } },
 			});
 			toast.success(
 				`Двухфакторная аутентификация ${newState ? 'включена' : 'выключена'}`

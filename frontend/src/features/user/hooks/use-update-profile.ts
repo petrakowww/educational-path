@@ -19,7 +19,7 @@ export const useUpdateSocialProfile = () => {
 				promises.push(
 					updateProfileName({
 						variables: {
-							userProfileDto: {
+							dto: {
 								name: profileData.name,
 							},
 						},
@@ -30,7 +30,7 @@ export const useUpdateSocialProfile = () => {
 			promises.push(
 				updateSkillProfile({
 					variables: {
-						skillProfileDto: {
+						dto: {
 							profilename: profileData.profilename || null,
 							headline: profileData.headline || null,
 							githubUrl: profileData.github || null,

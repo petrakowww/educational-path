@@ -39,3 +39,5 @@ export * from './skeleton/skeleton';
 export * from './avatar/avatar';
 
 export * from './switch/switch';
+
+export * from './alert/alert-dialog';

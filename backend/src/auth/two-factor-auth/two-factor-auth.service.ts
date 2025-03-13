@@ -1,17 +1,8 @@
-import { randomInt } from 'crypto';
-import { randomUUID } from 'crypto';
-import { Response } from 'express';
-
 import { MailService } from '@/libs/mail/mail.service';
-import { PrismaService } from '@/prisma/prisma.service';
-import { UserService } from '@/user/user.service';
 
-import { AuthService } from '../auth.service';
-import { TwoFactorDto } from './dto/two-factor.dto';
+import { TokenService } from '../tokens/token.service';
 import {
     BadRequestException,
-    forwardRef,
-    Inject,
     Injectable,
     InternalServerErrorException,
     NotFoundException,
@@ -20,148 +11,71 @@ import { TokenType } from '@prisma/__generated__';
 
 @Injectable()
 export class TwoFactorAuthService {
-    private readonly COOKIE_EMAIL = '2fa_email';
-    private readonly TOKEN_EXPIRATION_MS = 5 * 60 * 1000; // 5 минут
-    private readonly TOKEN_RANGE = [100000, 1000000];
-
     constructor(
-        private readonly prismaService: PrismaService,
         private readonly mailService: MailService,
-        @Inject(forwardRef(() => AuthService))
-        private readonly authService: AuthService,
-        private readonly userService: UserService,
+        private readonly tokenService: TokenService,
     ) {}
 
     public async validateTwoFactorToken(
         email: string,
+        type: TokenType,
         code: string,
     ): Promise<boolean> {
-        const existingToken = await this.prismaService.token.findFirst({
-            where: {
-                email,
-                type: TokenType.TWO_FACTOR,
-            },
-        });
+        const token = await this.tokenService.findToken(code, type);
 
-        if (!existingToken) {
+        if (!token || token.email !== email) {
             throw new NotFoundException(
                 'Токен двухфакторной аутентификации не найден. Убедитесь, что вы запрашивали токен для этого адреса электронной почты.',
             );
         }
 
-        if (existingToken.token !== code) {
+        if (token.token !== code) {
             throw new BadRequestException(
                 'Неверный код двухфакторной аутентификации. Пожалуйста, проверьте введенный код и повторите попытку.',
             );
         }
 
-        if (new Date(existingToken.expiresIn) < new Date()) {
+        if (new Date(token.expiresIn) < new Date()) {
             throw new BadRequestException(
                 'Срок действия токена двухфакторной аутентификации истек. Пожалуйста, запросите новый токен.',
             );
         }
 
-        await this.prismaService.token.deleteMany({
-            where: {
-                email,
-                type: TokenType.TWO_FACTOR,
-            },
-        });
+        await this.tokenService.deleteUserTokens(email, token.type);
 
         return true;
     }
 
-    public async verifyTwoFactorAuthentication(
-        res: Response,
-        dto: TwoFactorDto,
-        oauthToken: string,
-    ) {
-        if (!oauthToken) {
-            throw new BadRequestException('Отсутствует токен OAuth.');
-        }
-
-        const token = await this.prismaService.token.findUnique({
-            where: {
-                oauthToken: oauthToken,
-            },
-        });
-
-        if (!token) {
-            throw new BadRequestException('Неверный код аутентификации.');
-        }
-
-        const isValid = await this.validateTwoFactorToken(
-            token.email,
-            dto.code,
-        );
-        if (!isValid) {
-            throw new BadRequestException('Неверный код аутентификации.');
-        }
-
-        const user = await this.userService.findByEmail(token.email);
-        if (!user) {
-            throw new NotFoundException('Пользователь не найден.');
-        }
-
-        return this.authService.generateJwtTokens(res, user);
-    }
-
-    public async sendTwoFactorToken(
-        email: string,
-        isOAuth = false,
-    ): Promise<string | boolean> {
-        const twoFactorToken = await this.generateTwoFactorToken(
-            email,
-            isOAuth,
-        );
-
+    public async sendTwoFactorToken(email: string, type: TokenType): Promise<boolean> {
+        const twoFactorToken = await this.tokenService.generateOtp(email, type, false);
+    
         if (!twoFactorToken) {
-            throw new InternalServerErrorException(
-                'Ошибка сервера при создании токена.',
-            );
+            throw new InternalServerErrorException('Ошибка сервера при создании токена.');
         }
-
+    
         await this.mailService.sendTwoFactorTokenEmail(
             twoFactorToken.email,
             twoFactorToken.token,
+            type,
         );
-
-        if (isOAuth) {
-            if (!twoFactorToken.oauthToken) {
-                throw new InternalServerErrorException(
-                    'Не удалось сгенерировать токен OAuth.',
-                );
-            }
-            return twoFactorToken.oauthToken;
-        }
-
+    
         return true;
     }
 
-    private async generateTwoFactorToken(email: string, isOAuth: boolean) {
-        const [start, end] = this.TOKEN_RANGE;
-        const token = randomInt(start, end).toString();
-        const expiresIn = new Date(Date.now() + this.TOKEN_EXPIRATION_MS);
-
-        const oauthToken = isOAuth ? randomUUID() : null;
-
-        await this.prismaService.token.deleteMany({
-            where: {
-                email,
-                type: TokenType.TWO_FACTOR,
-            },
-        });
-
-        const twoFactorToken = await this.prismaService.token.create({
-            data: {
-                email,
-                token,
-                expiresIn,
-                type: TokenType.TWO_FACTOR,
-                oauthToken,
-            },
-        });
-
-        return twoFactorToken;
+    public async sendTwoFactorAuthToken(email: string, type: TokenType): Promise<string> {
+        const twoFactorToken = await this.tokenService.generateOtp(email, type, true);
+    
+        if (!twoFactorToken || !twoFactorToken.oauthToken) {
+            throw new InternalServerErrorException('Ошибка сервера при создании OAuth токена.');
+        }
+    
+        await this.mailService.sendTwoFactorTokenEmail(
+            twoFactorToken.email,
+            twoFactorToken.token,
+            type,
+        );
+    
+        return twoFactorToken.oauthToken;
     }
+    
 }

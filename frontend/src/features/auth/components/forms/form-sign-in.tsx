@@ -111,7 +111,8 @@ export const FormSignIn = () => {
 							control={form.control}
 							name="code"
 							render={({ field }) => (
-								<FormItem className="flex items-center justify-center">
+								<FormItem className="flex items-center justify-center flex-col gap-2">
+									<span className="text-sm text-foreground/80 mb-3 font-medium">Введите 6-значный код, который пришёл вам на почту</span>
 									<FormControl>
 										<InputOTP
 											maxLength={6}

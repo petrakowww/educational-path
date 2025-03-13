@@ -6,10 +6,13 @@ import { UserService } from '@/user/user.service';
 import { AccountService } from '../user/account/account.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { ConfirmationDto } from './email-confirmation/dto/confirmation.dto';
 import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
 import { JwtService } from './jwt/jwt.service';
 import { ProviderService } from './provider/provider.service';
 import { OAuthLoginResult } from './provider/services/types/user-info.type';
+import { TokenService } from './tokens/token.service';
+import { TwoFactorDto } from './two-factor-auth/dto/two-factor.dto';
 import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
 import {
     BadRequestException,
@@ -21,7 +24,7 @@ import {
     UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AuthMethod, User } from '@prisma/__generated__';
+import { AuthMethod, TokenType, User } from '@prisma/__generated__';
 
 @Injectable()
 export class AuthService {
@@ -38,6 +41,7 @@ export class AuthService {
         private readonly emailConfirmationService: EmailConfirmationService,
         @Inject(forwardRef(() => TwoFactorAuthService))
         private readonly twoFactorAuthService: TwoFactorAuthService,
+        private readonly tokenService: TokenService,
     ) {
         this.ALLOWED_ORIGIN =
             this.configService.getOrThrow<string>('ALLOWED_ORIGIN');
@@ -103,7 +107,10 @@ export class AuthService {
 
         if (user.isTwoFactorEnabled) {
             if (!dto.code) {
-                await this.twoFactorAuthService.sendTwoFactorToken(user.email);
+                await this.twoFactorAuthService.sendTwoFactorToken(
+                    user.email,
+                    TokenType.TWO_FACTOR,
+                );
 
                 return {
                     message:
@@ -114,11 +121,56 @@ export class AuthService {
 
             await this.twoFactorAuthService.validateTwoFactorToken(
                 user.email,
+                TokenType.TWO_FACTOR,
                 dto.code,
             );
         }
 
         await this.generateJwtTokens(res, user);
+    }
+
+    public async verifyOAuthTwoFactorAuthentication(
+        res: Response,
+        dto: TwoFactorDto,
+        oauthToken: string,
+    ) {
+        if (!oauthToken) {
+            throw new BadRequestException('Отсутствует токен OAuth.');
+        }
+
+        const token = await this.tokenService.findByOAuth(
+            oauthToken,
+            TokenType.TWO_FACTOR,
+        );
+
+        if (!token) {
+            throw new BadRequestException('Неверный код аутентификации.');
+        }
+
+        const isValid = await this.twoFactorAuthService.validateTwoFactorToken(
+            token.email,
+            TokenType.TWO_FACTOR,
+            dto.code,
+        );
+        if (!isValid) {
+            throw new BadRequestException('Неверный код аутентификации.');
+        }
+
+        const user = await this.userService.findByEmail(token.email);
+        if (!user) {
+            throw new NotFoundException('Пользователь не найден.');
+        }
+
+        return this.generateJwtTokens(res, user);
+    }
+
+    public async verifyEmailAuthentication(
+        res: Response,
+        dto: ConfirmationDto,
+    ) {
+        const user = await this.emailConfirmationService.newVerification(dto);
+
+        return this.generateJwtTokens(res, user);
     }
 
     public async extractProfileFromCode(
@@ -174,10 +226,10 @@ export class AuthService {
 
             if (user.isTwoFactorEnabled) {
                 const oauthToken =
-                    (await this.twoFactorAuthService.sendTwoFactorToken(
+                    await this.twoFactorAuthService.sendTwoFactorAuthToken(
                         user.email,
-                        true,
-                    )) as string;
+                        TokenType.TWO_FACTOR,
+                    );
                 return {
                     requires2FA: true,
                     oauthToken: oauthToken,
@@ -217,10 +269,11 @@ export class AuthService {
 
         if ('requires2FA' in result && result.requires2FA) {
             const oauthToken =
-                await this.twoFactorAuthService.sendTwoFactorToken(
+                await this.twoFactorAuthService.sendTwoFactorAuthToken(
                     result.email,
-                    true,
+                    TokenType.TWO_FACTOR,
                 );
+
             return `${this.ALLOWED_ORIGIN}${this.FRONTEND_2FA_URL}?oua=${oauthToken}`;
         }
         return `${this.ALLOWED_ORIGIN}${this.FRONTEND_REDIRECT_URL}`;

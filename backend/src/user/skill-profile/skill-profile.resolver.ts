@@ -18,12 +18,12 @@ export class SkillProfileResolver {
     @Mutation(() => SkillProfile)
     async updateSkillProfile(
         @CurrentUser() user: User,
-        @Args('skillProfileDto') skillProfileDto: SkillProfileDto,
+        @Args('dto') dto: SkillProfileDto,
     ) {
         const updatedProfile =
             await this.skillProfileService.updateSkillProfile(
                 user,
-                skillProfileDto,
+                dto,
             );
 
         return { updatedProfile };

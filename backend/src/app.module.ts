@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import { AuthModule } from './auth/auth.module';
 import { EmailConfirmationModule } from './auth/email-confirmation/email-confirmation.module';
 import { JwtModule } from './auth/jwt/jwt.module';
@@ -9,6 +11,9 @@ import { getGraphQLConfig } from './config/graphql.config';
 import { IS_DEV_ENV } from './libs/common/utils/is-dev.util';
 import { MailModule } from './libs/mail/mail.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { AvatarModule } from './user/avatar/avatar.module';
+import { EmailModule } from './user/email/email.module';
+import { PasswordModule } from './user/password/password.module';
 import { UserModule } from './user/user.module';
 import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
@@ -16,7 +21,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import * as path from 'path';
 
 @Module({
     imports: [
@@ -38,12 +42,15 @@ import * as path from 'path';
         PrismaModule,
         AuthModule,
         UserModule,
+        AvatarModule,
         ProviderModule,
         MailModule,
         EmailConfirmationModule,
         PasswordRecoveryModule,
         TwoFactorAuthModule,
         JwtModule,
+        PasswordModule,
+        EmailModule,
     ],
     providers: [TokenService],
 })

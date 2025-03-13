@@ -1,6 +1,7 @@
 import { Response } from 'express';
 
 import { ContextRequestType } from '@/config/types/context-request.type';
+import { UserRequest } from '@/config/types/context-request.type';
 import { UserService } from '@/user/user.service';
 
 import { JwtService } from '../jwt/jwt.service';
@@ -12,7 +13,6 @@ import {
     UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { UserRequest } from '@/config/types/context-request.type';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -40,7 +40,9 @@ export class AuthGuard implements CanActivate {
         await this.tryRefreshToken(request, response);
 
         if (!request.user) {
-            throw new UnauthorizedException('Пользователь не прошел проверку подлинности');
+            throw new UnauthorizedException(
+                'Пользователь не прошел проверку подлинности',
+            );
         }
 
         return true;
@@ -86,7 +88,9 @@ export class AuthGuard implements CanActivate {
                 this.jwtService.verifyAccessToken<JwtPayload>(accessToken);
             request.user = await this.userService.findById(payload.userId);
         } catch {
-            throw new UnauthorizedException('Пользователь не прошел проверку подлинности');
+            throw new UnauthorizedException(
+                'Пользователь не прошел проверку подлинности',
+            );
         }
     }
 }

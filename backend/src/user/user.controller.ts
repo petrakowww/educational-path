@@ -1,43 +1,41 @@
 import { Authorization } from '@/auth/decorators/auth.decorator';
 import { CurrentUser } from '@/auth/decorators/user.decorator';
 
+import { ChangePasswordDto } from './password/dto/change-password.dto';
+import { PasswordService } from './password/password.service';
 import {
+    Body,
     Controller,
     HttpCode,
     HttpStatus,
+    Patch,
     Post,
-    Delete,
-    UploadedFile,
-    UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-
-import { UserService } from './user.service';
 import { User } from '@prisma/__generated__';
+import { EmailService } from './email/email.service';
+import { EmailDto } from './email/dto/email.dto';
 
-@Controller('users')
+@Controller('/user')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    public constructor(
+        private readonly passwordService: PasswordService,
+        private readonly emailService: EmailService,
+    ) {}
 
+    @Post('/password/change')
     @Authorization()
-    @Post('upload-avatar')
-    @UseInterceptors(FileInterceptor('file'))
     @HttpCode(HttpStatus.OK)
-    public async uploadAvatar(
+    public async changePassword(
+        @Body() dto: ChangePasswordDto,
         @CurrentUser() user: User,
-        @UploadedFile() file: Express.Multer.File,
     ) {
-        const updatedUser = await this.userService.updateAvatar(user, file);
-        return updatedUser;
+        return await this.passwordService.newPassword(user, dto);
     }
 
     @Authorization()
-    @Delete('delete-avatar')
+    @Patch('/email/change')
     @HttpCode(HttpStatus.OK)
-    public async deleteAvatar(
-        @CurrentUser() user: User,
-    ) {
-        const updatedUser = await this.userService.deleteAvatar(user);
-        return updatedUser;
+    public async changeEmail(@CurrentUser() user: User, @Body() dto: EmailDto) {
+        return await this.emailService.handleEmailChange(user, dto);
     }
 }

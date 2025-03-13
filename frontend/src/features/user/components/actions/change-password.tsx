@@ -20,32 +20,14 @@ import {
 	ChangePasswordFormValues,
 	changePasswordSchema,
 } from '../../schemes/form-change-password';
-import { toast } from 'sonner';
-import { useUpdateUserPasswordMutation } from '@/shared/graphql/generated/output';
+import { useChangePassword } from '../../hooks/use-update-password';
 
 interface ChangePasswordProfileProps {
 	hasPassword: boolean;
 	passwordCallback: (value: boolean) => void;
 }
 
-export const ChangePasswordProfile = (props: ChangePasswordProfileProps) => {
-	const { hasPassword, passwordCallback } = props;
-
-	const [updateProfilePassword, { loading }] = useUpdateUserPasswordMutation({
-		onCompleted(data) {
-			toast.success(
-				data.updateUserPassword.message || 'Пароль был изменён'
-			);
-            passwordCallback(true);
-		},
-		onError(error) {
-            console.error(error);
-			toast.error('Ошибка при обновление пароля', {
-				description: error.message,
-			});
-		},
-	});
-
+export const ChangePasswordProfile = ({ hasPassword, passwordCallback }: ChangePasswordProfileProps) => {
 	const form = useForm<ChangePasswordFormValues>({
 		resolver: zodResolver(changePasswordSchema),
 		defaultValues: {
@@ -55,15 +37,15 @@ export const ChangePasswordProfile = (props: ChangePasswordProfileProps) => {
 		},
 	});
 
+	const { changePassword, isPending } = useChangePassword((success) => {
+        if (success) {
+            form.reset();
+            passwordCallback(true);
+        }
+    });
+
 	const onSubmit = (values: ChangePasswordFormValues) => {
-		updateProfilePassword({
-			variables: {
-				userPasswordDto: {
-					oldPassword: values.oldPassword || '',
-					newPassword: values.newPassword,
-				},
-			},
-		});
+		changePassword(values);
 	};
 
 	return (
@@ -76,7 +58,7 @@ export const ChangePasswordProfile = (props: ChangePasswordProfileProps) => {
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)}>
+					<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
 						{hasPassword && (
 							<FormField
 								control={form.control}
@@ -85,11 +67,7 @@ export const ChangePasswordProfile = (props: ChangePasswordProfileProps) => {
 									<FormItem>
 										<FormLabel>Старый пароль</FormLabel>
 										<FormControl>
-											<Input
-												type="password"
-												placeholder="Введите старый пароль"
-												{...field}
-											/>
+											<Input type="password" placeholder="Введите старый пароль" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -104,11 +82,7 @@ export const ChangePasswordProfile = (props: ChangePasswordProfileProps) => {
 								<FormItem>
 									<FormLabel>Новый пароль</FormLabel>
 									<FormControl>
-										<Input
-											type="password"
-											placeholder="Введите новый пароль"
-											{...field}
-										/>
+										<Input type="password" placeholder="Введите новый пароль" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -119,28 +93,18 @@ export const ChangePasswordProfile = (props: ChangePasswordProfileProps) => {
 							control={form.control}
 							name="confirmPassword"
 							render={({ field }) => (
-								<FormItem className='mb-4'>
-									<FormLabel>
-										Подтвердите новый пароль
-									</FormLabel>
+								<FormItem className="mb-2">
+									<FormLabel>Подтвердите новый пароль</FormLabel>
 									<FormControl>
-										<Input
-											type="password"
-											placeholder="Повторите новый пароль"
-											{...field}
-										/>
+										<Input type="password" placeholder="Повторите новый пароль" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
 
-						<Button
-							type="submit"
-							disabled={loading}
-							className="w-full"
-						>
-							{loading ? 'Обновление...' : 'Изменить пароль'}
+						<Button type="submit" disabled={isPending} className="w-full">
+							{isPending ? 'Обновление...' : 'Изменить пароль'}
 						</Button>
 					</form>
 				</Form>

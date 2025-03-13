@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-// import { useState } from 'react';
-
 import {
 	Card,
 	CardHeader,
@@ -18,70 +16,126 @@ import {
 	Input,
 } from '@/shared/ui';
 import { toast } from 'sonner';
-// import { useUpdateUserEmailMutation } from '@/shared/graphql/generated/output';
-
-// import { ChangeEmailFormValues, changeEmailSchema } from '../../schemes/form-change-email';
+import {
+	ChangeEmailFormValues,
+	changeEmailSchema,
+} from '../../schemes/form-change-email';
+import { useState } from 'react';
+import { useUpdateEmail } from '../../hooks/use-update-email';
 
 interface ChangeEmailProfileProps {
+	oldEmail?: string;
 	hasPassword: boolean;
 }
 
-export const ChangeEmailProfile = (props: ChangeEmailProfileProps) => {
-    const { hasPassword } = props;
-	const [updateEmail, { loading }] = useUpdateUserEmailMutation();
+export const ChangeEmailProfile = ({
+	oldEmail,
+	hasPassword,
+}: ChangeEmailProfileProps) => {
+	const [isCodeSent, setIsCodeSent] = useState(false);
 
 	const form = useForm<ChangeEmailFormValues>({
 		resolver: zodResolver(changeEmailSchema),
-		defaultValues: { email: '' },
+		defaultValues: { oldEmail, newEmail: '', code: '' },
 	});
 
-	const onSubmit = (values: ChangeEmailFormValues) => {
-		// if (!hasPassword) {
-		// 	toast.error('Для смены почты установите пароль.');
-		// 	return;
-		// }
+	const { updateEmail, isPending } = useUpdateEmail(setIsCodeSent, form);
 
-		// updateEmail({
-		// 	variables: { newEmail: values.email },
-		// }).then(() => {
-		// 	toast.success('Почта успешно изменена!');
-		// }).catch((error) => {
-		// 	toast.error(error.message);
-		// });
+	const onSubmit = (values: ChangeEmailFormValues) => {
+		if (!hasPassword) {
+			toast.error('Для смены почты установите пароль.');
+			return;
+		}
+		console.log(values);
+		updateEmail(values);
 	};
+
+	if (!oldEmail) return null;
 
 	return (
 		<Card>
 			<CardHeader>
 				<CardTitle>Смена почты</CardTitle>
 				<CardDescription>
-					Укажите новый адрес электронной почты.
+					{isCodeSent
+						? 'Введите код подтверждения'
+						: 'Укажите новый email'}
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
+				{!hasPassword && (
+					<p className="text-destructive text-sm font-medium">
+						Вы не можете изменить вашу почту, пока не установите
+						пароль!
+					</p>
+				)}
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="flex flex-col gap-2"
+					>
 						<FormField
 							control={form.control}
-							name="email"
+							name="oldEmail"
 							render={({ field }) => (
 								<FormItem>
+									<FormLabel>Старая почта</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											disabled
+											className="bg-secondary cursor-not-allowed"
+										/>
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="newEmail"
+							render={({ field }) => (
+								<FormItem className="mb-2">
 									<FormLabel>Новая почта</FormLabel>
 									<FormControl>
 										<Input
 											type="email"
 											placeholder="Введите новую почту"
 											{...field}
-											disabled={!hasPassword}
+											disabled={!hasPassword || isCodeSent}
 										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
+						{isCodeSent && (
+							<FormField
+								control={form.control}
+								name="code"
+								render={({ field }) => (
+									<FormItem className="mb-2">
+										<FormLabel>Код подтверждения</FormLabel>
+										<FormControl>
+											<Input
+												type="text"
+												placeholder="Введите код"
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						)}
 
-						<Button type="submit" disabled={loading || !hasPassword} className="w-full">
-							{loading ? 'Обновление...' : 'Изменить почту'}
+						<Button
+							type="submit"
+							disabled={!hasPassword || isPending}
+							className="w-full"
+						>
+							{isCodeSent
+								? 'Подтвердить почту'
+								: 'Изменить почту'}
 						</Button>
 					</form>
 				</Form>

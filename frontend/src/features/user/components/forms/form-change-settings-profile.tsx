@@ -4,17 +4,22 @@ import { ChangeProfile2FANotifications } from '../actions/change-notification';
 import { useFindProfileSettingsQuery } from '@/shared/graphql/generated/output';
 import { LoadingFormInfo } from '../../utils/loading';
 import { ChangePasswordProfile } from '../actions/change-password';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { ChangeEmailProfile } from '../actions/change-email';
+import { DeleteAccountProfile } from '../actions/delete-account';
 
 const hasPassword = (password?: string) =>
 	password && password.length > 0 ? true : false;
 
 export const FormChangeSettingsProfile = () => {
 	const { data, loading } = useFindProfileSettingsQuery();
+	const [isPasswordExist, setPasswordExitst] = useState(false);
 
-	const [isPasswordExist, setPasswordExitst] = useState(
-		hasPassword(data?.findProfile.password)
-	);
+	useEffect(() => {
+		if (data?.findProfile.password !== undefined) {
+			setPasswordExitst(hasPassword(data.findProfile.password));
+		}
+	}, [data?.findProfile.password]);
 
 	if (loading) {
 		return <LoadingFormInfo textInformation="Загружаем ваши настройки" />;
@@ -30,6 +35,13 @@ export const FormChangeSettingsProfile = () => {
 				hasPassword={isPasswordExist}
 				passwordCallback={setPasswordExitst}
 			/>
+
+			<ChangeEmailProfile
+				hasPassword={isPasswordExist}
+				oldEmail={data?.findProfile.email}
+			/>
+
+			<DeleteAccountProfile/>
 		</div>
 	);
 };

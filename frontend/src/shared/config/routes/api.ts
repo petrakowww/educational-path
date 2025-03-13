@@ -4,7 +4,7 @@ export enum ApiRoutesAuth {
 	logout = 'auth/logout',
 	providerConnect = 'auth/oauth/connect/',
 	emailConfirmation = 'auth/email-confirmation/',
-	twoFactorVerification = 'auth/twa/oauth/',
+	twoFactorVerification = 'auth/oauth/twa/',
 	passwordNew = 'auth/password-recovery/new/',
 	passwordReset = 'auth/password-recovery/reset',
 	refreshTokens = 'auth/refresh-tokens',
@@ -14,13 +14,19 @@ export enum ApiRoutesToken {
 	refreshTokenRedirect = 'api/refresh',
 }
 
-export enum ApiRoutesUsers {
-	updateProfileAvatar = '/users/upload-avatar',
-	deleteProfileAvatar = '/users/delete-avatar',
+export enum ApiRoutesAvatars {
+	updateProfileAvatar = '/avatars/update',
+	deleteProfileAvatar = '/avatars/delete',
+}
+
+export enum ApiRoutesUser {
+	updatePassword = '/user/password/change',
+	updateEmail = '/user/email/change',
 }
 
 export const apiRoutes = {
 	auth: ApiRoutesAuth,
 	token: ApiRoutesToken,
-	users: ApiRoutesUsers,
+	avatars: ApiRoutesAvatars,
+	user: ApiRoutesUser,
 };
