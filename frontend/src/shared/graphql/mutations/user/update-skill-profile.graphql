@@ -1,0 +1,9 @@
+mutation updateSkillProfile($dto: SkillProfileDto!) {
+	updateSkillProfile(dto: $dto) {
+		profilename
+		headline
+		githubUrl
+		vkUrl
+		telegramUrl
+	}
+}

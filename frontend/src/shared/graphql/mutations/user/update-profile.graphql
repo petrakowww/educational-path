@@ -1,0 +1,7 @@
+mutation updateProfile($dto: UserProfileDto!) {
+	updateUserProfile(dto: $dto) {
+		id
+		name
+		isTwoFactorEnabled
+	}
+}
