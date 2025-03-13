@@ -1,11 +1,11 @@
 import { Button } from "@/shared/ui";
 import { useLogoutMutation } from "@/features/auth/hooks/use-logout-mutation";
-export const HeaderLogout = ({ callback }: { callback?: () => void }) => {
-	const { logout, isLoadingLogout } = useLogoutMutation();
 
+export const HeaderLogout = () => {
+	const { logoutMutation, isLoadingLogout } = useLogoutMutation();
+	
 	const handleClick = () => {
-		logout();
-		callback?.();
+		logoutMutation();
 	};
 
 	return (

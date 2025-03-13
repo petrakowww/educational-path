@@ -18,6 +18,10 @@ export class UserService {
 	}): Promise<EmailUpdateProps> {
 		return api.patch(apiRoutes.user.updateEmail, data);
 	}
+
+	public async DeleteAccountProfile() {
+		return api.delete(apiRoutes.user.deleteAccount);
+	}
 }
 
 export const userService = new UserService();

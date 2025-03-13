@@ -4,7 +4,7 @@ import { TypeUserInfo } from '../../auth/provider/services/types/user-info.type'
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AccountService {
+export class UserOAuthAccountService {
     constructor(private readonly prismaService: PrismaService) {}
 
     public async findOAuthAccount(accountId: string, provider: string) {

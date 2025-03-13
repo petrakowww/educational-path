@@ -17,10 +17,12 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/shared/ui";
+import { useDeleteAccount } from "../../hooks/use-delete-account";
 
 export const DeleteAccountProfile = () => {
   const [inputValue, setInputValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const { deleteAccount, isPending } = useDeleteAccount();
 
   const handleClose = () => {
     setInputValue("");
@@ -63,11 +65,11 @@ export const DeleteAccountProfile = () => {
             <AlertDialogFooter>
               <AlertDialogCancel onClick={handleClose}>Отмена</AlertDialogCancel>
               <AlertDialogAction
-                disabled={inputValue !== "Delete Account"}
+                disabled={inputValue !== "Delete Account" || isPending}
                 className="bg-destructive text-white"
-                onClick={handleClose}
+                onClick={() => deleteAccount()}
               >
-                Подтвердить удаление
+                {isPending ? "Удаление..." : "Подтвердить удаление"}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

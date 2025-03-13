@@ -40,7 +40,6 @@ export class AuthController {
 
     @Recaptcha()
     @Post('/login')
-    @HttpCode(HttpStatus.OK)
     public async login(@Res() res: Response, @Body() dto: LoginDto) {
         const result = await this.authService.login(res, dto);
         return res.status(HttpStatus.OK).json(result);
@@ -48,7 +47,6 @@ export class AuthController {
 
     @Recaptcha()
     @Post('/oauth/twa/:oua')
-    @HttpCode(HttpStatus.OK)
     public async newOAuthVerification(
         @Res() res: Response,
         @Body() dto: TwoFactorDto,
@@ -64,7 +62,6 @@ export class AuthController {
     }
 
     @Post('/email-confirmation')
-    @HttpCode(HttpStatus.OK)
     public async newEmailVerification(
         @Res() res: Response,
         @Body() dto: ConfirmationDto,
@@ -73,7 +70,7 @@ export class AuthController {
             res,
             dto,
         );
-        return res.json(tokens);
+        return res.status(HttpStatus.OK).json(tokens);
     }
 
     @UseGuards(AuthProviderGuard)
@@ -106,14 +103,12 @@ export class AuthController {
     }
 
     @Get('/refresh-tokens')
-    @HttpCode(HttpStatus.OK)
     public async refreshTokens(@Req() req: UserRequest, @Res() res: Response) {
         const response = await this.authService.refreshJwtTokens(req, res);
         return res.status(HttpStatus.OK).json(response);
     }
 
     @Post('/logout')
-    @HttpCode(HttpStatus.OK)
     public async logout(@Req() req: Request, @Res() res: Response) {
         await this.authService.logout(req, res);
         return res

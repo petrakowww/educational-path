@@ -16,12 +16,16 @@ interface AuthContextProps {
 	isAuthenticated: boolean;
 	isLoading: boolean;
 	logout: () => void;
+	login: () => void;
+	refresh: () => void;
 }
 
 const AuthContextInit: AuthContextProps = {
 	isAuthenticated: false,
 	isLoading: true,
 	logout: () => {},
+	login: () => {},
+	refresh: () => {},
 };
 
 const AuthContext = createContext<AuthContextProps>(AuthContextInit);
@@ -34,10 +38,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
-	const { authorization } = useAuthorizationMutation((value: boolean) =>
-		updateAuthState(value)
-	);
-
 	const updateAuthState = useCallback((isAuthorized: boolean) => {
 		setIsAuthenticated(isAuthorized);
 		setIsLoading(false);
@@ -48,14 +48,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		if (token) {
 			isTokenValid(token)
 				.then(() => updateAuthState(true))
-				.catch(() => authorization());
+				.catch(() => updateAuthState(false));
 		} else {
-			authorization();
+			updateAuthState(false);
 		}
-	}, [updateAuthState, authorization]);
+	}, [updateAuthState]);
 
 	const logout = useCallback(() => {
 		cookieClient.logout();
+		updateAuthState(false);
+	}, [updateAuthState]);
+
+	const login = useCallback(() => {
 		updateAuthState(false);
 	}, [updateAuthState]);
 
@@ -68,7 +72,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	);
 
 	return (
-		<AuthContext.Provider value={{ ...value, isLoading: isLoading }}>
+		<AuthContext.Provider
+			value={{
+				...value,
+				isLoading: isLoading,
+				refresh: useAuthorizationMutation,
+				login,
+			}}
+		>
 			{children}
 		</AuthContext.Provider>
 	);

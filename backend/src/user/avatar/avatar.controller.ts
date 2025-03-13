@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { User } from '@prisma/__generated__';
-
 import { AvatarService } from './avatar.service';
 
 @Controller('avatars')

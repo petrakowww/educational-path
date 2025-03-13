@@ -6,7 +6,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '@prisma/__generated__';
 
 @Injectable()
-export class PasswordService {
+export class UserPasswordService {
     public constructor(private readonly userService: UserService) {}
 
     public async newPassword(user: User, dto: ChangePasswordDto) {

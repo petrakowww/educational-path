@@ -46,8 +46,12 @@ export const ChangeEmailProfile = ({
 			toast.error('Для смены почты установите пароль.');
 			return;
 		}
-		console.log(values);
 		updateEmail(values);
+	};
+
+	const handleEditEmail = () => {
+		setIsCodeSent(false);
+		form.reset({ oldEmail, newEmail: '', code: '' });
 	};
 
 	if (!oldEmail) return null;
@@ -90,24 +94,26 @@ export const ChangeEmailProfile = ({
 								</FormItem>
 							)}
 						/>
-						<FormField
-							control={form.control}
-							name="newEmail"
-							render={({ field }) => (
-								<FormItem className="mb-2">
-									<FormLabel>Новая почта</FormLabel>
-									<FormControl>
-										<Input
-											type="email"
-											placeholder="Введите новую почту"
-											{...field}
-											disabled={!hasPassword || isCodeSent}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+						{!isCodeSent && (
+							<FormField
+								control={form.control}
+								name="newEmail"
+								render={({ field }) => (
+									<FormItem className="mb-2">
+										<FormLabel>Новая почта</FormLabel>
+										<FormControl>
+											<Input
+												type="email"
+												placeholder="Введите новую почту"
+												{...field}
+												disabled={!hasPassword}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						)}
 						{isCodeSent && (
 							<FormField
 								control={form.control}
@@ -128,15 +134,27 @@ export const ChangeEmailProfile = ({
 							/>
 						)}
 
-						<Button
-							type="submit"
-							disabled={!hasPassword || isPending}
-							className="w-full"
-						>
-							{isCodeSent
-								? 'Подтвердить почту'
-								: 'Изменить почту'}
-						</Button>
+						<div className="flex flex-col gap-2">
+							<Button
+								type="submit"
+								disabled={!hasPassword || isPending}
+								className="w-full"
+							>
+								{isCodeSent
+									? 'Подтвердить почту'
+									: 'Изменить почту'}
+							</Button>
+							{isCodeSent && (
+								<Button
+									variant="outline"
+									onClick={handleEditEmail}
+									type="button"
+									className="w-full"
+								>
+									Назад
+								</Button>
+							)}
+						</div>
 					</form>
 				</Form>
 			</CardContent>

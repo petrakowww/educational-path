@@ -6,12 +6,12 @@ import { SkillProfileDto } from './dto/skill-profile.dto';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { User } from '@prisma/__generated__';
 
-import { SkillProfileService } from './skill-profile.service';
+import { UserSkillProfileService } from './skill-profile.service';
 
 @Resolver(() => SkillProfile)
-export class SkillProfileResolver {
+export class UserSkillProfileResolver {
     public constructor(
-        private readonly skillProfileService: SkillProfileService,
+        private readonly skillProfileService: UserSkillProfileService,
     ) {}
 
     @Authorization()
@@ -21,10 +21,7 @@ export class SkillProfileResolver {
         @Args('dto') dto: SkillProfileDto,
     ) {
         const updatedProfile =
-            await this.skillProfileService.updateSkillProfile(
-                user,
-                dto,
-            );
+            await this.skillProfileService.updateSkillProfile(user, dto);
 
         return { updatedProfile };
     }

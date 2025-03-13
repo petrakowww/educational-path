@@ -12,8 +12,6 @@ import { IS_DEV_ENV } from './libs/common/utils/is-dev.util';
 import { MailModule } from './libs/mail/mail.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AvatarModule } from './user/avatar/avatar.module';
-import { EmailModule } from './user/email/email.module';
-import { PasswordModule } from './user/password/password.module';
 import { UserModule } from './user/user.module';
 import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
@@ -21,6 +19,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { TokenModule } from './auth/tokens/token.module';
 
 @Module({
     imports: [
@@ -49,8 +48,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
         PasswordRecoveryModule,
         TwoFactorAuthModule,
         JwtModule,
-        PasswordModule,
-        EmailModule,
+        TokenModule,
     ],
     providers: [TokenService],
 })

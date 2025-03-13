@@ -37,7 +37,7 @@ import {
                 <Text className="text-gray-600">
                   Введите следующий код для подтверждения:
                 </Text>
-                <Text className="text-2xl font-bold text-blue-600 my-4">
+                <Text className="text-2xl font-bold text-green-600 my-4">
                   {token}
                 </Text>
                 <Text className="text-gray-500 text-sm mt-4">

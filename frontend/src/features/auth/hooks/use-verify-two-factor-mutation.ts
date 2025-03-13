@@ -5,10 +5,12 @@ import { TypeTwoFactorSchema } from '../schemes/form-two-factor-schema';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { AppRoutes } from '@/shared/config';
+import { useAuth } from '@/app/providers/auth/auth-provider';
 
 export const useVerifyTwoFactorMutation = () => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
+	const { login } = useAuth();
 
 	const oauthToken = searchParams?.get('oua');
 
@@ -32,6 +34,7 @@ export const useVerifyTwoFactorMutation = () => {
 			);
 		},
 		onSuccess() {
+			login();
 			toast.success('Двухфакторная аутентификация прошла успешно!');
 			router.replace(AppRoutes.Dashboard);
 		},

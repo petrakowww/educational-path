@@ -31,7 +31,7 @@ interface HeaderProps {
 export const Header = (props: HeaderProps) => {
 	const { isHiddenSignProps } = props;
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
-	const { isAuthenticated, isLoading, logout } = useAuth();
+	const { isAuthenticated, isLoading } = useAuth();
 
 	return (
 		<header className="w-full bg-primary flex">
@@ -77,7 +77,7 @@ export const Header = (props: HeaderProps) => {
 									<Skeleton className="w-20 h-10 rounded-md" />
 								</div>
 							) : isAuthenticated ? (
-								<HeaderLogout callback={logout} />
+								<HeaderLogout />
 							) : (
 								<nav className="md:flex flex gap-2">
 									<Button variant="outline" asChild>
@@ -125,7 +125,7 @@ export const Header = (props: HeaderProps) => {
 														<Skeleton className="w-24 h-10 rounded-md" />
 													</div>
 												) : isAuthenticated ? (
-													<HeaderLogout callback={logout} />
+													<HeaderLogout />
 												) : (
 													<>
 														<Link href={AppRoutes.SignIn} className="text-lg text-foreground/80 hover:text-foreground transition-colors">

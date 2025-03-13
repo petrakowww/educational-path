@@ -8,6 +8,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	useSidebar,
+	Skeleton,
 } from '@/shared/ui';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import {
@@ -26,7 +27,7 @@ import { staticResources } from '@/shared/lib/utils/public-client';
 
 export const AccountProfileLogo = () => {
 	const { isMobile } = useSidebar();
-	const { data } = useFindProfileLogoQuery();
+	const { data, loading } = useFindProfileLogoQuery();
 
 	return (
 		<SidebarMenu>
@@ -38,34 +39,47 @@ export const AccountProfileLogo = () => {
 							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 						>
 							<div className="flex aspect-square size-8 items-center justify-center">
-								<Avatar className="rounded-[50%] overflow-hidden">
-									<AvatarImage
-										src={
-											data?.findProfile.avatar
-												? staticResources.getAvatarUrl(
-														data.findProfile.avatar
-													)
-												: undefined
-										}
-									/>
-
-									<AvatarFallback>
-										{data?.findProfile.name.slice(0, 1)}
-									</AvatarFallback>
-								</Avatar>
+								{loading ? (
+									<Skeleton className="h-8 w-8 rounded-full mb-1" />
+								) : (
+									<Avatar className="rounded-[50%] overflow-hidden">
+										<AvatarImage
+											src={
+												data?.findProfile.avatar
+													? staticResources.getAvatarUrl(
+															data.findProfile
+																.avatar
+														)
+													: undefined
+											}
+										/>
+										<AvatarFallback>
+											{data?.findProfile.name.slice(0, 1)}
+										</AvatarFallback>
+									</Avatar>
+								)}
 							</div>
-							<div className="grid flex-1 text-left text-sm leading-tight">
-								<span className="truncate font-semibold">
-									{data?.findProfile.name || 'unknown user'}
-								</span>
-								<span className="truncate text-xs">
-									{getUserRoleType(data?.findProfile.role)}
-									{' ('}
-									{getUserCredentialType(
-										data?.findProfile.method
-									)}
-									{')'}
-								</span>
+							<div className="grid flex-1 text-left text-sm leading-tight items-center">
+								{loading ? (
+									<Skeleton className="h-8 w-32" />
+								) : (
+									<>
+										<span className="truncate font-semibold">
+											{data?.findProfile.name ||
+												'unknown user'}
+										</span>
+										<span className="truncate text-xs">
+											{getUserRoleType(
+												data?.findProfile.role
+											)}
+											{' ('}
+											{getUserCredentialType(
+												data?.findProfile.method
+											)}
+											{')'}
+										</span>
+									</>
+								)}
 							</div>
 							<ChevronsUpDownIcon className="ml-auto" />
 						</SidebarMenuButton>

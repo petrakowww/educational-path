@@ -5,7 +5,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '@prisma/__generated__';
 
 @Injectable()
-export class SkillProfileService {
+export class UserSkillProfileService {
     public constructor(private readonly prismaService: PrismaService) {}
 
     public async updateSkillProfile(user: User, dto: SkillProfileDto) {

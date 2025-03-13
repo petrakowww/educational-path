@@ -6,7 +6,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { TokenType, User } from '@prisma/__generated__';
 
 @Injectable()
-export class EmailService {
+export class UserEmailService {
     constructor(
         private readonly userService: UserService,
         private readonly twoFactorAuthService: TwoFactorAuthService,

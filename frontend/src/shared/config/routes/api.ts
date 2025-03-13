@@ -22,6 +22,7 @@ export enum ApiRoutesAvatars {
 export enum ApiRoutesUser {
 	updatePassword = '/user/password/change',
 	updateEmail = '/user/email/change',
+	deleteAccount='/user/account/delete',
 }
 
 export const apiRoutes = {

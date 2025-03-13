@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 import { UserService } from '@/user/user.service';
 
-import { AccountService } from '../user/account/account.service';
+import { UserOAuthAccountService } from '../user/oauth-account/account.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { ConfirmationDto } from './email-confirmation/dto/confirmation.dto';
@@ -33,7 +33,7 @@ export class AuthService {
     private readonly FRONTEND_REDIRECT_URL: string;
     public constructor(
         private readonly userService: UserService,
-        private readonly accountService: AccountService,
+        private readonly accountService: UserOAuthAccountService,
         private readonly configService: ConfigService,
         private readonly providerService: ProviderService,
         private readonly jwtService: JwtService,

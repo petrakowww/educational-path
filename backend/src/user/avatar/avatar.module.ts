@@ -1,11 +1,15 @@
+import { JwtService } from '@/auth/jwt/jwt.service';
+import { RedisService } from '@/auth/redis/redis.service';
+
+import { UserService } from '../user.service';
 import { Module } from '@nestjs/common';
-import { AvatarService } from './avatar.service';
+
 import { AvatarController } from './avatar.controller';
-import { AuthSharedModule } from '@/auth/auth.module';
+import { AvatarService } from './avatar.service';
 
 @Module({
-    imports: [AuthSharedModule], 
-    providers: [AvatarService],
+    providers: [AvatarService, UserService, JwtService, RedisService],
     controllers: [AvatarController],
+    exports: [AvatarService],
 })
 export class AvatarModule {}
