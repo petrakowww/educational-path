@@ -1,0 +1,18 @@
+query findRoutesByUser {
+  findRoutesByUser{
+    id
+    title
+    description
+    privateType
+    createdAt
+    updatedAt
+    tags {
+      tag {
+        name
+      }
+    }
+    topicNodes {
+      id
+    }
+  }
+}

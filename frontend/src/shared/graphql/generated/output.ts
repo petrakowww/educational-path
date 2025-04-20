@@ -30,10 +30,42 @@ export type AccountModel = {
   user: UserModel;
 };
 
+export enum AuthMethod {
+  Credentials = 'CREDENTIALS',
+  Github = 'GITHUB',
+  Google = 'GOOGLE',
+  Yandex = 'YANDEX'
+}
+
+export type CreateRouteDto = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  tagIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  title: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createRoute: RouteModel;
+  deleteRoute: Scalars['Boolean']['output'];
+  updateRoute: RouteModel;
   updateSkillProfile: SkillProfile;
   updateUserProfile: UserModel;
+};
+
+
+export type MutationCreateRouteArgs = {
+  data: CreateRouteDto;
+};
+
+
+export type MutationDeleteRouteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateRouteArgs = {
+  data: UpdateRouteDto;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -46,15 +78,49 @@ export type MutationUpdateUserProfileArgs = {
   dto: UserProfileDto;
 };
 
+export enum PrivateType {
+  General = 'GENERAL',
+  Private = 'PRIVATE'
+}
+
 export type Query = {
   __typename?: 'Query';
+  findAllTags: Array<TagModel>;
   findById: UserModel;
   findProfile: UserModel;
+  findRoute: RouteModel;
+  findRoutesByUser: Array<RouteModel>;
+  findUserTags: Array<TagModel>;
 };
 
 
 export type QueryFindByIdArgs = {
   id: Scalars['String']['input'];
+};
+
+
+export type QueryFindRouteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type RouteModel = {
+  __typename?: 'RouteModel';
+  createdAt: Scalars['DateTime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  privateType: PrivateType;
+  tags?: Maybe<Array<RouteTagModel>>;
+  title: Scalars['String']['output'];
+  topicNodes?: Maybe<Array<TopicNodeModel>>;
+  updatedAt: Scalars['DateTime']['output'];
+  user: UserModel;
+};
+
+export type RouteTagModel = {
+  __typename?: 'RouteTagModel';
+  id: Scalars['ID']['output'];
+  route: RouteModel;
+  tag: TagModel;
 };
 
 export type SkillProfile = {
@@ -76,6 +142,38 @@ export type SkillProfileDto = {
   vkUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type TagModel = {
+  __typename?: 'TagModel';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type TopicEdgeModel = {
+  __typename?: 'TopicEdgeModel';
+  from: TopicNodeModel;
+  fromId: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  to: TopicNodeModel;
+  toId: Scalars['String']['output'];
+};
+
+export type TopicNodeModel = {
+  __typename?: 'TopicNodeModel';
+  content?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  incomingEdges?: Maybe<Array<TopicEdgeModel>>;
+  outgoingEdges?: Maybe<Array<TopicEdgeModel>>;
+  route: RouteModel;
+  title: Scalars['String']['output'];
+};
+
+export type UpdateRouteDto = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  privateType?: InputMaybe<PrivateType>;
+  tagIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UserModel = {
   __typename?: 'UserModel';
   accounts?: Maybe<Array<AccountModel>>;
@@ -85,7 +183,7 @@ export type UserModel = {
   isTwoFactorEnabled: Scalars['Boolean']['output'];
   isVerified: Scalars['Boolean']['output'];
   message?: Maybe<Scalars['String']['output']>;
-  method: Scalars['String']['output'];
+  method: AuthMethod;
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   role: Scalars['String']['output'];
@@ -96,6 +194,13 @@ export type UserProfileDto = {
   isTwoFactorEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
+
+export type CreateRouteMutationVariables = Exact<{
+  mapDto: CreateRouteDto;
+}>;
+
+
+export type CreateRouteMutation = { __typename?: 'Mutation', createRoute: { __typename?: 'RouteModel', id: string, title: string, description?: string | null, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', name: string } }> | null } };
 
 export type UpdateProfileMutationVariables = Exact<{
   dto: UserProfileDto;
@@ -111,10 +216,20 @@ export type UpdateSkillProfileMutationVariables = Exact<{
 
 export type UpdateSkillProfileMutation = { __typename?: 'Mutation', updateSkillProfile: { __typename?: 'SkillProfile', profilename?: string | null, headline?: string | null, githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null } };
 
+export type FindRoutesByUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindRoutesByUserQuery = { __typename?: 'Query', findRoutesByUser: Array<{ __typename?: 'RouteModel', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', tag: { __typename?: 'TagModel', name: string } }> | null, topicNodes?: Array<{ __typename?: 'TopicNodeModel', id: string }> | null }> };
+
+export type FindAllTagsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindAllTagsQuery = { __typename?: 'Query', findAllTags: Array<{ __typename?: 'TagModel', id: string, name: string }> };
+
 export type FindProfileLogoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileLogoQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: string, role: string } };
+export type FindProfileLogoQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: AuthMethod, role: string } };
 
 export type FindProfileSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -124,9 +239,52 @@ export type FindProfileSettingsQuery = { __typename?: 'Query', findProfile: { __
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: string, isTwoFactorEnabled: boolean, email: string, skillProfile?: { __typename?: 'SkillProfile', githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null, headline?: string | null, profilename?: string | null } | null } };
+export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: AuthMethod, isTwoFactorEnabled: boolean, email: string, skillProfile?: { __typename?: 'SkillProfile', githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null, headline?: string | null, profilename?: string | null } | null } };
 
 
+export const CreateRouteDocument = gql`
+    mutation createRoute($mapDto: CreateRouteDto!) {
+  createRoute(data: $mapDto) {
+    id
+    title
+    description
+    createdAt
+    updatedAt
+    tags {
+      id
+      tag {
+        name
+      }
+    }
+  }
+}
+    `;
+export type CreateRouteMutationFn = Apollo.MutationFunction<CreateRouteMutation, CreateRouteMutationVariables>;
+
+/**
+ * __useCreateRouteMutation__
+ *
+ * To run a mutation, you first call `useCreateRouteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRouteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRouteMutation, { data, loading, error }] = useCreateRouteMutation({
+ *   variables: {
+ *      mapDto: // value for 'mapDto'
+ *   },
+ * });
+ */
+export function useCreateRouteMutation(baseOptions?: Apollo.MutationHookOptions<CreateRouteMutation, CreateRouteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRouteMutation, CreateRouteMutationVariables>(CreateRouteDocument, options);
+      }
+export type CreateRouteMutationHookResult = ReturnType<typeof useCreateRouteMutation>;
+export type CreateRouteMutationResult = Apollo.MutationResult<CreateRouteMutation>;
+export type CreateRouteMutationOptions = Apollo.BaseMutationOptions<CreateRouteMutation, CreateRouteMutationVariables>;
 export const UpdateProfileDocument = gql`
     mutation updateProfile($dto: UserProfileDto!) {
   updateUserProfile(dto: $dto) {
@@ -199,8 +357,100 @@ export function useUpdateSkillProfileMutation(baseOptions?: Apollo.MutationHookO
 export type UpdateSkillProfileMutationHookResult = ReturnType<typeof useUpdateSkillProfileMutation>;
 export type UpdateSkillProfileMutationResult = Apollo.MutationResult<UpdateSkillProfileMutation>;
 export type UpdateSkillProfileMutationOptions = Apollo.BaseMutationOptions<UpdateSkillProfileMutation, UpdateSkillProfileMutationVariables>;
+export const FindRoutesByUserDocument = gql`
+    query findRoutesByUser {
+  findRoutesByUser {
+    id
+    title
+    description
+    privateType
+    createdAt
+    updatedAt
+    tags {
+      tag {
+        name
+      }
+    }
+    topicNodes {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindRoutesByUserQuery__
+ *
+ * To run a query within a React component, call `useFindRoutesByUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindRoutesByUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindRoutesByUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindRoutesByUserQuery(baseOptions?: Apollo.QueryHookOptions<FindRoutesByUserQuery, FindRoutesByUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindRoutesByUserQuery, FindRoutesByUserQueryVariables>(FindRoutesByUserDocument, options);
+      }
+export function useFindRoutesByUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRoutesByUserQuery, FindRoutesByUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindRoutesByUserQuery, FindRoutesByUserQueryVariables>(FindRoutesByUserDocument, options);
+        }
+export function useFindRoutesByUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindRoutesByUserQuery, FindRoutesByUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindRoutesByUserQuery, FindRoutesByUserQueryVariables>(FindRoutesByUserDocument, options);
+        }
+export type FindRoutesByUserQueryHookResult = ReturnType<typeof useFindRoutesByUserQuery>;
+export type FindRoutesByUserLazyQueryHookResult = ReturnType<typeof useFindRoutesByUserLazyQuery>;
+export type FindRoutesByUserSuspenseQueryHookResult = ReturnType<typeof useFindRoutesByUserSuspenseQuery>;
+export type FindRoutesByUserQueryResult = Apollo.QueryResult<FindRoutesByUserQuery, FindRoutesByUserQueryVariables>;
+export const FindAllTagsDocument = gql`
+    query findAllTags {
+  findAllTags {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useFindAllTagsQuery__
+ *
+ * To run a query within a React component, call `useFindAllTagsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllTagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllTagsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindAllTagsQuery(baseOptions?: Apollo.QueryHookOptions<FindAllTagsQuery, FindAllTagsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllTagsQuery, FindAllTagsQueryVariables>(FindAllTagsDocument, options);
+      }
+export function useFindAllTagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllTagsQuery, FindAllTagsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllTagsQuery, FindAllTagsQueryVariables>(FindAllTagsDocument, options);
+        }
+export function useFindAllTagsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindAllTagsQuery, FindAllTagsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindAllTagsQuery, FindAllTagsQueryVariables>(FindAllTagsDocument, options);
+        }
+export type FindAllTagsQueryHookResult = ReturnType<typeof useFindAllTagsQuery>;
+export type FindAllTagsLazyQueryHookResult = ReturnType<typeof useFindAllTagsLazyQuery>;
+export type FindAllTagsSuspenseQueryHookResult = ReturnType<typeof useFindAllTagsSuspenseQuery>;
+export type FindAllTagsQueryResult = Apollo.QueryResult<FindAllTagsQuery, FindAllTagsQueryVariables>;
 export const FindProfileLogoDocument = gql`
-    query FindProfileLogo {
+    query findProfileLogo {
   findProfile {
     id
     name
@@ -243,7 +493,7 @@ export type FindProfileLogoLazyQueryHookResult = ReturnType<typeof useFindProfil
 export type FindProfileLogoSuspenseQueryHookResult = ReturnType<typeof useFindProfileLogoSuspenseQuery>;
 export type FindProfileLogoQueryResult = Apollo.QueryResult<FindProfileLogoQuery, FindProfileLogoQueryVariables>;
 export const FindProfileSettingsDocument = gql`
-    query FindProfileSettings {
+    query findProfileSettings {
   findProfile {
     id
     email
@@ -285,7 +535,7 @@ export type FindProfileSettingsLazyQueryHookResult = ReturnType<typeof useFindPr
 export type FindProfileSettingsSuspenseQueryHookResult = ReturnType<typeof useFindProfileSettingsSuspenseQuery>;
 export type FindProfileSettingsQueryResult = Apollo.QueryResult<FindProfileSettingsQuery, FindProfileSettingsQueryVariables>;
 export const FindProfileDocument = gql`
-    query FindProfile {
+    query findProfile {
   findProfile {
     id
     name

@@ -1,7 +1,10 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 
 import { AccountModel } from './account.model';
 import { SkillProfile } from './skill-profile.model';
+import { AuthMethod } from '@prisma/__generated__';
+
+registerEnumType(AuthMethod, {name: 'AuthMethod'})
 
 @ObjectType()
 export class UserModel {
@@ -26,8 +29,8 @@ export class UserModel {
     @Field(() => Boolean)
     isTwoFactorEnabled: boolean;
 
-    @Field(() => String)
-    method: string;
+    @Field(() => AuthMethod)
+    method: AuthMethod;
 
     @Field(() => [AccountModel], { nullable: true })
     accounts?: AccountModel[];

@@ -1,4 +1,4 @@
-query FindProfileLogo {
+query findProfileLogo {
 	findProfile {
         id
 		name

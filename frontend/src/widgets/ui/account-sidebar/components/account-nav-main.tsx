@@ -9,12 +9,11 @@ import {
 	SidebarMenuSub,
 	SidebarMenuSubItem,
 	SidebarMenuSubButton,
-} from '@/shared/ui';
-import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
 } from '@/shared/ui';
+
 import { ChevronRight } from 'lucide-react';
 import { AccountNavMainProps } from '../types/account-nav-main';
 

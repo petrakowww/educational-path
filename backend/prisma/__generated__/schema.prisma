@@ -35,6 +35,7 @@ model User {
 
   accounts     Account[]
   skillProfile SkillProfile?
+  Route        Route[]
 
   @@map("users")
 }
@@ -109,4 +110,66 @@ enum TokenType {
   TWO_FACTOR
   PASSWORD_RESET
   CHANGE_EMAIL
+}
+
+model Route {
+  id          String      @id @default(uuid())
+  title       String
+  description String?
+  privateType PrivateType @default(PRIVATE) @map("private_type")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  topicNodes TopicNode[]
+
+  tags RouteTag[]
+}
+
+model Tag {
+  id   String @id @default(uuid())
+  name String @unique
+
+  routes RouteTag[]
+}
+
+model RouteTag {
+  id String @id @default(uuid())
+
+  route   Route  @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  routeId String @map("route_id")
+
+  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId String @map("tag_id")
+
+  @@unique([routeId, tagId])
+}
+
+enum PrivateType {
+  GENERAL
+  PRIVATE
+}
+
+model TopicNode {
+  id      String  @id @default(uuid())
+  title   String
+  content String?
+
+  route   Route  @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  routeId String @map("route_id")
+
+  incomingEdges TopicEdge[] @relation("ToTopic")
+  outgoingEdges TopicEdge[] @relation("FromTopic")
+}
+
+model TopicEdge {
+  id String @id @default(uuid())
+
+  fromId String @map("from_id")
+  toId   String @map("to_id")
+
+  from TopicNode @relation("FromTopic", fields: [fromId], references: [id])
+  to   TopicNode @relation("ToTopic", fields: [toId], references: [id])
 }

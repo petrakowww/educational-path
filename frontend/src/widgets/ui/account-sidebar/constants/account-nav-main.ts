@@ -11,7 +11,7 @@ export const mapArray: ArrayNavMainProps[] = [
 		isActive: false,
 		items: [
 			{
-				url: '#',
+				url: 'maps',
 				title: 'Ваши карты',
 			},
 		],

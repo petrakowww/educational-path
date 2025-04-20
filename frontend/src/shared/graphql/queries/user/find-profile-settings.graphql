@@ -1,4 +1,4 @@
-query FindProfileSettings {
+query findProfileSettings {
 	findProfile {
         id
 		email

@@ -41,3 +41,11 @@ export * from './avatar/avatar';
 export * from './switch/switch';
 
 export * from './alert/alert-dialog';
+
+export * from './menubar/menubar';
+
+export * from './textarea/textarea';
+
+export * from './badge/badge';
+
+export * from './command/command';

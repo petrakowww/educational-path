@@ -17,9 +17,10 @@ import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 import { JwtService } from '@/auth/jwt/jwt.service';
 import { RedisService } from '@/auth/redis/redis.service';
+import { AvatarModule } from './avatar/avatar.module';
 
 @Module({
-    imports: [forwardRef(() => AuthModule)],
+    imports: [forwardRef(() => AuthModule), AvatarModule],
     providers: [
         TwoFactorAuthService,
         MailService,

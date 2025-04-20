@@ -1,0 +1,15 @@
+mutation createRoute($mapDto: CreateRouteDto!) {
+  createRoute(data: $mapDto) {
+    id
+    title
+    description
+    createdAt
+    updatedAt
+    tags {
+      id
+      tag {
+        name
+      }
+    }
+  }
+}

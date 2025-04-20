@@ -163,6 +163,40 @@ exports.Prisma.TokenScalarFieldEnum = {
   oauthToken: 'oauthToken'
 };
 
+exports.Prisma.RouteScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  privateType: 'privateType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.RouteTagScalarFieldEnum = {
+  id: 'id',
+  routeId: 'routeId',
+  tagId: 'tagId'
+};
+
+exports.Prisma.TopicNodeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  routeId: 'routeId'
+};
+
+exports.Prisma.TopicEdgeScalarFieldEnum = {
+  id: 'id',
+  fromId: 'fromId',
+  toId: 'toId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -196,11 +230,21 @@ exports.TokenType = exports.$Enums.TokenType = {
   CHANGE_EMAIL: 'CHANGE_EMAIL'
 };
 
+exports.PrivateType = exports.$Enums.PrivateType = {
+  GENERAL: 'GENERAL',
+  PRIVATE: 'PRIVATE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   SkillProfile: 'SkillProfile',
   Account: 'Account',
-  Token: 'Token'
+  Token: 'Token',
+  Route: 'Route',
+  Tag: 'Tag',
+  RouteTag: 'RouteTag',
+  TopicNode: 'TopicNode',
+  TopicEdge: 'TopicEdge'
 };
 
 /**
