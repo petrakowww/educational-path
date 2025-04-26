@@ -10,6 +10,9 @@ const client = new ApolloClient({
 			UserModel: {
 				keyFields: ['id'],
 			},
+			RouteModel: {
+				keyFields: ['id'],
+			},
 		},
 	}),
 });

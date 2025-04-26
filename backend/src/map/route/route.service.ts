@@ -2,7 +2,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 
 import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Route } from '@prisma/__generated__';
 
 @Injectable()
@@ -14,7 +14,11 @@ export class RouteService {
             where: { id },
             include: {
                 topicNodes: true,
-                tags: true,
+                tags: {
+                    include: {
+                        tag: true,
+                    },
+                },
             },
         });
     }
@@ -29,6 +33,9 @@ export class RouteService {
                         tag: true,
                     },
                 },
+            },
+            orderBy: {
+                createdAt: 'desc',
             },
         });
     }
@@ -48,9 +55,10 @@ export class RouteService {
                 description: data.description,
                 userId: userExists.id,
                 tags: {
-                    create: data.tagIds?.map(tagId => ({
-                        tag: { connect: { id: tagId } },
-                    })),
+                    create:
+                        data.tagIds?.map(tagId => ({
+                            tag: { connect: { id: tagId } },
+                        })) ?? [],
                 },
             },
         });
@@ -65,15 +73,39 @@ export class RouteService {
             where: { id },
         });
         if (!route || route.userId !== userId) {
-            throw new Error('Вы не являетесь создателем данного маршрута');
+            throw new UnauthorizedException('Вы не являетесь создателем данного маршрута');
         }
 
-        return this.prismaService.route.update({
-            where: { id },
-            data: {
-                ...data,
-                tags: this.connectTags(data.tagIds),
-            },
+        return this.prismaService.$transaction(async tx => {
+            if (data.tagIds) {
+                await tx.routeTag.deleteMany({
+                  where: {
+                    routeId: id,
+                  },
+                });
+              }
+
+            return tx.route.update({
+                where: { id },
+                data: {
+                    title: data.title,
+                    description: data.description,
+                    privateType: data.privateType,
+                    tags: {
+                        create:
+                            data.tagIds?.map(tagId => ({
+                                tag: { connect: { id: tagId } },
+                            })) ?? [],
+                    },
+                },
+                include: {
+                    tags: {
+                        include: {
+                          tag: true,
+                        },
+                      },
+                },
+            });
         });
     }
 
@@ -82,7 +114,7 @@ export class RouteService {
             where: { id },
         });
         if (!route || route.userId !== userId) {
-            throw new Error('Вы не являетесь создателем данного маршрута');
+            throw new UnauthorizedException('Вы не являетесь создателем данного маршрута');
         }
 
         try {
@@ -93,11 +125,5 @@ export class RouteService {
         } catch {
             return false;
         }
-    }
-
-    private connectTags(tagIds?: string[]) {
-        return tagIds
-            ? { connect: tagIds.map(tagId => ({ id: tagId })) }
-            : undefined;
     }
 }

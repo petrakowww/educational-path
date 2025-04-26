@@ -200,7 +200,22 @@ export type CreateRouteMutationVariables = Exact<{
 }>;
 
 
-export type CreateRouteMutation = { __typename?: 'Mutation', createRoute: { __typename?: 'RouteModel', id: string, title: string, description?: string | null, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', name: string } }> | null } };
+export type CreateRouteMutation = { __typename?: 'Mutation', createRoute: { __typename?: 'RouteModel', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null } };
+
+export type DeleteRouteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteRouteMutation = { __typename?: 'Mutation', deleteRoute: boolean };
+
+export type UpdateRouteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  data: UpdateRouteDto;
+}>;
+
+
+export type UpdateRouteMutation = { __typename?: 'Mutation', updateRoute: { __typename?: 'RouteModel', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null, topicNodes?: Array<{ __typename?: 'TopicNodeModel', id: string }> | null } };
 
 export type UpdateProfileMutationVariables = Exact<{
   dto: UserProfileDto;
@@ -219,7 +234,7 @@ export type UpdateSkillProfileMutation = { __typename?: 'Mutation', updateSkillP
 export type FindRoutesByUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindRoutesByUserQuery = { __typename?: 'Query', findRoutesByUser: Array<{ __typename?: 'RouteModel', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', tag: { __typename?: 'TagModel', name: string } }> | null, topicNodes?: Array<{ __typename?: 'TopicNodeModel', id: string }> | null }> };
+export type FindRoutesByUserQuery = { __typename?: 'Query', findRoutesByUser: Array<{ __typename?: 'RouteModel', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null, topicNodes?: Array<{ __typename?: 'TopicNodeModel', id: string }> | null }> };
 
 export type FindAllTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -248,11 +263,13 @@ export const CreateRouteDocument = gql`
     id
     title
     description
+    privateType
     createdAt
     updatedAt
     tags {
       id
       tag {
+        id
         name
       }
     }
@@ -285,6 +302,86 @@ export function useCreateRouteMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateRouteMutationHookResult = ReturnType<typeof useCreateRouteMutation>;
 export type CreateRouteMutationResult = Apollo.MutationResult<CreateRouteMutation>;
 export type CreateRouteMutationOptions = Apollo.BaseMutationOptions<CreateRouteMutation, CreateRouteMutationVariables>;
+export const DeleteRouteDocument = gql`
+    mutation deleteRoute($id: ID!) {
+  deleteRoute(id: $id)
+}
+    `;
+export type DeleteRouteMutationFn = Apollo.MutationFunction<DeleteRouteMutation, DeleteRouteMutationVariables>;
+
+/**
+ * __useDeleteRouteMutation__
+ *
+ * To run a mutation, you first call `useDeleteRouteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRouteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRouteMutation, { data, loading, error }] = useDeleteRouteMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRouteMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRouteMutation, DeleteRouteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRouteMutation, DeleteRouteMutationVariables>(DeleteRouteDocument, options);
+      }
+export type DeleteRouteMutationHookResult = ReturnType<typeof useDeleteRouteMutation>;
+export type DeleteRouteMutationResult = Apollo.MutationResult<DeleteRouteMutation>;
+export type DeleteRouteMutationOptions = Apollo.BaseMutationOptions<DeleteRouteMutation, DeleteRouteMutationVariables>;
+export const UpdateRouteDocument = gql`
+    mutation updateRoute($id: ID!, $data: UpdateRouteDto!) {
+  updateRoute(id: $id, data: $data) {
+    id
+    title
+    description
+    privateType
+    createdAt
+    updatedAt
+    tags {
+      id
+      tag {
+        id
+        name
+      }
+    }
+    topicNodes {
+      id
+    }
+  }
+}
+    `;
+export type UpdateRouteMutationFn = Apollo.MutationFunction<UpdateRouteMutation, UpdateRouteMutationVariables>;
+
+/**
+ * __useUpdateRouteMutation__
+ *
+ * To run a mutation, you first call `useUpdateRouteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRouteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRouteMutation, { data, loading, error }] = useUpdateRouteMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRouteMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRouteMutation, UpdateRouteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRouteMutation, UpdateRouteMutationVariables>(UpdateRouteDocument, options);
+      }
+export type UpdateRouteMutationHookResult = ReturnType<typeof useUpdateRouteMutation>;
+export type UpdateRouteMutationResult = Apollo.MutationResult<UpdateRouteMutation>;
+export type UpdateRouteMutationOptions = Apollo.BaseMutationOptions<UpdateRouteMutation, UpdateRouteMutationVariables>;
 export const UpdateProfileDocument = gql`
     mutation updateProfile($dto: UserProfileDto!) {
   updateUserProfile(dto: $dto) {
@@ -367,7 +464,9 @@ export const FindRoutesByUserDocument = gql`
     createdAt
     updatedAt
     tags {
+      id
       tag {
+        id
         name
       }
     }

@@ -1,5 +1,5 @@
-query findRoutesByUser {
-  findRoutesByUser{
+mutation updateRoute($id: ID!, $data: UpdateRouteDto!) {
+  updateRoute(id: $id, data: $data) {
     id
     title
     description

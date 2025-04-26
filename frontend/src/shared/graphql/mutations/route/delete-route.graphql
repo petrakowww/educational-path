@@ -1,0 +1,3 @@
+mutation deleteRoute($id: ID!) {
+	deleteRoute(id: $id)
+}

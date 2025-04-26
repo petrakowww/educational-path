@@ -1,13 +1,13 @@
 import { Authorization } from '@/auth/decorators/auth.decorator';
 import { CurrentUser } from '@/auth/decorators/user.decorator';
 
+import { FindRouteArgs } from './args/route-args';
 import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
 import { RouteModel } from './model/route.model';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { RouteService } from './route.service';
-import { FindRouteArgs } from './args/route-args';
 
 @Resolver(() => RouteModel)
 export class RouteResolver {
