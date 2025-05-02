@@ -1,22 +1,20 @@
 'use client';
 
 import { useComponentDimensions, useMediaQuery } from '@/shared/lib';
-import {
-	AsideBarConstants,
-	AsideBarWidgetFunctionalTabs,
-	ButtonWidgetSaveRoadmap,
-	ButtonWidgetVisibilityDialog,
-	Board,
-	LinkWidgetViewBoard,
-	TabBarWidgetOpenBoards,
-	AsideBarWidgetComponentEditor,
-	MobileMenuWidget,
-	LinkWidgetToDashboardWidget,
-	AsideBarWidgetComponentCreator,
-} from '@/widgets/editor/components';
+
 import { useRef, useState } from 'react';
 import { ThemeButton } from '@/widgets/ui';
-
+import { AsideBarConstants } from '@/widgets/editor/components/side-bar/side-bar-states';
+import { LinkToControlPanel } from '@/widgets/editor/components/to-control-panel';
+import { TabBar } from '@/widgets/editor/components/tab-bar/ui/tab-bar';
+import { VisibilityDialogMenu } from '@/widgets/editor/components/visibility-menu';
+import { ViewBoard } from '@/widgets/editor/components/view';
+import { SaveRoadmap } from '@/widgets/editor/components/btn-save-board';
+import { MobileMenu } from '@/widgets/editor/components/mobile-menu';
+import { AsideBarFunctionalTabs } from '@/widgets/editor/components/side-bar/side-bar';
+import { AsideBarComponentCreator } from '@/features/node/editor/components/actions/creator/component-creator';
+import { Board } from '@/features/node/editor/components/board';
+import { AsideBarComponentEditor } from '@/features/node/editor/components/aside/aside';
 
 export default function Page() {
 	const sidePartOfEditorRef = useRef<HTMLDivElement | null>(null);
@@ -32,7 +30,7 @@ export default function Page() {
 				ref={sidePartOfEditorRef}
 				className="row-start-1 col-start-1 p-1 border-b border-r justify-center"
 			>
-				<LinkWidgetToDashboardWidget />
+				<LinkToControlPanel />
 			</div>
 
 			{/* HEADER */}
@@ -44,23 +42,23 @@ export default function Page() {
 			>
 				<nav className="flex justify-between items-center py-1 px-1 h-full">
 					<div className="relative flex-1 overflow-hidden">
-						<TabBarWidgetOpenBoards />
+						<TabBar />
 					</div>
 					{isDesktop ? (
 						<div className="flex gap-2 h-full ml-1">
-							<ButtonWidgetVisibilityDialog />
-							<LinkWidgetViewBoard />
-							<ButtonWidgetSaveRoadmap />
+							<VisibilityDialogMenu />
+							<ViewBoard />
+							<SaveRoadmap />
 						</div>
 					) : (
 						<div className="h-full ml-1">
-							<MobileMenuWidget>
+							<MobileMenu>
 								<div className="flex flex-col gap-4">
-									<ButtonWidgetVisibilityDialog />
-									<LinkWidgetViewBoard />
-									<ButtonWidgetSaveRoadmap />
+									<VisibilityDialogMenu />
+									<ViewBoard />
+									<SaveRoadmap />
 								</div>
-							</MobileMenuWidget>
+							</MobileMenu>
 						</div>
 					)}
 				</nav>
@@ -69,7 +67,7 @@ export default function Page() {
 			{/* SIDEBAR */}
 			<aside className="row-start-2 col-start-1 p-1 border-r flex flex-col items-center justify-between">
 				<nav>
-					<AsideBarWidgetFunctionalTabs
+					<AsideBarFunctionalTabs
 						activeTab={activeTab}
 						onTabSelect={setActiveTab}
 					/>
@@ -83,7 +81,7 @@ export default function Page() {
 			<main className="row-start-2 col-start-2">
 				<div className="h-full w-full flex relative">
 					{activeTab === AsideBarConstants.Components && (
-						<AsideBarWidgetComponentCreator />
+						<AsideBarComponentCreator />
 					)}
 					{activeTab === AsideBarConstants.Search && (
 						<p>Content for Tab 2</p>
@@ -95,7 +93,7 @@ export default function Page() {
 						<p>Content for Tab 4</p>
 					)}
 					<Board />
-					<AsideBarWidgetComponentEditor />
+					<AsideBarComponentEditor />
 				</div>
 			</main>
 		</div>

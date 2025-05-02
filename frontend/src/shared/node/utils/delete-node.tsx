@@ -1,10 +1,11 @@
-import { GraphNodeBaseEditor } from '@/shared/lib/node/editor';
 import { Button } from '@/shared/ui';
 import { Trash2Icon } from 'lucide-react';
 import { NodeProps } from 'reactflow';
 import React from 'react';
+import { NodeDeleterFactory } from '@/features/node/editor/utils/delete/node-deleter-factory';
+
 interface DeleteNodeComponentProps {
-	node: NodeProps<unknown>;
+	node: NodeProps;
 	callbackDeleteNode?: () => void;
 }
 
@@ -14,7 +15,8 @@ export const DeleteNodeComponent = (props: DeleteNodeComponentProps) => {
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		callbackDeleteNode?.();
-		GraphNodeBaseEditor.deleteNode(node.id);
+		const deleter = NodeDeleterFactory.createDeleter(node);
+		deleter.delete();
 	};
 	return (
 		<div className="absolute top-0 right-0 ">

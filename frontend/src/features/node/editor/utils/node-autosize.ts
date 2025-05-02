@@ -1,0 +1,21 @@
+import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { Node } from 'reactflow';
+
+export const autoSizeNode = (node: Node) => {
+	const { updateNodeProperties } = useNodeStore.getState();
+	
+	console.log(node);
+	if (!node) return;
+
+	updateNodeProperties({
+		nodeId: node.id,
+		properties: {
+			...node,
+			style: {
+				...node.style,
+				width: '',
+				height: '',
+			},
+		} as Node,
+	});
+};

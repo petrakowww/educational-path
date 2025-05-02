@@ -6,15 +6,13 @@ import { useTabAction } from '../hook/use-tab-action';
 import { cn, useScrollable } from '@/shared/lib';
 import { useRef } from 'react';
 import { Tab } from './tab';
-import { TabContextMenu } from './tab-context-menu';
-import { TabDialogMenu } from './tab-dialog-menu';
-import { TabListScrollableContainer } from './tab-list-scrollable-container';
+import { TabContextMenu } from './context-menu';
+import { TabDialogMenu } from './dialog-menu';
+import { TabListScrollableContainer } from './scrollable-container';
 
 const untitledExample = { id: 'tab1', title: 'Pinned Tab 1', isPinned: true };
 
-// TODO: Проблема со скроллом - не понятно решил или нет, не могу найти причину пропагинации
-
-export const TabBarWidgetOpenBoards = () => {
+export const TabBar = () => {
 	const {
 		isDragging,
 		activeTabId,
