@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { NodeDataShape } from '@/features/node/editor/types/node';
 import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { nodeGetter } from '@/features/node/editor/utils/node-properties';
 
 interface ComponentEditorLabelProps {
 	node: Node<NodeDataShape>;
@@ -14,10 +15,13 @@ export const LabelEditorPart = (props: ComponentEditorLabelProps) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const { isFocusingOnLabel, setFocusingLabel } = useEditorAsideStore();
 
-	const updateNodeProperties = useNodeStore((state) => state.updateNodeProperties, (a, b) => a === b);
+	const updateNodeProperties = useNodeStore(
+		(state) => state.updateNodeProperties,
+		(a, b) => a === b
+	);
 
 	const [label, setLabel] = useState(node.data.labelProps?.label || '');
-	
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = e.target.value;
 		setLabel(newValue);
@@ -36,12 +40,16 @@ export const LabelEditorPart = (props: ComponentEditorLabelProps) => {
 	};
 
 	useEffect(() => {
+		setLabel(nodeGetter.getLabel(node) ?? '');
+	}, [node]);
+
+	useEffect(() => {
 		if (isFocusingOnLabel && inputRef.current) {
 			inputRef.current.focus();
 			inputRef.current.select();
 			setFocusingLabel(false);
 		}
-	}, [isFocusingOnLabel, setFocusingLabel]);
+	}, [isFocusingOnLabel, node, setFocusingLabel]);
 
 	return (
 		<div className="flex flex-col gap-2">

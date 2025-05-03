@@ -32,6 +32,10 @@
 
 		--editor-1: 348 79% 74%;
 
+		--xy-controls-button-background-color: #fefefe;
+		--xy-controls-button-border-color: #eee;
+		--xy-controls-button-background-color-hover: #f4f4f4;
+
 		--shadow-default-left: -4px 0 10px rgba(0, 0, 0, 0.1);
 		--shadow-default-right: 4px 0 10px rgba(0, 0, 0, 0.1);
 		--sidebar-background: 0 0% 100%;

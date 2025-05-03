@@ -14,7 +14,7 @@ import { MobileMenu } from '@/widgets/editor/components/mobile-menu';
 import { AsideBarFunctionalTabs } from '@/widgets/editor/components/side-bar/side-bar';
 import { AsideBarComponentCreator } from '@/features/node/editor/components/actions/creator/component-creator';
 import { Board } from '@/features/node/editor/components/board';
-import { AsideBarComponentEditor } from '@/features/node/editor/components/aside/aside';
+import { AsideBarComponentEditor } from '@/features/node/editor/components/aside/components/aside-menu/aside-path';
 
 export default function Page() {
 	const sidePartOfEditorRef = useRef<HTMLDivElement | null>(null);

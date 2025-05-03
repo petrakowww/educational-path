@@ -1,4 +1,3 @@
-import { cn } from '@/shared/lib';
 import {
 	Tabs,
 	TabsList,
@@ -7,38 +6,38 @@ import {
 	Separator,
 	Button,
 } from '@/shared/ui';
+import { nodeSettingsFactory } from '../../editor-factory';
 import { XIcon } from 'lucide-react';
-import { useCallback } from 'react';
-import { nodeSettingsFactory } from './editor-factory';
-import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
 
-export const AsideBarComponentEditor = () => {
-	const { isOpenMenu, setEditorStatusMenu } = useEditorAsideStore();
-	const selectedNode = useNodeStore(
-		(state) => state.selectedNode,
-		(a, b) => a?.id === b?.id
+interface IAsideBarNodeEditor {
+	handleCloseEditor?: () => void;
+	asideClassName: string;
+}
+
+export const AsideBarNodeEditor = (props: IAsideBarNodeEditor) => {
+	const { handleCloseEditor, asideClassName } = props;
+
+	const { selectedNode, setNode } = useNodeStore(
+		(state) => ({
+			selectedNode: state.selectedNode,
+			setNode: state.setNode,
+		}),
+		(a, b) => a?.selectedNode?.id === b?.selectedNode?.id
 	);
 
-	const handleCloseEditor = useCallback(() => {
-		setEditorStatusMenu(false);
-	}, [setEditorStatusMenu]);
-
-	if (!isOpenMenu || !selectedNode) {
-		return null;
-	}
-
-	const finalClassName = cn(
-		isOpenMenu ? 'block' : 'hidden',
-		'absolute top-0 right-0 h-full shadow-left',
-		'p-4 px-3 bg-background overflow-y-auto'
-	);
+	if (!selectedNode) return null;
 
 	const { General, Content, hasContent, Advanced } =
 		nodeSettingsFactory(selectedNode);
 
+	const handleCloseNodeEditor = () => {
+		setNode(null);
+		handleCloseEditor?.();
+	};
+
 	return (
-		<aside className={finalClassName}>
+		<aside className={asideClassName}>
 			<Tabs defaultValue="general">
 				<TabsList className="grid w-full grid-flow-col gap-x-1 justify-between">
 					<TabsTrigger value="general">Стили</TabsTrigger>
@@ -48,7 +47,7 @@ export const AsideBarComponentEditor = () => {
 					<TabsTrigger value="settings">Настройки</TabsTrigger>
 					<Button
 						className="h-full w-full p-0 m-0 aspect-square"
-						onClick={handleCloseEditor} // Можно спокойно использовать, так как хук всегда вызывается
+						onClick={handleCloseNodeEditor}
 						variant={'outline'}
 					>
 						<XIcon />

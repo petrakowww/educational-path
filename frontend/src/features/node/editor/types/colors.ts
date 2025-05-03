@@ -23,3 +23,7 @@ export enum TextFontColorsEnum {
 	White = '#FFFFFF',
 	Black = '#0c0a09',
 }
+
+export enum PrimaryColors {
+	Primary = '#16a34a',
+}

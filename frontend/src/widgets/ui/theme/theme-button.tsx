@@ -14,7 +14,6 @@ import {
 
 export function ThemeButton() {
 	const { setTheme } = useTheme();
-
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>

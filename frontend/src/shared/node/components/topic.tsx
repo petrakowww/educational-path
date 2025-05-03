@@ -1,47 +1,24 @@
 import { NodeProps } from 'reactflow';
 import { memo } from 'react';
-import { ResizeNodeComponent } from '../utils/resize-node';
-import { DeleteNodeComponent } from '../utils/delete-node';
-import { useRef } from 'react';
-import { IsSelectedNode } from '../utils/is-selected-node';
-import clsx from 'clsx';
+
 import {
 	NodeDataShapeSubTopic,
 	NodeDataShapeTopic,
-	NodeType,
 } from '@/features/node/editor/types/node';
-import { BackgroundColorsEnum } from '@/features/node/editor/types/colors';
+import { SkeletonNode } from './base/skeleton-node';
+import { EditableNode } from './base/editable-node';
 
 export const TopicNode = (
 	props: NodeProps<NodeDataShapeTopic | NodeDataShapeSubTopic>
 ) => {
-	const { data, type } = props;
-
-	const containerRef = useRef<HTMLDivElement>(null);
-
-	const isTopicNode = () => {
-		return type === NodeType.topic;
-	};
-
-	const focusClassName = IsSelectedNode(props);
-
-	const finalClassName = clsx(
-		'relative group h-full w-full bg-background flex items-center justify-center border-[2px] rounded-md',
-		focusClassName
-	);
+	const { data } = props;
 
 	return (
-		<article
-			className={finalClassName}
-			style={{
-				backgroundColor:
-					data.blockProps?.backgroundColor ??
-					(isTopicNode()
-						? BackgroundColorsEnum.Primary
-						: BackgroundColorsEnum.Highlight),
-			}}
+		<SkeletonNode
+			nodeProps={props}
+			style={{ backgroundColor: data.blockProps?.backgroundColor ?? '' }}
 		>
-			<div ref={containerRef}>
+			<EditableNode nodeProps={props}>
 				<p
 					className="leading-none whitespace-pre-wrap text-center p-3 flex-shrink-0 text-nowrap"
 					style={{
@@ -50,12 +27,20 @@ export const TopicNode = (
 				>
 					{data.labelProps?.label}
 				</p>
-				<ResizeNodeComponent ref={containerRef} />
-			</div>
-
-			<DeleteNodeComponent node={props} />
-		</article>
+			</EditableNode>
+		</SkeletonNode>
 	);
 };
 
-export const TopicNodeMemo = memo(TopicNode);
+export const TopicNodeMemo = memo(TopicNode, (prev, next) => {
+	const prevData = prev.data;
+	const nextData = next.data;
+
+	return (
+		prevData.labelProps?.label === nextData.labelProps?.label &&
+		prevData.fontProps?.fontSize === nextData.fontProps?.fontSize &&
+		prevData.blockProps?.backgroundColor ===
+			nextData.blockProps?.backgroundColor
+	);
+});
+

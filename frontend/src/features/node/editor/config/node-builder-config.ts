@@ -15,6 +15,7 @@ import {
 	NodeDataShapeLinks,
 	NodeDataShapeButton,
 } from '../types/node';
+import { BackgroundColorsEnum } from '../types/colors';
 
 export type NodeBuilderConfig = DeepRequired<Required<NodeDataShape>>;
 
@@ -90,12 +91,20 @@ export const nodeBuilderConfigTopic: NodeBuilderConfigTopic = {
 	topicProps: {
 		topicContent: null,
 	},
+	blockProps: {
+		...nodeBuilderConfig.blockProps,
+		backgroundColor: BackgroundColorsEnum.Primary,
+	}
 };
 
 export type NodeBuilderConfigSubTopic = NodeBuilderConfigTopic;
 
 export const nodeBuilderConfigSubTopic: NodeBuilderConfigSubTopic = {
 	...nodeBuilderConfigTopic,
+	blockProps: {
+		...nodeBuilderConfig.blockProps,
+		backgroundColor: BackgroundColorsEnum.Highlight,
+	}
 };
 
 export type NodeBuilderConfigButton = DeepRequired<
