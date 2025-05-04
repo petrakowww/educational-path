@@ -67,7 +67,7 @@ const extensions = [
 export const TiptapEditor = () => {
 	const editor = useEditor({
 		extensions: extensions as Extension[],
-        immediatelyRender: false,
+		immediatelyRender: false,
 	});
 
 	if (!editor) {
@@ -77,21 +77,52 @@ export const TiptapEditor = () => {
 		<div className="border relative rounded-md overflow-hidden pb-3">
 			<div className="flex w-full items-center py-2 px-2 justify-between border-b  sticky top-0 left-0 bg-background">
 				<ToolbarProvider editor={editor}>
-					<div className="flex items-center gap-2">
-						<UndoToolbar />
-						<RedoToolbar />
-						<Separator orientation="vertical" className="h-7" />
-						<BoldToolbar />
-						<ItalicToolbar />
-						<LinkToolbar />
-						<UnderlineToolbar />
-						<BulletListToolbar />
-						<OrderedListToolbar />
-						<AlignmentTooolbar />
-						<ImagePlaceholderToolbar />
-						<ColorHighlightToolbar />
+					<div>
+						<div className="flex items-center gap-2">
+							<div className="flex gap-2 items-center">
+								<UndoToolbar />
+								<RedoToolbar />
+								<Separator
+									orientation="vertical"
+									className="h-7"
+								/>
+							</div>
+							<div className="flex gap-2 items-center">
+								<BoldToolbar />
+								<ItalicToolbar />
+								<UnderlineToolbar />
+								<Separator
+									orientation="vertical"
+									className="h-7"
+								/>
+							</div>
+							<div className="flex gap-2 items-center">
+								<OrderedListToolbar />
+								<BulletListToolbar />
+								<Separator
+									orientation="vertical"
+									className="h-7"
+								/>
+							</div>
+							<div className='mx-auto'>
+								<ImagePlaceholderToolbar />
+							</div>
+							<div className="ml-auto flex items-center gap-2">
+								<Separator
+									orientation="vertical"
+									className="h-7"
+								/>
+								<LinkToolbar />
+							</div>
+						</div>
+						<div className="flex items-center gap-2">
+							<AlignmentTooolbar />
+							<SearchAndReplaceToolbar />
+                            <div className='ml-auto'>
+                                <ColorHighlightToolbar />
+                            </div>
+						</div>
 					</div>
-					<SearchAndReplaceToolbar />
 				</ToolbarProvider>
 			</div>
 			<div
@@ -100,7 +131,10 @@ export const TiptapEditor = () => {
 				}}
 				className="cursor-text min-h-[18rem] bg-background"
 			>
-				<EditorContent className="outline-none" editor={editor} />
+				<EditorContent
+					className="outline-none w-full max-w-[400px] mx-auto overflow-auto"
+					editor={editor}
+				/>
 			</div>
 		</div>
 	);

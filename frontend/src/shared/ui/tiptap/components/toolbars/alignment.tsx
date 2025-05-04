@@ -53,7 +53,7 @@ export const AlignmentTooolbar = () => {
 
 	const alignmentOptions = [
 		{
-			name: "По левому краю",
+			name: "По левому",
 			value: "left",
 			icon: <AlignLeft className="h-4 w-4" />,
 		},
@@ -63,7 +63,7 @@ export const AlignmentTooolbar = () => {
 			icon: <AlignCenter className="h-4 w-4" />,
 		},
 		{
-			name: "По правому краю",
+			name: "По правому",
 			value: "right",
 			icon: <AlignRight className="h-4 w-4" />,
 		},

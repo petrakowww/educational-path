@@ -1,7 +1,7 @@
 "use client";
 
 import { PopoverClose } from "@radix-ui/react-popover";
-import { Trash2, X } from "lucide-react";
+import { LinkIcon, Trash2, X } from "lucide-react";
 
 import React, { type FormEvent } from "react";
 
@@ -63,10 +63,7 @@ const LinkToolbar = React.forwardRef<HTMLButtonElement, ButtonProps>(
 				  ref={ref}
 				  {...props}
 				>
-				  <p className="mr-2 text-base">↗</p>
-				  <p className={"underline decoration-gray-7 underline-offset-4"}>
-					Ссылка
-				  </p>
+				  <LinkIcon/>
 				</Button>
 			  </PopoverTrigger>
 			</TooltipTrigger>
