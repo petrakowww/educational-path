@@ -51,7 +51,7 @@ const cards = [
 
 export const RouteStatsCard = (props: IRouteStatsCard) => {
 	return (
-		<Card className="w-full container">
+		<Card className="w-full">
 			<CardHeader>
 				<CardTitle>Статистика маршрутов</CardTitle>
 			</CardHeader>

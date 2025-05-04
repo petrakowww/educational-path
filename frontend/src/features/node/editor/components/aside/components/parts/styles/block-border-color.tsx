@@ -18,20 +18,14 @@ export const CommandComponentBlockBorderColor = ({
 	const handleBorderColorChange = (color: string) => {
 		if (!isHexColor(color)) return;
 
-		const command = new WithBorderColorCommand(
-			editedNode.id,
-			color,
-		);
+		const command = new WithBorderColorCommand(editedNode.id, color);
 
 		command.execute();
 		setBorderColor(color);
 	};
 
 	const handleResetBorderColor = () => {
-		const command = new WithBorderColorCommand(
-			editedNode.id,
-			null,
-		);
+		const command = new WithBorderColorCommand(editedNode.id, null);
 
 		command.execute();
 		setBorderColor(null);

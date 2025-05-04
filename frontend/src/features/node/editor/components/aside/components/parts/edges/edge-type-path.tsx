@@ -14,8 +14,8 @@ export const EdgePathTypeSelector = (props: IEdgePathTypeProps) => {
 	const { editedEdge } = props;
 	const { updateEdgeProperties } = useEdgeStore();
 
-	const [currentPath, setCurrentPath] = useState<TPath>(
-		editedEdge.data?.pathType ?? 'smoothstep'
+	const [currentPath, setCurrentPath] = useState<TPath | null>(
+		editedEdge.data?.pathType ?? null
 	);
 
 	const handleClick = (value: TPath) => {
@@ -27,7 +27,7 @@ export const EdgePathTypeSelector = (props: IEdgePathTypeProps) => {
 	};
 
 	useEffect(() => {
-		setCurrentPath(editedEdge.data?.pathType ?? 'smoothstep');
+		setCurrentPath(editedEdge.data?.pathType ?? null);
 	}, []);
 
 	return (

@@ -13,28 +13,32 @@ interface ICommandComponentFontSize {
 	maxValue: number;
 }
 
-export const CommandComponentFontSize =({ editedNode, minValue, maxValue }: ICommandComponentFontSize) => {
-	const [fontSize, setFontSize] = useState<number | null>(TextFontSizeEnum.XL);
+export const CommandComponentFontSize = ({
+	editedNode,
+	minValue,
+	maxValue,
+}: ICommandComponentFontSize) => {
+	const [fontSize, setFontSize] = useState<number | null>(
+		TextFontSizeEnum.XL
+	);
 
 	const handleFontSizeChange = (value: string) => {
 		if (!value) {
-			const command = new WithFontSizeCommand(
-				editedNode.id,
-				0,
-			);
+			const command = new WithFontSizeCommand(editedNode.id, 0);
 			command.execute();
 			setFontSize(null);
 			return;
 		}
 
 		const numericValue = Number(value);
-		if (isNaN(numericValue) || numericValue < minValue || numericValue > maxValue)
+		if (
+			isNaN(numericValue) ||
+			numericValue < minValue ||
+			numericValue > maxValue
+		)
 			return;
 
-		const command = new WithFontSizeCommand(
-			editedNode.id,
-			numericValue,
-		);
+		const command = new WithFontSizeCommand(editedNode.id, numericValue);
 		command.execute();
 		setFontSize(numericValue);
 	};
@@ -71,7 +75,9 @@ export const CommandComponentFontSize =({ editedNode, minValue, maxValue }: ICom
 							type="number"
 							id="fontsize-buttons"
 							placeholder="р."
-							onChange={(e) => handleFontSizeChange(e.target.value)}
+							onChange={(e) =>
+								handleFontSizeChange(e.target.value)
+							}
 							value={fontSize ?? ''}
 						/>
 					</div>

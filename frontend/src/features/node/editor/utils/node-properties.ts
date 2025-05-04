@@ -5,7 +5,7 @@ import {
 	nodeBuilderConfigToDo,
 	nodeBuilderConfigTopic,
 	nodeBuilderConfigLinks,
-    nodeBuilderConfigButton,
+	nodeBuilderConfigButton,
 } from '../config/node-builder-config';
 import { NodeData } from '../types/node';
 
@@ -164,7 +164,7 @@ export class AllNodeProperties<T> extends NodeProperties<T> {
 		);
 	}
 
-    getBaseUrl(editedNode: Node<T>) {
+	getBaseUrl(editedNode: Node<T>) {
 		return this.get(
 			editedNode,
 			'buttonProps.url',
@@ -172,7 +172,7 @@ export class AllNodeProperties<T> extends NodeProperties<T> {
 		);
 	}
 
-    getPadding(editedNode: Node<T>) {
+	getPadding(editedNode: Node<T>) {
 		return this.get(
 			editedNode,
 			'blockProps.padding',

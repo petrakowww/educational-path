@@ -8,6 +8,7 @@ import {
 
 import { EdgePosition, TPath, IEdgeData } from '../types/edge-data';
 import { InfoIcon } from 'lucide-react';
+import { useEdgeStore } from '@/shared/managers/store/edge.store';
 
 const pathStrategies: Record<
 	TPath,
@@ -36,11 +37,19 @@ interface CustomEdgeProps<T = unknown> extends EdgeProps {
 }
 
 export const CustomEdge = (props: CustomEdgeProps) => {
-	const { data = {
-		strokeStyle: 'solid',
-		pathType: 'bezier',
-		color: null,
-	}, markerEnd, sourceX, sourceY, targetX, targetY } = props;
+	const {
+		id,
+		data = {
+			strokeStyle: 'solid',
+			pathType: 'bezier',
+			color: null,
+		},
+		markerEnd,
+		sourceX,
+		sourceY,
+		targetX,
+		targetY,
+	} = props;
 
 	const { strokeStyle = 'solid', color, pathType = 'bezier' } = data;
 
@@ -55,6 +64,13 @@ export const CustomEdge = (props: CustomEdgeProps) => {
 		transform: `translate(-50%, -50%) translate(${(sourceX + targetX) / 2}px, ${(sourceY + targetY) / 2}px)`,
 	};
 
+	const { selectedEdge } = useEdgeStore(
+		(state) => ({ selectedEdge: state.selectedEdge }),
+		(a, b) => a?.selectedEdge?.id === b?.selectedEdge?.id
+	);
+
+	const isSelected = selectedEdge?.id === id;
+
 	return (
 		<>
 			<path
@@ -67,17 +83,19 @@ export const CustomEdge = (props: CustomEdgeProps) => {
 					strokeWidth: 2,
 					pointerEvents: 'all',
 				}}
-				className='stroke-primary'
+				className="stroke-primary"
 			/>
 			<EdgeLabelRenderer>
 				<button
-					className="absolute border rounded bg-background aspect-square px-0.5"
+					className={`absolute border rounded bg-background aspect-square px-0.5 ${
+						isSelected ? 'bg-primary' : ''
+					}`}
 					style={{
 						...labelPosition,
 						pointerEvents: 'all',
 					}}
 				>
-					<InfoIcon size={15} />
+					<InfoIcon size={15}/>
 				</button>
 			</EdgeLabelRenderer>
 		</>

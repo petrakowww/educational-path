@@ -17,7 +17,9 @@ interface ICommandComponentButtonUrlProps {
 	editedNode: Node<NodeDataShapeButton>;
 }
 
-export const CommandComponentButtonUrl = ({ editedNode }: ICommandComponentButtonUrlProps) => {
+export const CommandComponentButtonUrl = ({
+	editedNode,
+}: ICommandComponentButtonUrlProps) => {
 	const [buttonUrl, setButtonUrl] = useState<string | null>(null);
 
 	const handleButtonUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {

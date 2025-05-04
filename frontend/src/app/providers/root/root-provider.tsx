@@ -1,5 +1,3 @@
-'use client';
-
 import { inter } from '@/shared/assets';
 
 interface RootLayoutProps {

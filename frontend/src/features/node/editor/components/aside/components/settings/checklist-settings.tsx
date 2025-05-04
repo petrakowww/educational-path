@@ -3,9 +3,9 @@ import { BaseSettings } from './base-settings';
 import { Node } from 'reactflow';
 
 interface IChecklistNodeSettings {
-    node: Node<NodeDataShapeButton>;
+	node: Node<NodeDataShapeButton>;
 }
 
 export const ChecklistNodeSettings = ({ node }: IChecklistNodeSettings) => {
-    return <BaseSettings node={node} />;
+	return <BaseSettings node={node} />;
 };

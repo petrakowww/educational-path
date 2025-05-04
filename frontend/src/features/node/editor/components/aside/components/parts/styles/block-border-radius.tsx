@@ -17,10 +17,7 @@ export const CommandComponentBlockBorderRadius = ({
 	const [borderRadius, setBorderRadius] = useState<number>(0);
 
 	const handleBorderRadiusChange = (value: number) => {
-		const command = new WithBorderRadiusCommand(
-			editedNode.id,
-			value,
-		);
+		const command = new WithBorderRadiusCommand(editedNode.id, value);
 
 		command.execute();
 		setBorderRadius(value);

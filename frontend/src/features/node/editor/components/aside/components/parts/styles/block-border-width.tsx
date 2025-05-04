@@ -28,15 +28,14 @@ export const CommandComponentBlockBorderWidth = ({
 
 		if (
 			parsedValue !== null &&
-			(isNaN(parsedValue) || parsedValue < minValue || parsedValue > maxValue)
+			(isNaN(parsedValue) ||
+				parsedValue < minValue ||
+				parsedValue > maxValue)
 		) {
 			return;
 		}
 
-		const command = new WithBorderWidthCommand(
-			editedNode.id,
-			parsedValue,
-		);
+		const command = new WithBorderWidthCommand(editedNode.id, parsedValue);
 
 		command.execute();
 		setBorderWidth(parsedValue);

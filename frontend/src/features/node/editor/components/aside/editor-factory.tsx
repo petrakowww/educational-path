@@ -12,7 +12,8 @@ import { TitleNodeSettings } from './components/settings/title-settings';
 import { ToDoNodeSettings } from './components/settings/todo-settings';
 import { TopicNodeSettings } from './components/settings/topic-settings';
 import { BaseAdvancedSettings } from './components/settings/advanced-settings';
-import { ComponentChangeTopicType } from './components/parts/unique/change-type';
+import { ComponentChangeTopicType } from './components/parts/unique/topic/parts/change-type';
+import { TopicAdvanced } from './components/parts/unique/topic/topic-content';
 
 type SettingsComponent = React.FC<{ node: Node }>;
 
@@ -54,7 +55,7 @@ export const nodeSettingsMap: NodeSettingsMap = {
 	},
 	TOPIC: {
 		General: TopicNodeSettings,
-		Content: ComponentChangeTopicType,
+		Content: TopicAdvanced,
 		Advanced: BaseAdvancedSettings,
 	},
 	SUBTOPIC: {

@@ -75,7 +75,7 @@ export const CommandComponentEdgeLine = ({
                         bg-transparent cursor-pointer text-[0px] 
                         [&::-webkit-color-swatch-wrapper]:p-0
                         [&::-webkit-color-swatch]:border-none"
-					value={edgeColor || '#16a34a'}
+					value={edgeColor || PrimaryColors.Primary}
 					onChange={(e) => handleBorderColorChange(e.target.value)}
 				/>
 			</div>

@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { useDragAndDropStore } from '@/shared/managers/store/dnd.store';
 
 export const AsideBarComponentCreator = () => {
-	const { setNodeType } = useDragAndDropStore();
+	const setNodeType = useDragAndDropStore((state) => state.setNodeType);
 
 	const onDragStart = useCallback(
 		(event: React.DragEvent, nodeType: NodeType) => {
@@ -18,7 +18,7 @@ export const AsideBarComponentCreator = () => {
 		<aside className="absolute z-10 bg-background top-0 left-0 h-full shadow-right p-2 px-3 flex flex-col gap-2">
 			<span className="text-foreground/60 text-[0.775rem]">
 				КОМПОНЕНТЫ{' '}
-				<span className="text-[0.675rem]">(Зажми & Перетащи)</span>
+				<span className="text-[0.675rem]">(Зажми & Drop)</span>
 			</span>
 			{nodeLabelsForCreation.map(({ title, type, IconNode }) => (
 				<div

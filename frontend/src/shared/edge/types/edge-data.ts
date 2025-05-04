@@ -1,4 +1,4 @@
-type TStrokeStyle = 'solid' | 'dashed';
+export type TStrokeStyle = 'solid' | 'dashed';
 export type TPath = 'bezier' | 'smoothstep' | 'straight';
 
 export interface IEdgeData<T = unknown> {

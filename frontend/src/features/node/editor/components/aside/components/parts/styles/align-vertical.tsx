@@ -25,7 +25,7 @@ export const CommandComponentJustify = ({
 
 		const command = new WithJustificationCommand(
 			editedNode.id,
-			alignmentVerticalType,
+			alignmentVerticalType
 		);
 
 		command.execute();
@@ -45,24 +45,20 @@ export const CommandComponentJustify = ({
 			</Label>
 			{editedNode && (
 				<div className="flex gap-2" id="fontVerticalAlignment-buttons">
-					{VerticalTextAlignmentOptions.map(
-						({ Icon, value }) => (
-							<Button
-								key={value}
-								className="min-w-6 h-6 p-1 m-0"
-								variant={
-									textJustify === value
-										? 'default'
-										: 'outline'
-								}
-								onClick={() =>
-									handleTextVerticalAlignmentChange(value)
-								}
-							>
-								{Icon && <Icon />}
-							</Button>
-						)
-					)}
+					{VerticalTextAlignmentOptions.map(({ Icon, value }) => (
+						<Button
+							key={value}
+							className="min-w-6 h-6 p-1 m-0"
+							variant={
+								textJustify === value ? 'default' : 'outline'
+							}
+							onClick={() =>
+								handleTextVerticalAlignmentChange(value)
+							}
+						>
+							{Icon && <Icon />}
+						</Button>
+					))}
 				</div>
 			)}
 		</div>

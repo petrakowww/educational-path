@@ -3,7 +3,7 @@ import { Node } from 'reactflow';
 
 export const autoSizeNode = (node: Node) => {
 	const { updateNodeProperties } = useNodeStore.getState();
-	
+
 	console.log(node);
 	if (!node) return;
 

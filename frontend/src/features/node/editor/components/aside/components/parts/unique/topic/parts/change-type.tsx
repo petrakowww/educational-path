@@ -29,10 +29,7 @@ export const ComponentChangeTopicType = ({
 	return (
 		<div className="flex gap-2 flex-col">
 			<Label className="text-foreground/80">Изменить тип топика</Label>
-			<Select
-				onValueChange={handleChange}
-				value={currentType}
-			>
+			<Select onValueChange={handleChange} value={currentType}>
 				<SelectTrigger>
 					<SelectValue placeholder="Изменить тип" />
 				</SelectTrigger>

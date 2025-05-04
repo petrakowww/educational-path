@@ -1,0 +1,107 @@
+'use client';
+
+import { Separator } from '@/shared/ui';
+import { Color } from '@tiptap/extension-color';
+import Highlight from '@tiptap/extension-highlight';
+import Link from '@tiptap/extension-link';
+import Subscript from '@tiptap/extension-subscript';
+import Superscript from '@tiptap/extension-superscript';
+import TextAlign from '@tiptap/extension-text-align';
+import TextStyle from '@tiptap/extension-text-style';
+import Underline from '@tiptap/extension-underline';
+import { EditorContent, type Extension, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { ImagePlaceholder } from './extensions/image-placeholder';
+import SearchAndReplace from './extensions/search-and-replace';
+import { ToolbarProvider } from './providers/toolbar-provider';
+import { AlignmentTooolbar } from './toolbars/alignment';
+import { BoldToolbar } from './toolbars/bold';
+import { BulletListToolbar } from './toolbars/bullet-list';
+import { ColorHighlightToolbar } from './toolbars/color-and-highlight';
+import { ImagePlaceholderToolbar } from './toolbars/image-placeholder-toolbar';
+import { ItalicToolbar } from './toolbars/italic';
+import { LinkToolbar } from './toolbars/link';
+import { OrderedListToolbar } from './toolbars/ordered-list';
+import { RedoToolbar } from './toolbars/redo';
+import { SearchAndReplaceToolbar } from './toolbars/search-and-replace-toolbar';
+import { UnderlineToolbar } from './toolbars/underline';
+import { UndoToolbar } from './toolbars/undo';
+import { ImageExtension } from './extensions/image';
+
+const extensions = [
+	StarterKit.configure({
+		orderedList: {
+			HTMLAttributes: {
+				class: 'list-decimal',
+			},
+		},
+		bulletList: {
+			HTMLAttributes: {
+				class: 'list-disc',
+			},
+		},
+		heading: {
+			levels: [1, 2, 3, 4],
+			HTMLAttributes: {
+				class: 'tiptap-heading',
+			},
+		},
+	}),
+	TextAlign.configure({
+		types: ['heading', 'paragraph'],
+	}),
+	TextStyle,
+	Subscript,
+	Superscript,
+	Underline,
+	Link,
+	Color,
+	Highlight.configure({
+		multicolor: true,
+	}),
+	ImageExtension,
+	ImagePlaceholder,
+	SearchAndReplace,
+];
+
+export const TiptapEditor = () => {
+	const editor = useEditor({
+		extensions: extensions as Extension[],
+        immediatelyRender: false,
+	});
+
+	if (!editor) {
+		return null;
+	}
+	return (
+		<div className="border relative rounded-md overflow-hidden pb-3">
+			<div className="flex w-full items-center py-2 px-2 justify-between border-b  sticky top-0 left-0 bg-background">
+				<ToolbarProvider editor={editor}>
+					<div className="flex items-center gap-2">
+						<UndoToolbar />
+						<RedoToolbar />
+						<Separator orientation="vertical" className="h-7" />
+						<BoldToolbar />
+						<ItalicToolbar />
+						<LinkToolbar />
+						<UnderlineToolbar />
+						<BulletListToolbar />
+						<OrderedListToolbar />
+						<AlignmentTooolbar />
+						<ImagePlaceholderToolbar />
+						<ColorHighlightToolbar />
+					</div>
+					<SearchAndReplaceToolbar />
+				</ToolbarProvider>
+			</div>
+			<div
+				onClick={() => {
+					editor?.chain().focus().run();
+				}}
+				className="cursor-text min-h-[18rem] bg-background"
+			>
+				<EditorContent className="outline-none" editor={editor} />
+			</div>
+		</div>
+	);
+};

@@ -7,7 +7,9 @@ interface IComponentAutoSizeNode {
 	editedNode: Node;
 }
 
-export const ComponentAutoSizeNode = ({editedNode} : IComponentAutoSizeNode) => {
+export const ComponentAutoSizeNode = ({
+	editedNode,
+}: IComponentAutoSizeNode) => {
 	return (
 		<Button variant={'outline'} onClick={() => autoSizeNode(editedNode)}>
 			<MoveHorizontalIcon />

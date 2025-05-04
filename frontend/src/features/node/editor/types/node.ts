@@ -84,7 +84,7 @@ export interface NodeDataShapeLegend extends NodeDataShapeExtended {
 }
 
 export interface NodeDataShapeChecklist extends NodeDataShapeExtended {
-    checklistProps: {
+	checklistProps: {
 		todos: ToDos;
 	};
 }
@@ -106,7 +106,7 @@ export type NodeDataShapes = [
 	NodeDataShapeLegend,
 	NodeDataShapeSubTopic,
 	NodeDataShapeButton,
-    NodeDataShapeChecklist,
+	NodeDataShapeChecklist,
 ];
 
 export type NodeData = Node<DeepPartial<NodeDataShapes[number]>>;

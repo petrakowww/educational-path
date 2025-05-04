@@ -63,7 +63,7 @@ export const useNodeStore = createWithEqualityFn<NodeState>(
 
 			const updated: NodeData = {
 				...existing,
-        ...properties,
+				...properties,
 				style: merge({}, existing.style, properties.style),
 				data: merge({}, existing.data, properties.data),
 			};

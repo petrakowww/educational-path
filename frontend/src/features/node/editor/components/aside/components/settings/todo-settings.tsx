@@ -3,9 +3,9 @@ import { BaseSettings } from './base-settings';
 import { Node } from 'reactflow';
 
 interface IToDoNodeSettings {
-    node: Node<NodeDataShapeButton>;
+	node: Node<NodeDataShapeButton>;
 }
 
 export const ToDoNodeSettings = ({ node }: IToDoNodeSettings) => {
-    return <BaseSettings nodeHasLabel={true} node={node} />;
+	return <BaseSettings nodeHasLabel={true} node={node} />;
 };

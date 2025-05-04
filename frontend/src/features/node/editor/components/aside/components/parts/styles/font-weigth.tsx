@@ -11,14 +11,15 @@ interface ICommandComponentFontWeight {
 	editedNode: Node<NodeDataShape>;
 }
 
-export const CommandComponentFontWeight = ({ editedNode }: ICommandComponentFontWeight) => {
-	const [fontWeight, setFontWeight] = useState<number>(TextFontWeightEnum.Regular);
+export const CommandComponentFontWeight = ({
+	editedNode,
+}: ICommandComponentFontWeight) => {
+	const [fontWeight, setFontWeight] = useState<number>(
+		TextFontWeightEnum.Regular
+	);
 
 	const handleFontWeightChange = (weight: number) => {
-		const command = new WithFontWeightCommand(
-			editedNode.id,
-			weight,
-		);
+		const command = new WithFontWeightCommand(editedNode.id, weight);
 		command.execute();
 		setFontWeight(weight);
 	};

@@ -153,24 +153,25 @@ enum PrivateType {
   PRIVATE
 }
 
-model TopicNode {
-  id      String  @id @default(uuid())
-  title   String
-  content String?
-
-  route   Route  @relation(fields: [routeId], references: [id], onDelete: Cascade)
+model TopicMap {
+  id     String  @id @default(uuid())
+  route  Route   @relation(fields: [routeId], references: [id], onDelete: Cascade)
   routeId String @map("route_id")
 
-  incomingEdges TopicEdge[] @relation("ToTopic")
-  outgoingEdges TopicEdge[] @relation("FromTopic")
+  nodeData Json @map("node_data")
+  edgeData Json @map("edge_data")
+
+  contents TopicContent[]
 }
 
-model TopicEdge {
-  id String @id @default(uuid())
+model TopicContent {
+  id        String   @id @default(uuid())
+  nodeId    String   @map("node_id")
+  routeId   String   @map("route_id")
 
-  fromId String @map("from_id")
-  toId   String @map("to_id")
+  content   String?
+  updatedAt DateTime @updatedAt
 
-  from TopicNode @relation("FromTopic", fields: [fromId], references: [id])
-  to   TopicNode @relation("ToTopic", fields: [toId], references: [id])
+  topicMap TopicMap @relation(fields: [routeId], references: [routeId], onDelete: Cascade)
+  @@unique([nodeId, routeId])
 }

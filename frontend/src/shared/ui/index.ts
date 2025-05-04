@@ -49,3 +49,9 @@ export * from './textarea/textarea';
 export * from './badge/badge';
 
 export * from './command/command';
+
+export * from './popover/popover';
+
+export * from './scroll-area/scroll-area';
+
+export * from './checkbox/checkbox';

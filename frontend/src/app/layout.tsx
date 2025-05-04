@@ -9,6 +9,7 @@ import { TanstackProvider } from './providers/tanstack/tanstack-provider';
 import { ToastProvider } from './providers/toast/toast-provider';
 import { AuthProvider } from './providers/auth/auth-provider';
 import { ApolloClientProvider } from './providers/apollo/apollo-provider';
+import { TooltipProvider } from '@/shared/ui';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -16,7 +17,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 			<TanstackProvider>
 				<ApolloClientProvider>
 					<AuthProvider>
-						<ThemeProviderApp>{children}</ThemeProviderApp>
+						<ThemeProviderApp>
+							<TooltipProvider>{children}</TooltipProvider>
+						</ThemeProviderApp>
 					</AuthProvider>
 				</ApolloClientProvider>
 			</TanstackProvider>

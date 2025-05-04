@@ -1,17 +1,6 @@
 import { useEdgeStore } from '@/shared/managers/store/edge.store';
 import { XIcon } from 'lucide-react';
-import { TPath } from '@/shared/edge/types/edge-data';
-import {
-	Button,
-	Input,
-	Label,
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectItem,
-	Separator,
-} from '@/shared/ui';
+import { Button, Separator } from '@/shared/ui';
 import { CommandComponentEdgeLine } from '../parts/edges/edge-color-line';
 import { EdgePathTypeSelector } from '../parts/edges/edge-type-path';
 import { EdgeStrokeStyleSelector } from '../parts/edges/edge-line-style';
@@ -30,7 +19,9 @@ export const AsideBarEdgeEditor = (props: IAsideBarEdgeEditor) => {
 			updateEdgeProperties: state.updateEdgeProperties,
 			clearSelectedEdge: state.clearSelectedEdge,
 		}),
-		(a, b) => a.selectedEdge?.id === b.selectedEdge?.id
+		(a, b) =>
+			a.selectedEdge?.id === b.selectedEdge?.id &&
+			a.selectedEdge?.markerEnd === b.selectedEdge?.markerEnd
 	);
 
 	if (!selectedEdge) {

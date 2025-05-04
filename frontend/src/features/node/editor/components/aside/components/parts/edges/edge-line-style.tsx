@@ -3,7 +3,7 @@ import { Button, Label } from '@/shared/ui';
 import { useEdgeStore } from '@/shared/managers/store/edge.store';
 import { cn } from '@/shared/lib';
 import { Edge } from 'reactflow';
-import { IEdgeData } from '@/shared/edge/types/edge-data';
+import { IEdgeData, TStrokeStyle } from '@/shared/edge/types/edge-data';
 import { EllipsisIcon, MinusIcon } from 'lucide-react';
 
 interface IEdgeStrokeStyleSelectorProps {
@@ -14,15 +14,15 @@ export const EdgeStrokeStyleSelector = ({
 	editedEdge,
 }: IEdgeStrokeStyleSelectorProps) => {
 	const { updateEdgeProperties } = useEdgeStore();
-	const [strokeStyle, setStrokeStyle] = useState<'solid' | 'dashed'>(
-		editedEdge.data?.strokeStyle ?? 'solid'
+	const [strokeStyle, setStrokeStyle] = useState<TStrokeStyle | null>(
+		editedEdge.data?.strokeStyle ?? null
 	);
 
 	useEffect(() => {
-		setStrokeStyle(editedEdge.data?.strokeStyle ?? 'solid');
+		setStrokeStyle(editedEdge.data?.strokeStyle ?? null);
 	}, [editedEdge]);
 
-	const handleClick = (value: 'solid' | 'dashed') => {
+	const handleClick = (value: TStrokeStyle) => {
 		setStrokeStyle(value);
 		updateEdgeProperties({
 			edgeId: editedEdge.id,

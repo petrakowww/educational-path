@@ -5,8 +5,16 @@ import { AsideBarNodeEditor } from './aside-node';
 import { AsideBarEdgeEditor } from './aside-edge';
 
 export const AsideBarComponentEditor = () => {
-	const { isOpenMenu, selectedEditorType, closeEditor } =
-		useEditorAsideStore();
+	const { isOpenMenu, selectedEditorType, closeEditor } = useEditorAsideStore(
+		(state) => ({
+			isOpenMenu: state.isOpenMenu,
+			selectedEditorType: state.selectedEditorType,
+			closeEditor: state.closeEditor,
+		}),
+		(a, b) =>
+			a.isOpenMenu === b.isOpenMenu &&
+			a.selectedEditorType === b.selectedEditorType
+	);
 
 	const handleCloseEditor = useCallback(() => {
 		closeEditor();

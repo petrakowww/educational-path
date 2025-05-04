@@ -1,5 +1,3 @@
-'use client';
-
 import {
 	createContext,
 	useState,
@@ -71,12 +69,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		[isAuthenticated, logout]
 	);
 
+	const { authorization } = useAuthorizationMutation();
+
+	const refresh = useCallback(() => {
+		authorization();
+	}, [authorization]);
+
 	return (
 		<AuthContext.Provider
 			value={{
 				...value,
 				isLoading: isLoading,
-				refresh: useAuthorizationMutation,
+				refresh: refresh,
 				login,
 			}}
 		>

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
 	Tabs,
 	TabsList,
@@ -9,6 +10,7 @@ import {
 import { nodeSettingsFactory } from '../../editor-factory';
 import { XIcon } from 'lucide-react';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useState, useEffect } from 'react';
 
 interface IAsideBarNodeEditor {
 	handleCloseEditor?: () => void;
@@ -23,8 +25,17 @@ export const AsideBarNodeEditor = (props: IAsideBarNodeEditor) => {
 			selectedNode: state.selectedNode,
 			setNode: state.setNode,
 		}),
-		(a, b) => a?.selectedNode?.id === b?.selectedNode?.id
+		(a, b) =>
+			a?.selectedNode?.id === b?.selectedNode?.id &&
+			a?.selectedNode?.type === b?.selectedNode?.type
 	);
+
+	const [activeTab, setActiveTab] = useState('general');
+
+	useEffect(() => {
+		// При смене узла сбрасываем вкладку на general
+		setActiveTab('general');
+	}, [selectedNode]);
 
 	if (!selectedNode) return null;
 
@@ -38,19 +49,19 @@ export const AsideBarNodeEditor = (props: IAsideBarNodeEditor) => {
 
 	return (
 		<aside className={asideClassName}>
-			<Tabs defaultValue="general">
-				<TabsList className="grid w-full grid-flow-col gap-x-1 justify-between">
+			<Tabs value={activeTab} onValueChange={setActiveTab}>
+				<TabsList className="flex items-center justify-end gap-2">
 					<TabsTrigger value="general">Стили</TabsTrigger>
 					{hasContent && Content && (
 						<TabsTrigger value="content">Основа</TabsTrigger>
 					)}
 					<TabsTrigger value="settings">Настройки</TabsTrigger>
 					<Button
-						className="h-full w-full p-0 m-0 aspect-square"
+						className="p-0 m-0 aspect-square h-8 w-8"
 						onClick={handleCloseNodeEditor}
 						variant={'outline'}
 					>
-						<XIcon />
+						<XIcon className="w-4 h-4" />
 					</Button>
 				</TabsList>
 				<Separator className="mt-2 mb-3" />
@@ -63,7 +74,7 @@ export const AsideBarNodeEditor = (props: IAsideBarNodeEditor) => {
 
 				{hasContent && Content && (
 					<TabsContent value="content">
-						<div className="fkex flex-col gap-6">
+						<div className="flex flex-col gap-6">
 							<Content node={selectedNode} />
 						</div>
 					</TabsContent>

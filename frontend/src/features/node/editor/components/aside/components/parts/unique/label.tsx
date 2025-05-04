@@ -5,6 +5,7 @@ import { NodeDataShape } from '@/features/node/editor/types/node';
 import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
+import { shallow } from 'zustand/shallow';
 
 interface ComponentEditorLabelProps {
 	node: Node<NodeDataShape>;
@@ -13,11 +14,17 @@ interface ComponentEditorLabelProps {
 export const LabelEditorPart = (props: ComponentEditorLabelProps) => {
 	const { node } = props;
 	const inputRef = useRef<HTMLInputElement>(null);
-	const { isFocusingOnLabel, setFocusingLabel } = useEditorAsideStore();
+
+	const { isFocusingOnLabel, setFocusingLabel } = useEditorAsideStore(
+		(state) => ({
+			isFocusingOnLabel: state.isFocusingOnLabel,
+			setFocusingLabel: state.setFocusingLabel,
+		}),
+		shallow
+	);
 
 	const updateNodeProperties = useNodeStore(
-		(state) => state.updateNodeProperties,
-		(a, b) => a === b
+		(state) => state.updateNodeProperties
 	);
 
 	const [label, setLabel] = useState(node.data.labelProps?.label || '');

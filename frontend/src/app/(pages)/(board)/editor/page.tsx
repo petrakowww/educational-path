@@ -1,9 +1,14 @@
 'use client';
 
-import { useComponentDimensions, useMediaQuery } from '@/shared/lib';
-
 import { useRef, useState } from 'react';
+import {
+	useComponentDimensions,
+	useMediaQuery
+} from '@/shared/lib';
+
 import { ThemeButton } from '@/widgets/ui';
+import { Board } from '@/features/node/editor/components/board';
+import { AsideBarComponentEditor } from '@/features/node/editor/components/aside/components/aside-menu/aside-path';
 import { AsideBarConstants } from '@/widgets/editor/components/side-bar/side-bar-states';
 import { LinkToControlPanel } from '@/widgets/editor/components/to-control-panel';
 import { TabBar } from '@/widgets/editor/components/tab-bar/ui/tab-bar';
@@ -12,9 +17,7 @@ import { ViewBoard } from '@/widgets/editor/components/view';
 import { SaveRoadmap } from '@/widgets/editor/components/btn-save-board';
 import { MobileMenu } from '@/widgets/editor/components/mobile-menu';
 import { AsideBarFunctionalTabs } from '@/widgets/editor/components/side-bar/side-bar';
-import { AsideBarComponentCreator } from '@/features/node/editor/components/actions/creator/component-creator';
-import { Board } from '@/features/node/editor/components/board';
-import { AsideBarComponentEditor } from '@/features/node/editor/components/aside/components/aside-menu/aside-path';
+import { AsideBarTabContent } from '@/features/node/editor/components/actions/creator/tab-content';
 
 export default function Page() {
 	const sidePartOfEditorRef = useRef<HTMLDivElement | null>(null);
@@ -23,6 +26,7 @@ export default function Page() {
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
 	const { width } = useComponentDimensions(sidePartOfEditorRef);
 
+	
 	return (
 		<div className="grid grid-rows-[auto_1fr] grid-cols-[auto_1fr] min-h-[100vh] min-w-[100vw] max-w-full max-h-full">
 			{/* LINK */}
@@ -67,10 +71,7 @@ export default function Page() {
 			{/* SIDEBAR */}
 			<aside className="row-start-2 col-start-1 p-1 border-r flex flex-col items-center justify-between">
 				<nav>
-					<AsideBarFunctionalTabs
-						activeTab={activeTab}
-						onTabSelect={setActiveTab}
-					/>
+					<AsideBarFunctionalTabs activeTab={activeTab} onTabChange={setActiveTab} />
 				</nav>
 				<div className="my-2">
 					<ThemeButton />
@@ -80,18 +81,7 @@ export default function Page() {
 			{/* MAIN CONTENT */}
 			<main className="row-start-2 col-start-2">
 				<div className="h-full w-full flex relative">
-					{activeTab === AsideBarConstants.Components && (
-						<AsideBarComponentCreator />
-					)}
-					{activeTab === AsideBarConstants.Search && (
-						<p>Content for Tab 2</p>
-					)}
-					{activeTab === AsideBarConstants.RoadMaps && (
-						<p>Content for Tab 3</p>
-					)}
-					{activeTab === AsideBarConstants.Settings && (
-						<p>Content for Tab 4</p>
-					)}
+					<AsideBarTabContent activeTab={activeTab} />
 					<Board />
 					<AsideBarComponentEditor />
 				</div>

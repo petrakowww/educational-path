@@ -7,10 +7,5 @@ interface ILabelNodeSettings {
 }
 
 export const LabelNodeSettings = ({ node }: ILabelNodeSettings) => {
-	return (
-		<BaseSettings
-			node={node}
-            nodeHasLabel={true}
-		/>
-	);
+	return <BaseSettings node={node} nodeHasLabel={true} />;
 };

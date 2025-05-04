@@ -2,8 +2,10 @@ import { nodePosition } from '@/features/node/editor/utils/node-position';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
 
 export const ComponentNodeCharacteristics = () => {
-	const node = useNodeStore((state) => state.selectedNode);
-	
+	const node = useNodeStore((state) =>
+		state.selectedNodeId ? state.nodesById[state.selectedNodeId] : null
+	);
+
 	if (!node) return null;
 
 	const xValue = nodePosition.getXPosition(node);

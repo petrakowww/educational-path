@@ -25,24 +25,26 @@ export default function Page() {
 		return <LoadingFormInfo textInformation="Загружаем ваши маршруты" />;
 	}
 
+	const isExtended = userData?.findRoutesByUser.length;
+
 	return (
 		<TagsProvider>
 			<AccountWrapper
 				title="Ваши карты"
 				description="Создавайте свои собственные уникальные образовательные маршруты и делитесь ими с другими специалистами."
 			>
-				<div className="grid grid-cols-1 gap-4 xl:grid-cols-[3fr_1fr]">
-					<div className="xl:col-span-2">
+				<div className={`grid grid-cols-1 gap-4 ${isExtended && "xl:grid-cols-[3fr_1fr]"}`}>
+					<div className={`${isExtended && 'xl:col-span-2'}`}>
 						<CreateMapWrapper />
 					</div>
-					<div className='xl:order-2'>
+					<div className={`${isExtended && 'xl:order-2'}`}>
 						<RouteStatsCard
 							totalRoutes={totalRoutes}
 							totalPublic={totalPublic}
 							totalPrivate={totalPrivate}
 						/>
 					</div>
-					<div className='xl:hidden'>
+					<div className={`${isExtended && 'xl:hidden'}`}>
 						<Separator/>
 					</div>
 					<div className="flex flex-col gap-4">

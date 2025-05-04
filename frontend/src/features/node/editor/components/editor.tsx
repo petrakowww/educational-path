@@ -28,6 +28,10 @@ import { useEdgeStore } from '@/shared/managers/store/edge.store';
 import { shallow } from 'zustand/vanilla/shallow';
 import { defaultEdgeConfig } from '@/shared/edge/config/edge.config';
 
+const edgeTypes = {
+	custom: CustomEdge,
+};
+
 export const Editor = () => {
 	const { screenToFlowPosition } = useReactFlow();
 
@@ -41,29 +45,36 @@ export const Editor = () => {
 		shallow
 	);
 
-	const { setSelectedEdge, clearSelectedEdge, edges, setEdges } =
-		useEdgeStore(
+	const {
+		setSelectedEdge,
+		clearSelectedEdge,
+		edges,
+		setEdges,
+	} = useEdgeStore(
+		(state) => ({
+			selectedEdgeId: state.selectedEdgeId,
+			setSelectedEdge: state.setSelectedEdge,
+			clearSelectedEdge: state.clearSelectedEdge,
+			edges: state.edges,
+			setEdges: state.setEdges,
+		}),
+		shallow
+	);
+
+	const { openEditor, closeEditor, setFocusingLabel } =
+		useEditorAsideStore(
 			(state) => ({
-				selectedEdgeId: state.selectedEdgeId,
-				setSelectedEdge: state.setSelectedEdge,
-				clearSelectedEdge: state.clearSelectedEdge,
-				edges: state.edges,
-				setEdges: state.setEdges,
+				openEditor: state.openEditor,
+				closeEditor: state.closeEditor,
+				setFocusingLabel: state.setFocusingLabel,
+				isOpenMenu: state.isOpenMenu,
 			}),
-			shallow
+			(a, b) => a.isOpenMenu === b.isOpenMenu
 		);
 
-	const { openEditor, closeEditor, setFocusingLabel } = useEditorAsideStore();
-
-	const type = useDragAndDropStore((state) => state.type);
-
-	const memoizedType = useMemo(() => type, [type]);
-
-	const edgeTypes = useMemo(
-		() => ({
-			custom: CustomEdge,
-		}),
-		[]
+	const type = useDragAndDropStore(
+		(state) => state.type,
+		(a, b) => a === b
 	);
 
 	const onDragOver = useCallback((event: React.DragEvent) => {
@@ -75,7 +86,7 @@ export const Editor = () => {
 		(event: React.DragEvent) => {
 			event.preventDefault();
 
-			if (!memoizedType) {
+			if (!type) {
 				return;
 			}
 
@@ -84,14 +95,14 @@ export const Editor = () => {
 				y: event.clientY,
 			});
 
-			const nodeBuilderFunction = nodeBuilderRegistry[memoizedType];
+			const nodeBuilderFunction = nodeBuilderRegistry[type];
 			const newNode = nodeBuilderFunction()
 				.withPosition(position.x, position.y)
 				.build();
 
 			setNodes([...nodesList, newNode]);
 		},
-		[screenToFlowPosition, setNodes, memoizedType, nodesList]
+		[screenToFlowPosition, setNodes, type, nodesList]
 	);
 
 	const handleFlowEditorOnClick = useCallback(() => {
@@ -113,12 +124,11 @@ export const Editor = () => {
 	const handleNodeClick = useCallback(
 		(e: React.MouseEvent, node: Node) => {
 			e.stopPropagation();
-
 			setNode(node);
 			clearSelectedEdge();
 			openEditor('node');
 		},
-		[setNode, clearSelectedEdge, openEditor]
+		[selectedNodeId, setNode, clearSelectedEdge, openEditor]
 	);
 
 	const handleEdgeClick = useCallback(
@@ -143,7 +153,19 @@ export const Editor = () => {
 
 	const handleNodesChange = useCallback(
 		(changes: NodeChange[]) => {
-			const updatedNodes = applyNodeChanges(changes, nodesList);
+			const filtered = changes.filter((change) => {
+				if (change.type === 'select') return false;
+				if (change.type === 'position' && !change.dragging) {
+					return false;
+				}
+				return true;
+			});
+
+			console.log(filtered);
+
+			if (filtered.length === 0) return;
+
+			const updatedNodes = applyNodeChanges(filtered, nodesList);
 			setNodes(updatedNodes);
 		},
 		[nodesList, setNodes]
@@ -169,7 +191,7 @@ export const Editor = () => {
 			const newEdges = addEdge(
 				{
 					...connection,
-					...defaultEdgeConfig
+					...defaultEdgeConfig,
 				},
 				edges
 			);
@@ -198,9 +220,8 @@ export const Editor = () => {
 				onConnect={onConnect}
 				minZoom={0.2}
 			>
-				<Controls position="top-right"/>
+				<Controls position="top-right" />
 			</ReactFlow>
-			
 			<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
 		</div>
 	);

@@ -25,8 +25,6 @@ export const BaseSettings = (props: IBaseSettings) => {
 	const builder = new NodeComponentBuilder(node);
 	const dynamicComponents = builder.getComponents();
 
-	console.dir(node);
-
 	return (
 		<div className="flex flex-col gap-6">
 			{startChildrenComponent}

@@ -14,17 +14,15 @@ interface ICommandComponentTextAlignment {
 export const CommandComponentTextAlignment = ({
 	editedNode,
 }: ICommandComponentTextAlignment) => {
-	const [textAlignment, setTextAlignment] =
-		useState<TextAlignmentEnum>(TextAlignmentEnum.Center);
+	const [textAlignment, setTextAlignment] = useState<TextAlignmentEnum>(
+		TextAlignmentEnum.Center
+	);
 
 	const handleTextAlignmentChange = (alignmentType: TextAlignmentEnum) => {
 		setTextAlignment(alignmentType);
-		
-		const command = new WithTextAlignCommand(
-			editedNode.id,
-			alignmentType,
-		);
-		
+
+		const command = new WithTextAlignCommand(editedNode.id, alignmentType);
+
 		command.execute();
 	};
 

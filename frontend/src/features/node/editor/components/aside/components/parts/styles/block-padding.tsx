@@ -28,15 +28,14 @@ export const CommandComponentPadding = ({
 
 		if (
 			parsedValue !== null &&
-			(isNaN(parsedValue) || parsedValue < minValue || parsedValue > maxValue)
+			(isNaN(parsedValue) ||
+				parsedValue < minValue ||
+				parsedValue > maxValue)
 		) {
 			return;
 		}
 
-		const command = new WithPaddingCommand(
-			editedNode.id,
-			parsedValue,
-		);
+		const command = new WithPaddingCommand(editedNode.id, parsedValue);
 
 		command.execute();
 		setBlockPadding(parsedValue);

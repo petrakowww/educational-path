@@ -1,14 +1,13 @@
 'use client';
 
+import { memo, useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/ui';
 import { ComponentIcon, MapIcon, SearchIcon, SettingsIcon } from 'lucide-react';
-
-import { Dispatch, SetStateAction } from 'react';
 import { AsideBarConstants } from './side-bar-states';
 
-interface AsideBarWidgetFunctionalTabsProps {
-	activeTab: AsideBarConstants | null;
-	onTabSelect?: Dispatch<SetStateAction<AsideBarConstants | null>>;
+interface Props {
+	onTabChange?: (tab: AsideBarConstants | null) => void;
+	activeTab?: AsideBarConstants | null;
 }
 
 const tabItems = [
@@ -18,18 +17,18 @@ const tabItems = [
 	{ value: AsideBarConstants.Settings, icon: SettingsIcon },
 ];
 
-export const AsideBarFunctionalTabs = ({
-	activeTab,
-	onTabSelect,
-}: AsideBarWidgetFunctionalTabsProps) => {
+export const AsideBarFunctionalTabs = memo(({ onTabChange, activeTab }: Props) => {
+	const [localTab, setLocalTab] = useState<AsideBarConstants | null>(activeTab || null);
+	const currentTab = activeTab ?? localTab;
+
 	const handleTabSelect = (tab: AsideBarConstants): void => {
-		if (onTabSelect) {
-			onTabSelect((prevTab) => (prevTab === tab ? null : tab));
-		}
+		const newTab = currentTab === tab ? null : tab;
+		setLocalTab(newTab);
+		onTabChange?.(newTab);
 	};
 
 	return (
-		<Tabs className="mt-1" value={activeTab || ''}>
+		<Tabs className="mt-1" value={currentTab || ''}>
 			<TabsList className="grid h-full grid-cols-1 gap-y-4 p-0 rounded-none bg-background">
 				{tabItems.map(({ value, icon: Icon }) => (
 					<TabsTrigger
@@ -44,4 +43,6 @@ export const AsideBarFunctionalTabs = ({
 			</TabsList>
 		</Tabs>
 	);
-};
+});
+
+AsideBarFunctionalTabs.displayName = 'AsideBarFunctionalTabs';
