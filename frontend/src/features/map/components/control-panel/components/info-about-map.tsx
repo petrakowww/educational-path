@@ -42,7 +42,7 @@ export const InformationAboutMap = (props: IRouteInformationCard) => {
 		title,
 		description,
 		routeTags,
-		topicNodes,
+		topicMap,
 		privateType,
 		createdAt,
 		updatedAt,
@@ -55,7 +55,7 @@ export const InformationAboutMap = (props: IRouteInformationCard) => {
 					<div className="flex flex-col">
 						<span className="break-all mb-2">{title}</span>
 						<div className="mb-2 text-sm text-secondary-foreground flex flex-row gap-2 items-center flex-shrink-0">
-							<span>{topicNodes?.length ?? 0} тем</span>
+							<span>{topicMap?.topicContent?.length ?? 0} тем</span>
 							<MicroscopeIcon size={20} />
 						</div>
 						<span className="text-sm text-secondary-foreground font-normal">

@@ -1,3 +1,4 @@
+import { CategoriesEnum } from './categories';
 import { TaskImportanceEnum } from './importance';
 import { NodeType } from './node';
 
@@ -17,13 +18,15 @@ export type Legend = {
 
 export type Legends = Array<Legend>;
 
-export type Links = Array<{
+export type Link = {
+	id: string;
+	label: string | null;
 	url: string | null;
-	description?: string | null;
-	label?: string | null;
-	isExternal?: boolean | null;
-	isNecessary?: TaskImportanceEnum | null;
-	category?: string | null;
-}>;
+	description?: string;
+	isNecessary?: TaskImportanceEnum;
+	category: CategoriesEnum;
+};
+
+export type Links = Array<Link>;
 
 export type Topic = NodeType.topic | NodeType.subtopic;

@@ -70,6 +70,7 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 
 	[NodeType.todo]: () =>
 		new NodeBuilderTodo(nodeBuilderConfigToDo)
+			.withLabel(NodeLabel.todo)
 			.withFontColor()
 			.withFontSize()
 			.withBackgroundColor()
@@ -77,6 +78,7 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 
 	[NodeType.checklist]: () =>
 		new NodeBuilderChecklist(nodeBuilderConfigChecklist)
+			.withLabel(NodeLabel.checklist)
 			.withBackgroundColor()
 			.withBorderColor(),
 };

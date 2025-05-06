@@ -156,6 +156,7 @@ exports.Prisma.AccountScalarFieldEnum = {
 
 exports.Prisma.TokenScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   email: 'email',
   token: 'token',
   type: 'type',
@@ -184,22 +185,29 @@ exports.Prisma.RouteTagScalarFieldEnum = {
   tagId: 'tagId'
 };
 
-exports.Prisma.TopicNodeScalarFieldEnum = {
+exports.Prisma.TopicMapScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  content: 'content',
-  routeId: 'routeId'
+  routeId: 'routeId',
+  nodeData: 'nodeData',
+  edgeData: 'edgeData',
+  updatedAt: 'updatedAt'
 };
 
-exports.Prisma.TopicEdgeScalarFieldEnum = {
+exports.Prisma.TopicContentScalarFieldEnum = {
   id: 'id',
-  fromId: 'fromId',
-  toId: 'toId'
+  routeId: 'routeId',
+  nodeId: 'nodeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -210,6 +218,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.UserRole = exports.$Enums.UserRole = {
   REGULAR: 'REGULAR',
@@ -243,8 +257,8 @@ exports.Prisma.ModelName = {
   Route: 'Route',
   Tag: 'Tag',
   RouteTag: 'RouteTag',
-  TopicNode: 'TopicNode',
-  TopicEdge: 'TopicEdge'
+  TopicMap: 'TopicMap',
+  TopicContent: 'TopicContent'
 };
 
 /**

@@ -1,5 +1,5 @@
 import { VerticalTextAlignmentOptions } from '@/features/node/constants/text';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 import { JustificationEnum } from '@/features/node/editor/types/styles';
 import { WithJustificationCommand } from '@/features/node/editor/utils/command/commands-impl';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { Node } from 'reactflow';
 
 interface ICommandComponentJustify {
-	editedNode: Node<NodeDataShape>;
+	editedNode: Node<NodeMain>;
 }
 
 export const CommandComponentJustify = ({

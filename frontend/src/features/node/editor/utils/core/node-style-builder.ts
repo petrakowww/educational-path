@@ -1,6 +1,6 @@
 import { DeepPartial } from '@/shared/lib/types/deep-partial';
 import { NodeBuilder } from './node-builder';
-import { NodeDataStyles } from '../../types/node';
+import { NodeMain } from '../../types/node';
 
 export class NodeStyleBuilder {
 	constructor(private readonly builder: NodeBuilder) {}
@@ -12,7 +12,7 @@ export class NodeStyleBuilder {
 		) as Partial<T>;
 	}
 
-	public buildStyles(): DeepPartial<NodeDataStyles> {
+	public buildStyles(): DeepPartial<NodeMain> {
 		const data = this.builder.getData();
 
 		return {

@@ -10,7 +10,6 @@ export const autoSizeNode = (node: Node) => {
 	updateNodeProperties({
 		nodeId: node.id,
 		properties: {
-			...node,
 			style: {
 				...node.style,
 				width: '',

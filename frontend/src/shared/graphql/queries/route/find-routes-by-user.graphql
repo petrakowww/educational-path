@@ -13,8 +13,10 @@ query findRoutesByUser {
         name
       }
     }
-    topicNodes {
-      id
+    topicMap {
+      topicContent {
+      	id
+    	}
     }
   }
 }

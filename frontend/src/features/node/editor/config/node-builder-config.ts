@@ -7,7 +7,7 @@ import {
 	TextFontWeightEnum,
 } from '../types/styles';
 import {
-	NodeDataShape,
+	NodeMain,
 	NodeDataShapeLegend,
 	NodeDataShapeToDo,
 	NodeDataShapeChecklist,
@@ -17,7 +17,7 @@ import {
 } from '../types/node';
 import { BackgroundColorsEnum } from '../types/colors';
 
-export type NodeBuilderConfig = DeepRequired<Required<NodeDataShape>>;
+export type NodeBuilderConfig = DeepRequired<Required<NodeMain>>;
 
 export const nodeBuilderConfig: NodeBuilderConfig = {
 	labelProps: {
@@ -94,6 +94,9 @@ export const nodeBuilderConfigTopic: NodeBuilderConfigTopic = {
 	blockProps: {
 		...nodeBuilderConfig.blockProps,
 		backgroundColor: BackgroundColorsEnum.Primary,
+	},
+	linkProps: {
+		links: [],
 	}
 };
 

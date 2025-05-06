@@ -5,6 +5,7 @@ import { TrashIcon } from 'lucide-react';
 import { ToDo, ToDos } from '@/features/node/editor/types/extended-node';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
 import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
+import { NodeDataShapeChecklist } from '@/features/node/editor/types/node';
 
 interface ComponentEditorChecklistProps {
 	editedNode: Node<{ todoProps: { todos: ToDos } }>;
@@ -24,7 +25,7 @@ export const ComponentCheckList = ({
 	};
 
 	const handleTodosUpdate = (updatedTodos: ToDos) => {
-		updateNodeProperties({
+		updateNodeProperties<NodeDataShapeChecklist>({
 			nodeId: editedNode.id,
 			properties: {
 				...editedNode.data,

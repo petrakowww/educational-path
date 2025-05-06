@@ -16,29 +16,43 @@ export class TokenService {
 
     public constructor(private readonly prismaService: PrismaService) {}
 
-    public async generateToken(email: string, type: TokenType) {
+    public async generateToken(userId: string, email: string, type: TokenType) {
         const token = uuidv4();
         const expiresIn = new Date(Date.now() + this.TOKEN_EXPIRATION_MS);
 
-        await this.prismaService.token.deleteMany({ where: { email, type } });
+        await this.prismaService.token.deleteMany({ where: { userId, type } });
 
         return await this.prismaService.token.create({
-            data: { email, token, expiresIn, type },
+            data: { userId, token, expiresIn, type, email },
         });
     }
 
-    public async generateOtp(email: string, type: TokenType, isOAuth = false) {
-        const [start, end] = this.OTP_RANGE;
-        const otp = randomInt(start, end).toString();
-        const expiresIn = new Date(Date.now() + this.OTP_EXPIRATION_MS);
-        const oauthToken = isOAuth ? randomUUID() : null;
+    public async generateOtp(userId: string, email: string, type: TokenType) {
+        const { otp, expiresIn } = this.generateOtpParams();
 
         await this.prismaService.token.deleteMany({
-            where: { email, type: type },
+            where: { userId, type },
         });
 
         return await this.prismaService.token.create({
-            data: { email, token: otp, expiresIn, type: type, oauthToken },
+            data: { userId, token: otp, expiresIn, type, email },
+        });
+    }
+
+    public async generateOAuthOtp(
+        userId: string,
+        email: string,
+        type: TokenType,
+    ) {
+        const { otp, expiresIn } = this.generateOtpParams();
+        const oauthToken = uuidv4();
+
+        await this.prismaService.token.deleteMany({
+            where: { userId, type },
+        });
+
+        return await this.prismaService.token.create({
+            data: { userId, token: otp, expiresIn, type, email, oauthToken },
         });
     }
 
@@ -52,7 +66,7 @@ export class TokenService {
         return await this.prismaService.token.findFirst({
             where: {
                 oauthToken: oauth,
-                type
+                type,
             },
         });
     }
@@ -67,11 +81,11 @@ export class TokenService {
         });
     }
 
-    public async deleteUserTokens(email: string, type: TokenType) {
+    public async deleteUserTokens(userId: string, type: TokenType) {
         await this.prismaService.token.deleteMany({
             where: {
-                email,
-                type: type,
+                userId,
+                type,
             },
         });
     }
@@ -92,5 +106,16 @@ export class TokenService {
             .catch(error => {
                 console.error('Ошибка при удалении токенов:', error);
             });
+    }
+
+    private generateOtpParams() {
+        const [start, end] = this.OTP_RANGE;
+        const otp = randomInt(start, end).toString();
+        const expiresIn = new Date(Date.now() + this.OTP_EXPIRATION_MS);
+
+        return {
+            otp,
+            expiresIn,
+        };
     }
 }

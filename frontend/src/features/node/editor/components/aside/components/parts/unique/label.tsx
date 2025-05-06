@@ -1,14 +1,14 @@
 import { Input, Label } from '@/shared/ui';
 import { Node } from 'reactflow';
 import { useEffect, useRef, useState } from 'react';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
 import { shallow } from 'zustand/shallow';
 
 interface ComponentEditorLabelProps {
-	node: Node<NodeDataShape>;
+	node: Node<NodeMain>;
 }
 
 export const LabelEditorPart = (props: ComponentEditorLabelProps) => {

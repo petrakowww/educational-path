@@ -13,7 +13,7 @@ export class RouteService {
         return this.prismaService.route.findUnique({
             where: { id },
             include: {
-                topicNodes: true,
+                topicMap: true,
                 tags: {
                     include: {
                         tag: true,
@@ -27,12 +27,17 @@ export class RouteService {
         return this.prismaService.route.findMany({
             where: { userId },
             include: {
-                topicNodes: true,
+                topicMap: {
+                    include: {
+                        topicContent: true,
+                    }
+                },
                 tags: {
                     include: {
                         tag: true,
                     },
                 },
+                user: true,
             },
             orderBy: {
                 createdAt: 'desc',

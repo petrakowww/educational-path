@@ -14,6 +14,7 @@ import { TopicNodeSettings } from './components/settings/topic-settings';
 import { BaseAdvancedSettings } from './components/settings/advanced-settings';
 import { ComponentChangeTopicType } from './components/parts/unique/topic/parts/change-type';
 import { TopicAdvanced } from './components/parts/unique/topic/topic-content';
+import { CommandComponentButtonUrl } from './components/parts/unique/button/button-local';
 
 type SettingsComponent = React.FC<{ node: Node }>;
 
@@ -65,7 +66,7 @@ export const nodeSettingsMap: NodeSettingsMap = {
 	},
 	BUTTON: {
 		General: ButtonNodeSettings,
-		Content: null,
+		Content: CommandComponentButtonUrl,
 		Advanced: BaseAdvancedSettings,
 	},
 };

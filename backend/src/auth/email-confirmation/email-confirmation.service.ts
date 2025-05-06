@@ -18,11 +18,13 @@ export class EmailConfirmationService {
         private readonly tokenService: TokenService,
     ) {}
 
-    public async sendVerificationToken(email: string) {
+    public async sendVerificationToken(userId: string, email: string) {
         const verificationToken = await this.tokenService.generateToken(
+            userId,
             email,
             TokenType.VERIFICATION,
         );
+
         await this.mailService.sendConfirmationEmail(
             verificationToken.email,
             verificationToken.token,
@@ -50,7 +52,7 @@ export class EmailConfirmationService {
             );
         }
 
-        const user = await this.userService.findByEmail(tokenData.email);
+        const user = await this.userService.findById(tokenData.userId);
 
         if (!user) {
             throw new NotFoundException(

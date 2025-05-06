@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import { WithFontSizeCommand } from '@/features/node/editor/utils/command/commands-impl';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 import { TextFontSizeConstant } from '@/features/node/constants/text';
 import { TextFontSizeEnum } from '@/features/node/editor/types/styles';
 
 interface ICommandComponentFontSize {
-	editedNode: Node<NodeDataShape>;
+	editedNode: Node<NodeMain>;
 	minValue: number;
 	maxValue: number;
 }

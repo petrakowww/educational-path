@@ -5,13 +5,15 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "./__generated__"
+  provider        = "prisma-client-js"
+  output          = "./__generated__"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_URI")
+  provider   = "postgresql"
+  url        = env("POSTGRES_URI")
+  extensions = [citext, uuidOssp(map: "uuid-ossp")]
 }
 
 model User {
@@ -36,6 +38,7 @@ model User {
   accounts     Account[]
   skillProfile SkillProfile?
   Route        Route[]
+  tokens       Token[]
 
   @@map("users")
 }
@@ -80,7 +83,9 @@ model Account {
 }
 
 model Token {
-  id String @id @default(uuid())
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   email     String
   token     String
@@ -123,7 +128,7 @@ model Route {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
-  topicNodes TopicNode[]
+  topicMap TopicMap?
 
   tags RouteTag[]
 }
@@ -147,31 +152,35 @@ model RouteTag {
   @@unique([routeId, tagId])
 }
 
-
 enum PrivateType {
   GENERAL
   PRIVATE
 }
 
 model TopicMap {
-  id     String  @id @default(uuid())
-  route  Route   @relation(fields: [routeId], references: [id], onDelete: Cascade)
-  routeId String @map("route_id")
+  id        String   @id @default(uuid())
+  routeId   String   @unique @map("route_id")
 
-  nodeData Json @map("node_data")
-  edgeData Json @map("edge_data")
+  route     Route?   @relation(fields: [routeId], references: [id], onDelete: Cascade)
 
-  contents TopicContent[]
+  nodeData  Json     @map("node_data")
+  edgeData  Json     @map("edge_data")
+
+  topicContent TopicContent[]
+
+  updatedAt DateTime @updatedAt
 }
+
 
 model TopicContent {
   id        String   @id @default(uuid())
-  nodeId    String   @map("node_id")
   routeId   String   @map("route_id")
-
-  content   String?
+  nodeId    String   @map("node_id")
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  topicMap TopicMap @relation(fields: [routeId], references: [routeId], onDelete: Cascade)
-  @@unique([nodeId, routeId])
+  topicMap  TopicMap @relation(fields: [routeId], references: [routeId], onDelete: Cascade)
+
+  @@unique([routeId, nodeId])
 }
+

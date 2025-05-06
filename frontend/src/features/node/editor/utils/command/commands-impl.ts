@@ -7,6 +7,7 @@ import {
 } from '../../types/styles';
 import { ToDo, ToDos } from '../../types/extended-node';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { NodeDataShapeButton, NodeDataShapeChecklist, NodeDataShapeToDo } from '../../types/node';
 
 const updateNodeProperties = useNodeStore.getState().updateNodeProperties;
 
@@ -148,7 +149,7 @@ export class WithJustificationCommand extends CommandBase<JustificationEnum> {
 
 export class WithButtonCommand extends CommandBase<string | null> {
 	execute(): void {
-		updateNodeProperties({
+		updateNodeProperties<NodeDataShapeButton>({
 			nodeId: this.nodeId,
 			properties: {
 				data: {
@@ -178,7 +179,7 @@ export class WithPaddingCommand extends CommandBase<number | null> {
 
 export class WithChecklistToDoCommand extends CommandBase<ToDos> {
 	execute(): void {
-		updateNodeProperties({
+		updateNodeProperties<NodeDataShapeChecklist>({
 			nodeId: this.nodeId,
 			properties: {
 				data: {
@@ -193,7 +194,7 @@ export class WithChecklistToDoCommand extends CommandBase<ToDos> {
 
 export class WithToDoCommand extends CommandBase<ToDo> {
 	execute(): void {
-		updateNodeProperties({
+		updateNodeProperties<NodeDataShapeToDo>({
 			nodeId: this.nodeId,
 			properties: {
 				data: {

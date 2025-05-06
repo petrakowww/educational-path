@@ -1,23 +1,15 @@
 import { memo } from 'react';
 import { NodeProps } from 'reactflow';
-import { DeleteNodeComponent } from '../utils/delete-node';
-import { IsSelectedNode } from '../utils/is-selected-node';
-import clsx from 'clsx';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { SkeletonNode } from './base/skeleton-node';
+import { EditableNode } from './base/editable-node';
+import { NodeMain } from '@/features/node/editor/types/node';
 
-export const TitleNode = (props: NodeProps<NodeDataShape>) => {
+export const TitleNode = (props: NodeProps<NodeMain>) => {
 	const { data } = props;
 
-	const focusClassName = IsSelectedNode(props);
-
-	const finalClassName = clsx(
-		'relative group h-full w-full bg-background flex items-center justify-center border-[2px] rounded-md',
-		focusClassName
-	);
-
 	return (
-		<article className={finalClassName}>
-			<div>
+		<SkeletonNode nodeProps={props}>
+			<EditableNode nodeProps={props} canResize={false}>
 				<p
 					className="leading-none whitespace-normal text-nowrap text-center p-3 flex-shrink-0"
 					style={{
@@ -26,10 +18,8 @@ export const TitleNode = (props: NodeProps<NodeDataShape>) => {
 				>
 					{data.labelProps?.label}
 				</p>
-			</div>
-
-			<DeleteNodeComponent node={props} />
-		</article>
+			</EditableNode>
+		</SkeletonNode>
 	);
 };
 

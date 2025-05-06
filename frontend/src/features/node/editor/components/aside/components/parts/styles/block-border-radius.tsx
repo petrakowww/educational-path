@@ -3,12 +3,11 @@ import { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import { WithBorderRadiusCommand } from '@/features/node/editor/utils/command/commands-impl';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
-
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 import { BlockBorderRadius } from '@/features/node/constants/block';
 
 interface ICommandComponentBlockBorderRadius {
-	editedNode: Node<NodeDataShape>;
+	editedNode: Node<NodeMain>;
 }
 
 export const CommandComponentBlockBorderRadius = ({

@@ -45,10 +45,7 @@ export class UserEmailService {
             );
         }
 
-        await this.twoFactorAuthService.sendTwoFactorToken(
-            newEmail,
-            TokenType.CHANGE_EMAIL,
-        );
+        await this.twoFactorAuthService.sendEmailChangeToken(user.id, newEmail);
 
         return {
             status: 0,
@@ -59,9 +56,10 @@ export class UserEmailService {
 
     private async verifyNewEmail(user: User, dto: EmailDto) {
         await this.twoFactorAuthService.validateTwoFactorToken(
-            dto.newEmail,
+            user.id,
             TokenType.CHANGE_EMAIL,
             dto.code,
+            dto.newEmail,
         );
 
         await this.userService.update(user.id, { email: dto.newEmail });

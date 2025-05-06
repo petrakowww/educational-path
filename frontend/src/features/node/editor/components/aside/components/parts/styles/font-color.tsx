@@ -5,12 +5,12 @@ import { Node } from 'reactflow';
 import { cn, isHexColor } from '@/shared/lib';
 import { WithFontColorCommand } from '@/features/node/editor/utils/command/commands-impl';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 import { TextFontColorConstant } from '@/features/node/constants/text';
 import { TextFontColorsEnum } from '@/features/node/editor/types/colors';
 
 interface ICommandComponentFontColor {
-	editedNode: Node<NodeDataShape>;
+	editedNode: Node<NodeMain>;
 }
 
 export const CommandComponentFontColor = ({

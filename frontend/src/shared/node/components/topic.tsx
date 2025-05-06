@@ -32,15 +32,5 @@ export const TopicNode = (
 	);
 };
 
-export const TopicNodeMemo = memo(TopicNode, (prev, next) => {
-	const prevData = prev.data;
-	const nextData = next.data;
-
-	return (
-		prevData.labelProps?.label === nextData.labelProps?.label &&
-		prevData.fontProps?.fontSize === nextData.fontProps?.fontSize &&
-		prevData.blockProps?.backgroundColor ===
-			nextData.blockProps?.backgroundColor
-	);
-});
+export const TopicNodeMemo = memo(TopicNode);
 

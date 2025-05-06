@@ -22,7 +22,8 @@ import { useDeleteRouteMutation } from '@/shared/graphql/generated/output';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { removeRouteFromUserRoutes } from '@/shared/lib/apollo/apollo-cache-helpers';
-import { useNavigator } from '@/shared/config/routes/navigator';
+import { panelNavigator } from '@/shared/config/routes/navigator';
+import Link from 'next/link';
 
 interface RouteActionsMenuProps {
 	routeId: string;
@@ -33,8 +34,6 @@ export const RouteActionsMenu = (props: RouteActionsMenuProps) => {
 	const { routeId, routeTitle } = props;
 	const [deleteRoute, { loading }] = useDeleteRouteMutation();
 	const [open, setOpen] = useState(false);
-
-	const navigator = useNavigator();
 
 	const handleDelete = async () => {
 		try {
@@ -62,12 +61,26 @@ export const RouteActionsMenu = (props: RouteActionsMenuProps) => {
 						<EllipsisVerticalIcon />
 					</MenubarTrigger>
 					<MenubarContent>
-						<MenubarItem onClick={() => navigator.toViewer(routeId, routeTitle)}>
-							Просмотреть
+						<MenubarItem asChild>
+							<Link
+								href={panelNavigator.getViewerPath(
+									routeId,
+									routeTitle
+								)}
+							>
+								Просмотреть
+							</Link>
 						</MenubarItem>
 						<MenubarSeparator />
-						<MenubarItem onClick={() => navigator.toEditor(routeId, routeTitle)}>
-							Редактировать
+						<MenubarItem asChild>
+							<Link
+								href={panelNavigator.getEditorPath(
+									routeId,
+									routeTitle
+								)}
+							>
+								Редактировать
+							</Link>
 						</MenubarItem>
 						<MenubarSeparator />
 						<AlertDialogTrigger asChild>

@@ -8,13 +8,13 @@ import {
 	TooltipTrigger,
 } from '@/shared/ui';
 import { InfoIcon } from 'lucide-react';
-import { NodeDataShape, NodeType } from '@/features/node/editor/types/node';
+import { NodeMain, NodeType } from '@/features/node/editor/types/node';
 import { nodeBuilderRegistry } from '@/features/node/editor/config/node-templates-config';
 import { NodeStyleBuilder } from '@/features/node/editor/utils/core/node-style-builder';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
 
 interface ComponentResetStylesProps {
-	editedNode: Node<NodeDataShape>;
+	editedNode: Node<NodeMain>;
 }
 
 export const ComponentResetStyles = ({

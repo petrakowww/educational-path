@@ -7,19 +7,38 @@ import { Handle, Position } from 'reactflow';
 interface EditableNodeProps {
 	children: React.ReactNode;
 	nodeProps: NodeProps;
+	canResize?: boolean;
+	canHandle?: boolean;
 }
 
-export const EditableNode = ({ children, nodeProps }: EditableNodeProps) => {
+export const EditableNode = ({
+	canHandle = true,
+	canResize = true,
+	children,
+	nodeProps,
+}: EditableNodeProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	return (
 		<>
-			<Handle type="target" position={Position.Top} className='[&[data-id]]:bg-primary'/>
+			{canHandle && (
+				<Handle
+					type="target"
+					position={Position.Top}
+					className="[&[data-id]]:bg-primary"
+				/>
+			)}
 			<div ref={containerRef}>
 				{children}
-				<ResizeNodeComponent ref={containerRef} />
+				{canResize && <ResizeNodeComponent ref={containerRef} />}
 			</div>
-			<Handle type="source" position={Position.Bottom} className='[&[data-id]]:bg-primary' />
+			{canHandle && (
+				<Handle
+					type="source"
+					position={Position.Bottom}
+					className="[&[data-id]]:bg-primary"
+				/>
+			)}
 			<DeleteNodeComponent node={nodeProps} />
 		</>
 	);

@@ -17,15 +17,16 @@ export class TwoFactorAuthService {
     ) {}
 
     public async validateTwoFactorToken(
-        email: string,
+        userId: string,
         type: TokenType,
         code: string,
+        email?: string,
     ): Promise<boolean> {
         const token = await this.tokenService.findToken(code, type);
 
-        if (!token || token.email !== email) {
+        if (!token || token.userId !== userId) {
             throw new NotFoundException(
-                'Токен двухфакторной аутентификации не найден. Убедитесь, что вы запрашивали токен для этого адреса электронной почты.',
+                'Токен двухфакторной аутентификации не найден. Убедитесь, что вы запрашивали токен для этого пользователя.',
             );
         }
 
@@ -41,13 +42,19 @@ export class TwoFactorAuthService {
             );
         }
 
-        await this.tokenService.deleteUserTokens(email, token.type);
+        if (type === TokenType.CHANGE_EMAIL && email && email !== token.email) {
+            throw new BadRequestException(
+                'Указанный email не соответствует тому, для которого был отправлен токен.',
+            );
+        }
+
+        await this.tokenService.deleteUserTokens(userId, token.type);
 
         return true;
     }
 
-    public async sendTwoFactorToken(email: string, type: TokenType): Promise<boolean> {
-        const twoFactorToken = await this.tokenService.generateOtp(email, type, false);
+    public async sendTwoFactorToken(userId: string, email: string, type: TokenType): Promise<boolean> {
+        const twoFactorToken = await this.tokenService.generateOtp(userId, email, type);
     
         if (!twoFactorToken) {
             throw new InternalServerErrorException('Ошибка сервера при создании токена.');
@@ -62,8 +69,28 @@ export class TwoFactorAuthService {
         return true;
     }
 
-    public async sendTwoFactorAuthToken(email: string, type: TokenType): Promise<string> {
-        const twoFactorToken = await this.tokenService.generateOtp(email, type, true);
+    public async sendEmailChangeToken(
+        userId: string,
+        newEmail: string,
+    ): Promise<boolean> {
+        const token = await this.tokenService.generateOtp(userId, newEmail, TokenType.CHANGE_EMAIL);
+    
+        if (!token) {
+            throw new InternalServerErrorException('Ошибка сервера при создании токена.');
+        }
+    
+        await this.mailService.sendTwoFactorTokenEmail(
+            token.email,
+            token.token,
+            TokenType.CHANGE_EMAIL,
+        );
+    
+        return true;
+    }
+    
+
+    public async sendTwoFactorAuthToken(userId: string, email: string, type: TokenType): Promise<string> {
+        const twoFactorToken = await this.tokenService.generateOAuthOtp(userId, email, type);
     
         if (!twoFactorToken || !twoFactorToken.oauthToken) {
             throw new InternalServerErrorException('Ошибка сервера при создании OAuth токена.');

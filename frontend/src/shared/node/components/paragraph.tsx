@@ -4,38 +4,27 @@ import { ResizeNodeComponent } from '../utils/resize-node';
 import { DeleteNodeComponent } from '../utils/delete-node';
 import { IsSelectedNode } from '../utils/is-selected-node';
 import clsx from 'clsx';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
+import { EditableNode } from './base/editable-node';
+import { SkeletonNode } from './base/skeleton-node';
 
-export const ParagraphNode = (
-	props: NodeProps<NodeDataShape>
-) => {
+export const ParagraphNode = (props: NodeProps<NodeMain>) => {
 	const { data } = props;
-	const containerRef = useRef<HTMLDivElement>(null);
-
-	const focusClassName = IsSelectedNode(props);
-
-	const finalClassName = clsx(
-		'relative group h-full w-full rounded-md bg-background border-[2px] flex justify-center items-center',
-		focusClassName
-	);
-
 	return (
-		<article
-			className={finalClassName}
+		<SkeletonNode
+			nodeProps={props}
 			style={{
 				backgroundColor: data.blockProps?.backgroundColor as string,
 				borderRadius: data.blockProps?.borderRadius,
 				borderWidth: data.blockProps?.borderWidth as number,
 				borderColor: data.blockProps?.borderColor as string,
-				alignItems:
-					data.fontProps?.justification,
-				justifyContent:
-					data.fontProps?.textAlign,
+				alignItems: data.fontProps?.justification,
+				justifyContent: data.fontProps?.textAlign,
 			}}
 		>
-			<div ref={containerRef}>
+			<EditableNode nodeProps={props}>
 				<p
-					className="leading-none whitespace-pre-wrap text-nowrap  p-3 flex-shrink-0"
+					className="leading-none whitespace-pre-wrap break-all p-3"
 					style={{
 						fontSize: data.fontProps?.fontSize,
 						color: data.fontProps?.fontColor as string,
@@ -45,10 +34,8 @@ export const ParagraphNode = (
 				>
 					{data.labelProps?.label}
 				</p>
-			</div>
-			<DeleteNodeComponent node={props} />
-			<ResizeNodeComponent ref={containerRef} />
-		</article>
+			</EditableNode>
+		</SkeletonNode>
 	);
 };
 

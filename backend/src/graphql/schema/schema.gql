@@ -26,6 +26,11 @@ input CreateRouteDto {
   title: String!
 }
 
+input CreateTopicContentDto {
+  nodeId: String!
+  routeId: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -33,7 +38,11 @@ scalar DateTime
 
 type Mutation {
   createRoute(data: CreateRouteDto!): RouteModel!
+  createTopicContent(data: CreateTopicContentDto!): TopicContentModel!
   deleteRoute(id: ID!): Boolean!
+  deleteTopicContent(nodeId: String!, routeId: String!): Boolean!
+  deleteTopicMap(id: ID!): Boolean!
+  saveTopicMap(data: SaveTopicMapDto!): TopicMapModel!
   updateRoute(data: UpdateRouteDto!, id: ID!): RouteModel!
   updateSkillProfile(dto: SkillProfileDto!): SkillProfile!
   updateUserProfile(dto: UserProfileDto!): UserModel!
@@ -50,7 +59,11 @@ type Query {
   findProfile: UserModel!
   findRoute(id: ID!): RouteModel!
   findRoutesByUser: [RouteModel!]!
+  findTopicMap(id: ID!): TopicMapModel!
+  findTopicMapByRouteId(routeId: String!): TopicMapModel!
   findUserTags: [TagModel!]!
+  getAllTopicContents(routeId: String!): [TopicContentModel!]!
+  getTopicContent(nodeId: String!, routeId: String!): TopicContentModel
 }
 
 type RouteModel {
@@ -60,7 +73,7 @@ type RouteModel {
   privateType: PrivateType!
   tags: [RouteTagModel!]
   title: String!
-  topicNodes: [TopicNodeModel!]
+  topicMap: TopicMapModel
   updatedAt: DateTime!
   user: UserModel!
 }
@@ -69,6 +82,13 @@ type RouteTagModel {
   id: ID!
   route: RouteModel!
   tag: TagModel!
+}
+
+input SaveTopicMapDto {
+  contents: [CreateTopicContentDto!]
+  edgeData: String
+  nodeData: String
+  routeId: String!
 }
 
 type SkillProfile {
@@ -94,21 +114,22 @@ type TagModel {
   name: String!
 }
 
-type TopicEdgeModel {
-  from: TopicNodeModel!
-  fromId: String!
-  id: ID!
-  to: TopicNodeModel!
-  toId: String!
+type TopicContentModel {
+  createdAt: DateTime!
+  id: String!
+  nodeId: String!
+  routeId: String!
+  updatedAt: DateTime!
 }
 
-type TopicNodeModel {
-  content: String
+type TopicMapModel {
+  edgeData: String!
   id: ID!
-  incomingEdges: [TopicEdgeModel!]
-  outgoingEdges: [TopicEdgeModel!]
-  route: RouteModel!
-  title: String!
+  nodeData: String!
+  route: RouteModel
+  routeId: String!
+  topicContent: [TopicContentModel!]
+  updatedAt: DateTime!
 }
 
 input UpdateRouteDto {

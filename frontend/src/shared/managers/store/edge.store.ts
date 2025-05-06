@@ -15,6 +15,8 @@ interface EdgeState {
 	setSelectedEdge: (edge: Edge) => void;
 	clearSelectedEdge: () => void;
 
+    deleteEdge: (edgeId: string) => void;
+
 	updateEdgeProperties: (payload: {
 		edgeId: string;
 		properties: Partial<Edge<IEdgeData>>;
@@ -98,6 +100,16 @@ export const useEdgeStore = createWithEqualityFn<EdgeState>(
 				selectedEdge: updatedSelectedEdge ?? null,
 			});
 		},
+        deleteEdge: (edgeId: string) => {
+            const { edges, selectedEdgeId } = get();
+            const updatedEdges = edges.filter((e) => e.id !== edgeId);
+          
+            set({
+              edges: updatedEdges,
+              selectedEdge: selectedEdgeId === edgeId ? null : get().selectedEdge,
+              selectedEdgeId: selectedEdgeId === edgeId ? null : selectedEdgeId,
+            });
+          },          
 	}),
 	shallow
 );

@@ -59,15 +59,23 @@ const extensions = [
 	Highlight.configure({
 		multicolor: true,
 	}),
-	ImageExtension,
-	ImagePlaceholder,
 	SearchAndReplace,
 ];
 
-export const TiptapEditor = () => {
+interface ITipTapEditor {
+	onUpdate?: (html: string) => void;
+	initialContent?: string;
+}
+
+export const TiptapEditor = (props: ITipTapEditor) => {
+	const { initialContent, onUpdate } = props;
 	const editor = useEditor({
 		extensions: extensions as Extension[],
 		immediatelyRender: false,
+		content: initialContent,
+		onUpdate: ({ editor }) => {
+			onUpdate?.(editor.getHTML());
+		},
 	});
 
 	if (!editor) {
@@ -96,31 +104,22 @@ export const TiptapEditor = () => {
 									className="h-7"
 								/>
 							</div>
-							<div className="flex gap-2 items-center">
+							<div className="flex gap-2 items-center ml-auto">
+								<Separator
+									orientation="vertical"
+									className="h-7"
+								/>
 								<OrderedListToolbar />
 								<BulletListToolbar />
-								<Separator
-									orientation="vertical"
-									className="h-7"
-								/>
-							</div>
-							<div className='mx-auto'>
-								<ImagePlaceholderToolbar />
-							</div>
-							<div className="ml-auto flex items-center gap-2">
-								<Separator
-									orientation="vertical"
-									className="h-7"
-								/>
-								<LinkToolbar />
 							</div>
 						</div>
 						<div className="flex items-center gap-2">
 							<AlignmentTooolbar />
 							<SearchAndReplaceToolbar />
-                            <div className='ml-auto'>
-                                <ColorHighlightToolbar />
-                            </div>
+							<LinkToolbar />
+							<div className="ml-auto">
+								<ColorHighlightToolbar />
+							</div>
 						</div>
 					</div>
 				</ToolbarProvider>

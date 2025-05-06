@@ -6,29 +6,24 @@ import { ResizeNodeComponent } from '../utils/resize-node';
 import { IsSelectedNode } from '../utils/is-selected-node';
 import clsx from 'clsx';
 import { NodeDataShapeButton } from '@/features/node/editor/types/node';
+import { SkeletonNode } from './base/skeleton-node';
+import { EditableNode } from './base/editable-node';
 
 export const ButtonNode = (props: NodeProps<NodeDataShapeButton>) => {
 	const { data } = props;
-	
-	const containerRef = useRef<HTMLDivElement>(null);
 
-	const focusClassName = IsSelectedNode(props);
-
-	const finalClassName = clsx(
-		'relative group h-full w-full bg-background flex items-center justify-center border-[2px] rounded-md bg-primary',
-		focusClassName
-	);
 	return (
-		<article
-			className={finalClassName}
+		<SkeletonNode
+			nodeProps={props}
 			style={{
 				backgroundColor: data.blockProps?.backgroundColor as string,
 				borderRadius: data.blockProps?.borderRadius,
 				borderWidth: data.blockProps?.borderWidth as number,
 				borderColor: data.blockProps?.borderColor as string,
 			}}
+			stylesForComponent={'bg-primary'}
 		>
-			<div ref={containerRef}>
+			<EditableNode nodeProps={props}>
 				<p
 					className="p-3 leading-none whitespace-pre-wrap text-nowrap  text-center flex-shrink-0 text-primary-foreground"
 					style={{
@@ -39,10 +34,8 @@ export const ButtonNode = (props: NodeProps<NodeDataShapeButton>) => {
 				>
 					{data.labelProps?.label}
 				</p>
-			</div>
-			<ResizeNodeComponent ref={containerRef} />
-			<DeleteNodeComponent node={props} />
-		</article>
+			</EditableNode>
+		</SkeletonNode>
 	);
 };
 

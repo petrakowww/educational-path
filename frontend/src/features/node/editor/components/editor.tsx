@@ -17,7 +17,7 @@ import '@xyflow/react/dist/style.css';
 import React, { useCallback, useMemo } from 'react';
 
 import { nodeBuilderRegistry } from '../config/node-templates-config';
-import { NodeDataShape } from '../types/node';
+import { NodeMain } from '../types/node';
 import { nodeVisualComponents } from '@/shared/node/fabric/node-components';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
 import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
@@ -27,6 +27,7 @@ import { CustomEdge } from '@/shared/edge/components/edge';
 import { useEdgeStore } from '@/shared/managers/store/edge.store';
 import { shallow } from 'zustand/vanilla/shallow';
 import { defaultEdgeConfig } from '@/shared/edge/config/edge.config';
+import { CustomConnectionLine } from '@/shared/node/components/line/connection-line';
 
 const edgeTypes = {
 	custom: CustomEdge,
@@ -112,7 +113,7 @@ export const Editor = () => {
 	}, [setNode, clearSelectedEdge, closeEditor]);
 
 	const handleNodeDoubleClick = useCallback(
-		(e: React.MouseEvent, node: Node<NodeDataShape>) => {
+		(e: React.MouseEvent, node: Node<NodeMain>) => {
 			e.stopPropagation();
 			if (node.data.labelProps?.label) {
 				setFocusingLabel(true);
@@ -154,14 +155,13 @@ export const Editor = () => {
 	const handleNodesChange = useCallback(
 		(changes: NodeChange[]) => {
 			const filtered = changes.filter((change) => {
+				console.log(change);
 				if (change.type === 'select') return false;
 				if (change.type === 'position' && !change.dragging) {
 					return false;
 				}
 				return true;
 			});
-
-			console.log(filtered);
 
 			if (filtered.length === 0) return;
 
@@ -219,10 +219,11 @@ export const Editor = () => {
 				onDragOver={onDragOver}
 				onConnect={onConnect}
 				minZoom={0.2}
+				connectionLineComponent={CustomConnectionLine}
 			>
 				<Controls position="top-right" />
+				<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
 			</ReactFlow>
-			<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
 		</div>
 	);
 };

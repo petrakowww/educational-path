@@ -3,23 +3,18 @@ import { NodeProps } from 'reactflow';
 import { DeleteNodeComponent } from '../utils/delete-node';
 import { IsSelectedNode } from '../utils/is-selected-node';
 import clsx from 'clsx';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
+import { SkeletonNode } from './base/skeleton-node';
+import { EditableNode } from './base/editable-node';
 
-export const LabelNode = (props: NodeProps<NodeDataShape>) => {
+export const LabelNode = (props: NodeProps<NodeMain>) => {
 	const { data } = props;
 
-	const focusClassName = IsSelectedNode(props);
-
-	const finalClassName = clsx(
-		'relative group h-full w-full bg-background flex items-center justify-center border-[2px] rounded-md',
-		focusClassName
-	);
-
 	return (
-		<article className={finalClassName}>
-			<div className="p-3">
+		<SkeletonNode nodeProps={props}>
+			<EditableNode nodeProps={props} canResize={false} canHandle={false}>
 				<p
-					className="leading-none whitespace-pre-wrap text-nowrap text-center flex-shrink-0"
+					className="leading-none whitespace-pre-wrap text-nowrap text-center flex-shrink-0 px-3 py-2"
 					style={{
 						fontSize: data.fontProps?.fontSize,
 						color: data.fontProps?.fontColor as string,
@@ -27,10 +22,8 @@ export const LabelNode = (props: NodeProps<NodeDataShape>) => {
 				>
 					{data.labelProps?.label}
 				</p>
-			</div>
-
-			<DeleteNodeComponent node={props} />
-		</article>
+			</EditableNode>
+		</SkeletonNode>
 	);
 };
 

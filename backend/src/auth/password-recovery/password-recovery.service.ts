@@ -31,6 +31,7 @@ export class PasswordRecoveryService {
         }
 
         const resetToken = await this.tokenService.generateToken(
+            user.id,
             user.email,
             TokenType.PASSWORD_RESET,
         );
@@ -63,7 +64,7 @@ export class PasswordRecoveryService {
             );
         }
 
-        const user = await this.userService.findByEmail(tokenData.email);
+        const user = await this.userService.findById(tokenData.userId);
 
         if (!user) {
             throw new NotFoundException(

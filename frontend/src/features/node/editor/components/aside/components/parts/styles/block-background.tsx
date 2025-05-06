@@ -5,11 +5,11 @@ import { cn, isHexColor } from '@/shared/lib';
 import { WithBackgroundColorCommand } from '@/features/node/editor/utils/command/commands-impl';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
 import { BackgroundColorConstant } from '@/features/node/constants/block';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 import { BackgroundColorsEnum } from '@/features/node/editor/types/colors';
 
 interface ICommandComponentBlockBackground {
-	editedNode: Node<NodeDataShape>;
+	editedNode: Node<NodeMain>;
 }
 
 export const CommandComponentBlockBackground = ({

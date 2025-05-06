@@ -32,7 +32,10 @@ export enum NodeLabel {
 	checklist = 'Контрольный список',
 }
 
-export interface NodeDataStyles {
+export interface NodeMain {
+	labelProps: {
+		label: string | null;
+	};
 	blockProps?: {
 		backgroundColor?: React.CSSProperties['backgroundColor'] | null;
 		padding?: number | null;
@@ -49,14 +52,14 @@ export interface NodeDataStyles {
 	};
 }
 
-export interface NodeDataShape extends NodeDataStyles {
-	labelProps?: {
-		label?: string | null;
-	};
+export interface NodeDataShapeExtended extends NodeMain {
+	extendedSettings: boolean; // для отображения контента во вкладке Content
 }
 
-export interface NodeDataShapeExtended extends NodeDataShape {
-	extendedSettings: boolean; // для отображения контента во вкладке Content
+export interface NodeDataShapeSupportLinks extends NodeDataShapeExtended {
+	linkProps: {
+		links: Links;
+	}
 }
 
 export interface NodeDataShapeLinks extends NodeDataShapeExtended {
@@ -66,7 +69,7 @@ export interface NodeDataShapeLinks extends NodeDataShapeExtended {
 }
 
 export interface NodeDataShapeButton extends NodeDataShapeExtended {
-	buttonProps?: {
+	buttonProps: {
 		url: string | null;
 	};
 }
@@ -89,7 +92,7 @@ export interface NodeDataShapeChecklist extends NodeDataShapeExtended {
 	};
 }
 
-export interface NodeDataShapeTopic extends NodeDataShapeExtended {
+export interface NodeDataShapeTopic extends NodeDataShapeSupportLinks {
 	topicProps?: {
 		topicContent?: string | null;
 	};
@@ -98,7 +101,7 @@ export interface NodeDataShapeTopic extends NodeDataShapeExtended {
 export type NodeDataShapeSubTopic = NodeDataShapeTopic;
 
 export type NodeDataShapes = [
-	NodeDataShape,
+	NodeMain,
 	NodeDataShapeChecklist,
 	NodeDataShapeToDo,
 	NodeDataShapeTopic,

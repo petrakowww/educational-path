@@ -1,0 +1,15 @@
+query findTopicMapByRouteId($routeId: String!) {
+  findTopicMapByRouteId(routeId: $routeId) {
+    id
+    routeId
+    nodeData
+    edgeData
+    updatedAt
+    topicContent {
+      id
+      nodeId
+      createdAt
+      updatedAt
+    }
+  }
+}

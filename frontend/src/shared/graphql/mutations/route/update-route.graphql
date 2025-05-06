@@ -13,8 +13,5 @@ mutation updateRoute($id: ID!, $data: UpdateRouteDto!) {
         name
       }
     }
-    topicNodes {
-      id
-    }
   }
 }

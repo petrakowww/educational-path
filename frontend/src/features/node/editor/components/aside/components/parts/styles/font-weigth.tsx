@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import { WithFontWeightCommand } from '@/features/node/editor/utils/command/commands-impl';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 import { TextFontWeightConstant } from '@/features/node/constants/text';
 import { TextFontWeightEnum } from '@/features/node/editor/types/styles';
 
 interface ICommandComponentFontWeight {
-	editedNode: Node<NodeDataShape>;
+	editedNode: Node<NodeMain>;
 }
 
 export const CommandComponentFontWeight = ({

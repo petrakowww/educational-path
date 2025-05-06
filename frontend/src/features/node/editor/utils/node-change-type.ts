@@ -2,9 +2,9 @@ import { useNodeStore } from '@/shared/managers/store/nodes.store';
 import { Topic } from '../types/extended-node';
 import { Node } from 'reactflow';
 import { nodeBuilderRegistry } from '../config/node-templates-config';
-import { NodeDataShape } from '../types/node';
+import { NodeMain } from '../types/node';
 
-export const changeTopicType = (node: Node<NodeDataShape>, type: Topic) => {
+export const changeTopicType = (node: Node<NodeMain>, type: Topic) => {
 	const updateNodeProperties = useNodeStore.getState().updateNodeProperties;
 	const builderFn = nodeBuilderRegistry[type];
 

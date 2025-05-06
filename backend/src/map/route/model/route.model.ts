@@ -1,9 +1,9 @@
-import { TopicNodeModel } from '../../topic/model/topic-node.model';
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 
 import { RouteTagModel } from './route-tag.model';
 import { PrivateType } from '@prisma/__generated__';
 import { UserModel } from '@/user/model/db/user.model';
+import { TopicMapModel } from '@/map/topic/model/topic-map.model';
 
 registerEnumType(PrivateType, {name: 'PrivateType'})
 
@@ -30,8 +30,8 @@ export class RouteModel {
     @Field(() => UserModel)
     user: UserModel;
 
-    @Field(() => [TopicNodeModel], { nullable: true })
-    topicNodes?: TopicNodeModel[];
+    @Field(() => TopicMapModel, { nullable: true })
+    topicMap?: TopicMapModel;
 
     @Field(() => [RouteTagModel], { nullable: true })
     tags?: RouteTagModel[];

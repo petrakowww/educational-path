@@ -17,13 +17,13 @@ export const SkeletonNode = ({
 	stylesForComponent,
 	style
 }: SkeletonNodeProps) => {
-	const focusClassName = IsSelectedNode(nodeProps);
+	const inTheFocus = IsSelectedNode(nodeProps);
 
 	return (
 		<article
 			className={clsx(
 				'relative group h-full w-full bg-background flex items-center justify-center border-[2px] rounded-md',
-				focusClassName,
+				inTheFocus && 'outline outline-offset-2 outline-solid outline-[3px] outline-primary',
 				stylesForComponent
 			)}
 			style={style}

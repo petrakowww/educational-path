@@ -70,6 +70,7 @@ export class AuthService {
         });
 
         await this.emailConfirmationService.sendVerificationToken(
+            newUser.id,
             newUser.email,
         );
 
@@ -98,6 +99,7 @@ export class AuthService {
 
         if (!user.isVerified) {
             await this.emailConfirmationService.sendVerificationToken(
+                user.id,
                 user.email,
             );
             throw new UnauthorizedException(
@@ -108,6 +110,7 @@ export class AuthService {
         if (user.isTwoFactorEnabled) {
             if (!dto.code) {
                 await this.twoFactorAuthService.sendTwoFactorToken(
+                    user.id,
                     user.email,
                     TokenType.TWO_FACTOR,
                 );
@@ -120,7 +123,7 @@ export class AuthService {
             }
 
             await this.twoFactorAuthService.validateTwoFactorToken(
-                user.email,
+                user.id,
                 TokenType.TWO_FACTOR,
                 dto.code,
             );
@@ -148,7 +151,7 @@ export class AuthService {
         }
 
         const isValid = await this.twoFactorAuthService.validateTwoFactorToken(
-            token.email,
+            token.userId,
             TokenType.TWO_FACTOR,
             dto.code,
         );
@@ -156,7 +159,7 @@ export class AuthService {
             throw new BadRequestException('Неверный код аутентификации.');
         }
 
-        const user = await this.userService.findByEmail(token.email);
+        const user = await this.userService.findById(token.userId);
         if (!user) {
             throw new NotFoundException('Пользователь не найден.');
         }
@@ -227,6 +230,7 @@ export class AuthService {
             if (user.isTwoFactorEnabled) {
                 const oauthToken =
                     await this.twoFactorAuthService.sendTwoFactorAuthToken(
+                        user.id,
                         user.email,
                         TokenType.TWO_FACTOR,
                     );
@@ -268,13 +272,7 @@ export class AuthService {
         }
 
         if ('requires2FA' in result && result.requires2FA) {
-            const oauthToken =
-                await this.twoFactorAuthService.sendTwoFactorAuthToken(
-                    result.email,
-                    TokenType.TWO_FACTOR,
-                );
-
-            return `${this.ALLOWED_ORIGIN}${this.FRONTEND_2FA_URL}?oua=${oauthToken}`;
+            return `${this.ALLOWED_ORIGIN}${this.FRONTEND_2FA_URL}?oua=${result.oauthToken}`;
         }
         return `${this.ALLOWED_ORIGIN}${this.FRONTEND_REDIRECT_URL}`;
     }
@@ -321,5 +319,13 @@ export class AuthService {
         this.jwtService.setTokenCookie(res, refreshToken, 'Refresh Token');
 
         return { accessToken, refreshToken };
+    }
+
+    public async getUserFromContext(context: any): Promise<any> {
+        const { req } = context;
+        if (req && req.user) {
+            return req.user;
+        }
+        throw new UnauthorizedException('Пользователь не авторизован');
     }
 }

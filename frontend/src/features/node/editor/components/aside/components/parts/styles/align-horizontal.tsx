@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 import { Node } from 'reactflow';
 import { WithTextAlignCommand } from '@/features/node/editor/utils/command/commands-impl';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 import { TextAlignmentEnum } from '@/features/node/editor/types/styles';
 import { HorizontalTextAlignmentOptions } from '@/features/node/constants/text';
 
 interface ICommandComponentTextAlignment {
-	editedNode: Node<NodeDataShape>;
+	editedNode: Node<NodeMain>;
 }
 
 export const CommandComponentTextAlignment = ({

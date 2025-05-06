@@ -6,7 +6,5 @@ export const IsSelectedNode = (node: NodeProps) => {
 		(state) => ({ selectedNode: state.selectedNode }),
 		(a, b) => a.selectedNode?.id === b.selectedNode?.id
 	);
-	return selectedNode?.id === node.id
-		? 'outline outline-offset-1 outline-solid outline-2 outline-primary'
-		: '';
+	return selectedNode?.id === node.id;
 };

@@ -1,5 +1,5 @@
 import { useEdgeStore } from '@/shared/managers/store/edge.store';
-import { XIcon } from 'lucide-react';
+import { Trash2, XIcon } from 'lucide-react';
 import { Button, Separator } from '@/shared/ui';
 import { CommandComponentEdgeLine } from '../parts/edges/edge-color-line';
 import { EdgePathTypeSelector } from '../parts/edges/edge-type-path';
@@ -13,11 +13,12 @@ interface IAsideBarEdgeEditor {
 
 export const AsideBarEdgeEditor = (props: IAsideBarEdgeEditor) => {
 	const { asideClassName, handleCloseEditor } = props;
-	const { selectedEdge, clearSelectedEdge } = useEdgeStore(
+	const { selectedEdge, deleteEdge, clearSelectedEdge } = useEdgeStore(
 		(state) => ({
 			selectedEdge: state.selectedEdge,
 			updateEdgeProperties: state.updateEdgeProperties,
 			clearSelectedEdge: state.clearSelectedEdge,
+			deleteEdge: state.deleteEdge,
 		}),
 		(a, b) =>
 			a.selectedEdge?.id === b.selectedEdge?.id &&
@@ -59,6 +60,20 @@ export const AsideBarEdgeEditor = (props: IAsideBarEdgeEditor) => {
 				<EdgeStrokeStyleSelector editedEdge={selectedEdge} />
 
 				<EdgeMarkerSelector editedEdge={selectedEdge} />
+
+				<Button
+					size="sm"
+					variant="destructive"
+					onClick={() => {
+						if (selectedEdge) {
+							deleteEdge(selectedEdge.id);
+							handleClose();
+						}
+					}}
+				>
+					<Trash2 className="w-4 h-4 mr-1" />
+					Удалить связь
+				</Button>
 			</div>
 		</aside>
 	);

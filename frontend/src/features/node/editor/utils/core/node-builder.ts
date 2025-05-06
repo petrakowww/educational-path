@@ -19,7 +19,7 @@ import {
 	NodeDataShapeExtended,
 	NodeDataShapeToDo,
 	NodeDataShapeLinks,
-	NodeDataShape,
+	NodeMain,
 	NodeLabel,
 	NodeType,
 	NodeDataShapeTopic,
@@ -27,7 +27,7 @@ import {
 } from '../../types/node';
 
 export class NodeBuilder<
-	TData extends NodeDataShape = NodeDataShape,
+	TData extends NodeMain = NodeMain,
 	TConfig extends NodeBuilderConfig = NodeBuilderConfig,
 > {
 	protected data: DeepPartial<TData> = {};

@@ -1,9 +1,9 @@
 import { Node } from 'reactflow';
 import { BaseSettings } from './base-settings';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 
 interface ILabelNodeSettings {
-	node: Node<NodeDataShape>;
+	node: Node<NodeMain>;
 }
 
 export const LabelNodeSettings = ({ node }: ILabelNodeSettings) => {

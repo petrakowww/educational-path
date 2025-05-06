@@ -4,10 +4,10 @@ import { Node } from 'reactflow';
 import { isHexColor } from '@/shared/lib';
 import { WithBorderColorCommand } from '@/features/node/editor/utils/command/commands-impl';
 import { nodeGetter } from '@/features/node/editor/utils/node-properties';
-import { NodeDataShape } from '@/features/node/editor/types/node';
+import { NodeMain } from '@/features/node/editor/types/node';
 
 interface ICommandComponentBlockBorder {
-	editedNode: Node<NodeDataShape>;
+	editedNode: Node<NodeMain>;
 }
 
 export const CommandComponentBlockBorderColor = ({
