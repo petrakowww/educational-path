@@ -188,17 +188,60 @@ exports.Prisma.RouteTagScalarFieldEnum = {
 exports.Prisma.TopicMapScalarFieldEnum = {
   id: 'id',
   routeId: 'routeId',
-  nodeData: 'nodeData',
-  edgeData: 'edgeData',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.TopicContentScalarFieldEnum = {
+exports.Prisma.TopicNodeScalarFieldEnum = {
   id: 'id',
-  routeId: 'routeId',
-  nodeId: 'nodeId',
+  topicMapId: 'topicMapId',
+  kind: 'kind',
+  type: 'type',
+  title: 'title',
+  meta: 'meta',
+  posxy: 'posxy',
+  zIndex: 'zIndex',
+  completionType: 'completionType'
+};
+
+exports.Prisma.TopicEdgeScalarFieldEnum = {
+  id: 'id',
+  topicMapId: 'topicMapId',
+  sourceId: 'sourceId',
+  targetId: 'targetId',
+  meta: 'meta'
+};
+
+exports.Prisma.UserCourseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  topicMapId: 'topicMapId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  view: 'view',
+  mode: 'mode'
+};
+
+exports.Prisma.UserTopicProgressScalarFieldEnum = {
+  id: 'id',
+  userCourseId: 'userCourseId',
+  topicNodeId: 'topicNodeId',
+  status: 'status',
+  progressValue: 'progressValue',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt'
+};
+
+exports.Prisma.ChecklistItemScalarFieldEnum = {
+  id: 'id',
+  topicNodeId: 'topicNodeId',
+  text: 'text'
+};
+
+exports.Prisma.UserChecklistProgressScalarFieldEnum = {
+  id: 'id',
+  userCourseId: 'userCourseId',
+  checklistItemId: 'checklistItemId',
+  done: 'done'
 };
 
 exports.Prisma.SortOrder = {
@@ -207,6 +250,11 @@ exports.Prisma.SortOrder = {
 };
 
 exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -249,6 +297,35 @@ exports.PrivateType = exports.$Enums.PrivateType = {
   PRIVATE: 'PRIVATE'
 };
 
+exports.NodeKind = exports.$Enums.NodeKind = {
+  VISUAL: 'VISUAL',
+  MARKABLE: 'MARKABLE',
+  TOPIC: 'TOPIC'
+};
+
+exports.CompletionType = exports.$Enums.CompletionType = {
+  TODO: 'TODO',
+  MANUAL: 'MANUAL',
+  NONE: 'NONE'
+};
+
+exports.CourseViewType = exports.$Enums.CourseViewType = {
+  GRAPH: 'GRAPH',
+  LINEAR: 'LINEAR'
+};
+
+exports.CourseModeType = exports.$Enums.CourseModeType = {
+  STRICT: 'STRICT',
+  FLEXIBLE: 'FLEXIBLE'
+};
+
+exports.NodeStatus = exports.$Enums.NodeStatus = {
+  NOT_STARTED: 'NOT_STARTED',
+  SKIPPED: 'SKIPPED',
+  COMPLETED: 'COMPLETED',
+  IN_PROGRESS: 'IN_PROGRESS'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   SkillProfile: 'SkillProfile',
@@ -258,7 +335,12 @@ exports.Prisma.ModelName = {
   Tag: 'Tag',
   RouteTag: 'RouteTag',
   TopicMap: 'TopicMap',
-  TopicContent: 'TopicContent'
+  TopicNode: 'TopicNode',
+  TopicEdge: 'TopicEdge',
+  UserCourse: 'UserCourse',
+  UserTopicProgress: 'UserTopicProgress',
+  ChecklistItem: 'ChecklistItem',
+  UserChecklistProgress: 'UserChecklistProgress'
 };
 
 /**

@@ -54,10 +54,35 @@ export type RouteTag = $Result.DefaultSelection<Prisma.$RouteTagPayload>
  */
 export type TopicMap = $Result.DefaultSelection<Prisma.$TopicMapPayload>
 /**
- * Model TopicContent
+ * Model TopicNode
  * 
  */
-export type TopicContent = $Result.DefaultSelection<Prisma.$TopicContentPayload>
+export type TopicNode = $Result.DefaultSelection<Prisma.$TopicNodePayload>
+/**
+ * Model TopicEdge
+ * 
+ */
+export type TopicEdge = $Result.DefaultSelection<Prisma.$TopicEdgePayload>
+/**
+ * Model UserCourse
+ * 
+ */
+export type UserCourse = $Result.DefaultSelection<Prisma.$UserCoursePayload>
+/**
+ * Model UserTopicProgress
+ * 
+ */
+export type UserTopicProgress = $Result.DefaultSelection<Prisma.$UserTopicProgressPayload>
+/**
+ * Model ChecklistItem
+ * 
+ */
+export type ChecklistItem = $Result.DefaultSelection<Prisma.$ChecklistItemPayload>
+/**
+ * Model UserChecklistProgress
+ * 
+ */
+export type UserChecklistProgress = $Result.DefaultSelection<Prisma.$UserChecklistProgressPayload>
 
 /**
  * Enums
@@ -98,6 +123,50 @@ export const PrivateType: {
 
 export type PrivateType = (typeof PrivateType)[keyof typeof PrivateType]
 
+
+export const NodeKind: {
+  VISUAL: 'VISUAL',
+  MARKABLE: 'MARKABLE',
+  TOPIC: 'TOPIC'
+};
+
+export type NodeKind = (typeof NodeKind)[keyof typeof NodeKind]
+
+
+export const CompletionType: {
+  TODO: 'TODO',
+  MANUAL: 'MANUAL',
+  NONE: 'NONE'
+};
+
+export type CompletionType = (typeof CompletionType)[keyof typeof CompletionType]
+
+
+export const NodeStatus: {
+  NOT_STARTED: 'NOT_STARTED',
+  SKIPPED: 'SKIPPED',
+  COMPLETED: 'COMPLETED',
+  IN_PROGRESS: 'IN_PROGRESS'
+};
+
+export type NodeStatus = (typeof NodeStatus)[keyof typeof NodeStatus]
+
+
+export const CourseViewType: {
+  GRAPH: 'GRAPH',
+  LINEAR: 'LINEAR'
+};
+
+export type CourseViewType = (typeof CourseViewType)[keyof typeof CourseViewType]
+
+
+export const CourseModeType: {
+  STRICT: 'STRICT',
+  FLEXIBLE: 'FLEXIBLE'
+};
+
+export type CourseModeType = (typeof CourseModeType)[keyof typeof CourseModeType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -115,6 +184,26 @@ export const TokenType: typeof $Enums.TokenType
 export type PrivateType = $Enums.PrivateType
 
 export const PrivateType: typeof $Enums.PrivateType
+
+export type NodeKind = $Enums.NodeKind
+
+export const NodeKind: typeof $Enums.NodeKind
+
+export type CompletionType = $Enums.CompletionType
+
+export const CompletionType: typeof $Enums.CompletionType
+
+export type NodeStatus = $Enums.NodeStatus
+
+export const NodeStatus: typeof $Enums.NodeStatus
+
+export type CourseViewType = $Enums.CourseViewType
+
+export const CourseViewType: typeof $Enums.CourseViewType
+
+export type CourseModeType = $Enums.CourseModeType
+
+export const CourseModeType: typeof $Enums.CourseModeType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -322,14 +411,64 @@ export class PrismaClient<
   get topicMap(): Prisma.TopicMapDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.topicContent`: Exposes CRUD operations for the **TopicContent** model.
+   * `prisma.topicNode`: Exposes CRUD operations for the **TopicNode** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more TopicContents
-    * const topicContents = await prisma.topicContent.findMany()
+    * // Fetch zero or more TopicNodes
+    * const topicNodes = await prisma.topicNode.findMany()
     * ```
     */
-  get topicContent(): Prisma.TopicContentDelegate<ExtArgs, ClientOptions>;
+  get topicNode(): Prisma.TopicNodeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.topicEdge`: Exposes CRUD operations for the **TopicEdge** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TopicEdges
+    * const topicEdges = await prisma.topicEdge.findMany()
+    * ```
+    */
+  get topicEdge(): Prisma.TopicEdgeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userCourse`: Exposes CRUD operations for the **UserCourse** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserCourses
+    * const userCourses = await prisma.userCourse.findMany()
+    * ```
+    */
+  get userCourse(): Prisma.UserCourseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userTopicProgress`: Exposes CRUD operations for the **UserTopicProgress** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserTopicProgresses
+    * const userTopicProgresses = await prisma.userTopicProgress.findMany()
+    * ```
+    */
+  get userTopicProgress(): Prisma.UserTopicProgressDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.checklistItem`: Exposes CRUD operations for the **ChecklistItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ChecklistItems
+    * const checklistItems = await prisma.checklistItem.findMany()
+    * ```
+    */
+  get checklistItem(): Prisma.ChecklistItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userChecklistProgress`: Exposes CRUD operations for the **UserChecklistProgress** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserChecklistProgresses
+    * const userChecklistProgresses = await prisma.userChecklistProgress.findMany()
+    * ```
+    */
+  get userChecklistProgress(): Prisma.UserChecklistProgressDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -778,7 +917,12 @@ export namespace Prisma {
     Tag: 'Tag',
     RouteTag: 'RouteTag',
     TopicMap: 'TopicMap',
-    TopicContent: 'TopicContent'
+    TopicNode: 'TopicNode',
+    TopicEdge: 'TopicEdge',
+    UserCourse: 'UserCourse',
+    UserTopicProgress: 'UserTopicProgress',
+    ChecklistItem: 'ChecklistItem',
+    UserChecklistProgress: 'UserChecklistProgress'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -797,7 +941,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "skillProfile" | "account" | "token" | "route" | "tag" | "routeTag" | "topicMap" | "topicContent"
+      modelProps: "user" | "skillProfile" | "account" | "token" | "route" | "tag" | "routeTag" | "topicMap" | "topicNode" | "topicEdge" | "userCourse" | "userTopicProgress" | "checklistItem" | "userChecklistProgress"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1393,77 +1537,447 @@ export namespace Prisma {
           }
         }
       }
-      TopicContent: {
-        payload: Prisma.$TopicContentPayload<ExtArgs>
-        fields: Prisma.TopicContentFieldRefs
+      TopicNode: {
+        payload: Prisma.$TopicNodePayload<ExtArgs>
+        fields: Prisma.TopicNodeFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.TopicContentFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload> | null
+            args: Prisma.TopicNodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.TopicContentFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload>
+            args: Prisma.TopicNodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload>
           }
           findFirst: {
-            args: Prisma.TopicContentFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload> | null
+            args: Prisma.TopicNodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.TopicContentFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload>
+            args: Prisma.TopicNodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload>
           }
           findMany: {
-            args: Prisma.TopicContentFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload>[]
+            args: Prisma.TopicNodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload>[]
           }
           create: {
-            args: Prisma.TopicContentCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload>
+            args: Prisma.TopicNodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload>
           }
           createMany: {
-            args: Prisma.TopicContentCreateManyArgs<ExtArgs>
+            args: Prisma.TopicNodeCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.TopicContentCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload>[]
+            args: Prisma.TopicNodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload>[]
           }
           delete: {
-            args: Prisma.TopicContentDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload>
+            args: Prisma.TopicNodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload>
           }
           update: {
-            args: Prisma.TopicContentUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload>
+            args: Prisma.TopicNodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload>
           }
           deleteMany: {
-            args: Prisma.TopicContentDeleteManyArgs<ExtArgs>
+            args: Prisma.TopicNodeDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.TopicContentUpdateManyArgs<ExtArgs>
+            args: Prisma.TopicNodeUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.TopicContentUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload>[]
+            args: Prisma.TopicNodeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload>[]
           }
           upsert: {
-            args: Prisma.TopicContentUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TopicContentPayload>
+            args: Prisma.TopicNodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicNodePayload>
           }
           aggregate: {
-            args: Prisma.TopicContentAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateTopicContent>
+            args: Prisma.TopicNodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTopicNode>
           }
           groupBy: {
-            args: Prisma.TopicContentGroupByArgs<ExtArgs>
-            result: $Utils.Optional<TopicContentGroupByOutputType>[]
+            args: Prisma.TopicNodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TopicNodeGroupByOutputType>[]
           }
           count: {
-            args: Prisma.TopicContentCountArgs<ExtArgs>
-            result: $Utils.Optional<TopicContentCountAggregateOutputType> | number
+            args: Prisma.TopicNodeCountArgs<ExtArgs>
+            result: $Utils.Optional<TopicNodeCountAggregateOutputType> | number
+          }
+        }
+      }
+      TopicEdge: {
+        payload: Prisma.$TopicEdgePayload<ExtArgs>
+        fields: Prisma.TopicEdgeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TopicEdgeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TopicEdgeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload>
+          }
+          findFirst: {
+            args: Prisma.TopicEdgeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TopicEdgeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload>
+          }
+          findMany: {
+            args: Prisma.TopicEdgeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload>[]
+          }
+          create: {
+            args: Prisma.TopicEdgeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload>
+          }
+          createMany: {
+            args: Prisma.TopicEdgeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TopicEdgeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload>[]
+          }
+          delete: {
+            args: Prisma.TopicEdgeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload>
+          }
+          update: {
+            args: Prisma.TopicEdgeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload>
+          }
+          deleteMany: {
+            args: Prisma.TopicEdgeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TopicEdgeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TopicEdgeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload>[]
+          }
+          upsert: {
+            args: Prisma.TopicEdgeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicEdgePayload>
+          }
+          aggregate: {
+            args: Prisma.TopicEdgeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTopicEdge>
+          }
+          groupBy: {
+            args: Prisma.TopicEdgeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TopicEdgeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TopicEdgeCountArgs<ExtArgs>
+            result: $Utils.Optional<TopicEdgeCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserCourse: {
+        payload: Prisma.$UserCoursePayload<ExtArgs>
+        fields: Prisma.UserCourseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserCourseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserCourseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload>
+          }
+          findFirst: {
+            args: Prisma.UserCourseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserCourseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload>
+          }
+          findMany: {
+            args: Prisma.UserCourseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload>[]
+          }
+          create: {
+            args: Prisma.UserCourseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload>
+          }
+          createMany: {
+            args: Prisma.UserCourseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserCourseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload>[]
+          }
+          delete: {
+            args: Prisma.UserCourseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload>
+          }
+          update: {
+            args: Prisma.UserCourseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserCourseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserCourseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserCourseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload>[]
+          }
+          upsert: {
+            args: Prisma.UserCourseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCoursePayload>
+          }
+          aggregate: {
+            args: Prisma.UserCourseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserCourse>
+          }
+          groupBy: {
+            args: Prisma.UserCourseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserCourseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserCourseCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCourseCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserTopicProgress: {
+        payload: Prisma.$UserTopicProgressPayload<ExtArgs>
+        fields: Prisma.UserTopicProgressFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserTopicProgressFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserTopicProgressFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload>
+          }
+          findFirst: {
+            args: Prisma.UserTopicProgressFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserTopicProgressFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload>
+          }
+          findMany: {
+            args: Prisma.UserTopicProgressFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload>[]
+          }
+          create: {
+            args: Prisma.UserTopicProgressCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload>
+          }
+          createMany: {
+            args: Prisma.UserTopicProgressCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserTopicProgressCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload>[]
+          }
+          delete: {
+            args: Prisma.UserTopicProgressDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload>
+          }
+          update: {
+            args: Prisma.UserTopicProgressUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserTopicProgressDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserTopicProgressUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserTopicProgressUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserTopicProgressUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserTopicProgressPayload>
+          }
+          aggregate: {
+            args: Prisma.UserTopicProgressAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserTopicProgress>
+          }
+          groupBy: {
+            args: Prisma.UserTopicProgressGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserTopicProgressGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserTopicProgressCountArgs<ExtArgs>
+            result: $Utils.Optional<UserTopicProgressCountAggregateOutputType> | number
+          }
+        }
+      }
+      ChecklistItem: {
+        payload: Prisma.$ChecklistItemPayload<ExtArgs>
+        fields: Prisma.ChecklistItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChecklistItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChecklistItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload>
+          }
+          findFirst: {
+            args: Prisma.ChecklistItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChecklistItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload>
+          }
+          findMany: {
+            args: Prisma.ChecklistItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload>[]
+          }
+          create: {
+            args: Prisma.ChecklistItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload>
+          }
+          createMany: {
+            args: Prisma.ChecklistItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChecklistItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload>[]
+          }
+          delete: {
+            args: Prisma.ChecklistItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload>
+          }
+          update: {
+            args: Prisma.ChecklistItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.ChecklistItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChecklistItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChecklistItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.ChecklistItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistItemPayload>
+          }
+          aggregate: {
+            args: Prisma.ChecklistItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChecklistItem>
+          }
+          groupBy: {
+            args: Prisma.ChecklistItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChecklistItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChecklistItemCountArgs<ExtArgs>
+            result: $Utils.Optional<ChecklistItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserChecklistProgress: {
+        payload: Prisma.$UserChecklistProgressPayload<ExtArgs>
+        fields: Prisma.UserChecklistProgressFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserChecklistProgressFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserChecklistProgressFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload>
+          }
+          findFirst: {
+            args: Prisma.UserChecklistProgressFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserChecklistProgressFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload>
+          }
+          findMany: {
+            args: Prisma.UserChecklistProgressFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload>[]
+          }
+          create: {
+            args: Prisma.UserChecklistProgressCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload>
+          }
+          createMany: {
+            args: Prisma.UserChecklistProgressCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserChecklistProgressCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload>[]
+          }
+          delete: {
+            args: Prisma.UserChecklistProgressDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload>
+          }
+          update: {
+            args: Prisma.UserChecklistProgressUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserChecklistProgressDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserChecklistProgressUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserChecklistProgressUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserChecklistProgressUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserChecklistProgressPayload>
+          }
+          aggregate: {
+            args: Prisma.UserChecklistProgressAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserChecklistProgress>
+          }
+          groupBy: {
+            args: Prisma.UserChecklistProgressGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserChecklistProgressGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserChecklistProgressCountArgs<ExtArgs>
+            result: $Utils.Optional<UserChecklistProgressCountAggregateOutputType> | number
           }
         }
       }
@@ -1559,7 +2073,12 @@ export namespace Prisma {
     tag?: TagOmit
     routeTag?: RouteTagOmit
     topicMap?: TopicMapOmit
-    topicContent?: TopicContentOmit
+    topicNode?: TopicNodeOmit
+    topicEdge?: TopicEdgeOmit
+    userCourse?: UserCourseOmit
+    userTopicProgress?: UserTopicProgressOmit
+    checklistItem?: ChecklistItemOmit
+    userChecklistProgress?: UserChecklistProgressOmit
   }
 
   /* Types for Logging */
@@ -1654,14 +2173,14 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    accounts: number
     Route: number
+    accounts: number
     tokens: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     Route?: boolean | UserCountOutputTypeCountRouteArgs
+    accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     tokens?: boolean | UserCountOutputTypeCountTokensArgs
   }
 
@@ -1679,15 +2198,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AccountWhereInput
+  export type UserCountOutputTypeCountRouteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RouteWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountRouteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RouteWhereInput
+  export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccountWhereInput
   }
 
   /**
@@ -1765,11 +2284,15 @@ export namespace Prisma {
    */
 
   export type TopicMapCountOutputType = {
-    topicContent: number
+    edges: number
+    nodes: number
+    UserCourse: number
   }
 
   export type TopicMapCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    topicContent?: boolean | TopicMapCountOutputTypeCountTopicContentArgs
+    edges?: boolean | TopicMapCountOutputTypeCountEdgesArgs
+    nodes?: boolean | TopicMapCountOutputTypeCountNodesArgs
+    UserCourse?: boolean | TopicMapCountOutputTypeCountUserCourseArgs
   }
 
   // Custom InputTypes
@@ -1786,8 +2309,133 @@ export namespace Prisma {
   /**
    * TopicMapCountOutputType without action
    */
-  export type TopicMapCountOutputTypeCountTopicContentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TopicContentWhereInput
+  export type TopicMapCountOutputTypeCountEdgesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TopicEdgeWhereInput
+  }
+
+  /**
+   * TopicMapCountOutputType without action
+   */
+  export type TopicMapCountOutputTypeCountNodesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TopicNodeWhereInput
+  }
+
+  /**
+   * TopicMapCountOutputType without action
+   */
+  export type TopicMapCountOutputTypeCountUserCourseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserCourseWhereInput
+  }
+
+
+  /**
+   * Count Type TopicNodeCountOutputType
+   */
+
+  export type TopicNodeCountOutputType = {
+    checklist: number
+    UserTopicProgress: number
+  }
+
+  export type TopicNodeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    checklist?: boolean | TopicNodeCountOutputTypeCountChecklistArgs
+    UserTopicProgress?: boolean | TopicNodeCountOutputTypeCountUserTopicProgressArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TopicNodeCountOutputType without action
+   */
+  export type TopicNodeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNodeCountOutputType
+     */
+    select?: TopicNodeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TopicNodeCountOutputType without action
+   */
+  export type TopicNodeCountOutputTypeCountChecklistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChecklistItemWhereInput
+  }
+
+  /**
+   * TopicNodeCountOutputType without action
+   */
+  export type TopicNodeCountOutputTypeCountUserTopicProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserTopicProgressWhereInput
+  }
+
+
+  /**
+   * Count Type UserCourseCountOutputType
+   */
+
+  export type UserCourseCountOutputType = {
+    UserChecklistProgress: number
+    progress: number
+  }
+
+  export type UserCourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    UserChecklistProgress?: boolean | UserCourseCountOutputTypeCountUserChecklistProgressArgs
+    progress?: boolean | UserCourseCountOutputTypeCountProgressArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCourseCountOutputType without action
+   */
+  export type UserCourseCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourseCountOutputType
+     */
+    select?: UserCourseCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCourseCountOutputType without action
+   */
+  export type UserCourseCountOutputTypeCountUserChecklistProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserChecklistProgressWhereInput
+  }
+
+  /**
+   * UserCourseCountOutputType without action
+   */
+  export type UserCourseCountOutputTypeCountProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserTopicProgressWhereInput
+  }
+
+
+  /**
+   * Count Type ChecklistItemCountOutputType
+   */
+
+  export type ChecklistItemCountOutputType = {
+    userStates: number
+  }
+
+  export type ChecklistItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userStates?: boolean | ChecklistItemCountOutputTypeCountUserStatesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ChecklistItemCountOutputType without action
+   */
+  export type ChecklistItemCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItemCountOutputType
+     */
+    select?: ChecklistItemCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ChecklistItemCountOutputType without action
+   */
+  export type ChecklistItemCountOutputTypeCountUserStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserChecklistProgressWhereInput
   }
 
 
@@ -2007,9 +2655,9 @@ export namespace Prisma {
     method?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    Route?: boolean | User$RouteArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     skillProfile?: boolean | User$skillProfileArgs<ExtArgs>
-    Route?: boolean | User$RouteArgs<ExtArgs>
     tokens?: boolean | User$tokensArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -2058,9 +2706,9 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "avatar" | "role" | "isVerified" | "isTwoFactorEnabled" | "method" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Route?: boolean | User$RouteArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     skillProfile?: boolean | User$skillProfileArgs<ExtArgs>
-    Route?: boolean | User$RouteArgs<ExtArgs>
     tokens?: boolean | User$tokensArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -2070,9 +2718,9 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      Route: Prisma.$RoutePayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       skillProfile: Prisma.$SkillProfilePayload<ExtArgs> | null
-      Route: Prisma.$RoutePayload<ExtArgs>[]
       tokens: Prisma.$TokenPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -2481,9 +3129,9 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    Route<T extends User$RouteArgs<ExtArgs> = {}>(args?: Subset<T, User$RouteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     skillProfile<T extends User$skillProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$skillProfileArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    Route<T extends User$RouteArgs<ExtArgs> = {}>(args?: Subset<T, User$RouteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tokens<T extends User$tokensArgs<ExtArgs> = {}>(args?: Subset<T, User$tokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2913,6 +3561,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.Route
+   */
+  export type User$RouteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    where?: RouteWhereInput
+    orderBy?: RouteOrderByWithRelationInput | RouteOrderByWithRelationInput[]
+    cursor?: RouteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RouteScalarFieldEnum | RouteScalarFieldEnum[]
+  }
+
+  /**
    * User.accounts
    */
   export type User$accountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2953,30 +3625,6 @@ export namespace Prisma {
      */
     include?: SkillProfileInclude<ExtArgs> | null
     where?: SkillProfileWhereInput
-  }
-
-  /**
-   * User.Route
-   */
-  export type User$RouteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Route
-     */
-    select?: RouteSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Route
-     */
-    omit?: RouteOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RouteInclude<ExtArgs> | null
-    where?: RouteWhereInput
-    orderBy?: RouteOrderByWithRelationInput | RouteOrderByWithRelationInput[]
-    cursor?: RouteWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RouteScalarFieldEnum | RouteScalarFieldEnum[]
   }
 
   /**
@@ -6494,8 +7142,8 @@ export namespace Prisma {
     updatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    topicMap?: boolean | Route$topicMapArgs<ExtArgs>
     tags?: boolean | Route$tagsArgs<ExtArgs>
+    topicMap?: boolean | Route$topicMapArgs<ExtArgs>
     _count?: boolean | RouteCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["route"]>
 
@@ -6534,8 +7182,8 @@ export namespace Prisma {
   export type RouteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "privateType" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["route"]>
   export type RouteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    topicMap?: boolean | Route$topicMapArgs<ExtArgs>
     tags?: boolean | Route$tagsArgs<ExtArgs>
+    topicMap?: boolean | Route$topicMapArgs<ExtArgs>
     _count?: boolean | RouteCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RouteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6549,8 +7197,8 @@ export namespace Prisma {
     name: "Route"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      topicMap: Prisma.$TopicMapPayload<ExtArgs> | null
       tags: Prisma.$RouteTagPayload<ExtArgs>[]
+      topicMap: Prisma.$TopicMapPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6955,8 +7603,8 @@ export namespace Prisma {
   export interface Prisma__RouteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    topicMap<T extends Route$topicMapArgs<ExtArgs> = {}>(args?: Subset<T, Route$topicMapArgs<ExtArgs>>): Prisma__TopicMapClient<$Result.GetResult<Prisma.$TopicMapPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tags<T extends Route$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Route$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RouteTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    topicMap<T extends Route$topicMapArgs<ExtArgs> = {}>(args?: Subset<T, Route$topicMapArgs<ExtArgs>>): Prisma__TopicMapClient<$Result.GetResult<Prisma.$TopicMapPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7389,25 +8037,6 @@ export namespace Prisma {
   }
 
   /**
-   * Route.topicMap
-   */
-  export type Route$topicMapArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TopicMap
-     */
-    select?: TopicMapSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TopicMap
-     */
-    omit?: TopicMapOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TopicMapInclude<ExtArgs> | null
-    where?: TopicMapWhereInput
-  }
-
-  /**
    * Route.tags
    */
   export type Route$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7429,6 +8058,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RouteTagScalarFieldEnum | RouteTagScalarFieldEnum[]
+  }
+
+  /**
+   * Route.topicMap
+   */
+  export type Route$topicMapArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicMap
+     */
+    select?: TopicMapSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicMap
+     */
+    omit?: TopicMapOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicMapInclude<ExtArgs> | null
+    where?: TopicMapWhereInput
   }
 
   /**
@@ -9546,8 +10194,6 @@ export namespace Prisma {
   export type TopicMapCountAggregateOutputType = {
     id: number
     routeId: number
-    nodeData: number
-    edgeData: number
     updatedAt: number
     _all: number
   }
@@ -9568,8 +10214,6 @@ export namespace Prisma {
   export type TopicMapCountAggregateInputType = {
     id?: true
     routeId?: true
-    nodeData?: true
-    edgeData?: true
     updatedAt?: true
     _all?: true
   }
@@ -9649,8 +10293,6 @@ export namespace Prisma {
   export type TopicMapGroupByOutputType = {
     id: string
     routeId: string
-    nodeData: JsonValue
-    edgeData: JsonValue
     updatedAt: Date
     _count: TopicMapCountAggregateOutputType | null
     _min: TopicMapMinAggregateOutputType | null
@@ -9674,64 +10316,60 @@ export namespace Prisma {
   export type TopicMapSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     routeId?: boolean
-    nodeData?: boolean
-    edgeData?: boolean
     updatedAt?: boolean
-    route?: boolean | TopicMap$routeArgs<ExtArgs>
-    topicContent?: boolean | TopicMap$topicContentArgs<ExtArgs>
+    edges?: boolean | TopicMap$edgesArgs<ExtArgs>
+    route?: boolean | RouteDefaultArgs<ExtArgs>
+    nodes?: boolean | TopicMap$nodesArgs<ExtArgs>
+    UserCourse?: boolean | TopicMap$UserCourseArgs<ExtArgs>
     _count?: boolean | TopicMapCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topicMap"]>
 
   export type TopicMapSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     routeId?: boolean
-    nodeData?: boolean
-    edgeData?: boolean
     updatedAt?: boolean
-    route?: boolean | TopicMap$routeArgs<ExtArgs>
+    route?: boolean | RouteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topicMap"]>
 
   export type TopicMapSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     routeId?: boolean
-    nodeData?: boolean
-    edgeData?: boolean
     updatedAt?: boolean
-    route?: boolean | TopicMap$routeArgs<ExtArgs>
+    route?: boolean | RouteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topicMap"]>
 
   export type TopicMapSelectScalar = {
     id?: boolean
     routeId?: boolean
-    nodeData?: boolean
-    edgeData?: boolean
     updatedAt?: boolean
   }
 
-  export type TopicMapOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "routeId" | "nodeData" | "edgeData" | "updatedAt", ExtArgs["result"]["topicMap"]>
+  export type TopicMapOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "routeId" | "updatedAt", ExtArgs["result"]["topicMap"]>
   export type TopicMapInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    route?: boolean | TopicMap$routeArgs<ExtArgs>
-    topicContent?: boolean | TopicMap$topicContentArgs<ExtArgs>
+    edges?: boolean | TopicMap$edgesArgs<ExtArgs>
+    route?: boolean | RouteDefaultArgs<ExtArgs>
+    nodes?: boolean | TopicMap$nodesArgs<ExtArgs>
+    UserCourse?: boolean | TopicMap$UserCourseArgs<ExtArgs>
     _count?: boolean | TopicMapCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TopicMapIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    route?: boolean | TopicMap$routeArgs<ExtArgs>
+    route?: boolean | RouteDefaultArgs<ExtArgs>
   }
   export type TopicMapIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    route?: boolean | TopicMap$routeArgs<ExtArgs>
+    route?: boolean | RouteDefaultArgs<ExtArgs>
   }
 
   export type $TopicMapPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TopicMap"
     objects: {
-      route: Prisma.$RoutePayload<ExtArgs> | null
-      topicContent: Prisma.$TopicContentPayload<ExtArgs>[]
+      edges: Prisma.$TopicEdgePayload<ExtArgs>[]
+      route: Prisma.$RoutePayload<ExtArgs>
+      nodes: Prisma.$TopicNodePayload<ExtArgs>[]
+      UserCourse: Prisma.$UserCoursePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       routeId: string
-      nodeData: Prisma.JsonValue
-      edgeData: Prisma.JsonValue
       updatedAt: Date
     }, ExtArgs["result"]["topicMap"]>
     composites: {}
@@ -10127,8 +10765,10 @@ export namespace Prisma {
    */
   export interface Prisma__TopicMapClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    route<T extends TopicMap$routeArgs<ExtArgs> = {}>(args?: Subset<T, TopicMap$routeArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    topicContent<T extends TopicMap$topicContentArgs<ExtArgs> = {}>(args?: Subset<T, TopicMap$topicContentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    edges<T extends TopicMap$edgesArgs<ExtArgs> = {}>(args?: Subset<T, TopicMap$edgesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    route<T extends RouteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RouteDefaultArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    nodes<T extends TopicMap$nodesArgs<ExtArgs> = {}>(args?: Subset<T, TopicMap$nodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    UserCourse<T extends TopicMap$UserCourseArgs<ExtArgs> = {}>(args?: Subset<T, TopicMap$UserCourseArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10160,8 +10800,6 @@ export namespace Prisma {
   interface TopicMapFieldRefs {
     readonly id: FieldRef<"TopicMap", 'String'>
     readonly routeId: FieldRef<"TopicMap", 'String'>
-    readonly nodeData: FieldRef<"TopicMap", 'Json'>
-    readonly edgeData: FieldRef<"TopicMap", 'Json'>
     readonly updatedAt: FieldRef<"TopicMap", 'DateTime'>
   }
     
@@ -10559,46 +11197,75 @@ export namespace Prisma {
   }
 
   /**
-   * TopicMap.route
+   * TopicMap.edges
    */
-  export type TopicMap$routeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicMap$edgesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Route
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: RouteSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Route
+     * Omit specific fields from the TopicEdge
      */
-    omit?: RouteOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RouteInclude<ExtArgs> | null
-    where?: RouteWhereInput
+    include?: TopicEdgeInclude<ExtArgs> | null
+    where?: TopicEdgeWhereInput
+    orderBy?: TopicEdgeOrderByWithRelationInput | TopicEdgeOrderByWithRelationInput[]
+    cursor?: TopicEdgeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TopicEdgeScalarFieldEnum | TopicEdgeScalarFieldEnum[]
   }
 
   /**
-   * TopicMap.topicContent
+   * TopicMap.nodes
    */
-  export type TopicMap$topicContentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicMap$nodesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicNode
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicNodeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicNode
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicNodeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
-    where?: TopicContentWhereInput
-    orderBy?: TopicContentOrderByWithRelationInput | TopicContentOrderByWithRelationInput[]
-    cursor?: TopicContentWhereUniqueInput
+    include?: TopicNodeInclude<ExtArgs> | null
+    where?: TopicNodeWhereInput
+    orderBy?: TopicNodeOrderByWithRelationInput | TopicNodeOrderByWithRelationInput[]
+    cursor?: TopicNodeWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: TopicContentScalarFieldEnum | TopicContentScalarFieldEnum[]
+    distinct?: TopicNodeScalarFieldEnum | TopicNodeScalarFieldEnum[]
+  }
+
+  /**
+   * TopicMap.UserCourse
+   */
+  export type TopicMap$UserCourseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    where?: UserCourseWhereInput
+    orderBy?: UserCourseOrderByWithRelationInput | UserCourseOrderByWithRelationInput[]
+    cursor?: UserCourseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserCourseScalarFieldEnum | UserCourseScalarFieldEnum[]
   }
 
   /**
@@ -10621,350 +11288,432 @@ export namespace Prisma {
 
 
   /**
-   * Model TopicContent
+   * Model TopicNode
    */
 
-  export type AggregateTopicContent = {
-    _count: TopicContentCountAggregateOutputType | null
-    _min: TopicContentMinAggregateOutputType | null
-    _max: TopicContentMaxAggregateOutputType | null
+  export type AggregateTopicNode = {
+    _count: TopicNodeCountAggregateOutputType | null
+    _avg: TopicNodeAvgAggregateOutputType | null
+    _sum: TopicNodeSumAggregateOutputType | null
+    _min: TopicNodeMinAggregateOutputType | null
+    _max: TopicNodeMaxAggregateOutputType | null
   }
 
-  export type TopicContentMinAggregateOutputType = {
+  export type TopicNodeAvgAggregateOutputType = {
+    zIndex: number | null
+  }
+
+  export type TopicNodeSumAggregateOutputType = {
+    zIndex: number | null
+  }
+
+  export type TopicNodeMinAggregateOutputType = {
     id: string | null
-    routeId: string | null
-    nodeId: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    topicMapId: string | null
+    kind: $Enums.NodeKind | null
+    type: string | null
+    title: string | null
+    zIndex: number | null
+    completionType: $Enums.CompletionType | null
   }
 
-  export type TopicContentMaxAggregateOutputType = {
+  export type TopicNodeMaxAggregateOutputType = {
     id: string | null
-    routeId: string | null
-    nodeId: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    topicMapId: string | null
+    kind: $Enums.NodeKind | null
+    type: string | null
+    title: string | null
+    zIndex: number | null
+    completionType: $Enums.CompletionType | null
   }
 
-  export type TopicContentCountAggregateOutputType = {
+  export type TopicNodeCountAggregateOutputType = {
     id: number
-    routeId: number
-    nodeId: number
-    createdAt: number
-    updatedAt: number
+    topicMapId: number
+    kind: number
+    type: number
+    title: number
+    meta: number
+    posxy: number
+    zIndex: number
+    completionType: number
     _all: number
   }
 
 
-  export type TopicContentMinAggregateInputType = {
-    id?: true
-    routeId?: true
-    nodeId?: true
-    createdAt?: true
-    updatedAt?: true
+  export type TopicNodeAvgAggregateInputType = {
+    zIndex?: true
   }
 
-  export type TopicContentMaxAggregateInputType = {
-    id?: true
-    routeId?: true
-    nodeId?: true
-    createdAt?: true
-    updatedAt?: true
+  export type TopicNodeSumAggregateInputType = {
+    zIndex?: true
   }
 
-  export type TopicContentCountAggregateInputType = {
+  export type TopicNodeMinAggregateInputType = {
     id?: true
-    routeId?: true
-    nodeId?: true
-    createdAt?: true
-    updatedAt?: true
+    topicMapId?: true
+    kind?: true
+    type?: true
+    title?: true
+    zIndex?: true
+    completionType?: true
+  }
+
+  export type TopicNodeMaxAggregateInputType = {
+    id?: true
+    topicMapId?: true
+    kind?: true
+    type?: true
+    title?: true
+    zIndex?: true
+    completionType?: true
+  }
+
+  export type TopicNodeCountAggregateInputType = {
+    id?: true
+    topicMapId?: true
+    kind?: true
+    type?: true
+    title?: true
+    meta?: true
+    posxy?: true
+    zIndex?: true
+    completionType?: true
     _all?: true
   }
 
-  export type TopicContentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicNodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which TopicContent to aggregate.
+     * Filter which TopicNode to aggregate.
      */
-    where?: TopicContentWhereInput
+    where?: TopicNodeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TopicContents to fetch.
+     * Determine the order of TopicNodes to fetch.
      */
-    orderBy?: TopicContentOrderByWithRelationInput | TopicContentOrderByWithRelationInput[]
+    orderBy?: TopicNodeOrderByWithRelationInput | TopicNodeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: TopicContentWhereUniqueInput
+    cursor?: TopicNodeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TopicContents from the position of the cursor.
+     * Take `±n` TopicNodes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TopicContents.
+     * Skip the first `n` TopicNodes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned TopicContents
+     * Count returned TopicNodes
     **/
-    _count?: true | TopicContentCountAggregateInputType
+    _count?: true | TopicNodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TopicNodeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TopicNodeSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: TopicContentMinAggregateInputType
+    _min?: TopicNodeMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: TopicContentMaxAggregateInputType
+    _max?: TopicNodeMaxAggregateInputType
   }
 
-  export type GetTopicContentAggregateType<T extends TopicContentAggregateArgs> = {
-        [P in keyof T & keyof AggregateTopicContent]: P extends '_count' | 'count'
+  export type GetTopicNodeAggregateType<T extends TopicNodeAggregateArgs> = {
+        [P in keyof T & keyof AggregateTopicNode]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateTopicContent[P]>
-      : GetScalarType<T[P], AggregateTopicContent[P]>
+        : GetScalarType<T[P], AggregateTopicNode[P]>
+      : GetScalarType<T[P], AggregateTopicNode[P]>
   }
 
 
 
 
-  export type TopicContentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TopicContentWhereInput
-    orderBy?: TopicContentOrderByWithAggregationInput | TopicContentOrderByWithAggregationInput[]
-    by: TopicContentScalarFieldEnum[] | TopicContentScalarFieldEnum
-    having?: TopicContentScalarWhereWithAggregatesInput
+  export type TopicNodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TopicNodeWhereInput
+    orderBy?: TopicNodeOrderByWithAggregationInput | TopicNodeOrderByWithAggregationInput[]
+    by: TopicNodeScalarFieldEnum[] | TopicNodeScalarFieldEnum
+    having?: TopicNodeScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: TopicContentCountAggregateInputType | true
-    _min?: TopicContentMinAggregateInputType
-    _max?: TopicContentMaxAggregateInputType
+    _count?: TopicNodeCountAggregateInputType | true
+    _avg?: TopicNodeAvgAggregateInputType
+    _sum?: TopicNodeSumAggregateInputType
+    _min?: TopicNodeMinAggregateInputType
+    _max?: TopicNodeMaxAggregateInputType
   }
 
-  export type TopicContentGroupByOutputType = {
+  export type TopicNodeGroupByOutputType = {
     id: string
-    routeId: string
-    nodeId: string
-    createdAt: Date
-    updatedAt: Date
-    _count: TopicContentCountAggregateOutputType | null
-    _min: TopicContentMinAggregateOutputType | null
-    _max: TopicContentMaxAggregateOutputType | null
+    topicMapId: string
+    kind: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonValue
+    posxy: JsonValue | null
+    zIndex: number | null
+    completionType: $Enums.CompletionType
+    _count: TopicNodeCountAggregateOutputType | null
+    _avg: TopicNodeAvgAggregateOutputType | null
+    _sum: TopicNodeSumAggregateOutputType | null
+    _min: TopicNodeMinAggregateOutputType | null
+    _max: TopicNodeMaxAggregateOutputType | null
   }
 
-  type GetTopicContentGroupByPayload<T extends TopicContentGroupByArgs> = Prisma.PrismaPromise<
+  type GetTopicNodeGroupByPayload<T extends TopicNodeGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<TopicContentGroupByOutputType, T['by']> &
+      PickEnumerable<TopicNodeGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof TopicContentGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof TopicNodeGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], TopicContentGroupByOutputType[P]>
-            : GetScalarType<T[P], TopicContentGroupByOutputType[P]>
+              : GetScalarType<T[P], TopicNodeGroupByOutputType[P]>
+            : GetScalarType<T[P], TopicNodeGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type TopicContentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type TopicNodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    routeId?: boolean
-    nodeId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    topicMapId?: boolean
+    kind?: boolean
+    type?: boolean
+    title?: boolean
+    meta?: boolean
+    posxy?: boolean
+    zIndex?: boolean
+    completionType?: boolean
+    checklist?: boolean | TopicNode$checklistArgs<ExtArgs>
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["topicContent"]>
+    UserTopicProgress?: boolean | TopicNode$UserTopicProgressArgs<ExtArgs>
+    _count?: boolean | TopicNodeCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["topicNode"]>
 
-  export type TopicContentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type TopicNodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    routeId?: boolean
-    nodeId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    topicMapId?: boolean
+    kind?: boolean
+    type?: boolean
+    title?: boolean
+    meta?: boolean
+    posxy?: boolean
+    zIndex?: boolean
+    completionType?: boolean
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["topicContent"]>
+  }, ExtArgs["result"]["topicNode"]>
 
-  export type TopicContentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type TopicNodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    routeId?: boolean
-    nodeId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    topicMapId?: boolean
+    kind?: boolean
+    type?: boolean
+    title?: boolean
+    meta?: boolean
+    posxy?: boolean
+    zIndex?: boolean
+    completionType?: boolean
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["topicContent"]>
+  }, ExtArgs["result"]["topicNode"]>
 
-  export type TopicContentSelectScalar = {
+  export type TopicNodeSelectScalar = {
     id?: boolean
-    routeId?: boolean
-    nodeId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    topicMapId?: boolean
+    kind?: boolean
+    type?: boolean
+    title?: boolean
+    meta?: boolean
+    posxy?: boolean
+    zIndex?: boolean
+    completionType?: boolean
   }
 
-  export type TopicContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "routeId" | "nodeId" | "createdAt" | "updatedAt", ExtArgs["result"]["topicContent"]>
-  export type TopicContentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicNodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "topicMapId" | "kind" | "type" | "title" | "meta" | "posxy" | "zIndex" | "completionType", ExtArgs["result"]["topicNode"]>
+  export type TopicNodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    checklist?: boolean | TopicNode$checklistArgs<ExtArgs>
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+    UserTopicProgress?: boolean | TopicNode$UserTopicProgressArgs<ExtArgs>
+    _count?: boolean | TopicNodeCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TopicNodeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
   }
-  export type TopicContentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
-  }
-  export type TopicContentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicNodeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
   }
 
-  export type $TopicContentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "TopicContent"
+  export type $TopicNodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TopicNode"
     objects: {
+      checklist: Prisma.$ChecklistItemPayload<ExtArgs>[]
       topicMap: Prisma.$TopicMapPayload<ExtArgs>
+      UserTopicProgress: Prisma.$UserTopicProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      routeId: string
-      nodeId: string
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["topicContent"]>
+      topicMapId: string
+      kind: $Enums.NodeKind
+      type: string
+      title: string
+      meta: Prisma.JsonValue
+      posxy: Prisma.JsonValue | null
+      zIndex: number | null
+      completionType: $Enums.CompletionType
+    }, ExtArgs["result"]["topicNode"]>
     composites: {}
   }
 
-  type TopicContentGetPayload<S extends boolean | null | undefined | TopicContentDefaultArgs> = $Result.GetResult<Prisma.$TopicContentPayload, S>
+  type TopicNodeGetPayload<S extends boolean | null | undefined | TopicNodeDefaultArgs> = $Result.GetResult<Prisma.$TopicNodePayload, S>
 
-  type TopicContentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<TopicContentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: TopicContentCountAggregateInputType | true
+  type TopicNodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TopicNodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TopicNodeCountAggregateInputType | true
     }
 
-  export interface TopicContentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TopicContent'], meta: { name: 'TopicContent' } }
+  export interface TopicNodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TopicNode'], meta: { name: 'TopicNode' } }
     /**
-     * Find zero or one TopicContent that matches the filter.
-     * @param {TopicContentFindUniqueArgs} args - Arguments to find a TopicContent
+     * Find zero or one TopicNode that matches the filter.
+     * @param {TopicNodeFindUniqueArgs} args - Arguments to find a TopicNode
      * @example
-     * // Get one TopicContent
-     * const topicContent = await prisma.topicContent.findUnique({
+     * // Get one TopicNode
+     * const topicNode = await prisma.topicNode.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends TopicContentFindUniqueArgs>(args: SelectSubset<T, TopicContentFindUniqueArgs<ExtArgs>>): Prisma__TopicContentClient<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends TopicNodeFindUniqueArgs>(args: SelectSubset<T, TopicNodeFindUniqueArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one TopicContent that matches the filter or throw an error with `error.code='P2025'`
+     * Find one TopicNode that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {TopicContentFindUniqueOrThrowArgs} args - Arguments to find a TopicContent
+     * @param {TopicNodeFindUniqueOrThrowArgs} args - Arguments to find a TopicNode
      * @example
-     * // Get one TopicContent
-     * const topicContent = await prisma.topicContent.findUniqueOrThrow({
+     * // Get one TopicNode
+     * const topicNode = await prisma.topicNode.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends TopicContentFindUniqueOrThrowArgs>(args: SelectSubset<T, TopicContentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TopicContentClient<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends TopicNodeFindUniqueOrThrowArgs>(args: SelectSubset<T, TopicNodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first TopicContent that matches the filter.
+     * Find the first TopicNode that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TopicContentFindFirstArgs} args - Arguments to find a TopicContent
+     * @param {TopicNodeFindFirstArgs} args - Arguments to find a TopicNode
      * @example
-     * // Get one TopicContent
-     * const topicContent = await prisma.topicContent.findFirst({
+     * // Get one TopicNode
+     * const topicNode = await prisma.topicNode.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends TopicContentFindFirstArgs>(args?: SelectSubset<T, TopicContentFindFirstArgs<ExtArgs>>): Prisma__TopicContentClient<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends TopicNodeFindFirstArgs>(args?: SelectSubset<T, TopicNodeFindFirstArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first TopicContent that matches the filter or
+     * Find the first TopicNode that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TopicContentFindFirstOrThrowArgs} args - Arguments to find a TopicContent
+     * @param {TopicNodeFindFirstOrThrowArgs} args - Arguments to find a TopicNode
      * @example
-     * // Get one TopicContent
-     * const topicContent = await prisma.topicContent.findFirstOrThrow({
+     * // Get one TopicNode
+     * const topicNode = await prisma.topicNode.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends TopicContentFindFirstOrThrowArgs>(args?: SelectSubset<T, TopicContentFindFirstOrThrowArgs<ExtArgs>>): Prisma__TopicContentClient<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends TopicNodeFindFirstOrThrowArgs>(args?: SelectSubset<T, TopicNodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more TopicContents that matches the filter.
+     * Find zero or more TopicNodes that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TopicContentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {TopicNodeFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all TopicContents
-     * const topicContents = await prisma.topicContent.findMany()
+     * // Get all TopicNodes
+     * const topicNodes = await prisma.topicNode.findMany()
      * 
-     * // Get first 10 TopicContents
-     * const topicContents = await prisma.topicContent.findMany({ take: 10 })
+     * // Get first 10 TopicNodes
+     * const topicNodes = await prisma.topicNode.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const topicContentWithIdOnly = await prisma.topicContent.findMany({ select: { id: true } })
+     * const topicNodeWithIdOnly = await prisma.topicNode.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends TopicContentFindManyArgs>(args?: SelectSubset<T, TopicContentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends TopicNodeFindManyArgs>(args?: SelectSubset<T, TopicNodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a TopicContent.
-     * @param {TopicContentCreateArgs} args - Arguments to create a TopicContent.
+     * Create a TopicNode.
+     * @param {TopicNodeCreateArgs} args - Arguments to create a TopicNode.
      * @example
-     * // Create one TopicContent
-     * const TopicContent = await prisma.topicContent.create({
+     * // Create one TopicNode
+     * const TopicNode = await prisma.topicNode.create({
      *   data: {
-     *     // ... data to create a TopicContent
+     *     // ... data to create a TopicNode
      *   }
      * })
      * 
      */
-    create<T extends TopicContentCreateArgs>(args: SelectSubset<T, TopicContentCreateArgs<ExtArgs>>): Prisma__TopicContentClient<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends TopicNodeCreateArgs>(args: SelectSubset<T, TopicNodeCreateArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many TopicContents.
-     * @param {TopicContentCreateManyArgs} args - Arguments to create many TopicContents.
+     * Create many TopicNodes.
+     * @param {TopicNodeCreateManyArgs} args - Arguments to create many TopicNodes.
      * @example
-     * // Create many TopicContents
-     * const topicContent = await prisma.topicContent.createMany({
+     * // Create many TopicNodes
+     * const topicNode = await prisma.topicNode.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends TopicContentCreateManyArgs>(args?: SelectSubset<T, TopicContentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends TopicNodeCreateManyArgs>(args?: SelectSubset<T, TopicNodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many TopicContents and returns the data saved in the database.
-     * @param {TopicContentCreateManyAndReturnArgs} args - Arguments to create many TopicContents.
+     * Create many TopicNodes and returns the data saved in the database.
+     * @param {TopicNodeCreateManyAndReturnArgs} args - Arguments to create many TopicNodes.
      * @example
-     * // Create many TopicContents
-     * const topicContent = await prisma.topicContent.createManyAndReturn({
+     * // Create many TopicNodes
+     * const topicNode = await prisma.topicNode.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many TopicContents and only return the `id`
-     * const topicContentWithIdOnly = await prisma.topicContent.createManyAndReturn({
+     * // Create many TopicNodes and only return the `id`
+     * const topicNodeWithIdOnly = await prisma.topicNode.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -10974,28 +11723,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends TopicContentCreateManyAndReturnArgs>(args?: SelectSubset<T, TopicContentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends TopicNodeCreateManyAndReturnArgs>(args?: SelectSubset<T, TopicNodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a TopicContent.
-     * @param {TopicContentDeleteArgs} args - Arguments to delete one TopicContent.
+     * Delete a TopicNode.
+     * @param {TopicNodeDeleteArgs} args - Arguments to delete one TopicNode.
      * @example
-     * // Delete one TopicContent
-     * const TopicContent = await prisma.topicContent.delete({
+     * // Delete one TopicNode
+     * const TopicNode = await prisma.topicNode.delete({
      *   where: {
-     *     // ... filter to delete one TopicContent
+     *     // ... filter to delete one TopicNode
      *   }
      * })
      * 
      */
-    delete<T extends TopicContentDeleteArgs>(args: SelectSubset<T, TopicContentDeleteArgs<ExtArgs>>): Prisma__TopicContentClient<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends TopicNodeDeleteArgs>(args: SelectSubset<T, TopicNodeDeleteArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one TopicContent.
-     * @param {TopicContentUpdateArgs} args - Arguments to update one TopicContent.
+     * Update one TopicNode.
+     * @param {TopicNodeUpdateArgs} args - Arguments to update one TopicNode.
      * @example
-     * // Update one TopicContent
-     * const topicContent = await prisma.topicContent.update({
+     * // Update one TopicNode
+     * const topicNode = await prisma.topicNode.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -11005,30 +11754,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends TopicContentUpdateArgs>(args: SelectSubset<T, TopicContentUpdateArgs<ExtArgs>>): Prisma__TopicContentClient<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends TopicNodeUpdateArgs>(args: SelectSubset<T, TopicNodeUpdateArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more TopicContents.
-     * @param {TopicContentDeleteManyArgs} args - Arguments to filter TopicContents to delete.
+     * Delete zero or more TopicNodes.
+     * @param {TopicNodeDeleteManyArgs} args - Arguments to filter TopicNodes to delete.
      * @example
-     * // Delete a few TopicContents
-     * const { count } = await prisma.topicContent.deleteMany({
+     * // Delete a few TopicNodes
+     * const { count } = await prisma.topicNode.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends TopicContentDeleteManyArgs>(args?: SelectSubset<T, TopicContentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends TopicNodeDeleteManyArgs>(args?: SelectSubset<T, TopicNodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more TopicContents.
+     * Update zero or more TopicNodes.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TopicContentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {TopicNodeUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many TopicContents
-     * const topicContent = await prisma.topicContent.updateMany({
+     * // Update many TopicNodes
+     * const topicNode = await prisma.topicNode.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -11038,14 +11787,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends TopicContentUpdateManyArgs>(args: SelectSubset<T, TopicContentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends TopicNodeUpdateManyArgs>(args: SelectSubset<T, TopicNodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more TopicContents and returns the data updated in the database.
-     * @param {TopicContentUpdateManyAndReturnArgs} args - Arguments to update many TopicContents.
+     * Update zero or more TopicNodes and returns the data updated in the database.
+     * @param {TopicNodeUpdateManyAndReturnArgs} args - Arguments to update many TopicNodes.
      * @example
-     * // Update many TopicContents
-     * const topicContent = await prisma.topicContent.updateManyAndReturn({
+     * // Update many TopicNodes
+     * const topicNode = await prisma.topicNode.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -11054,8 +11803,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more TopicContents and only return the `id`
-     * const topicContentWithIdOnly = await prisma.topicContent.updateManyAndReturn({
+     * // Update zero or more TopicNodes and only return the `id`
+     * const topicNodeWithIdOnly = await prisma.topicNode.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -11068,56 +11817,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends TopicContentUpdateManyAndReturnArgs>(args: SelectSubset<T, TopicContentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends TopicNodeUpdateManyAndReturnArgs>(args: SelectSubset<T, TopicNodeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one TopicContent.
-     * @param {TopicContentUpsertArgs} args - Arguments to update or create a TopicContent.
+     * Create or update one TopicNode.
+     * @param {TopicNodeUpsertArgs} args - Arguments to update or create a TopicNode.
      * @example
-     * // Update or create a TopicContent
-     * const topicContent = await prisma.topicContent.upsert({
+     * // Update or create a TopicNode
+     * const topicNode = await prisma.topicNode.upsert({
      *   create: {
-     *     // ... data to create a TopicContent
+     *     // ... data to create a TopicNode
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the TopicContent we want to update
+     *     // ... the filter for the TopicNode we want to update
      *   }
      * })
      */
-    upsert<T extends TopicContentUpsertArgs>(args: SelectSubset<T, TopicContentUpsertArgs<ExtArgs>>): Prisma__TopicContentClient<$Result.GetResult<Prisma.$TopicContentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends TopicNodeUpsertArgs>(args: SelectSubset<T, TopicNodeUpsertArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of TopicContents.
+     * Count the number of TopicNodes.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TopicContentCountArgs} args - Arguments to filter TopicContents to count.
+     * @param {TopicNodeCountArgs} args - Arguments to filter TopicNodes to count.
      * @example
-     * // Count the number of TopicContents
-     * const count = await prisma.topicContent.count({
+     * // Count the number of TopicNodes
+     * const count = await prisma.topicNode.count({
      *   where: {
-     *     // ... the filter for the TopicContents we want to count
+     *     // ... the filter for the TopicNodes we want to count
      *   }
      * })
     **/
-    count<T extends TopicContentCountArgs>(
-      args?: Subset<T, TopicContentCountArgs>,
+    count<T extends TopicNodeCountArgs>(
+      args?: Subset<T, TopicNodeCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], TopicContentCountAggregateOutputType>
+          : GetScalarType<T['select'], TopicNodeCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a TopicContent.
+     * Allows you to perform aggregations operations on a TopicNode.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TopicContentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {TopicNodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -11137,13 +11886,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends TopicContentAggregateArgs>(args: Subset<T, TopicContentAggregateArgs>): Prisma.PrismaPromise<GetTopicContentAggregateType<T>>
+    aggregate<T extends TopicNodeAggregateArgs>(args: Subset<T, TopicNodeAggregateArgs>): Prisma.PrismaPromise<GetTopicNodeAggregateType<T>>
 
     /**
-     * Group by TopicContent.
+     * Group by TopicNode.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TopicContentGroupByArgs} args - Group by arguments.
+     * @param {TopicNodeGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -11158,14 +11907,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends TopicContentGroupByArgs,
+      T extends TopicNodeGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: TopicContentGroupByArgs['orderBy'] }
-        : { orderBy?: TopicContentGroupByArgs['orderBy'] },
+        ? { orderBy: TopicNodeGroupByArgs['orderBy'] }
+        : { orderBy?: TopicNodeGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -11214,20 +11963,1128 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, TopicContentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTopicContentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, TopicNodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTopicNodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the TopicContent model
+   * Fields of the TopicNode model
    */
-  readonly fields: TopicContentFieldRefs;
+  readonly fields: TopicNodeFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for TopicContent.
+   * The delegate class that acts as a "Promise-like" for TopicNode.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__TopicContentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__TopicNodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    checklist<T extends TopicNode$checklistArgs<ExtArgs> = {}>(args?: Subset<T, TopicNode$checklistArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    topicMap<T extends TopicMapDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicMapDefaultArgs<ExtArgs>>): Prisma__TopicMapClient<$Result.GetResult<Prisma.$TopicMapPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    UserTopicProgress<T extends TopicNode$UserTopicProgressArgs<ExtArgs> = {}>(args?: Subset<T, TopicNode$UserTopicProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TopicNode model
+   */ 
+  interface TopicNodeFieldRefs {
+    readonly id: FieldRef<"TopicNode", 'String'>
+    readonly topicMapId: FieldRef<"TopicNode", 'String'>
+    readonly kind: FieldRef<"TopicNode", 'NodeKind'>
+    readonly type: FieldRef<"TopicNode", 'String'>
+    readonly title: FieldRef<"TopicNode", 'String'>
+    readonly meta: FieldRef<"TopicNode", 'Json'>
+    readonly posxy: FieldRef<"TopicNode", 'Json'>
+    readonly zIndex: FieldRef<"TopicNode", 'Int'>
+    readonly completionType: FieldRef<"TopicNode", 'CompletionType'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TopicNode findUnique
+   */
+  export type TopicNodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+    /**
+     * Filter, which TopicNode to fetch.
+     */
+    where: TopicNodeWhereUniqueInput
+  }
+
+  /**
+   * TopicNode findUniqueOrThrow
+   */
+  export type TopicNodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+    /**
+     * Filter, which TopicNode to fetch.
+     */
+    where: TopicNodeWhereUniqueInput
+  }
+
+  /**
+   * TopicNode findFirst
+   */
+  export type TopicNodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+    /**
+     * Filter, which TopicNode to fetch.
+     */
+    where?: TopicNodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TopicNodes to fetch.
+     */
+    orderBy?: TopicNodeOrderByWithRelationInput | TopicNodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TopicNodes.
+     */
+    cursor?: TopicNodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TopicNodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TopicNodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TopicNodes.
+     */
+    distinct?: TopicNodeScalarFieldEnum | TopicNodeScalarFieldEnum[]
+  }
+
+  /**
+   * TopicNode findFirstOrThrow
+   */
+  export type TopicNodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+    /**
+     * Filter, which TopicNode to fetch.
+     */
+    where?: TopicNodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TopicNodes to fetch.
+     */
+    orderBy?: TopicNodeOrderByWithRelationInput | TopicNodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TopicNodes.
+     */
+    cursor?: TopicNodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TopicNodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TopicNodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TopicNodes.
+     */
+    distinct?: TopicNodeScalarFieldEnum | TopicNodeScalarFieldEnum[]
+  }
+
+  /**
+   * TopicNode findMany
+   */
+  export type TopicNodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+    /**
+     * Filter, which TopicNodes to fetch.
+     */
+    where?: TopicNodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TopicNodes to fetch.
+     */
+    orderBy?: TopicNodeOrderByWithRelationInput | TopicNodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TopicNodes.
+     */
+    cursor?: TopicNodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TopicNodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TopicNodes.
+     */
+    skip?: number
+    distinct?: TopicNodeScalarFieldEnum | TopicNodeScalarFieldEnum[]
+  }
+
+  /**
+   * TopicNode create
+   */
+  export type TopicNodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TopicNode.
+     */
+    data: XOR<TopicNodeCreateInput, TopicNodeUncheckedCreateInput>
+  }
+
+  /**
+   * TopicNode createMany
+   */
+  export type TopicNodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TopicNodes.
+     */
+    data: TopicNodeCreateManyInput | TopicNodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TopicNode createManyAndReturn
+   */
+  export type TopicNodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * The data used to create many TopicNodes.
+     */
+    data: TopicNodeCreateManyInput | TopicNodeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TopicNode update
+   */
+  export type TopicNodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TopicNode.
+     */
+    data: XOR<TopicNodeUpdateInput, TopicNodeUncheckedUpdateInput>
+    /**
+     * Choose, which TopicNode to update.
+     */
+    where: TopicNodeWhereUniqueInput
+  }
+
+  /**
+   * TopicNode updateMany
+   */
+  export type TopicNodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TopicNodes.
+     */
+    data: XOR<TopicNodeUpdateManyMutationInput, TopicNodeUncheckedUpdateManyInput>
+    /**
+     * Filter which TopicNodes to update
+     */
+    where?: TopicNodeWhereInput
+    /**
+     * Limit how many TopicNodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TopicNode updateManyAndReturn
+   */
+  export type TopicNodeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * The data used to update TopicNodes.
+     */
+    data: XOR<TopicNodeUpdateManyMutationInput, TopicNodeUncheckedUpdateManyInput>
+    /**
+     * Filter which TopicNodes to update
+     */
+    where?: TopicNodeWhereInput
+    /**
+     * Limit how many TopicNodes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TopicNode upsert
+   */
+  export type TopicNodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TopicNode to update in case it exists.
+     */
+    where: TopicNodeWhereUniqueInput
+    /**
+     * In case the TopicNode found by the `where` argument doesn't exist, create a new TopicNode with this data.
+     */
+    create: XOR<TopicNodeCreateInput, TopicNodeUncheckedCreateInput>
+    /**
+     * In case the TopicNode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TopicNodeUpdateInput, TopicNodeUncheckedUpdateInput>
+  }
+
+  /**
+   * TopicNode delete
+   */
+  export type TopicNodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+    /**
+     * Filter which TopicNode to delete.
+     */
+    where: TopicNodeWhereUniqueInput
+  }
+
+  /**
+   * TopicNode deleteMany
+   */
+  export type TopicNodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TopicNodes to delete
+     */
+    where?: TopicNodeWhereInput
+    /**
+     * Limit how many TopicNodes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TopicNode.checklist
+   */
+  export type TopicNode$checklistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    where?: ChecklistItemWhereInput
+    orderBy?: ChecklistItemOrderByWithRelationInput | ChecklistItemOrderByWithRelationInput[]
+    cursor?: ChecklistItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChecklistItemScalarFieldEnum | ChecklistItemScalarFieldEnum[]
+  }
+
+  /**
+   * TopicNode.UserTopicProgress
+   */
+  export type TopicNode$UserTopicProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    where?: UserTopicProgressWhereInput
+    orderBy?: UserTopicProgressOrderByWithRelationInput | UserTopicProgressOrderByWithRelationInput[]
+    cursor?: UserTopicProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserTopicProgressScalarFieldEnum | UserTopicProgressScalarFieldEnum[]
+  }
+
+  /**
+   * TopicNode without action
+   */
+  export type TopicNodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicNode
+     */
+    select?: TopicNodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TopicNode
+     */
+    omit?: TopicNodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicNodeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TopicEdge
+   */
+
+  export type AggregateTopicEdge = {
+    _count: TopicEdgeCountAggregateOutputType | null
+    _min: TopicEdgeMinAggregateOutputType | null
+    _max: TopicEdgeMaxAggregateOutputType | null
+  }
+
+  export type TopicEdgeMinAggregateOutputType = {
+    id: string | null
+    topicMapId: string | null
+    sourceId: string | null
+    targetId: string | null
+  }
+
+  export type TopicEdgeMaxAggregateOutputType = {
+    id: string | null
+    topicMapId: string | null
+    sourceId: string | null
+    targetId: string | null
+  }
+
+  export type TopicEdgeCountAggregateOutputType = {
+    id: number
+    topicMapId: number
+    sourceId: number
+    targetId: number
+    meta: number
+    _all: number
+  }
+
+
+  export type TopicEdgeMinAggregateInputType = {
+    id?: true
+    topicMapId?: true
+    sourceId?: true
+    targetId?: true
+  }
+
+  export type TopicEdgeMaxAggregateInputType = {
+    id?: true
+    topicMapId?: true
+    sourceId?: true
+    targetId?: true
+  }
+
+  export type TopicEdgeCountAggregateInputType = {
+    id?: true
+    topicMapId?: true
+    sourceId?: true
+    targetId?: true
+    meta?: true
+    _all?: true
+  }
+
+  export type TopicEdgeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TopicEdge to aggregate.
+     */
+    where?: TopicEdgeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TopicEdges to fetch.
+     */
+    orderBy?: TopicEdgeOrderByWithRelationInput | TopicEdgeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TopicEdgeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TopicEdges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TopicEdges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TopicEdges
+    **/
+    _count?: true | TopicEdgeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TopicEdgeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TopicEdgeMaxAggregateInputType
+  }
+
+  export type GetTopicEdgeAggregateType<T extends TopicEdgeAggregateArgs> = {
+        [P in keyof T & keyof AggregateTopicEdge]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTopicEdge[P]>
+      : GetScalarType<T[P], AggregateTopicEdge[P]>
+  }
+
+
+
+
+  export type TopicEdgeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TopicEdgeWhereInput
+    orderBy?: TopicEdgeOrderByWithAggregationInput | TopicEdgeOrderByWithAggregationInput[]
+    by: TopicEdgeScalarFieldEnum[] | TopicEdgeScalarFieldEnum
+    having?: TopicEdgeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TopicEdgeCountAggregateInputType | true
+    _min?: TopicEdgeMinAggregateInputType
+    _max?: TopicEdgeMaxAggregateInputType
+  }
+
+  export type TopicEdgeGroupByOutputType = {
+    id: string
+    topicMapId: string
+    sourceId: string
+    targetId: string
+    meta: JsonValue | null
+    _count: TopicEdgeCountAggregateOutputType | null
+    _min: TopicEdgeMinAggregateOutputType | null
+    _max: TopicEdgeMaxAggregateOutputType | null
+  }
+
+  type GetTopicEdgeGroupByPayload<T extends TopicEdgeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TopicEdgeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TopicEdgeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TopicEdgeGroupByOutputType[P]>
+            : GetScalarType<T[P], TopicEdgeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TopicEdgeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    topicMapId?: boolean
+    sourceId?: boolean
+    targetId?: boolean
+    meta?: boolean
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["topicEdge"]>
+
+  export type TopicEdgeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    topicMapId?: boolean
+    sourceId?: boolean
+    targetId?: boolean
+    meta?: boolean
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["topicEdge"]>
+
+  export type TopicEdgeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    topicMapId?: boolean
+    sourceId?: boolean
+    targetId?: boolean
+    meta?: boolean
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["topicEdge"]>
+
+  export type TopicEdgeSelectScalar = {
+    id?: boolean
+    topicMapId?: boolean
+    sourceId?: boolean
+    targetId?: boolean
+    meta?: boolean
+  }
+
+  export type TopicEdgeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "topicMapId" | "sourceId" | "targetId" | "meta", ExtArgs["result"]["topicEdge"]>
+  export type TopicEdgeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }
+  export type TopicEdgeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }
+  export type TopicEdgeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }
+
+  export type $TopicEdgePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TopicEdge"
+    objects: {
+      topicMap: Prisma.$TopicMapPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      topicMapId: string
+      sourceId: string
+      targetId: string
+      meta: Prisma.JsonValue | null
+    }, ExtArgs["result"]["topicEdge"]>
+    composites: {}
+  }
+
+  type TopicEdgeGetPayload<S extends boolean | null | undefined | TopicEdgeDefaultArgs> = $Result.GetResult<Prisma.$TopicEdgePayload, S>
+
+  type TopicEdgeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TopicEdgeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TopicEdgeCountAggregateInputType | true
+    }
+
+  export interface TopicEdgeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TopicEdge'], meta: { name: 'TopicEdge' } }
+    /**
+     * Find zero or one TopicEdge that matches the filter.
+     * @param {TopicEdgeFindUniqueArgs} args - Arguments to find a TopicEdge
+     * @example
+     * // Get one TopicEdge
+     * const topicEdge = await prisma.topicEdge.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TopicEdgeFindUniqueArgs>(args: SelectSubset<T, TopicEdgeFindUniqueArgs<ExtArgs>>): Prisma__TopicEdgeClient<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TopicEdge that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TopicEdgeFindUniqueOrThrowArgs} args - Arguments to find a TopicEdge
+     * @example
+     * // Get one TopicEdge
+     * const topicEdge = await prisma.topicEdge.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TopicEdgeFindUniqueOrThrowArgs>(args: SelectSubset<T, TopicEdgeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TopicEdgeClient<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TopicEdge that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicEdgeFindFirstArgs} args - Arguments to find a TopicEdge
+     * @example
+     * // Get one TopicEdge
+     * const topicEdge = await prisma.topicEdge.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TopicEdgeFindFirstArgs>(args?: SelectSubset<T, TopicEdgeFindFirstArgs<ExtArgs>>): Prisma__TopicEdgeClient<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TopicEdge that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicEdgeFindFirstOrThrowArgs} args - Arguments to find a TopicEdge
+     * @example
+     * // Get one TopicEdge
+     * const topicEdge = await prisma.topicEdge.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TopicEdgeFindFirstOrThrowArgs>(args?: SelectSubset<T, TopicEdgeFindFirstOrThrowArgs<ExtArgs>>): Prisma__TopicEdgeClient<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TopicEdges that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicEdgeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TopicEdges
+     * const topicEdges = await prisma.topicEdge.findMany()
+     * 
+     * // Get first 10 TopicEdges
+     * const topicEdges = await prisma.topicEdge.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const topicEdgeWithIdOnly = await prisma.topicEdge.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TopicEdgeFindManyArgs>(args?: SelectSubset<T, TopicEdgeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TopicEdge.
+     * @param {TopicEdgeCreateArgs} args - Arguments to create a TopicEdge.
+     * @example
+     * // Create one TopicEdge
+     * const TopicEdge = await prisma.topicEdge.create({
+     *   data: {
+     *     // ... data to create a TopicEdge
+     *   }
+     * })
+     * 
+     */
+    create<T extends TopicEdgeCreateArgs>(args: SelectSubset<T, TopicEdgeCreateArgs<ExtArgs>>): Prisma__TopicEdgeClient<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TopicEdges.
+     * @param {TopicEdgeCreateManyArgs} args - Arguments to create many TopicEdges.
+     * @example
+     * // Create many TopicEdges
+     * const topicEdge = await prisma.topicEdge.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TopicEdgeCreateManyArgs>(args?: SelectSubset<T, TopicEdgeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TopicEdges and returns the data saved in the database.
+     * @param {TopicEdgeCreateManyAndReturnArgs} args - Arguments to create many TopicEdges.
+     * @example
+     * // Create many TopicEdges
+     * const topicEdge = await prisma.topicEdge.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TopicEdges and only return the `id`
+     * const topicEdgeWithIdOnly = await prisma.topicEdge.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TopicEdgeCreateManyAndReturnArgs>(args?: SelectSubset<T, TopicEdgeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TopicEdge.
+     * @param {TopicEdgeDeleteArgs} args - Arguments to delete one TopicEdge.
+     * @example
+     * // Delete one TopicEdge
+     * const TopicEdge = await prisma.topicEdge.delete({
+     *   where: {
+     *     // ... filter to delete one TopicEdge
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TopicEdgeDeleteArgs>(args: SelectSubset<T, TopicEdgeDeleteArgs<ExtArgs>>): Prisma__TopicEdgeClient<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TopicEdge.
+     * @param {TopicEdgeUpdateArgs} args - Arguments to update one TopicEdge.
+     * @example
+     * // Update one TopicEdge
+     * const topicEdge = await prisma.topicEdge.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TopicEdgeUpdateArgs>(args: SelectSubset<T, TopicEdgeUpdateArgs<ExtArgs>>): Prisma__TopicEdgeClient<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TopicEdges.
+     * @param {TopicEdgeDeleteManyArgs} args - Arguments to filter TopicEdges to delete.
+     * @example
+     * // Delete a few TopicEdges
+     * const { count } = await prisma.topicEdge.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TopicEdgeDeleteManyArgs>(args?: SelectSubset<T, TopicEdgeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TopicEdges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicEdgeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TopicEdges
+     * const topicEdge = await prisma.topicEdge.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TopicEdgeUpdateManyArgs>(args: SelectSubset<T, TopicEdgeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TopicEdges and returns the data updated in the database.
+     * @param {TopicEdgeUpdateManyAndReturnArgs} args - Arguments to update many TopicEdges.
+     * @example
+     * // Update many TopicEdges
+     * const topicEdge = await prisma.topicEdge.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TopicEdges and only return the `id`
+     * const topicEdgeWithIdOnly = await prisma.topicEdge.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TopicEdgeUpdateManyAndReturnArgs>(args: SelectSubset<T, TopicEdgeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TopicEdge.
+     * @param {TopicEdgeUpsertArgs} args - Arguments to update or create a TopicEdge.
+     * @example
+     * // Update or create a TopicEdge
+     * const topicEdge = await prisma.topicEdge.upsert({
+     *   create: {
+     *     // ... data to create a TopicEdge
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TopicEdge we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TopicEdgeUpsertArgs>(args: SelectSubset<T, TopicEdgeUpsertArgs<ExtArgs>>): Prisma__TopicEdgeClient<$Result.GetResult<Prisma.$TopicEdgePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TopicEdges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicEdgeCountArgs} args - Arguments to filter TopicEdges to count.
+     * @example
+     * // Count the number of TopicEdges
+     * const count = await prisma.topicEdge.count({
+     *   where: {
+     *     // ... the filter for the TopicEdges we want to count
+     *   }
+     * })
+    **/
+    count<T extends TopicEdgeCountArgs>(
+      args?: Subset<T, TopicEdgeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TopicEdgeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TopicEdge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicEdgeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TopicEdgeAggregateArgs>(args: Subset<T, TopicEdgeAggregateArgs>): Prisma.PrismaPromise<GetTopicEdgeAggregateType<T>>
+
+    /**
+     * Group by TopicEdge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicEdgeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TopicEdgeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TopicEdgeGroupByArgs['orderBy'] }
+        : { orderBy?: TopicEdgeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TopicEdgeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTopicEdgeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TopicEdge model
+   */
+  readonly fields: TopicEdgeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TopicEdge.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TopicEdgeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     topicMap<T extends TopicMapDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicMapDefaultArgs<ExtArgs>>): Prisma__TopicMapClient<$Result.GetResult<Prisma.$TopicMapPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
@@ -11256,425 +13113,4808 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the TopicContent model
+   * Fields of the TopicEdge model
    */ 
-  interface TopicContentFieldRefs {
-    readonly id: FieldRef<"TopicContent", 'String'>
-    readonly routeId: FieldRef<"TopicContent", 'String'>
-    readonly nodeId: FieldRef<"TopicContent", 'String'>
-    readonly createdAt: FieldRef<"TopicContent", 'DateTime'>
-    readonly updatedAt: FieldRef<"TopicContent", 'DateTime'>
+  interface TopicEdgeFieldRefs {
+    readonly id: FieldRef<"TopicEdge", 'String'>
+    readonly topicMapId: FieldRef<"TopicEdge", 'String'>
+    readonly sourceId: FieldRef<"TopicEdge", 'String'>
+    readonly targetId: FieldRef<"TopicEdge", 'String'>
+    readonly meta: FieldRef<"TopicEdge", 'Json'>
   }
     
 
   // Custom InputTypes
   /**
-   * TopicContent findUnique
+   * TopicEdge findUnique
    */
-  export type TopicContentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
     /**
-     * Filter, which TopicContent to fetch.
+     * Filter, which TopicEdge to fetch.
      */
-    where: TopicContentWhereUniqueInput
+    where: TopicEdgeWhereUniqueInput
   }
 
   /**
-   * TopicContent findUniqueOrThrow
+   * TopicEdge findUniqueOrThrow
    */
-  export type TopicContentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
     /**
-     * Filter, which TopicContent to fetch.
+     * Filter, which TopicEdge to fetch.
      */
-    where: TopicContentWhereUniqueInput
+    where: TopicEdgeWhereUniqueInput
   }
 
   /**
-   * TopicContent findFirst
+   * TopicEdge findFirst
    */
-  export type TopicContentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
     /**
-     * Filter, which TopicContent to fetch.
+     * Filter, which TopicEdge to fetch.
      */
-    where?: TopicContentWhereInput
+    where?: TopicEdgeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TopicContents to fetch.
+     * Determine the order of TopicEdges to fetch.
      */
-    orderBy?: TopicContentOrderByWithRelationInput | TopicContentOrderByWithRelationInput[]
+    orderBy?: TopicEdgeOrderByWithRelationInput | TopicEdgeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for TopicContents.
+     * Sets the position for searching for TopicEdges.
      */
-    cursor?: TopicContentWhereUniqueInput
+    cursor?: TopicEdgeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TopicContents from the position of the cursor.
+     * Take `±n` TopicEdges from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TopicContents.
+     * Skip the first `n` TopicEdges.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of TopicContents.
+     * Filter by unique combinations of TopicEdges.
      */
-    distinct?: TopicContentScalarFieldEnum | TopicContentScalarFieldEnum[]
+    distinct?: TopicEdgeScalarFieldEnum | TopicEdgeScalarFieldEnum[]
   }
 
   /**
-   * TopicContent findFirstOrThrow
+   * TopicEdge findFirstOrThrow
    */
-  export type TopicContentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
     /**
-     * Filter, which TopicContent to fetch.
+     * Filter, which TopicEdge to fetch.
      */
-    where?: TopicContentWhereInput
+    where?: TopicEdgeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TopicContents to fetch.
+     * Determine the order of TopicEdges to fetch.
      */
-    orderBy?: TopicContentOrderByWithRelationInput | TopicContentOrderByWithRelationInput[]
+    orderBy?: TopicEdgeOrderByWithRelationInput | TopicEdgeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for TopicContents.
+     * Sets the position for searching for TopicEdges.
      */
-    cursor?: TopicContentWhereUniqueInput
+    cursor?: TopicEdgeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TopicContents from the position of the cursor.
+     * Take `±n` TopicEdges from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TopicContents.
+     * Skip the first `n` TopicEdges.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of TopicContents.
+     * Filter by unique combinations of TopicEdges.
      */
-    distinct?: TopicContentScalarFieldEnum | TopicContentScalarFieldEnum[]
+    distinct?: TopicEdgeScalarFieldEnum | TopicEdgeScalarFieldEnum[]
   }
 
   /**
-   * TopicContent findMany
+   * TopicEdge findMany
    */
-  export type TopicContentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
     /**
-     * Filter, which TopicContents to fetch.
+     * Filter, which TopicEdges to fetch.
      */
-    where?: TopicContentWhereInput
+    where?: TopicEdgeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TopicContents to fetch.
+     * Determine the order of TopicEdges to fetch.
      */
-    orderBy?: TopicContentOrderByWithRelationInput | TopicContentOrderByWithRelationInput[]
+    orderBy?: TopicEdgeOrderByWithRelationInput | TopicEdgeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing TopicContents.
+     * Sets the position for listing TopicEdges.
      */
-    cursor?: TopicContentWhereUniqueInput
+    cursor?: TopicEdgeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TopicContents from the position of the cursor.
+     * Take `±n` TopicEdges from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TopicContents.
+     * Skip the first `n` TopicEdges.
      */
     skip?: number
-    distinct?: TopicContentScalarFieldEnum | TopicContentScalarFieldEnum[]
+    distinct?: TopicEdgeScalarFieldEnum | TopicEdgeScalarFieldEnum[]
   }
 
   /**
-   * TopicContent create
+   * TopicEdge create
    */
-  export type TopicContentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
     /**
-     * The data needed to create a TopicContent.
+     * The data needed to create a TopicEdge.
      */
-    data: XOR<TopicContentCreateInput, TopicContentUncheckedCreateInput>
+    data: XOR<TopicEdgeCreateInput, TopicEdgeUncheckedCreateInput>
   }
 
   /**
-   * TopicContent createMany
+   * TopicEdge createMany
    */
-  export type TopicContentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many TopicContents.
+     * The data used to create many TopicEdges.
      */
-    data: TopicContentCreateManyInput | TopicContentCreateManyInput[]
+    data: TopicEdgeCreateManyInput | TopicEdgeCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * TopicContent createManyAndReturn
+   * TopicEdge createManyAndReturn
    */
-  export type TopicContentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelectCreateManyAndReturn<ExtArgs> | null
+    select?: TopicEdgeSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
-     * The data used to create many TopicContents.
+     * The data used to create many TopicEdges.
      */
-    data: TopicContentCreateManyInput | TopicContentCreateManyInput[]
+    data: TopicEdgeCreateManyInput | TopicEdgeCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: TopicEdgeIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * TopicContent update
+   * TopicEdge update
    */
-  export type TopicContentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
     /**
-     * The data needed to update a TopicContent.
+     * The data needed to update a TopicEdge.
      */
-    data: XOR<TopicContentUpdateInput, TopicContentUncheckedUpdateInput>
+    data: XOR<TopicEdgeUpdateInput, TopicEdgeUncheckedUpdateInput>
     /**
-     * Choose, which TopicContent to update.
+     * Choose, which TopicEdge to update.
      */
-    where: TopicContentWhereUniqueInput
+    where: TopicEdgeWhereUniqueInput
   }
 
   /**
-   * TopicContent updateMany
+   * TopicEdge updateMany
    */
-  export type TopicContentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update TopicContents.
+     * The data used to update TopicEdges.
      */
-    data: XOR<TopicContentUpdateManyMutationInput, TopicContentUncheckedUpdateManyInput>
+    data: XOR<TopicEdgeUpdateManyMutationInput, TopicEdgeUncheckedUpdateManyInput>
     /**
-     * Filter which TopicContents to update
+     * Filter which TopicEdges to update
      */
-    where?: TopicContentWhereInput
+    where?: TopicEdgeWhereInput
     /**
-     * Limit how many TopicContents to update.
+     * Limit how many TopicEdges to update.
      */
     limit?: number
   }
 
   /**
-   * TopicContent updateManyAndReturn
+   * TopicEdge updateManyAndReturn
    */
-  export type TopicContentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: TopicEdgeSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
-     * The data used to update TopicContents.
+     * The data used to update TopicEdges.
      */
-    data: XOR<TopicContentUpdateManyMutationInput, TopicContentUncheckedUpdateManyInput>
+    data: XOR<TopicEdgeUpdateManyMutationInput, TopicEdgeUncheckedUpdateManyInput>
     /**
-     * Filter which TopicContents to update
+     * Filter which TopicEdges to update
      */
-    where?: TopicContentWhereInput
+    where?: TopicEdgeWhereInput
     /**
-     * Limit how many TopicContents to update.
+     * Limit how many TopicEdges to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: TopicEdgeIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * TopicContent upsert
+   * TopicEdge upsert
    */
-  export type TopicContentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
     /**
-     * The filter to search for the TopicContent to update in case it exists.
+     * The filter to search for the TopicEdge to update in case it exists.
      */
-    where: TopicContentWhereUniqueInput
+    where: TopicEdgeWhereUniqueInput
     /**
-     * In case the TopicContent found by the `where` argument doesn't exist, create a new TopicContent with this data.
+     * In case the TopicEdge found by the `where` argument doesn't exist, create a new TopicEdge with this data.
      */
-    create: XOR<TopicContentCreateInput, TopicContentUncheckedCreateInput>
+    create: XOR<TopicEdgeCreateInput, TopicEdgeUncheckedCreateInput>
     /**
-     * In case the TopicContent was found with the provided `where` argument, update it with this data.
+     * In case the TopicEdge was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<TopicContentUpdateInput, TopicContentUncheckedUpdateInput>
+    update: XOR<TopicEdgeUpdateInput, TopicEdgeUncheckedUpdateInput>
   }
 
   /**
-   * TopicContent delete
+   * TopicEdge delete
    */
-  export type TopicContentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
     /**
-     * Filter which TopicContent to delete.
+     * Filter which TopicEdge to delete.
      */
-    where: TopicContentWhereUniqueInput
+    where: TopicEdgeWhereUniqueInput
   }
 
   /**
-   * TopicContent deleteMany
+   * TopicEdge deleteMany
    */
-  export type TopicContentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which TopicContents to delete
+     * Filter which TopicEdges to delete
      */
-    where?: TopicContentWhereInput
+    where?: TopicEdgeWhereInput
     /**
-     * Limit how many TopicContents to delete.
+     * Limit how many TopicEdges to delete.
      */
     limit?: number
   }
 
   /**
-   * TopicContent without action
+   * TopicEdge without action
    */
-  export type TopicContentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TopicEdgeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TopicContent
+     * Select specific fields to fetch from the TopicEdge
      */
-    select?: TopicContentSelect<ExtArgs> | null
+    select?: TopicEdgeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the TopicContent
+     * Omit specific fields from the TopicEdge
      */
-    omit?: TopicContentOmit<ExtArgs> | null
+    omit?: TopicEdgeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TopicContentInclude<ExtArgs> | null
+    include?: TopicEdgeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserCourse
+   */
+
+  export type AggregateUserCourse = {
+    _count: UserCourseCountAggregateOutputType | null
+    _min: UserCourseMinAggregateOutputType | null
+    _max: UserCourseMaxAggregateOutputType | null
+  }
+
+  export type UserCourseMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    topicMapId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    view: $Enums.CourseViewType | null
+    mode: $Enums.CourseModeType | null
+  }
+
+  export type UserCourseMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    topicMapId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    view: $Enums.CourseViewType | null
+    mode: $Enums.CourseModeType | null
+  }
+
+  export type UserCourseCountAggregateOutputType = {
+    id: number
+    userId: number
+    topicMapId: number
+    createdAt: number
+    updatedAt: number
+    view: number
+    mode: number
+    _all: number
+  }
+
+
+  export type UserCourseMinAggregateInputType = {
+    id?: true
+    userId?: true
+    topicMapId?: true
+    createdAt?: true
+    updatedAt?: true
+    view?: true
+    mode?: true
+  }
+
+  export type UserCourseMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    topicMapId?: true
+    createdAt?: true
+    updatedAt?: true
+    view?: true
+    mode?: true
+  }
+
+  export type UserCourseCountAggregateInputType = {
+    id?: true
+    userId?: true
+    topicMapId?: true
+    createdAt?: true
+    updatedAt?: true
+    view?: true
+    mode?: true
+    _all?: true
+  }
+
+  export type UserCourseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserCourse to aggregate.
+     */
+    where?: UserCourseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCourses to fetch.
+     */
+    orderBy?: UserCourseOrderByWithRelationInput | UserCourseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserCourseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCourses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCourses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserCourses
+    **/
+    _count?: true | UserCourseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserCourseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserCourseMaxAggregateInputType
+  }
+
+  export type GetUserCourseAggregateType<T extends UserCourseAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserCourse]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserCourse[P]>
+      : GetScalarType<T[P], AggregateUserCourse[P]>
+  }
+
+
+
+
+  export type UserCourseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserCourseWhereInput
+    orderBy?: UserCourseOrderByWithAggregationInput | UserCourseOrderByWithAggregationInput[]
+    by: UserCourseScalarFieldEnum[] | UserCourseScalarFieldEnum
+    having?: UserCourseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserCourseCountAggregateInputType | true
+    _min?: UserCourseMinAggregateInputType
+    _max?: UserCourseMaxAggregateInputType
+  }
+
+  export type UserCourseGroupByOutputType = {
+    id: string
+    userId: string
+    topicMapId: string
+    createdAt: Date
+    updatedAt: Date
+    view: $Enums.CourseViewType | null
+    mode: $Enums.CourseModeType | null
+    _count: UserCourseCountAggregateOutputType | null
+    _min: UserCourseMinAggregateOutputType | null
+    _max: UserCourseMaxAggregateOutputType | null
+  }
+
+  type GetUserCourseGroupByPayload<T extends UserCourseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserCourseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserCourseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserCourseGroupByOutputType[P]>
+            : GetScalarType<T[P], UserCourseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserCourseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    topicMapId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    view?: boolean
+    mode?: boolean
+    UserChecklistProgress?: boolean | UserCourse$UserChecklistProgressArgs<ExtArgs>
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+    progress?: boolean | UserCourse$progressArgs<ExtArgs>
+    _count?: boolean | UserCourseCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCourse"]>
+
+  export type UserCourseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    topicMapId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    view?: boolean
+    mode?: boolean
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCourse"]>
+
+  export type UserCourseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    topicMapId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    view?: boolean
+    mode?: boolean
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCourse"]>
+
+  export type UserCourseSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    topicMapId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    view?: boolean
+    mode?: boolean
+  }
+
+  export type UserCourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "topicMapId" | "createdAt" | "updatedAt" | "view" | "mode", ExtArgs["result"]["userCourse"]>
+  export type UserCourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    UserChecklistProgress?: boolean | UserCourse$UserChecklistProgressArgs<ExtArgs>
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+    progress?: boolean | UserCourse$progressArgs<ExtArgs>
+    _count?: boolean | UserCourseCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserCourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }
+  export type UserCourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
+  }
+
+  export type $UserCoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserCourse"
+    objects: {
+      UserChecklistProgress: Prisma.$UserChecklistProgressPayload<ExtArgs>[]
+      topicMap: Prisma.$TopicMapPayload<ExtArgs>
+      progress: Prisma.$UserTopicProgressPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      topicMapId: string
+      createdAt: Date
+      updatedAt: Date
+      view: $Enums.CourseViewType | null
+      mode: $Enums.CourseModeType | null
+    }, ExtArgs["result"]["userCourse"]>
+    composites: {}
+  }
+
+  type UserCourseGetPayload<S extends boolean | null | undefined | UserCourseDefaultArgs> = $Result.GetResult<Prisma.$UserCoursePayload, S>
+
+  type UserCourseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserCourseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserCourseCountAggregateInputType | true
+    }
+
+  export interface UserCourseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserCourse'], meta: { name: 'UserCourse' } }
+    /**
+     * Find zero or one UserCourse that matches the filter.
+     * @param {UserCourseFindUniqueArgs} args - Arguments to find a UserCourse
+     * @example
+     * // Get one UserCourse
+     * const userCourse = await prisma.userCourse.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserCourseFindUniqueArgs>(args: SelectSubset<T, UserCourseFindUniqueArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserCourse that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserCourseFindUniqueOrThrowArgs} args - Arguments to find a UserCourse
+     * @example
+     * // Get one UserCourse
+     * const userCourse = await prisma.userCourse.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserCourseFindUniqueOrThrowArgs>(args: SelectSubset<T, UserCourseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserCourse that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCourseFindFirstArgs} args - Arguments to find a UserCourse
+     * @example
+     * // Get one UserCourse
+     * const userCourse = await prisma.userCourse.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserCourseFindFirstArgs>(args?: SelectSubset<T, UserCourseFindFirstArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserCourse that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCourseFindFirstOrThrowArgs} args - Arguments to find a UserCourse
+     * @example
+     * // Get one UserCourse
+     * const userCourse = await prisma.userCourse.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserCourseFindFirstOrThrowArgs>(args?: SelectSubset<T, UserCourseFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserCourses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCourseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserCourses
+     * const userCourses = await prisma.userCourse.findMany()
+     * 
+     * // Get first 10 UserCourses
+     * const userCourses = await prisma.userCourse.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userCourseWithIdOnly = await prisma.userCourse.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserCourseFindManyArgs>(args?: SelectSubset<T, UserCourseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserCourse.
+     * @param {UserCourseCreateArgs} args - Arguments to create a UserCourse.
+     * @example
+     * // Create one UserCourse
+     * const UserCourse = await prisma.userCourse.create({
+     *   data: {
+     *     // ... data to create a UserCourse
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserCourseCreateArgs>(args: SelectSubset<T, UserCourseCreateArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserCourses.
+     * @param {UserCourseCreateManyArgs} args - Arguments to create many UserCourses.
+     * @example
+     * // Create many UserCourses
+     * const userCourse = await prisma.userCourse.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserCourseCreateManyArgs>(args?: SelectSubset<T, UserCourseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserCourses and returns the data saved in the database.
+     * @param {UserCourseCreateManyAndReturnArgs} args - Arguments to create many UserCourses.
+     * @example
+     * // Create many UserCourses
+     * const userCourse = await prisma.userCourse.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserCourses and only return the `id`
+     * const userCourseWithIdOnly = await prisma.userCourse.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserCourseCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCourseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserCourse.
+     * @param {UserCourseDeleteArgs} args - Arguments to delete one UserCourse.
+     * @example
+     * // Delete one UserCourse
+     * const UserCourse = await prisma.userCourse.delete({
+     *   where: {
+     *     // ... filter to delete one UserCourse
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserCourseDeleteArgs>(args: SelectSubset<T, UserCourseDeleteArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserCourse.
+     * @param {UserCourseUpdateArgs} args - Arguments to update one UserCourse.
+     * @example
+     * // Update one UserCourse
+     * const userCourse = await prisma.userCourse.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserCourseUpdateArgs>(args: SelectSubset<T, UserCourseUpdateArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserCourses.
+     * @param {UserCourseDeleteManyArgs} args - Arguments to filter UserCourses to delete.
+     * @example
+     * // Delete a few UserCourses
+     * const { count } = await prisma.userCourse.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserCourseDeleteManyArgs>(args?: SelectSubset<T, UserCourseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserCourses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCourseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserCourses
+     * const userCourse = await prisma.userCourse.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserCourseUpdateManyArgs>(args: SelectSubset<T, UserCourseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserCourses and returns the data updated in the database.
+     * @param {UserCourseUpdateManyAndReturnArgs} args - Arguments to update many UserCourses.
+     * @example
+     * // Update many UserCourses
+     * const userCourse = await prisma.userCourse.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserCourses and only return the `id`
+     * const userCourseWithIdOnly = await prisma.userCourse.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserCourseUpdateManyAndReturnArgs>(args: SelectSubset<T, UserCourseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserCourse.
+     * @param {UserCourseUpsertArgs} args - Arguments to update or create a UserCourse.
+     * @example
+     * // Update or create a UserCourse
+     * const userCourse = await prisma.userCourse.upsert({
+     *   create: {
+     *     // ... data to create a UserCourse
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserCourse we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserCourseUpsertArgs>(args: SelectSubset<T, UserCourseUpsertArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserCourses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCourseCountArgs} args - Arguments to filter UserCourses to count.
+     * @example
+     * // Count the number of UserCourses
+     * const count = await prisma.userCourse.count({
+     *   where: {
+     *     // ... the filter for the UserCourses we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserCourseCountArgs>(
+      args?: Subset<T, UserCourseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserCourseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserCourse.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCourseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserCourseAggregateArgs>(args: Subset<T, UserCourseAggregateArgs>): Prisma.PrismaPromise<GetUserCourseAggregateType<T>>
+
+    /**
+     * Group by UserCourse.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCourseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserCourseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserCourseGroupByArgs['orderBy'] }
+        : { orderBy?: UserCourseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserCourseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserCourseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserCourse model
+   */
+  readonly fields: UserCourseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserCourse.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserCourseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    UserChecklistProgress<T extends UserCourse$UserChecklistProgressArgs<ExtArgs> = {}>(args?: Subset<T, UserCourse$UserChecklistProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    topicMap<T extends TopicMapDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicMapDefaultArgs<ExtArgs>>): Prisma__TopicMapClient<$Result.GetResult<Prisma.$TopicMapPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    progress<T extends UserCourse$progressArgs<ExtArgs> = {}>(args?: Subset<T, UserCourse$progressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserCourse model
+   */ 
+  interface UserCourseFieldRefs {
+    readonly id: FieldRef<"UserCourse", 'String'>
+    readonly userId: FieldRef<"UserCourse", 'String'>
+    readonly topicMapId: FieldRef<"UserCourse", 'String'>
+    readonly createdAt: FieldRef<"UserCourse", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserCourse", 'DateTime'>
+    readonly view: FieldRef<"UserCourse", 'CourseViewType'>
+    readonly mode: FieldRef<"UserCourse", 'CourseModeType'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserCourse findUnique
+   */
+  export type UserCourseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCourse to fetch.
+     */
+    where: UserCourseWhereUniqueInput
+  }
+
+  /**
+   * UserCourse findUniqueOrThrow
+   */
+  export type UserCourseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCourse to fetch.
+     */
+    where: UserCourseWhereUniqueInput
+  }
+
+  /**
+   * UserCourse findFirst
+   */
+  export type UserCourseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCourse to fetch.
+     */
+    where?: UserCourseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCourses to fetch.
+     */
+    orderBy?: UserCourseOrderByWithRelationInput | UserCourseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserCourses.
+     */
+    cursor?: UserCourseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCourses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCourses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserCourses.
+     */
+    distinct?: UserCourseScalarFieldEnum | UserCourseScalarFieldEnum[]
+  }
+
+  /**
+   * UserCourse findFirstOrThrow
+   */
+  export type UserCourseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCourse to fetch.
+     */
+    where?: UserCourseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCourses to fetch.
+     */
+    orderBy?: UserCourseOrderByWithRelationInput | UserCourseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserCourses.
+     */
+    cursor?: UserCourseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCourses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCourses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserCourses.
+     */
+    distinct?: UserCourseScalarFieldEnum | UserCourseScalarFieldEnum[]
+  }
+
+  /**
+   * UserCourse findMany
+   */
+  export type UserCourseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCourses to fetch.
+     */
+    where?: UserCourseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCourses to fetch.
+     */
+    orderBy?: UserCourseOrderByWithRelationInput | UserCourseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserCourses.
+     */
+    cursor?: UserCourseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCourses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCourses.
+     */
+    skip?: number
+    distinct?: UserCourseScalarFieldEnum | UserCourseScalarFieldEnum[]
+  }
+
+  /**
+   * UserCourse create
+   */
+  export type UserCourseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserCourse.
+     */
+    data: XOR<UserCourseCreateInput, UserCourseUncheckedCreateInput>
+  }
+
+  /**
+   * UserCourse createMany
+   */
+  export type UserCourseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserCourses.
+     */
+    data: UserCourseCreateManyInput | UserCourseCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserCourse createManyAndReturn
+   */
+  export type UserCourseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserCourses.
+     */
+    data: UserCourseCreateManyInput | UserCourseCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserCourse update
+   */
+  export type UserCourseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserCourse.
+     */
+    data: XOR<UserCourseUpdateInput, UserCourseUncheckedUpdateInput>
+    /**
+     * Choose, which UserCourse to update.
+     */
+    where: UserCourseWhereUniqueInput
+  }
+
+  /**
+   * UserCourse updateMany
+   */
+  export type UserCourseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserCourses.
+     */
+    data: XOR<UserCourseUpdateManyMutationInput, UserCourseUncheckedUpdateManyInput>
+    /**
+     * Filter which UserCourses to update
+     */
+    where?: UserCourseWhereInput
+    /**
+     * Limit how many UserCourses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserCourse updateManyAndReturn
+   */
+  export type UserCourseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * The data used to update UserCourses.
+     */
+    data: XOR<UserCourseUpdateManyMutationInput, UserCourseUncheckedUpdateManyInput>
+    /**
+     * Filter which UserCourses to update
+     */
+    where?: UserCourseWhereInput
+    /**
+     * Limit how many UserCourses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserCourse upsert
+   */
+  export type UserCourseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserCourse to update in case it exists.
+     */
+    where: UserCourseWhereUniqueInput
+    /**
+     * In case the UserCourse found by the `where` argument doesn't exist, create a new UserCourse with this data.
+     */
+    create: XOR<UserCourseCreateInput, UserCourseUncheckedCreateInput>
+    /**
+     * In case the UserCourse was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserCourseUpdateInput, UserCourseUncheckedUpdateInput>
+  }
+
+  /**
+   * UserCourse delete
+   */
+  export type UserCourseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+    /**
+     * Filter which UserCourse to delete.
+     */
+    where: UserCourseWhereUniqueInput
+  }
+
+  /**
+   * UserCourse deleteMany
+   */
+  export type UserCourseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserCourses to delete
+     */
+    where?: UserCourseWhereInput
+    /**
+     * Limit how many UserCourses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserCourse.UserChecklistProgress
+   */
+  export type UserCourse$UserChecklistProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    where?: UserChecklistProgressWhereInput
+    orderBy?: UserChecklistProgressOrderByWithRelationInput | UserChecklistProgressOrderByWithRelationInput[]
+    cursor?: UserChecklistProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserChecklistProgressScalarFieldEnum | UserChecklistProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserCourse.progress
+   */
+  export type UserCourse$progressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    where?: UserTopicProgressWhereInput
+    orderBy?: UserTopicProgressOrderByWithRelationInput | UserTopicProgressOrderByWithRelationInput[]
+    cursor?: UserTopicProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserTopicProgressScalarFieldEnum | UserTopicProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserCourse without action
+   */
+  export type UserCourseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCourse
+     */
+    select?: UserCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCourse
+     */
+    omit?: UserCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCourseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserTopicProgress
+   */
+
+  export type AggregateUserTopicProgress = {
+    _count: UserTopicProgressCountAggregateOutputType | null
+    _avg: UserTopicProgressAvgAggregateOutputType | null
+    _sum: UserTopicProgressSumAggregateOutputType | null
+    _min: UserTopicProgressMinAggregateOutputType | null
+    _max: UserTopicProgressMaxAggregateOutputType | null
+  }
+
+  export type UserTopicProgressAvgAggregateOutputType = {
+    progressValue: number | null
+  }
+
+  export type UserTopicProgressSumAggregateOutputType = {
+    progressValue: number | null
+  }
+
+  export type UserTopicProgressMinAggregateOutputType = {
+    id: string | null
+    userCourseId: string | null
+    topicNodeId: string | null
+    status: $Enums.NodeStatus | null
+    progressValue: number | null
+    startedAt: Date | null
+    finishedAt: Date | null
+  }
+
+  export type UserTopicProgressMaxAggregateOutputType = {
+    id: string | null
+    userCourseId: string | null
+    topicNodeId: string | null
+    status: $Enums.NodeStatus | null
+    progressValue: number | null
+    startedAt: Date | null
+    finishedAt: Date | null
+  }
+
+  export type UserTopicProgressCountAggregateOutputType = {
+    id: number
+    userCourseId: number
+    topicNodeId: number
+    status: number
+    progressValue: number
+    startedAt: number
+    finishedAt: number
+    _all: number
+  }
+
+
+  export type UserTopicProgressAvgAggregateInputType = {
+    progressValue?: true
+  }
+
+  export type UserTopicProgressSumAggregateInputType = {
+    progressValue?: true
+  }
+
+  export type UserTopicProgressMinAggregateInputType = {
+    id?: true
+    userCourseId?: true
+    topicNodeId?: true
+    status?: true
+    progressValue?: true
+    startedAt?: true
+    finishedAt?: true
+  }
+
+  export type UserTopicProgressMaxAggregateInputType = {
+    id?: true
+    userCourseId?: true
+    topicNodeId?: true
+    status?: true
+    progressValue?: true
+    startedAt?: true
+    finishedAt?: true
+  }
+
+  export type UserTopicProgressCountAggregateInputType = {
+    id?: true
+    userCourseId?: true
+    topicNodeId?: true
+    status?: true
+    progressValue?: true
+    startedAt?: true
+    finishedAt?: true
+    _all?: true
+  }
+
+  export type UserTopicProgressAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserTopicProgress to aggregate.
+     */
+    where?: UserTopicProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserTopicProgresses to fetch.
+     */
+    orderBy?: UserTopicProgressOrderByWithRelationInput | UserTopicProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserTopicProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserTopicProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserTopicProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserTopicProgresses
+    **/
+    _count?: true | UserTopicProgressCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserTopicProgressAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserTopicProgressSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserTopicProgressMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserTopicProgressMaxAggregateInputType
+  }
+
+  export type GetUserTopicProgressAggregateType<T extends UserTopicProgressAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserTopicProgress]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserTopicProgress[P]>
+      : GetScalarType<T[P], AggregateUserTopicProgress[P]>
+  }
+
+
+
+
+  export type UserTopicProgressGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserTopicProgressWhereInput
+    orderBy?: UserTopicProgressOrderByWithAggregationInput | UserTopicProgressOrderByWithAggregationInput[]
+    by: UserTopicProgressScalarFieldEnum[] | UserTopicProgressScalarFieldEnum
+    having?: UserTopicProgressScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserTopicProgressCountAggregateInputType | true
+    _avg?: UserTopicProgressAvgAggregateInputType
+    _sum?: UserTopicProgressSumAggregateInputType
+    _min?: UserTopicProgressMinAggregateInputType
+    _max?: UserTopicProgressMaxAggregateInputType
+  }
+
+  export type UserTopicProgressGroupByOutputType = {
+    id: string
+    userCourseId: string
+    topicNodeId: string
+    status: $Enums.NodeStatus
+    progressValue: number | null
+    startedAt: Date | null
+    finishedAt: Date | null
+    _count: UserTopicProgressCountAggregateOutputType | null
+    _avg: UserTopicProgressAvgAggregateOutputType | null
+    _sum: UserTopicProgressSumAggregateOutputType | null
+    _min: UserTopicProgressMinAggregateOutputType | null
+    _max: UserTopicProgressMaxAggregateOutputType | null
+  }
+
+  type GetUserTopicProgressGroupByPayload<T extends UserTopicProgressGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserTopicProgressGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserTopicProgressGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserTopicProgressGroupByOutputType[P]>
+            : GetScalarType<T[P], UserTopicProgressGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserTopicProgressSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userCourseId?: boolean
+    topicNodeId?: boolean
+    status?: boolean
+    progressValue?: boolean
+    startedAt?: boolean
+    finishedAt?: boolean
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userTopicProgress"]>
+
+  export type UserTopicProgressSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userCourseId?: boolean
+    topicNodeId?: boolean
+    status?: boolean
+    progressValue?: boolean
+    startedAt?: boolean
+    finishedAt?: boolean
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userTopicProgress"]>
+
+  export type UserTopicProgressSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userCourseId?: boolean
+    topicNodeId?: boolean
+    status?: boolean
+    progressValue?: boolean
+    startedAt?: boolean
+    finishedAt?: boolean
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userTopicProgress"]>
+
+  export type UserTopicProgressSelectScalar = {
+    id?: boolean
+    userCourseId?: boolean
+    topicNodeId?: boolean
+    status?: boolean
+    progressValue?: boolean
+    startedAt?: boolean
+    finishedAt?: boolean
+  }
+
+  export type UserTopicProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userCourseId" | "topicNodeId" | "status" | "progressValue" | "startedAt" | "finishedAt", ExtArgs["result"]["userTopicProgress"]>
+  export type UserTopicProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }
+  export type UserTopicProgressIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }
+  export type UserTopicProgressIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }
+
+  export type $UserTopicProgressPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserTopicProgress"
+    objects: {
+      topicNode: Prisma.$TopicNodePayload<ExtArgs>
+      userCourse: Prisma.$UserCoursePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userCourseId: string
+      topicNodeId: string
+      status: $Enums.NodeStatus
+      progressValue: number | null
+      startedAt: Date | null
+      finishedAt: Date | null
+    }, ExtArgs["result"]["userTopicProgress"]>
+    composites: {}
+  }
+
+  type UserTopicProgressGetPayload<S extends boolean | null | undefined | UserTopicProgressDefaultArgs> = $Result.GetResult<Prisma.$UserTopicProgressPayload, S>
+
+  type UserTopicProgressCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserTopicProgressFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserTopicProgressCountAggregateInputType | true
+    }
+
+  export interface UserTopicProgressDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserTopicProgress'], meta: { name: 'UserTopicProgress' } }
+    /**
+     * Find zero or one UserTopicProgress that matches the filter.
+     * @param {UserTopicProgressFindUniqueArgs} args - Arguments to find a UserTopicProgress
+     * @example
+     * // Get one UserTopicProgress
+     * const userTopicProgress = await prisma.userTopicProgress.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserTopicProgressFindUniqueArgs>(args: SelectSubset<T, UserTopicProgressFindUniqueArgs<ExtArgs>>): Prisma__UserTopicProgressClient<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserTopicProgress that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserTopicProgressFindUniqueOrThrowArgs} args - Arguments to find a UserTopicProgress
+     * @example
+     * // Get one UserTopicProgress
+     * const userTopicProgress = await prisma.userTopicProgress.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserTopicProgressFindUniqueOrThrowArgs>(args: SelectSubset<T, UserTopicProgressFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserTopicProgressClient<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserTopicProgress that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserTopicProgressFindFirstArgs} args - Arguments to find a UserTopicProgress
+     * @example
+     * // Get one UserTopicProgress
+     * const userTopicProgress = await prisma.userTopicProgress.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserTopicProgressFindFirstArgs>(args?: SelectSubset<T, UserTopicProgressFindFirstArgs<ExtArgs>>): Prisma__UserTopicProgressClient<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserTopicProgress that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserTopicProgressFindFirstOrThrowArgs} args - Arguments to find a UserTopicProgress
+     * @example
+     * // Get one UserTopicProgress
+     * const userTopicProgress = await prisma.userTopicProgress.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserTopicProgressFindFirstOrThrowArgs>(args?: SelectSubset<T, UserTopicProgressFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserTopicProgressClient<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserTopicProgresses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserTopicProgressFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserTopicProgresses
+     * const userTopicProgresses = await prisma.userTopicProgress.findMany()
+     * 
+     * // Get first 10 UserTopicProgresses
+     * const userTopicProgresses = await prisma.userTopicProgress.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userTopicProgressWithIdOnly = await prisma.userTopicProgress.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserTopicProgressFindManyArgs>(args?: SelectSubset<T, UserTopicProgressFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserTopicProgress.
+     * @param {UserTopicProgressCreateArgs} args - Arguments to create a UserTopicProgress.
+     * @example
+     * // Create one UserTopicProgress
+     * const UserTopicProgress = await prisma.userTopicProgress.create({
+     *   data: {
+     *     // ... data to create a UserTopicProgress
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserTopicProgressCreateArgs>(args: SelectSubset<T, UserTopicProgressCreateArgs<ExtArgs>>): Prisma__UserTopicProgressClient<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserTopicProgresses.
+     * @param {UserTopicProgressCreateManyArgs} args - Arguments to create many UserTopicProgresses.
+     * @example
+     * // Create many UserTopicProgresses
+     * const userTopicProgress = await prisma.userTopicProgress.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserTopicProgressCreateManyArgs>(args?: SelectSubset<T, UserTopicProgressCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserTopicProgresses and returns the data saved in the database.
+     * @param {UserTopicProgressCreateManyAndReturnArgs} args - Arguments to create many UserTopicProgresses.
+     * @example
+     * // Create many UserTopicProgresses
+     * const userTopicProgress = await prisma.userTopicProgress.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserTopicProgresses and only return the `id`
+     * const userTopicProgressWithIdOnly = await prisma.userTopicProgress.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserTopicProgressCreateManyAndReturnArgs>(args?: SelectSubset<T, UserTopicProgressCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserTopicProgress.
+     * @param {UserTopicProgressDeleteArgs} args - Arguments to delete one UserTopicProgress.
+     * @example
+     * // Delete one UserTopicProgress
+     * const UserTopicProgress = await prisma.userTopicProgress.delete({
+     *   where: {
+     *     // ... filter to delete one UserTopicProgress
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserTopicProgressDeleteArgs>(args: SelectSubset<T, UserTopicProgressDeleteArgs<ExtArgs>>): Prisma__UserTopicProgressClient<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserTopicProgress.
+     * @param {UserTopicProgressUpdateArgs} args - Arguments to update one UserTopicProgress.
+     * @example
+     * // Update one UserTopicProgress
+     * const userTopicProgress = await prisma.userTopicProgress.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserTopicProgressUpdateArgs>(args: SelectSubset<T, UserTopicProgressUpdateArgs<ExtArgs>>): Prisma__UserTopicProgressClient<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserTopicProgresses.
+     * @param {UserTopicProgressDeleteManyArgs} args - Arguments to filter UserTopicProgresses to delete.
+     * @example
+     * // Delete a few UserTopicProgresses
+     * const { count } = await prisma.userTopicProgress.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserTopicProgressDeleteManyArgs>(args?: SelectSubset<T, UserTopicProgressDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserTopicProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserTopicProgressUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserTopicProgresses
+     * const userTopicProgress = await prisma.userTopicProgress.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserTopicProgressUpdateManyArgs>(args: SelectSubset<T, UserTopicProgressUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserTopicProgresses and returns the data updated in the database.
+     * @param {UserTopicProgressUpdateManyAndReturnArgs} args - Arguments to update many UserTopicProgresses.
+     * @example
+     * // Update many UserTopicProgresses
+     * const userTopicProgress = await prisma.userTopicProgress.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserTopicProgresses and only return the `id`
+     * const userTopicProgressWithIdOnly = await prisma.userTopicProgress.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserTopicProgressUpdateManyAndReturnArgs>(args: SelectSubset<T, UserTopicProgressUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserTopicProgress.
+     * @param {UserTopicProgressUpsertArgs} args - Arguments to update or create a UserTopicProgress.
+     * @example
+     * // Update or create a UserTopicProgress
+     * const userTopicProgress = await prisma.userTopicProgress.upsert({
+     *   create: {
+     *     // ... data to create a UserTopicProgress
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserTopicProgress we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserTopicProgressUpsertArgs>(args: SelectSubset<T, UserTopicProgressUpsertArgs<ExtArgs>>): Prisma__UserTopicProgressClient<$Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserTopicProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserTopicProgressCountArgs} args - Arguments to filter UserTopicProgresses to count.
+     * @example
+     * // Count the number of UserTopicProgresses
+     * const count = await prisma.userTopicProgress.count({
+     *   where: {
+     *     // ... the filter for the UserTopicProgresses we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserTopicProgressCountArgs>(
+      args?: Subset<T, UserTopicProgressCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserTopicProgressCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserTopicProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserTopicProgressAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserTopicProgressAggregateArgs>(args: Subset<T, UserTopicProgressAggregateArgs>): Prisma.PrismaPromise<GetUserTopicProgressAggregateType<T>>
+
+    /**
+     * Group by UserTopicProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserTopicProgressGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserTopicProgressGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserTopicProgressGroupByArgs['orderBy'] }
+        : { orderBy?: UserTopicProgressGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserTopicProgressGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserTopicProgressGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserTopicProgress model
+   */
+  readonly fields: UserTopicProgressFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserTopicProgress.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserTopicProgressClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    topicNode<T extends TopicNodeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicNodeDefaultArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    userCourse<T extends UserCourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserCourseDefaultArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserTopicProgress model
+   */ 
+  interface UserTopicProgressFieldRefs {
+    readonly id: FieldRef<"UserTopicProgress", 'String'>
+    readonly userCourseId: FieldRef<"UserTopicProgress", 'String'>
+    readonly topicNodeId: FieldRef<"UserTopicProgress", 'String'>
+    readonly status: FieldRef<"UserTopicProgress", 'NodeStatus'>
+    readonly progressValue: FieldRef<"UserTopicProgress", 'Float'>
+    readonly startedAt: FieldRef<"UserTopicProgress", 'DateTime'>
+    readonly finishedAt: FieldRef<"UserTopicProgress", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserTopicProgress findUnique
+   */
+  export type UserTopicProgressFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserTopicProgress to fetch.
+     */
+    where: UserTopicProgressWhereUniqueInput
+  }
+
+  /**
+   * UserTopicProgress findUniqueOrThrow
+   */
+  export type UserTopicProgressFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserTopicProgress to fetch.
+     */
+    where: UserTopicProgressWhereUniqueInput
+  }
+
+  /**
+   * UserTopicProgress findFirst
+   */
+  export type UserTopicProgressFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserTopicProgress to fetch.
+     */
+    where?: UserTopicProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserTopicProgresses to fetch.
+     */
+    orderBy?: UserTopicProgressOrderByWithRelationInput | UserTopicProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserTopicProgresses.
+     */
+    cursor?: UserTopicProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserTopicProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserTopicProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserTopicProgresses.
+     */
+    distinct?: UserTopicProgressScalarFieldEnum | UserTopicProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserTopicProgress findFirstOrThrow
+   */
+  export type UserTopicProgressFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserTopicProgress to fetch.
+     */
+    where?: UserTopicProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserTopicProgresses to fetch.
+     */
+    orderBy?: UserTopicProgressOrderByWithRelationInput | UserTopicProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserTopicProgresses.
+     */
+    cursor?: UserTopicProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserTopicProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserTopicProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserTopicProgresses.
+     */
+    distinct?: UserTopicProgressScalarFieldEnum | UserTopicProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserTopicProgress findMany
+   */
+  export type UserTopicProgressFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserTopicProgresses to fetch.
+     */
+    where?: UserTopicProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserTopicProgresses to fetch.
+     */
+    orderBy?: UserTopicProgressOrderByWithRelationInput | UserTopicProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserTopicProgresses.
+     */
+    cursor?: UserTopicProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserTopicProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserTopicProgresses.
+     */
+    skip?: number
+    distinct?: UserTopicProgressScalarFieldEnum | UserTopicProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserTopicProgress create
+   */
+  export type UserTopicProgressCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserTopicProgress.
+     */
+    data: XOR<UserTopicProgressCreateInput, UserTopicProgressUncheckedCreateInput>
+  }
+
+  /**
+   * UserTopicProgress createMany
+   */
+  export type UserTopicProgressCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserTopicProgresses.
+     */
+    data: UserTopicProgressCreateManyInput | UserTopicProgressCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserTopicProgress createManyAndReturn
+   */
+  export type UserTopicProgressCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserTopicProgresses.
+     */
+    data: UserTopicProgressCreateManyInput | UserTopicProgressCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserTopicProgress update
+   */
+  export type UserTopicProgressUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserTopicProgress.
+     */
+    data: XOR<UserTopicProgressUpdateInput, UserTopicProgressUncheckedUpdateInput>
+    /**
+     * Choose, which UserTopicProgress to update.
+     */
+    where: UserTopicProgressWhereUniqueInput
+  }
+
+  /**
+   * UserTopicProgress updateMany
+   */
+  export type UserTopicProgressUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserTopicProgresses.
+     */
+    data: XOR<UserTopicProgressUpdateManyMutationInput, UserTopicProgressUncheckedUpdateManyInput>
+    /**
+     * Filter which UserTopicProgresses to update
+     */
+    where?: UserTopicProgressWhereInput
+    /**
+     * Limit how many UserTopicProgresses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserTopicProgress updateManyAndReturn
+   */
+  export type UserTopicProgressUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * The data used to update UserTopicProgresses.
+     */
+    data: XOR<UserTopicProgressUpdateManyMutationInput, UserTopicProgressUncheckedUpdateManyInput>
+    /**
+     * Filter which UserTopicProgresses to update
+     */
+    where?: UserTopicProgressWhereInput
+    /**
+     * Limit how many UserTopicProgresses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserTopicProgress upsert
+   */
+  export type UserTopicProgressUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserTopicProgress to update in case it exists.
+     */
+    where: UserTopicProgressWhereUniqueInput
+    /**
+     * In case the UserTopicProgress found by the `where` argument doesn't exist, create a new UserTopicProgress with this data.
+     */
+    create: XOR<UserTopicProgressCreateInput, UserTopicProgressUncheckedCreateInput>
+    /**
+     * In case the UserTopicProgress was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserTopicProgressUpdateInput, UserTopicProgressUncheckedUpdateInput>
+  }
+
+  /**
+   * UserTopicProgress delete
+   */
+  export type UserTopicProgressDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+    /**
+     * Filter which UserTopicProgress to delete.
+     */
+    where: UserTopicProgressWhereUniqueInput
+  }
+
+  /**
+   * UserTopicProgress deleteMany
+   */
+  export type UserTopicProgressDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserTopicProgresses to delete
+     */
+    where?: UserTopicProgressWhereInput
+    /**
+     * Limit how many UserTopicProgresses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserTopicProgress without action
+   */
+  export type UserTopicProgressDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserTopicProgress
+     */
+    select?: UserTopicProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserTopicProgress
+     */
+    omit?: UserTopicProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserTopicProgressInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ChecklistItem
+   */
+
+  export type AggregateChecklistItem = {
+    _count: ChecklistItemCountAggregateOutputType | null
+    _min: ChecklistItemMinAggregateOutputType | null
+    _max: ChecklistItemMaxAggregateOutputType | null
+  }
+
+  export type ChecklistItemMinAggregateOutputType = {
+    id: string | null
+    topicNodeId: string | null
+    text: string | null
+  }
+
+  export type ChecklistItemMaxAggregateOutputType = {
+    id: string | null
+    topicNodeId: string | null
+    text: string | null
+  }
+
+  export type ChecklistItemCountAggregateOutputType = {
+    id: number
+    topicNodeId: number
+    text: number
+    _all: number
+  }
+
+
+  export type ChecklistItemMinAggregateInputType = {
+    id?: true
+    topicNodeId?: true
+    text?: true
+  }
+
+  export type ChecklistItemMaxAggregateInputType = {
+    id?: true
+    topicNodeId?: true
+    text?: true
+  }
+
+  export type ChecklistItemCountAggregateInputType = {
+    id?: true
+    topicNodeId?: true
+    text?: true
+    _all?: true
+  }
+
+  export type ChecklistItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChecklistItem to aggregate.
+     */
+    where?: ChecklistItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChecklistItems to fetch.
+     */
+    orderBy?: ChecklistItemOrderByWithRelationInput | ChecklistItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChecklistItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChecklistItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChecklistItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ChecklistItems
+    **/
+    _count?: true | ChecklistItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChecklistItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChecklistItemMaxAggregateInputType
+  }
+
+  export type GetChecklistItemAggregateType<T extends ChecklistItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateChecklistItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChecklistItem[P]>
+      : GetScalarType<T[P], AggregateChecklistItem[P]>
+  }
+
+
+
+
+  export type ChecklistItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChecklistItemWhereInput
+    orderBy?: ChecklistItemOrderByWithAggregationInput | ChecklistItemOrderByWithAggregationInput[]
+    by: ChecklistItemScalarFieldEnum[] | ChecklistItemScalarFieldEnum
+    having?: ChecklistItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChecklistItemCountAggregateInputType | true
+    _min?: ChecklistItemMinAggregateInputType
+    _max?: ChecklistItemMaxAggregateInputType
+  }
+
+  export type ChecklistItemGroupByOutputType = {
+    id: string
+    topicNodeId: string
+    text: string
+    _count: ChecklistItemCountAggregateOutputType | null
+    _min: ChecklistItemMinAggregateOutputType | null
+    _max: ChecklistItemMaxAggregateOutputType | null
+  }
+
+  type GetChecklistItemGroupByPayload<T extends ChecklistItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChecklistItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChecklistItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChecklistItemGroupByOutputType[P]>
+            : GetScalarType<T[P], ChecklistItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChecklistItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    topicNodeId?: boolean
+    text?: boolean
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+    userStates?: boolean | ChecklistItem$userStatesArgs<ExtArgs>
+    _count?: boolean | ChecklistItemCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["checklistItem"]>
+
+  export type ChecklistItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    topicNodeId?: boolean
+    text?: boolean
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["checklistItem"]>
+
+  export type ChecklistItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    topicNodeId?: boolean
+    text?: boolean
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["checklistItem"]>
+
+  export type ChecklistItemSelectScalar = {
+    id?: boolean
+    topicNodeId?: boolean
+    text?: boolean
+  }
+
+  export type ChecklistItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "topicNodeId" | "text", ExtArgs["result"]["checklistItem"]>
+  export type ChecklistItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+    userStates?: boolean | ChecklistItem$userStatesArgs<ExtArgs>
+    _count?: boolean | ChecklistItemCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ChecklistItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+  }
+  export type ChecklistItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
+  }
+
+  export type $ChecklistItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ChecklistItem"
+    objects: {
+      topicNode: Prisma.$TopicNodePayload<ExtArgs>
+      userStates: Prisma.$UserChecklistProgressPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      topicNodeId: string
+      text: string
+    }, ExtArgs["result"]["checklistItem"]>
+    composites: {}
+  }
+
+  type ChecklistItemGetPayload<S extends boolean | null | undefined | ChecklistItemDefaultArgs> = $Result.GetResult<Prisma.$ChecklistItemPayload, S>
+
+  type ChecklistItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChecklistItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChecklistItemCountAggregateInputType | true
+    }
+
+  export interface ChecklistItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ChecklistItem'], meta: { name: 'ChecklistItem' } }
+    /**
+     * Find zero or one ChecklistItem that matches the filter.
+     * @param {ChecklistItemFindUniqueArgs} args - Arguments to find a ChecklistItem
+     * @example
+     * // Get one ChecklistItem
+     * const checklistItem = await prisma.checklistItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChecklistItemFindUniqueArgs>(args: SelectSubset<T, ChecklistItemFindUniqueArgs<ExtArgs>>): Prisma__ChecklistItemClient<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ChecklistItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChecklistItemFindUniqueOrThrowArgs} args - Arguments to find a ChecklistItem
+     * @example
+     * // Get one ChecklistItem
+     * const checklistItem = await prisma.checklistItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChecklistItemFindUniqueOrThrowArgs>(args: SelectSubset<T, ChecklistItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChecklistItemClient<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChecklistItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistItemFindFirstArgs} args - Arguments to find a ChecklistItem
+     * @example
+     * // Get one ChecklistItem
+     * const checklistItem = await prisma.checklistItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChecklistItemFindFirstArgs>(args?: SelectSubset<T, ChecklistItemFindFirstArgs<ExtArgs>>): Prisma__ChecklistItemClient<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChecklistItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistItemFindFirstOrThrowArgs} args - Arguments to find a ChecklistItem
+     * @example
+     * // Get one ChecklistItem
+     * const checklistItem = await prisma.checklistItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChecklistItemFindFirstOrThrowArgs>(args?: SelectSubset<T, ChecklistItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChecklistItemClient<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ChecklistItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ChecklistItems
+     * const checklistItems = await prisma.checklistItem.findMany()
+     * 
+     * // Get first 10 ChecklistItems
+     * const checklistItems = await prisma.checklistItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const checklistItemWithIdOnly = await prisma.checklistItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChecklistItemFindManyArgs>(args?: SelectSubset<T, ChecklistItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ChecklistItem.
+     * @param {ChecklistItemCreateArgs} args - Arguments to create a ChecklistItem.
+     * @example
+     * // Create one ChecklistItem
+     * const ChecklistItem = await prisma.checklistItem.create({
+     *   data: {
+     *     // ... data to create a ChecklistItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChecklistItemCreateArgs>(args: SelectSubset<T, ChecklistItemCreateArgs<ExtArgs>>): Prisma__ChecklistItemClient<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ChecklistItems.
+     * @param {ChecklistItemCreateManyArgs} args - Arguments to create many ChecklistItems.
+     * @example
+     * // Create many ChecklistItems
+     * const checklistItem = await prisma.checklistItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChecklistItemCreateManyArgs>(args?: SelectSubset<T, ChecklistItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ChecklistItems and returns the data saved in the database.
+     * @param {ChecklistItemCreateManyAndReturnArgs} args - Arguments to create many ChecklistItems.
+     * @example
+     * // Create many ChecklistItems
+     * const checklistItem = await prisma.checklistItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ChecklistItems and only return the `id`
+     * const checklistItemWithIdOnly = await prisma.checklistItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChecklistItemCreateManyAndReturnArgs>(args?: SelectSubset<T, ChecklistItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ChecklistItem.
+     * @param {ChecklistItemDeleteArgs} args - Arguments to delete one ChecklistItem.
+     * @example
+     * // Delete one ChecklistItem
+     * const ChecklistItem = await prisma.checklistItem.delete({
+     *   where: {
+     *     // ... filter to delete one ChecklistItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChecklistItemDeleteArgs>(args: SelectSubset<T, ChecklistItemDeleteArgs<ExtArgs>>): Prisma__ChecklistItemClient<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ChecklistItem.
+     * @param {ChecklistItemUpdateArgs} args - Arguments to update one ChecklistItem.
+     * @example
+     * // Update one ChecklistItem
+     * const checklistItem = await prisma.checklistItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChecklistItemUpdateArgs>(args: SelectSubset<T, ChecklistItemUpdateArgs<ExtArgs>>): Prisma__ChecklistItemClient<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ChecklistItems.
+     * @param {ChecklistItemDeleteManyArgs} args - Arguments to filter ChecklistItems to delete.
+     * @example
+     * // Delete a few ChecklistItems
+     * const { count } = await prisma.checklistItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChecklistItemDeleteManyArgs>(args?: SelectSubset<T, ChecklistItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChecklistItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ChecklistItems
+     * const checklistItem = await prisma.checklistItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChecklistItemUpdateManyArgs>(args: SelectSubset<T, ChecklistItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChecklistItems and returns the data updated in the database.
+     * @param {ChecklistItemUpdateManyAndReturnArgs} args - Arguments to update many ChecklistItems.
+     * @example
+     * // Update many ChecklistItems
+     * const checklistItem = await prisma.checklistItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ChecklistItems and only return the `id`
+     * const checklistItemWithIdOnly = await prisma.checklistItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChecklistItemUpdateManyAndReturnArgs>(args: SelectSubset<T, ChecklistItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ChecklistItem.
+     * @param {ChecklistItemUpsertArgs} args - Arguments to update or create a ChecklistItem.
+     * @example
+     * // Update or create a ChecklistItem
+     * const checklistItem = await prisma.checklistItem.upsert({
+     *   create: {
+     *     // ... data to create a ChecklistItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ChecklistItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChecklistItemUpsertArgs>(args: SelectSubset<T, ChecklistItemUpsertArgs<ExtArgs>>): Prisma__ChecklistItemClient<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ChecklistItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistItemCountArgs} args - Arguments to filter ChecklistItems to count.
+     * @example
+     * // Count the number of ChecklistItems
+     * const count = await prisma.checklistItem.count({
+     *   where: {
+     *     // ... the filter for the ChecklistItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChecklistItemCountArgs>(
+      args?: Subset<T, ChecklistItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChecklistItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ChecklistItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChecklistItemAggregateArgs>(args: Subset<T, ChecklistItemAggregateArgs>): Prisma.PrismaPromise<GetChecklistItemAggregateType<T>>
+
+    /**
+     * Group by ChecklistItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChecklistItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChecklistItemGroupByArgs['orderBy'] }
+        : { orderBy?: ChecklistItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChecklistItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChecklistItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ChecklistItem model
+   */
+  readonly fields: ChecklistItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ChecklistItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChecklistItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    topicNode<T extends TopicNodeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicNodeDefaultArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    userStates<T extends ChecklistItem$userStatesArgs<ExtArgs> = {}>(args?: Subset<T, ChecklistItem$userStatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ChecklistItem model
+   */ 
+  interface ChecklistItemFieldRefs {
+    readonly id: FieldRef<"ChecklistItem", 'String'>
+    readonly topicNodeId: FieldRef<"ChecklistItem", 'String'>
+    readonly text: FieldRef<"ChecklistItem", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ChecklistItem findUnique
+   */
+  export type ChecklistItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ChecklistItem to fetch.
+     */
+    where: ChecklistItemWhereUniqueInput
+  }
+
+  /**
+   * ChecklistItem findUniqueOrThrow
+   */
+  export type ChecklistItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ChecklistItem to fetch.
+     */
+    where: ChecklistItemWhereUniqueInput
+  }
+
+  /**
+   * ChecklistItem findFirst
+   */
+  export type ChecklistItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ChecklistItem to fetch.
+     */
+    where?: ChecklistItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChecklistItems to fetch.
+     */
+    orderBy?: ChecklistItemOrderByWithRelationInput | ChecklistItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChecklistItems.
+     */
+    cursor?: ChecklistItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChecklistItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChecklistItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChecklistItems.
+     */
+    distinct?: ChecklistItemScalarFieldEnum | ChecklistItemScalarFieldEnum[]
+  }
+
+  /**
+   * ChecklistItem findFirstOrThrow
+   */
+  export type ChecklistItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ChecklistItem to fetch.
+     */
+    where?: ChecklistItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChecklistItems to fetch.
+     */
+    orderBy?: ChecklistItemOrderByWithRelationInput | ChecklistItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChecklistItems.
+     */
+    cursor?: ChecklistItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChecklistItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChecklistItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChecklistItems.
+     */
+    distinct?: ChecklistItemScalarFieldEnum | ChecklistItemScalarFieldEnum[]
+  }
+
+  /**
+   * ChecklistItem findMany
+   */
+  export type ChecklistItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ChecklistItems to fetch.
+     */
+    where?: ChecklistItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChecklistItems to fetch.
+     */
+    orderBy?: ChecklistItemOrderByWithRelationInput | ChecklistItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ChecklistItems.
+     */
+    cursor?: ChecklistItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChecklistItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChecklistItems.
+     */
+    skip?: number
+    distinct?: ChecklistItemScalarFieldEnum | ChecklistItemScalarFieldEnum[]
+  }
+
+  /**
+   * ChecklistItem create
+   */
+  export type ChecklistItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ChecklistItem.
+     */
+    data: XOR<ChecklistItemCreateInput, ChecklistItemUncheckedCreateInput>
+  }
+
+  /**
+   * ChecklistItem createMany
+   */
+  export type ChecklistItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ChecklistItems.
+     */
+    data: ChecklistItemCreateManyInput | ChecklistItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ChecklistItem createManyAndReturn
+   */
+  export type ChecklistItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many ChecklistItems.
+     */
+    data: ChecklistItemCreateManyInput | ChecklistItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChecklistItem update
+   */
+  export type ChecklistItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ChecklistItem.
+     */
+    data: XOR<ChecklistItemUpdateInput, ChecklistItemUncheckedUpdateInput>
+    /**
+     * Choose, which ChecklistItem to update.
+     */
+    where: ChecklistItemWhereUniqueInput
+  }
+
+  /**
+   * ChecklistItem updateMany
+   */
+  export type ChecklistItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ChecklistItems.
+     */
+    data: XOR<ChecklistItemUpdateManyMutationInput, ChecklistItemUncheckedUpdateManyInput>
+    /**
+     * Filter which ChecklistItems to update
+     */
+    where?: ChecklistItemWhereInput
+    /**
+     * Limit how many ChecklistItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChecklistItem updateManyAndReturn
+   */
+  export type ChecklistItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * The data used to update ChecklistItems.
+     */
+    data: XOR<ChecklistItemUpdateManyMutationInput, ChecklistItemUncheckedUpdateManyInput>
+    /**
+     * Filter which ChecklistItems to update
+     */
+    where?: ChecklistItemWhereInput
+    /**
+     * Limit how many ChecklistItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChecklistItem upsert
+   */
+  export type ChecklistItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ChecklistItem to update in case it exists.
+     */
+    where: ChecklistItemWhereUniqueInput
+    /**
+     * In case the ChecklistItem found by the `where` argument doesn't exist, create a new ChecklistItem with this data.
+     */
+    create: XOR<ChecklistItemCreateInput, ChecklistItemUncheckedCreateInput>
+    /**
+     * In case the ChecklistItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChecklistItemUpdateInput, ChecklistItemUncheckedUpdateInput>
+  }
+
+  /**
+   * ChecklistItem delete
+   */
+  export type ChecklistItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+    /**
+     * Filter which ChecklistItem to delete.
+     */
+    where: ChecklistItemWhereUniqueInput
+  }
+
+  /**
+   * ChecklistItem deleteMany
+   */
+  export type ChecklistItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChecklistItems to delete
+     */
+    where?: ChecklistItemWhereInput
+    /**
+     * Limit how many ChecklistItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChecklistItem.userStates
+   */
+  export type ChecklistItem$userStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    where?: UserChecklistProgressWhereInput
+    orderBy?: UserChecklistProgressOrderByWithRelationInput | UserChecklistProgressOrderByWithRelationInput[]
+    cursor?: UserChecklistProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserChecklistProgressScalarFieldEnum | UserChecklistProgressScalarFieldEnum[]
+  }
+
+  /**
+   * ChecklistItem without action
+   */
+  export type ChecklistItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChecklistItem
+     */
+    select?: ChecklistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChecklistItem
+     */
+    omit?: ChecklistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserChecklistProgress
+   */
+
+  export type AggregateUserChecklistProgress = {
+    _count: UserChecklistProgressCountAggregateOutputType | null
+    _min: UserChecklistProgressMinAggregateOutputType | null
+    _max: UserChecklistProgressMaxAggregateOutputType | null
+  }
+
+  export type UserChecklistProgressMinAggregateOutputType = {
+    id: string | null
+    userCourseId: string | null
+    checklistItemId: string | null
+    done: boolean | null
+  }
+
+  export type UserChecklistProgressMaxAggregateOutputType = {
+    id: string | null
+    userCourseId: string | null
+    checklistItemId: string | null
+    done: boolean | null
+  }
+
+  export type UserChecklistProgressCountAggregateOutputType = {
+    id: number
+    userCourseId: number
+    checklistItemId: number
+    done: number
+    _all: number
+  }
+
+
+  export type UserChecklistProgressMinAggregateInputType = {
+    id?: true
+    userCourseId?: true
+    checklistItemId?: true
+    done?: true
+  }
+
+  export type UserChecklistProgressMaxAggregateInputType = {
+    id?: true
+    userCourseId?: true
+    checklistItemId?: true
+    done?: true
+  }
+
+  export type UserChecklistProgressCountAggregateInputType = {
+    id?: true
+    userCourseId?: true
+    checklistItemId?: true
+    done?: true
+    _all?: true
+  }
+
+  export type UserChecklistProgressAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserChecklistProgress to aggregate.
+     */
+    where?: UserChecklistProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserChecklistProgresses to fetch.
+     */
+    orderBy?: UserChecklistProgressOrderByWithRelationInput | UserChecklistProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserChecklistProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserChecklistProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserChecklistProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserChecklistProgresses
+    **/
+    _count?: true | UserChecklistProgressCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserChecklistProgressMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserChecklistProgressMaxAggregateInputType
+  }
+
+  export type GetUserChecklistProgressAggregateType<T extends UserChecklistProgressAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserChecklistProgress]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserChecklistProgress[P]>
+      : GetScalarType<T[P], AggregateUserChecklistProgress[P]>
+  }
+
+
+
+
+  export type UserChecklistProgressGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserChecklistProgressWhereInput
+    orderBy?: UserChecklistProgressOrderByWithAggregationInput | UserChecklistProgressOrderByWithAggregationInput[]
+    by: UserChecklistProgressScalarFieldEnum[] | UserChecklistProgressScalarFieldEnum
+    having?: UserChecklistProgressScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserChecklistProgressCountAggregateInputType | true
+    _min?: UserChecklistProgressMinAggregateInputType
+    _max?: UserChecklistProgressMaxAggregateInputType
+  }
+
+  export type UserChecklistProgressGroupByOutputType = {
+    id: string
+    userCourseId: string
+    checklistItemId: string
+    done: boolean
+    _count: UserChecklistProgressCountAggregateOutputType | null
+    _min: UserChecklistProgressMinAggregateOutputType | null
+    _max: UserChecklistProgressMaxAggregateOutputType | null
+  }
+
+  type GetUserChecklistProgressGroupByPayload<T extends UserChecklistProgressGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserChecklistProgressGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserChecklistProgressGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserChecklistProgressGroupByOutputType[P]>
+            : GetScalarType<T[P], UserChecklistProgressGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserChecklistProgressSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userCourseId?: boolean
+    checklistItemId?: boolean
+    done?: boolean
+    checklist?: boolean | ChecklistItemDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userChecklistProgress"]>
+
+  export type UserChecklistProgressSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userCourseId?: boolean
+    checklistItemId?: boolean
+    done?: boolean
+    checklist?: boolean | ChecklistItemDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userChecklistProgress"]>
+
+  export type UserChecklistProgressSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userCourseId?: boolean
+    checklistItemId?: boolean
+    done?: boolean
+    checklist?: boolean | ChecklistItemDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userChecklistProgress"]>
+
+  export type UserChecklistProgressSelectScalar = {
+    id?: boolean
+    userCourseId?: boolean
+    checklistItemId?: boolean
+    done?: boolean
+  }
+
+  export type UserChecklistProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userCourseId" | "checklistItemId" | "done", ExtArgs["result"]["userChecklistProgress"]>
+  export type UserChecklistProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    checklist?: boolean | ChecklistItemDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }
+  export type UserChecklistProgressIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    checklist?: boolean | ChecklistItemDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }
+  export type UserChecklistProgressIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    checklist?: boolean | ChecklistItemDefaultArgs<ExtArgs>
+    userCourse?: boolean | UserCourseDefaultArgs<ExtArgs>
+  }
+
+  export type $UserChecklistProgressPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserChecklistProgress"
+    objects: {
+      checklist: Prisma.$ChecklistItemPayload<ExtArgs>
+      userCourse: Prisma.$UserCoursePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userCourseId: string
+      checklistItemId: string
+      done: boolean
+    }, ExtArgs["result"]["userChecklistProgress"]>
+    composites: {}
+  }
+
+  type UserChecklistProgressGetPayload<S extends boolean | null | undefined | UserChecklistProgressDefaultArgs> = $Result.GetResult<Prisma.$UserChecklistProgressPayload, S>
+
+  type UserChecklistProgressCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserChecklistProgressFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserChecklistProgressCountAggregateInputType | true
+    }
+
+  export interface UserChecklistProgressDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserChecklistProgress'], meta: { name: 'UserChecklistProgress' } }
+    /**
+     * Find zero or one UserChecklistProgress that matches the filter.
+     * @param {UserChecklistProgressFindUniqueArgs} args - Arguments to find a UserChecklistProgress
+     * @example
+     * // Get one UserChecklistProgress
+     * const userChecklistProgress = await prisma.userChecklistProgress.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserChecklistProgressFindUniqueArgs>(args: SelectSubset<T, UserChecklistProgressFindUniqueArgs<ExtArgs>>): Prisma__UserChecklistProgressClient<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserChecklistProgress that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserChecklistProgressFindUniqueOrThrowArgs} args - Arguments to find a UserChecklistProgress
+     * @example
+     * // Get one UserChecklistProgress
+     * const userChecklistProgress = await prisma.userChecklistProgress.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserChecklistProgressFindUniqueOrThrowArgs>(args: SelectSubset<T, UserChecklistProgressFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserChecklistProgressClient<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserChecklistProgress that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserChecklistProgressFindFirstArgs} args - Arguments to find a UserChecklistProgress
+     * @example
+     * // Get one UserChecklistProgress
+     * const userChecklistProgress = await prisma.userChecklistProgress.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserChecklistProgressFindFirstArgs>(args?: SelectSubset<T, UserChecklistProgressFindFirstArgs<ExtArgs>>): Prisma__UserChecklistProgressClient<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserChecklistProgress that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserChecklistProgressFindFirstOrThrowArgs} args - Arguments to find a UserChecklistProgress
+     * @example
+     * // Get one UserChecklistProgress
+     * const userChecklistProgress = await prisma.userChecklistProgress.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserChecklistProgressFindFirstOrThrowArgs>(args?: SelectSubset<T, UserChecklistProgressFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserChecklistProgressClient<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserChecklistProgresses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserChecklistProgressFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserChecklistProgresses
+     * const userChecklistProgresses = await prisma.userChecklistProgress.findMany()
+     * 
+     * // Get first 10 UserChecklistProgresses
+     * const userChecklistProgresses = await prisma.userChecklistProgress.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userChecklistProgressWithIdOnly = await prisma.userChecklistProgress.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserChecklistProgressFindManyArgs>(args?: SelectSubset<T, UserChecklistProgressFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserChecklistProgress.
+     * @param {UserChecklistProgressCreateArgs} args - Arguments to create a UserChecklistProgress.
+     * @example
+     * // Create one UserChecklistProgress
+     * const UserChecklistProgress = await prisma.userChecklistProgress.create({
+     *   data: {
+     *     // ... data to create a UserChecklistProgress
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserChecklistProgressCreateArgs>(args: SelectSubset<T, UserChecklistProgressCreateArgs<ExtArgs>>): Prisma__UserChecklistProgressClient<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserChecklistProgresses.
+     * @param {UserChecklistProgressCreateManyArgs} args - Arguments to create many UserChecklistProgresses.
+     * @example
+     * // Create many UserChecklistProgresses
+     * const userChecklistProgress = await prisma.userChecklistProgress.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserChecklistProgressCreateManyArgs>(args?: SelectSubset<T, UserChecklistProgressCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserChecklistProgresses and returns the data saved in the database.
+     * @param {UserChecklistProgressCreateManyAndReturnArgs} args - Arguments to create many UserChecklistProgresses.
+     * @example
+     * // Create many UserChecklistProgresses
+     * const userChecklistProgress = await prisma.userChecklistProgress.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserChecklistProgresses and only return the `id`
+     * const userChecklistProgressWithIdOnly = await prisma.userChecklistProgress.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserChecklistProgressCreateManyAndReturnArgs>(args?: SelectSubset<T, UserChecklistProgressCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserChecklistProgress.
+     * @param {UserChecklistProgressDeleteArgs} args - Arguments to delete one UserChecklistProgress.
+     * @example
+     * // Delete one UserChecklistProgress
+     * const UserChecklistProgress = await prisma.userChecklistProgress.delete({
+     *   where: {
+     *     // ... filter to delete one UserChecklistProgress
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserChecklistProgressDeleteArgs>(args: SelectSubset<T, UserChecklistProgressDeleteArgs<ExtArgs>>): Prisma__UserChecklistProgressClient<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserChecklistProgress.
+     * @param {UserChecklistProgressUpdateArgs} args - Arguments to update one UserChecklistProgress.
+     * @example
+     * // Update one UserChecklistProgress
+     * const userChecklistProgress = await prisma.userChecklistProgress.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserChecklistProgressUpdateArgs>(args: SelectSubset<T, UserChecklistProgressUpdateArgs<ExtArgs>>): Prisma__UserChecklistProgressClient<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserChecklistProgresses.
+     * @param {UserChecklistProgressDeleteManyArgs} args - Arguments to filter UserChecklistProgresses to delete.
+     * @example
+     * // Delete a few UserChecklistProgresses
+     * const { count } = await prisma.userChecklistProgress.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserChecklistProgressDeleteManyArgs>(args?: SelectSubset<T, UserChecklistProgressDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserChecklistProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserChecklistProgressUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserChecklistProgresses
+     * const userChecklistProgress = await prisma.userChecklistProgress.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserChecklistProgressUpdateManyArgs>(args: SelectSubset<T, UserChecklistProgressUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserChecklistProgresses and returns the data updated in the database.
+     * @param {UserChecklistProgressUpdateManyAndReturnArgs} args - Arguments to update many UserChecklistProgresses.
+     * @example
+     * // Update many UserChecklistProgresses
+     * const userChecklistProgress = await prisma.userChecklistProgress.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserChecklistProgresses and only return the `id`
+     * const userChecklistProgressWithIdOnly = await prisma.userChecklistProgress.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserChecklistProgressUpdateManyAndReturnArgs>(args: SelectSubset<T, UserChecklistProgressUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserChecklistProgress.
+     * @param {UserChecklistProgressUpsertArgs} args - Arguments to update or create a UserChecklistProgress.
+     * @example
+     * // Update or create a UserChecklistProgress
+     * const userChecklistProgress = await prisma.userChecklistProgress.upsert({
+     *   create: {
+     *     // ... data to create a UserChecklistProgress
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserChecklistProgress we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserChecklistProgressUpsertArgs>(args: SelectSubset<T, UserChecklistProgressUpsertArgs<ExtArgs>>): Prisma__UserChecklistProgressClient<$Result.GetResult<Prisma.$UserChecklistProgressPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserChecklistProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserChecklistProgressCountArgs} args - Arguments to filter UserChecklistProgresses to count.
+     * @example
+     * // Count the number of UserChecklistProgresses
+     * const count = await prisma.userChecklistProgress.count({
+     *   where: {
+     *     // ... the filter for the UserChecklistProgresses we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserChecklistProgressCountArgs>(
+      args?: Subset<T, UserChecklistProgressCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserChecklistProgressCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserChecklistProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserChecklistProgressAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserChecklistProgressAggregateArgs>(args: Subset<T, UserChecklistProgressAggregateArgs>): Prisma.PrismaPromise<GetUserChecklistProgressAggregateType<T>>
+
+    /**
+     * Group by UserChecklistProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserChecklistProgressGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserChecklistProgressGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserChecklistProgressGroupByArgs['orderBy'] }
+        : { orderBy?: UserChecklistProgressGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserChecklistProgressGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserChecklistProgressGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserChecklistProgress model
+   */
+  readonly fields: UserChecklistProgressFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserChecklistProgress.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserChecklistProgressClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    checklist<T extends ChecklistItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ChecklistItemDefaultArgs<ExtArgs>>): Prisma__ChecklistItemClient<$Result.GetResult<Prisma.$ChecklistItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    userCourse<T extends UserCourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserCourseDefaultArgs<ExtArgs>>): Prisma__UserCourseClient<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserChecklistProgress model
+   */ 
+  interface UserChecklistProgressFieldRefs {
+    readonly id: FieldRef<"UserChecklistProgress", 'String'>
+    readonly userCourseId: FieldRef<"UserChecklistProgress", 'String'>
+    readonly checklistItemId: FieldRef<"UserChecklistProgress", 'String'>
+    readonly done: FieldRef<"UserChecklistProgress", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserChecklistProgress findUnique
+   */
+  export type UserChecklistProgressFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserChecklistProgress to fetch.
+     */
+    where: UserChecklistProgressWhereUniqueInput
+  }
+
+  /**
+   * UserChecklistProgress findUniqueOrThrow
+   */
+  export type UserChecklistProgressFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserChecklistProgress to fetch.
+     */
+    where: UserChecklistProgressWhereUniqueInput
+  }
+
+  /**
+   * UserChecklistProgress findFirst
+   */
+  export type UserChecklistProgressFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserChecklistProgress to fetch.
+     */
+    where?: UserChecklistProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserChecklistProgresses to fetch.
+     */
+    orderBy?: UserChecklistProgressOrderByWithRelationInput | UserChecklistProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserChecklistProgresses.
+     */
+    cursor?: UserChecklistProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserChecklistProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserChecklistProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserChecklistProgresses.
+     */
+    distinct?: UserChecklistProgressScalarFieldEnum | UserChecklistProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserChecklistProgress findFirstOrThrow
+   */
+  export type UserChecklistProgressFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserChecklistProgress to fetch.
+     */
+    where?: UserChecklistProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserChecklistProgresses to fetch.
+     */
+    orderBy?: UserChecklistProgressOrderByWithRelationInput | UserChecklistProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserChecklistProgresses.
+     */
+    cursor?: UserChecklistProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserChecklistProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserChecklistProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserChecklistProgresses.
+     */
+    distinct?: UserChecklistProgressScalarFieldEnum | UserChecklistProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserChecklistProgress findMany
+   */
+  export type UserChecklistProgressFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserChecklistProgresses to fetch.
+     */
+    where?: UserChecklistProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserChecklistProgresses to fetch.
+     */
+    orderBy?: UserChecklistProgressOrderByWithRelationInput | UserChecklistProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserChecklistProgresses.
+     */
+    cursor?: UserChecklistProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserChecklistProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserChecklistProgresses.
+     */
+    skip?: number
+    distinct?: UserChecklistProgressScalarFieldEnum | UserChecklistProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserChecklistProgress create
+   */
+  export type UserChecklistProgressCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserChecklistProgress.
+     */
+    data: XOR<UserChecklistProgressCreateInput, UserChecklistProgressUncheckedCreateInput>
+  }
+
+  /**
+   * UserChecklistProgress createMany
+   */
+  export type UserChecklistProgressCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserChecklistProgresses.
+     */
+    data: UserChecklistProgressCreateManyInput | UserChecklistProgressCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserChecklistProgress createManyAndReturn
+   */
+  export type UserChecklistProgressCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserChecklistProgresses.
+     */
+    data: UserChecklistProgressCreateManyInput | UserChecklistProgressCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserChecklistProgress update
+   */
+  export type UserChecklistProgressUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserChecklistProgress.
+     */
+    data: XOR<UserChecklistProgressUpdateInput, UserChecklistProgressUncheckedUpdateInput>
+    /**
+     * Choose, which UserChecklistProgress to update.
+     */
+    where: UserChecklistProgressWhereUniqueInput
+  }
+
+  /**
+   * UserChecklistProgress updateMany
+   */
+  export type UserChecklistProgressUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserChecklistProgresses.
+     */
+    data: XOR<UserChecklistProgressUpdateManyMutationInput, UserChecklistProgressUncheckedUpdateManyInput>
+    /**
+     * Filter which UserChecklistProgresses to update
+     */
+    where?: UserChecklistProgressWhereInput
+    /**
+     * Limit how many UserChecklistProgresses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserChecklistProgress updateManyAndReturn
+   */
+  export type UserChecklistProgressUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * The data used to update UserChecklistProgresses.
+     */
+    data: XOR<UserChecklistProgressUpdateManyMutationInput, UserChecklistProgressUncheckedUpdateManyInput>
+    /**
+     * Filter which UserChecklistProgresses to update
+     */
+    where?: UserChecklistProgressWhereInput
+    /**
+     * Limit how many UserChecklistProgresses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserChecklistProgress upsert
+   */
+  export type UserChecklistProgressUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserChecklistProgress to update in case it exists.
+     */
+    where: UserChecklistProgressWhereUniqueInput
+    /**
+     * In case the UserChecklistProgress found by the `where` argument doesn't exist, create a new UserChecklistProgress with this data.
+     */
+    create: XOR<UserChecklistProgressCreateInput, UserChecklistProgressUncheckedCreateInput>
+    /**
+     * In case the UserChecklistProgress was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserChecklistProgressUpdateInput, UserChecklistProgressUncheckedUpdateInput>
+  }
+
+  /**
+   * UserChecklistProgress delete
+   */
+  export type UserChecklistProgressDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
+    /**
+     * Filter which UserChecklistProgress to delete.
+     */
+    where: UserChecklistProgressWhereUniqueInput
+  }
+
+  /**
+   * UserChecklistProgress deleteMany
+   */
+  export type UserChecklistProgressDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserChecklistProgresses to delete
+     */
+    where?: UserChecklistProgressWhereInput
+    /**
+     * Limit how many UserChecklistProgresses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserChecklistProgress without action
+   */
+  export type UserChecklistProgressDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserChecklistProgress
+     */
+    select?: UserChecklistProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserChecklistProgress
+     */
+    omit?: UserChecklistProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserChecklistProgressInclude<ExtArgs> | null
   }
 
 
@@ -11784,23 +18024,81 @@ export namespace Prisma {
   export const TopicMapScalarFieldEnum: {
     id: 'id',
     routeId: 'routeId',
-    nodeData: 'nodeData',
-    edgeData: 'edgeData',
     updatedAt: 'updatedAt'
   };
 
   export type TopicMapScalarFieldEnum = (typeof TopicMapScalarFieldEnum)[keyof typeof TopicMapScalarFieldEnum]
 
 
-  export const TopicContentScalarFieldEnum: {
+  export const TopicNodeScalarFieldEnum: {
     id: 'id',
-    routeId: 'routeId',
-    nodeId: 'nodeId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    topicMapId: 'topicMapId',
+    kind: 'kind',
+    type: 'type',
+    title: 'title',
+    meta: 'meta',
+    posxy: 'posxy',
+    zIndex: 'zIndex',
+    completionType: 'completionType'
   };
 
-  export type TopicContentScalarFieldEnum = (typeof TopicContentScalarFieldEnum)[keyof typeof TopicContentScalarFieldEnum]
+  export type TopicNodeScalarFieldEnum = (typeof TopicNodeScalarFieldEnum)[keyof typeof TopicNodeScalarFieldEnum]
+
+
+  export const TopicEdgeScalarFieldEnum: {
+    id: 'id',
+    topicMapId: 'topicMapId',
+    sourceId: 'sourceId',
+    targetId: 'targetId',
+    meta: 'meta'
+  };
+
+  export type TopicEdgeScalarFieldEnum = (typeof TopicEdgeScalarFieldEnum)[keyof typeof TopicEdgeScalarFieldEnum]
+
+
+  export const UserCourseScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    topicMapId: 'topicMapId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    view: 'view',
+    mode: 'mode'
+  };
+
+  export type UserCourseScalarFieldEnum = (typeof UserCourseScalarFieldEnum)[keyof typeof UserCourseScalarFieldEnum]
+
+
+  export const UserTopicProgressScalarFieldEnum: {
+    id: 'id',
+    userCourseId: 'userCourseId',
+    topicNodeId: 'topicNodeId',
+    status: 'status',
+    progressValue: 'progressValue',
+    startedAt: 'startedAt',
+    finishedAt: 'finishedAt'
+  };
+
+  export type UserTopicProgressScalarFieldEnum = (typeof UserTopicProgressScalarFieldEnum)[keyof typeof UserTopicProgressScalarFieldEnum]
+
+
+  export const ChecklistItemScalarFieldEnum: {
+    id: 'id',
+    topicNodeId: 'topicNodeId',
+    text: 'text'
+  };
+
+  export type ChecklistItemScalarFieldEnum = (typeof ChecklistItemScalarFieldEnum)[keyof typeof ChecklistItemScalarFieldEnum]
+
+
+  export const UserChecklistProgressScalarFieldEnum: {
+    id: 'id',
+    userCourseId: 'userCourseId',
+    checklistItemId: 'checklistItemId',
+    done: 'done'
+  };
+
+  export type UserChecklistProgressScalarFieldEnum = (typeof UserChecklistProgressScalarFieldEnum)[keyof typeof UserChecklistProgressScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11816,6 +18114,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -11940,6 +18246,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'NodeKind'
+   */
+  export type EnumNodeKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeKind'>
+    
+
+
+  /**
+   * Reference to a field of type 'NodeKind[]'
+   */
+  export type ListEnumNodeKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeKind[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -11965,6 +18285,76 @@ export namespace Prisma {
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
+
+
+  /**
+   * Reference to a field of type 'CompletionType'
+   */
+  export type EnumCompletionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompletionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'CompletionType[]'
+   */
+  export type ListEnumCompletionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompletionType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CourseViewType'
+   */
+  export type EnumCourseViewTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseViewType'>
+    
+
+
+  /**
+   * Reference to a field of type 'CourseViewType[]'
+   */
+  export type ListEnumCourseViewTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseViewType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CourseModeType'
+   */
+  export type EnumCourseModeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseModeType'>
+    
+
+
+  /**
+   * Reference to a field of type 'CourseModeType[]'
+   */
+  export type ListEnumCourseModeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseModeType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'NodeStatus'
+   */
+  export type EnumNodeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'NodeStatus[]'
+   */
+  export type ListEnumNodeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
   /**
    * Deep Input Types
    */
@@ -11985,9 +18375,9 @@ export namespace Prisma {
     method?: EnumAuthMethodFilter<"User"> | $Enums.AuthMethod
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    Route?: RouteListRelationFilter
     accounts?: AccountListRelationFilter
     skillProfile?: XOR<SkillProfileNullableScalarRelationFilter, SkillProfileWhereInput> | null
-    Route?: RouteListRelationFilter
     tokens?: TokenListRelationFilter
   }
 
@@ -12003,9 +18393,9 @@ export namespace Prisma {
     method?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    Route?: RouteOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     skillProfile?: SkillProfileOrderByWithRelationInput
-    Route?: RouteOrderByRelationAggregateInput
     tokens?: TokenOrderByRelationAggregateInput
   }
 
@@ -12024,9 +18414,9 @@ export namespace Prisma {
     method?: EnumAuthMethodFilter<"User"> | $Enums.AuthMethod
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    Route?: RouteListRelationFilter
     accounts?: AccountListRelationFilter
     skillProfile?: XOR<SkillProfileNullableScalarRelationFilter, SkillProfileWhereInput> | null
-    Route?: RouteListRelationFilter
     tokens?: TokenListRelationFilter
   }, "id" | "email">
 
@@ -12288,8 +18678,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Route"> | Date | string
     userId?: StringFilter<"Route"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    topicMap?: XOR<TopicMapNullableScalarRelationFilter, TopicMapWhereInput> | null
     tags?: RouteTagListRelationFilter
+    topicMap?: XOR<TopicMapNullableScalarRelationFilter, TopicMapWhereInput> | null
   }
 
   export type RouteOrderByWithRelationInput = {
@@ -12301,8 +18691,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
-    topicMap?: TopicMapOrderByWithRelationInput
     tags?: RouteTagOrderByRelationAggregateInput
+    topicMap?: TopicMapOrderByWithRelationInput
   }
 
   export type RouteWhereUniqueInput = Prisma.AtLeast<{
@@ -12317,8 +18707,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Route"> | Date | string
     userId?: StringFilter<"Route"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    topicMap?: XOR<TopicMapNullableScalarRelationFilter, TopicMapWhereInput> | null
     tags?: RouteTagListRelationFilter
+    topicMap?: XOR<TopicMapNullableScalarRelationFilter, TopicMapWhereInput> | null
   }, "id">
 
   export type RouteOrderByWithAggregationInput = {
@@ -12442,21 +18832,21 @@ export namespace Prisma {
     NOT?: TopicMapWhereInput | TopicMapWhereInput[]
     id?: StringFilter<"TopicMap"> | string
     routeId?: StringFilter<"TopicMap"> | string
-    nodeData?: JsonFilter<"TopicMap">
-    edgeData?: JsonFilter<"TopicMap">
     updatedAt?: DateTimeFilter<"TopicMap"> | Date | string
-    route?: XOR<RouteNullableScalarRelationFilter, RouteWhereInput> | null
-    topicContent?: TopicContentListRelationFilter
+    edges?: TopicEdgeListRelationFilter
+    route?: XOR<RouteScalarRelationFilter, RouteWhereInput>
+    nodes?: TopicNodeListRelationFilter
+    UserCourse?: UserCourseListRelationFilter
   }
 
   export type TopicMapOrderByWithRelationInput = {
     id?: SortOrder
     routeId?: SortOrder
-    nodeData?: SortOrder
-    edgeData?: SortOrder
     updatedAt?: SortOrder
+    edges?: TopicEdgeOrderByRelationAggregateInput
     route?: RouteOrderByWithRelationInput
-    topicContent?: TopicContentOrderByRelationAggregateInput
+    nodes?: TopicNodeOrderByRelationAggregateInput
+    UserCourse?: UserCourseOrderByRelationAggregateInput
   }
 
   export type TopicMapWhereUniqueInput = Prisma.AtLeast<{
@@ -12465,18 +18855,16 @@ export namespace Prisma {
     AND?: TopicMapWhereInput | TopicMapWhereInput[]
     OR?: TopicMapWhereInput[]
     NOT?: TopicMapWhereInput | TopicMapWhereInput[]
-    nodeData?: JsonFilter<"TopicMap">
-    edgeData?: JsonFilter<"TopicMap">
     updatedAt?: DateTimeFilter<"TopicMap"> | Date | string
-    route?: XOR<RouteNullableScalarRelationFilter, RouteWhereInput> | null
-    topicContent?: TopicContentListRelationFilter
+    edges?: TopicEdgeListRelationFilter
+    route?: XOR<RouteScalarRelationFilter, RouteWhereInput>
+    nodes?: TopicNodeListRelationFilter
+    UserCourse?: UserCourseListRelationFilter
   }, "id" | "routeId">
 
   export type TopicMapOrderByWithAggregationInput = {
     id?: SortOrder
     routeId?: SortOrder
-    nodeData?: SortOrder
-    edgeData?: SortOrder
     updatedAt?: SortOrder
     _count?: TopicMapCountOrderByAggregateInput
     _max?: TopicMapMaxOrderByAggregateInput
@@ -12489,65 +18877,389 @@ export namespace Prisma {
     NOT?: TopicMapScalarWhereWithAggregatesInput | TopicMapScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"TopicMap"> | string
     routeId?: StringWithAggregatesFilter<"TopicMap"> | string
-    nodeData?: JsonWithAggregatesFilter<"TopicMap">
-    edgeData?: JsonWithAggregatesFilter<"TopicMap">
     updatedAt?: DateTimeWithAggregatesFilter<"TopicMap"> | Date | string
   }
 
-  export type TopicContentWhereInput = {
-    AND?: TopicContentWhereInput | TopicContentWhereInput[]
-    OR?: TopicContentWhereInput[]
-    NOT?: TopicContentWhereInput | TopicContentWhereInput[]
-    id?: StringFilter<"TopicContent"> | string
-    routeId?: StringFilter<"TopicContent"> | string
-    nodeId?: StringFilter<"TopicContent"> | string
-    createdAt?: DateTimeFilter<"TopicContent"> | Date | string
-    updatedAt?: DateTimeFilter<"TopicContent"> | Date | string
+  export type TopicNodeWhereInput = {
+    AND?: TopicNodeWhereInput | TopicNodeWhereInput[]
+    OR?: TopicNodeWhereInput[]
+    NOT?: TopicNodeWhereInput | TopicNodeWhereInput[]
+    id?: StringFilter<"TopicNode"> | string
+    topicMapId?: StringFilter<"TopicNode"> | string
+    kind?: EnumNodeKindFilter<"TopicNode"> | $Enums.NodeKind
+    type?: StringFilter<"TopicNode"> | string
+    title?: StringFilter<"TopicNode"> | string
+    meta?: JsonFilter<"TopicNode">
+    posxy?: JsonNullableFilter<"TopicNode">
+    zIndex?: IntNullableFilter<"TopicNode"> | number | null
+    completionType?: EnumCompletionTypeFilter<"TopicNode"> | $Enums.CompletionType
+    checklist?: ChecklistItemListRelationFilter
+    topicMap?: XOR<TopicMapScalarRelationFilter, TopicMapWhereInput>
+    UserTopicProgress?: UserTopicProgressListRelationFilter
+  }
+
+  export type TopicNodeOrderByWithRelationInput = {
+    id?: SortOrder
+    topicMapId?: SortOrder
+    kind?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    meta?: SortOrder
+    posxy?: SortOrderInput | SortOrder
+    zIndex?: SortOrderInput | SortOrder
+    completionType?: SortOrder
+    checklist?: ChecklistItemOrderByRelationAggregateInput
+    topicMap?: TopicMapOrderByWithRelationInput
+    UserTopicProgress?: UserTopicProgressOrderByRelationAggregateInput
+  }
+
+  export type TopicNodeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TopicNodeWhereInput | TopicNodeWhereInput[]
+    OR?: TopicNodeWhereInput[]
+    NOT?: TopicNodeWhereInput | TopicNodeWhereInput[]
+    topicMapId?: StringFilter<"TopicNode"> | string
+    kind?: EnumNodeKindFilter<"TopicNode"> | $Enums.NodeKind
+    type?: StringFilter<"TopicNode"> | string
+    title?: StringFilter<"TopicNode"> | string
+    meta?: JsonFilter<"TopicNode">
+    posxy?: JsonNullableFilter<"TopicNode">
+    zIndex?: IntNullableFilter<"TopicNode"> | number | null
+    completionType?: EnumCompletionTypeFilter<"TopicNode"> | $Enums.CompletionType
+    checklist?: ChecklistItemListRelationFilter
+    topicMap?: XOR<TopicMapScalarRelationFilter, TopicMapWhereInput>
+    UserTopicProgress?: UserTopicProgressListRelationFilter
+  }, "id">
+
+  export type TopicNodeOrderByWithAggregationInput = {
+    id?: SortOrder
+    topicMapId?: SortOrder
+    kind?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    meta?: SortOrder
+    posxy?: SortOrderInput | SortOrder
+    zIndex?: SortOrderInput | SortOrder
+    completionType?: SortOrder
+    _count?: TopicNodeCountOrderByAggregateInput
+    _avg?: TopicNodeAvgOrderByAggregateInput
+    _max?: TopicNodeMaxOrderByAggregateInput
+    _min?: TopicNodeMinOrderByAggregateInput
+    _sum?: TopicNodeSumOrderByAggregateInput
+  }
+
+  export type TopicNodeScalarWhereWithAggregatesInput = {
+    AND?: TopicNodeScalarWhereWithAggregatesInput | TopicNodeScalarWhereWithAggregatesInput[]
+    OR?: TopicNodeScalarWhereWithAggregatesInput[]
+    NOT?: TopicNodeScalarWhereWithAggregatesInput | TopicNodeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TopicNode"> | string
+    topicMapId?: StringWithAggregatesFilter<"TopicNode"> | string
+    kind?: EnumNodeKindWithAggregatesFilter<"TopicNode"> | $Enums.NodeKind
+    type?: StringWithAggregatesFilter<"TopicNode"> | string
+    title?: StringWithAggregatesFilter<"TopicNode"> | string
+    meta?: JsonWithAggregatesFilter<"TopicNode">
+    posxy?: JsonNullableWithAggregatesFilter<"TopicNode">
+    zIndex?: IntNullableWithAggregatesFilter<"TopicNode"> | number | null
+    completionType?: EnumCompletionTypeWithAggregatesFilter<"TopicNode"> | $Enums.CompletionType
+  }
+
+  export type TopicEdgeWhereInput = {
+    AND?: TopicEdgeWhereInput | TopicEdgeWhereInput[]
+    OR?: TopicEdgeWhereInput[]
+    NOT?: TopicEdgeWhereInput | TopicEdgeWhereInput[]
+    id?: StringFilter<"TopicEdge"> | string
+    topicMapId?: StringFilter<"TopicEdge"> | string
+    sourceId?: StringFilter<"TopicEdge"> | string
+    targetId?: StringFilter<"TopicEdge"> | string
+    meta?: JsonNullableFilter<"TopicEdge">
     topicMap?: XOR<TopicMapScalarRelationFilter, TopicMapWhereInput>
   }
 
-  export type TopicContentOrderByWithRelationInput = {
+  export type TopicEdgeOrderByWithRelationInput = {
     id?: SortOrder
-    routeId?: SortOrder
-    nodeId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    topicMapId?: SortOrder
+    sourceId?: SortOrder
+    targetId?: SortOrder
+    meta?: SortOrderInput | SortOrder
     topicMap?: TopicMapOrderByWithRelationInput
   }
 
-  export type TopicContentWhereUniqueInput = Prisma.AtLeast<{
+  export type TopicEdgeWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    routeId_nodeId?: TopicContentRouteIdNodeIdCompoundUniqueInput
-    AND?: TopicContentWhereInput | TopicContentWhereInput[]
-    OR?: TopicContentWhereInput[]
-    NOT?: TopicContentWhereInput | TopicContentWhereInput[]
-    routeId?: StringFilter<"TopicContent"> | string
-    nodeId?: StringFilter<"TopicContent"> | string
-    createdAt?: DateTimeFilter<"TopicContent"> | Date | string
-    updatedAt?: DateTimeFilter<"TopicContent"> | Date | string
+    AND?: TopicEdgeWhereInput | TopicEdgeWhereInput[]
+    OR?: TopicEdgeWhereInput[]
+    NOT?: TopicEdgeWhereInput | TopicEdgeWhereInput[]
+    topicMapId?: StringFilter<"TopicEdge"> | string
+    sourceId?: StringFilter<"TopicEdge"> | string
+    targetId?: StringFilter<"TopicEdge"> | string
+    meta?: JsonNullableFilter<"TopicEdge">
     topicMap?: XOR<TopicMapScalarRelationFilter, TopicMapWhereInput>
-  }, "id" | "routeId_nodeId">
+  }, "id">
 
-  export type TopicContentOrderByWithAggregationInput = {
+  export type TopicEdgeOrderByWithAggregationInput = {
     id?: SortOrder
-    routeId?: SortOrder
-    nodeId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: TopicContentCountOrderByAggregateInput
-    _max?: TopicContentMaxOrderByAggregateInput
-    _min?: TopicContentMinOrderByAggregateInput
+    topicMapId?: SortOrder
+    sourceId?: SortOrder
+    targetId?: SortOrder
+    meta?: SortOrderInput | SortOrder
+    _count?: TopicEdgeCountOrderByAggregateInput
+    _max?: TopicEdgeMaxOrderByAggregateInput
+    _min?: TopicEdgeMinOrderByAggregateInput
   }
 
-  export type TopicContentScalarWhereWithAggregatesInput = {
-    AND?: TopicContentScalarWhereWithAggregatesInput | TopicContentScalarWhereWithAggregatesInput[]
-    OR?: TopicContentScalarWhereWithAggregatesInput[]
-    NOT?: TopicContentScalarWhereWithAggregatesInput | TopicContentScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"TopicContent"> | string
-    routeId?: StringWithAggregatesFilter<"TopicContent"> | string
-    nodeId?: StringWithAggregatesFilter<"TopicContent"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"TopicContent"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"TopicContent"> | Date | string
+  export type TopicEdgeScalarWhereWithAggregatesInput = {
+    AND?: TopicEdgeScalarWhereWithAggregatesInput | TopicEdgeScalarWhereWithAggregatesInput[]
+    OR?: TopicEdgeScalarWhereWithAggregatesInput[]
+    NOT?: TopicEdgeScalarWhereWithAggregatesInput | TopicEdgeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TopicEdge"> | string
+    topicMapId?: StringWithAggregatesFilter<"TopicEdge"> | string
+    sourceId?: StringWithAggregatesFilter<"TopicEdge"> | string
+    targetId?: StringWithAggregatesFilter<"TopicEdge"> | string
+    meta?: JsonNullableWithAggregatesFilter<"TopicEdge">
+  }
+
+  export type UserCourseWhereInput = {
+    AND?: UserCourseWhereInput | UserCourseWhereInput[]
+    OR?: UserCourseWhereInput[]
+    NOT?: UserCourseWhereInput | UserCourseWhereInput[]
+    id?: StringFilter<"UserCourse"> | string
+    userId?: StringFilter<"UserCourse"> | string
+    topicMapId?: StringFilter<"UserCourse"> | string
+    createdAt?: DateTimeFilter<"UserCourse"> | Date | string
+    updatedAt?: DateTimeFilter<"UserCourse"> | Date | string
+    view?: EnumCourseViewTypeNullableFilter<"UserCourse"> | $Enums.CourseViewType | null
+    mode?: EnumCourseModeTypeNullableFilter<"UserCourse"> | $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressListRelationFilter
+    topicMap?: XOR<TopicMapScalarRelationFilter, TopicMapWhereInput>
+    progress?: UserTopicProgressListRelationFilter
+  }
+
+  export type UserCourseOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    topicMapId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    view?: SortOrderInput | SortOrder
+    mode?: SortOrderInput | SortOrder
+    UserChecklistProgress?: UserChecklistProgressOrderByRelationAggregateInput
+    topicMap?: TopicMapOrderByWithRelationInput
+    progress?: UserTopicProgressOrderByRelationAggregateInput
+  }
+
+  export type UserCourseWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserCourseWhereInput | UserCourseWhereInput[]
+    OR?: UserCourseWhereInput[]
+    NOT?: UserCourseWhereInput | UserCourseWhereInput[]
+    userId?: StringFilter<"UserCourse"> | string
+    topicMapId?: StringFilter<"UserCourse"> | string
+    createdAt?: DateTimeFilter<"UserCourse"> | Date | string
+    updatedAt?: DateTimeFilter<"UserCourse"> | Date | string
+    view?: EnumCourseViewTypeNullableFilter<"UserCourse"> | $Enums.CourseViewType | null
+    mode?: EnumCourseModeTypeNullableFilter<"UserCourse"> | $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressListRelationFilter
+    topicMap?: XOR<TopicMapScalarRelationFilter, TopicMapWhereInput>
+    progress?: UserTopicProgressListRelationFilter
+  }, "id">
+
+  export type UserCourseOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    topicMapId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    view?: SortOrderInput | SortOrder
+    mode?: SortOrderInput | SortOrder
+    _count?: UserCourseCountOrderByAggregateInput
+    _max?: UserCourseMaxOrderByAggregateInput
+    _min?: UserCourseMinOrderByAggregateInput
+  }
+
+  export type UserCourseScalarWhereWithAggregatesInput = {
+    AND?: UserCourseScalarWhereWithAggregatesInput | UserCourseScalarWhereWithAggregatesInput[]
+    OR?: UserCourseScalarWhereWithAggregatesInput[]
+    NOT?: UserCourseScalarWhereWithAggregatesInput | UserCourseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserCourse"> | string
+    userId?: StringWithAggregatesFilter<"UserCourse"> | string
+    topicMapId?: StringWithAggregatesFilter<"UserCourse"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"UserCourse"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserCourse"> | Date | string
+    view?: EnumCourseViewTypeNullableWithAggregatesFilter<"UserCourse"> | $Enums.CourseViewType | null
+    mode?: EnumCourseModeTypeNullableWithAggregatesFilter<"UserCourse"> | $Enums.CourseModeType | null
+  }
+
+  export type UserTopicProgressWhereInput = {
+    AND?: UserTopicProgressWhereInput | UserTopicProgressWhereInput[]
+    OR?: UserTopicProgressWhereInput[]
+    NOT?: UserTopicProgressWhereInput | UserTopicProgressWhereInput[]
+    id?: StringFilter<"UserTopicProgress"> | string
+    userCourseId?: StringFilter<"UserTopicProgress"> | string
+    topicNodeId?: StringFilter<"UserTopicProgress"> | string
+    status?: EnumNodeStatusFilter<"UserTopicProgress"> | $Enums.NodeStatus
+    progressValue?: FloatNullableFilter<"UserTopicProgress"> | number | null
+    startedAt?: DateTimeNullableFilter<"UserTopicProgress"> | Date | string | null
+    finishedAt?: DateTimeNullableFilter<"UserTopicProgress"> | Date | string | null
+    topicNode?: XOR<TopicNodeScalarRelationFilter, TopicNodeWhereInput>
+    userCourse?: XOR<UserCourseScalarRelationFilter, UserCourseWhereInput>
+  }
+
+  export type UserTopicProgressOrderByWithRelationInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    topicNodeId?: SortOrder
+    status?: SortOrder
+    progressValue?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    finishedAt?: SortOrderInput | SortOrder
+    topicNode?: TopicNodeOrderByWithRelationInput
+    userCourse?: UserCourseOrderByWithRelationInput
+  }
+
+  export type UserTopicProgressWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userCourseId_topicNodeId?: UserTopicProgressUserCourseIdTopicNodeIdCompoundUniqueInput
+    AND?: UserTopicProgressWhereInput | UserTopicProgressWhereInput[]
+    OR?: UserTopicProgressWhereInput[]
+    NOT?: UserTopicProgressWhereInput | UserTopicProgressWhereInput[]
+    userCourseId?: StringFilter<"UserTopicProgress"> | string
+    topicNodeId?: StringFilter<"UserTopicProgress"> | string
+    status?: EnumNodeStatusFilter<"UserTopicProgress"> | $Enums.NodeStatus
+    progressValue?: FloatNullableFilter<"UserTopicProgress"> | number | null
+    startedAt?: DateTimeNullableFilter<"UserTopicProgress"> | Date | string | null
+    finishedAt?: DateTimeNullableFilter<"UserTopicProgress"> | Date | string | null
+    topicNode?: XOR<TopicNodeScalarRelationFilter, TopicNodeWhereInput>
+    userCourse?: XOR<UserCourseScalarRelationFilter, UserCourseWhereInput>
+  }, "id" | "userCourseId_topicNodeId">
+
+  export type UserTopicProgressOrderByWithAggregationInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    topicNodeId?: SortOrder
+    status?: SortOrder
+    progressValue?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    finishedAt?: SortOrderInput | SortOrder
+    _count?: UserTopicProgressCountOrderByAggregateInput
+    _avg?: UserTopicProgressAvgOrderByAggregateInput
+    _max?: UserTopicProgressMaxOrderByAggregateInput
+    _min?: UserTopicProgressMinOrderByAggregateInput
+    _sum?: UserTopicProgressSumOrderByAggregateInput
+  }
+
+  export type UserTopicProgressScalarWhereWithAggregatesInput = {
+    AND?: UserTopicProgressScalarWhereWithAggregatesInput | UserTopicProgressScalarWhereWithAggregatesInput[]
+    OR?: UserTopicProgressScalarWhereWithAggregatesInput[]
+    NOT?: UserTopicProgressScalarWhereWithAggregatesInput | UserTopicProgressScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserTopicProgress"> | string
+    userCourseId?: StringWithAggregatesFilter<"UserTopicProgress"> | string
+    topicNodeId?: StringWithAggregatesFilter<"UserTopicProgress"> | string
+    status?: EnumNodeStatusWithAggregatesFilter<"UserTopicProgress"> | $Enums.NodeStatus
+    progressValue?: FloatNullableWithAggregatesFilter<"UserTopicProgress"> | number | null
+    startedAt?: DateTimeNullableWithAggregatesFilter<"UserTopicProgress"> | Date | string | null
+    finishedAt?: DateTimeNullableWithAggregatesFilter<"UserTopicProgress"> | Date | string | null
+  }
+
+  export type ChecklistItemWhereInput = {
+    AND?: ChecklistItemWhereInput | ChecklistItemWhereInput[]
+    OR?: ChecklistItemWhereInput[]
+    NOT?: ChecklistItemWhereInput | ChecklistItemWhereInput[]
+    id?: StringFilter<"ChecklistItem"> | string
+    topicNodeId?: StringFilter<"ChecklistItem"> | string
+    text?: StringFilter<"ChecklistItem"> | string
+    topicNode?: XOR<TopicNodeScalarRelationFilter, TopicNodeWhereInput>
+    userStates?: UserChecklistProgressListRelationFilter
+  }
+
+  export type ChecklistItemOrderByWithRelationInput = {
+    id?: SortOrder
+    topicNodeId?: SortOrder
+    text?: SortOrder
+    topicNode?: TopicNodeOrderByWithRelationInput
+    userStates?: UserChecklistProgressOrderByRelationAggregateInput
+  }
+
+  export type ChecklistItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ChecklistItemWhereInput | ChecklistItemWhereInput[]
+    OR?: ChecklistItemWhereInput[]
+    NOT?: ChecklistItemWhereInput | ChecklistItemWhereInput[]
+    topicNodeId?: StringFilter<"ChecklistItem"> | string
+    text?: StringFilter<"ChecklistItem"> | string
+    topicNode?: XOR<TopicNodeScalarRelationFilter, TopicNodeWhereInput>
+    userStates?: UserChecklistProgressListRelationFilter
+  }, "id">
+
+  export type ChecklistItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    topicNodeId?: SortOrder
+    text?: SortOrder
+    _count?: ChecklistItemCountOrderByAggregateInput
+    _max?: ChecklistItemMaxOrderByAggregateInput
+    _min?: ChecklistItemMinOrderByAggregateInput
+  }
+
+  export type ChecklistItemScalarWhereWithAggregatesInput = {
+    AND?: ChecklistItemScalarWhereWithAggregatesInput | ChecklistItemScalarWhereWithAggregatesInput[]
+    OR?: ChecklistItemScalarWhereWithAggregatesInput[]
+    NOT?: ChecklistItemScalarWhereWithAggregatesInput | ChecklistItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ChecklistItem"> | string
+    topicNodeId?: StringWithAggregatesFilter<"ChecklistItem"> | string
+    text?: StringWithAggregatesFilter<"ChecklistItem"> | string
+  }
+
+  export type UserChecklistProgressWhereInput = {
+    AND?: UserChecklistProgressWhereInput | UserChecklistProgressWhereInput[]
+    OR?: UserChecklistProgressWhereInput[]
+    NOT?: UserChecklistProgressWhereInput | UserChecklistProgressWhereInput[]
+    id?: StringFilter<"UserChecklistProgress"> | string
+    userCourseId?: StringFilter<"UserChecklistProgress"> | string
+    checklistItemId?: StringFilter<"UserChecklistProgress"> | string
+    done?: BoolFilter<"UserChecklistProgress"> | boolean
+    checklist?: XOR<ChecklistItemScalarRelationFilter, ChecklistItemWhereInput>
+    userCourse?: XOR<UserCourseScalarRelationFilter, UserCourseWhereInput>
+  }
+
+  export type UserChecklistProgressOrderByWithRelationInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    checklistItemId?: SortOrder
+    done?: SortOrder
+    checklist?: ChecklistItemOrderByWithRelationInput
+    userCourse?: UserCourseOrderByWithRelationInput
+  }
+
+  export type UserChecklistProgressWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userCourseId_checklistItemId?: UserChecklistProgressUserCourseIdChecklistItemIdCompoundUniqueInput
+    AND?: UserChecklistProgressWhereInput | UserChecklistProgressWhereInput[]
+    OR?: UserChecklistProgressWhereInput[]
+    NOT?: UserChecklistProgressWhereInput | UserChecklistProgressWhereInput[]
+    userCourseId?: StringFilter<"UserChecklistProgress"> | string
+    checklistItemId?: StringFilter<"UserChecklistProgress"> | string
+    done?: BoolFilter<"UserChecklistProgress"> | boolean
+    checklist?: XOR<ChecklistItemScalarRelationFilter, ChecklistItemWhereInput>
+    userCourse?: XOR<UserCourseScalarRelationFilter, UserCourseWhereInput>
+  }, "id" | "userCourseId_checklistItemId">
+
+  export type UserChecklistProgressOrderByWithAggregationInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    checklistItemId?: SortOrder
+    done?: SortOrder
+    _count?: UserChecklistProgressCountOrderByAggregateInput
+    _max?: UserChecklistProgressMaxOrderByAggregateInput
+    _min?: UserChecklistProgressMinOrderByAggregateInput
+  }
+
+  export type UserChecklistProgressScalarWhereWithAggregatesInput = {
+    AND?: UserChecklistProgressScalarWhereWithAggregatesInput | UserChecklistProgressScalarWhereWithAggregatesInput[]
+    OR?: UserChecklistProgressScalarWhereWithAggregatesInput[]
+    NOT?: UserChecklistProgressScalarWhereWithAggregatesInput | UserChecklistProgressScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserChecklistProgress"> | string
+    userCourseId?: StringWithAggregatesFilter<"UserChecklistProgress"> | string
+    checklistItemId?: StringWithAggregatesFilter<"UserChecklistProgress"> | string
+    done?: BoolWithAggregatesFilter<"UserChecklistProgress"> | boolean
   }
 
   export type UserCreateInput = {
@@ -12562,9 +19274,9 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    Route?: RouteCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
-    Route?: RouteCreateNestedManyWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
   }
 
@@ -12580,9 +19292,9 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    Route?: RouteUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
-    Route?: RouteUncheckedCreateNestedManyWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -12598,9 +19310,9 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Route?: RouteUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
-    Route?: RouteUpdateManyWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
   }
 
@@ -12616,9 +19328,9 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Route?: RouteUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
-    Route?: RouteUncheckedUpdateManyWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -12900,8 +19612,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutRouteInput
-    topicMap?: TopicMapCreateNestedOneWithoutRouteInput
     tags?: RouteTagCreateNestedManyWithoutRouteInput
+    topicMap?: TopicMapCreateNestedOneWithoutRouteInput
   }
 
   export type RouteUncheckedCreateInput = {
@@ -12912,8 +19624,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    topicMap?: TopicMapUncheckedCreateNestedOneWithoutRouteInput
     tags?: RouteTagUncheckedCreateNestedManyWithoutRouteInput
+    topicMap?: TopicMapUncheckedCreateNestedOneWithoutRouteInput
   }
 
   export type RouteUpdateInput = {
@@ -12924,8 +19636,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRouteNestedInput
-    topicMap?: TopicMapUpdateOneWithoutRouteNestedInput
     tags?: RouteTagUpdateManyWithoutRouteNestedInput
+    topicMap?: TopicMapUpdateOneWithoutRouteNestedInput
   }
 
   export type RouteUncheckedUpdateInput = {
@@ -12936,8 +19648,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    topicMap?: TopicMapUncheckedUpdateOneWithoutRouteNestedInput
     tags?: RouteTagUncheckedUpdateManyWithoutRouteNestedInput
+    topicMap?: TopicMapUncheckedUpdateOneWithoutRouteNestedInput
   }
 
   export type RouteCreateManyInput = {
@@ -13050,116 +19762,438 @@ export namespace Prisma {
 
   export type TopicMapCreateInput = {
     id?: string
-    nodeData: JsonNullValueInput | InputJsonValue
-    edgeData: JsonNullValueInput | InputJsonValue
     updatedAt?: Date | string
-    route?: RouteCreateNestedOneWithoutTopicMapInput
-    topicContent?: TopicContentCreateNestedManyWithoutTopicMapInput
+    edges?: TopicEdgeCreateNestedManyWithoutTopicMapInput
+    route: RouteCreateNestedOneWithoutTopicMapInput
+    nodes?: TopicNodeCreateNestedManyWithoutTopicMapInput
+    UserCourse?: UserCourseCreateNestedManyWithoutTopicMapInput
   }
 
   export type TopicMapUncheckedCreateInput = {
     id?: string
     routeId: string
-    nodeData: JsonNullValueInput | InputJsonValue
-    edgeData: JsonNullValueInput | InputJsonValue
     updatedAt?: Date | string
-    topicContent?: TopicContentUncheckedCreateNestedManyWithoutTopicMapInput
+    edges?: TopicEdgeUncheckedCreateNestedManyWithoutTopicMapInput
+    nodes?: TopicNodeUncheckedCreateNestedManyWithoutTopicMapInput
+    UserCourse?: UserCourseUncheckedCreateNestedManyWithoutTopicMapInput
   }
 
   export type TopicMapUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nodeData?: JsonNullValueInput | InputJsonValue
-    edgeData?: JsonNullValueInput | InputJsonValue
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    route?: RouteUpdateOneWithoutTopicMapNestedInput
-    topicContent?: TopicContentUpdateManyWithoutTopicMapNestedInput
+    edges?: TopicEdgeUpdateManyWithoutTopicMapNestedInput
+    route?: RouteUpdateOneRequiredWithoutTopicMapNestedInput
+    nodes?: TopicNodeUpdateManyWithoutTopicMapNestedInput
+    UserCourse?: UserCourseUpdateManyWithoutTopicMapNestedInput
   }
 
   export type TopicMapUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     routeId?: StringFieldUpdateOperationsInput | string
-    nodeData?: JsonNullValueInput | InputJsonValue
-    edgeData?: JsonNullValueInput | InputJsonValue
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    topicContent?: TopicContentUncheckedUpdateManyWithoutTopicMapNestedInput
+    edges?: TopicEdgeUncheckedUpdateManyWithoutTopicMapNestedInput
+    nodes?: TopicNodeUncheckedUpdateManyWithoutTopicMapNestedInput
+    UserCourse?: UserCourseUncheckedUpdateManyWithoutTopicMapNestedInput
   }
 
   export type TopicMapCreateManyInput = {
     id?: string
     routeId: string
-    nodeData: JsonNullValueInput | InputJsonValue
-    edgeData: JsonNullValueInput | InputJsonValue
     updatedAt?: Date | string
   }
 
   export type TopicMapUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nodeData?: JsonNullValueInput | InputJsonValue
-    edgeData?: JsonNullValueInput | InputJsonValue
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TopicMapUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     routeId?: StringFieldUpdateOperationsInput | string
-    nodeData?: JsonNullValueInput | InputJsonValue
-    edgeData?: JsonNullValueInput | InputJsonValue
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TopicContentCreateInput = {
+  export type TopicNodeCreateInput = {
     id?: string
-    nodeId: string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+    checklist?: ChecklistItemCreateNestedManyWithoutTopicNodeInput
+    topicMap: TopicMapCreateNestedOneWithoutNodesInput
+    UserTopicProgress?: UserTopicProgressCreateNestedManyWithoutTopicNodeInput
+  }
+
+  export type TopicNodeUncheckedCreateInput = {
+    id?: string
+    topicMapId: string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+    checklist?: ChecklistItemUncheckedCreateNestedManyWithoutTopicNodeInput
+    UserTopicProgress?: UserTopicProgressUncheckedCreateNestedManyWithoutTopicNodeInput
+  }
+
+  export type TopicNodeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+    checklist?: ChecklistItemUpdateManyWithoutTopicNodeNestedInput
+    topicMap?: TopicMapUpdateOneRequiredWithoutNodesNestedInput
+    UserTopicProgress?: UserTopicProgressUpdateManyWithoutTopicNodeNestedInput
+  }
+
+  export type TopicNodeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+    checklist?: ChecklistItemUncheckedUpdateManyWithoutTopicNodeNestedInput
+    UserTopicProgress?: UserTopicProgressUncheckedUpdateManyWithoutTopicNodeNestedInput
+  }
+
+  export type TopicNodeCreateManyInput = {
+    id?: string
+    topicMapId: string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+  }
+
+  export type TopicNodeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+  }
+
+  export type TopicNodeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+  }
+
+  export type TopicEdgeCreateInput = {
+    id?: string
+    sourceId: string
+    targetId: string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    topicMap: TopicMapCreateNestedOneWithoutEdgesInput
+  }
+
+  export type TopicEdgeUncheckedCreateInput = {
+    id?: string
+    topicMapId: string
+    sourceId: string
+    targetId: string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TopicEdgeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    targetId?: StringFieldUpdateOperationsInput | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    topicMap?: TopicMapUpdateOneRequiredWithoutEdgesNestedInput
+  }
+
+  export type TopicEdgeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    targetId?: StringFieldUpdateOperationsInput | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TopicEdgeCreateManyInput = {
+    id?: string
+    topicMapId: string
+    sourceId: string
+    targetId: string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TopicEdgeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    targetId?: StringFieldUpdateOperationsInput | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TopicEdgeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    targetId?: StringFieldUpdateOperationsInput | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type UserCourseCreateInput = {
+    id?: string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    topicMap: TopicMapCreateNestedOneWithoutTopicContentInput
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressCreateNestedManyWithoutUserCourseInput
+    topicMap: TopicMapCreateNestedOneWithoutUserCourseInput
+    progress?: UserTopicProgressCreateNestedManyWithoutUserCourseInput
   }
 
-  export type TopicContentUncheckedCreateInput = {
+  export type UserCourseUncheckedCreateInput = {
     id?: string
-    routeId: string
-    nodeId: string
+    userId: string
+    topicMapId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressUncheckedCreateNestedManyWithoutUserCourseInput
+    progress?: UserTopicProgressUncheckedCreateNestedManyWithoutUserCourseInput
   }
 
-  export type TopicContentUpdateInput = {
+  export type UserCourseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nodeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    topicMap?: TopicMapUpdateOneRequiredWithoutTopicContentNestedInput
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressUpdateManyWithoutUserCourseNestedInput
+    topicMap?: TopicMapUpdateOneRequiredWithoutUserCourseNestedInput
+    progress?: UserTopicProgressUpdateManyWithoutUserCourseNestedInput
   }
 
-  export type TopicContentUncheckedUpdateInput = {
+  export type UserCourseUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    routeId?: StringFieldUpdateOperationsInput | string
-    nodeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressUncheckedUpdateManyWithoutUserCourseNestedInput
+    progress?: UserTopicProgressUncheckedUpdateManyWithoutUserCourseNestedInput
   }
 
-  export type TopicContentCreateManyInput = {
+  export type UserCourseCreateManyInput = {
     id?: string
-    routeId: string
-    nodeId: string
+    userId: string
+    topicMapId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
   }
 
-  export type TopicContentUpdateManyMutationInput = {
+  export type UserCourseUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nodeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
   }
 
-  export type TopicContentUncheckedUpdateManyInput = {
+  export type UserCourseUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    routeId?: StringFieldUpdateOperationsInput | string
-    nodeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+  }
+
+  export type UserTopicProgressCreateInput = {
+    id?: string
+    status?: $Enums.NodeStatus
+    progressValue?: number | null
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    topicNode: TopicNodeCreateNestedOneWithoutUserTopicProgressInput
+    userCourse: UserCourseCreateNestedOneWithoutProgressInput
+  }
+
+  export type UserTopicProgressUncheckedCreateInput = {
+    id?: string
+    userCourseId: string
+    topicNodeId: string
+    status?: $Enums.NodeStatus
+    progressValue?: number | null
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+  }
+
+  export type UserTopicProgressUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    topicNode?: TopicNodeUpdateOneRequiredWithoutUserTopicProgressNestedInput
+    userCourse?: UserCourseUpdateOneRequiredWithoutProgressNestedInput
+  }
+
+  export type UserTopicProgressUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userCourseId?: StringFieldUpdateOperationsInput | string
+    topicNodeId?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserTopicProgressCreateManyInput = {
+    id?: string
+    userCourseId: string
+    topicNodeId: string
+    status?: $Enums.NodeStatus
+    progressValue?: number | null
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+  }
+
+  export type UserTopicProgressUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserTopicProgressUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userCourseId?: StringFieldUpdateOperationsInput | string
+    topicNodeId?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChecklistItemCreateInput = {
+    id?: string
+    text: string
+    topicNode: TopicNodeCreateNestedOneWithoutChecklistInput
+    userStates?: UserChecklistProgressCreateNestedManyWithoutChecklistInput
+  }
+
+  export type ChecklistItemUncheckedCreateInput = {
+    id?: string
+    topicNodeId: string
+    text: string
+    userStates?: UserChecklistProgressUncheckedCreateNestedManyWithoutChecklistInput
+  }
+
+  export type ChecklistItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    topicNode?: TopicNodeUpdateOneRequiredWithoutChecklistNestedInput
+    userStates?: UserChecklistProgressUpdateManyWithoutChecklistNestedInput
+  }
+
+  export type ChecklistItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicNodeId?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    userStates?: UserChecklistProgressUncheckedUpdateManyWithoutChecklistNestedInput
+  }
+
+  export type ChecklistItemCreateManyInput = {
+    id?: string
+    topicNodeId: string
+    text: string
+  }
+
+  export type ChecklistItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ChecklistItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicNodeId?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserChecklistProgressCreateInput = {
+    id?: string
+    done?: boolean
+    checklist: ChecklistItemCreateNestedOneWithoutUserStatesInput
+    userCourse: UserCourseCreateNestedOneWithoutUserChecklistProgressInput
+  }
+
+  export type UserChecklistProgressUncheckedCreateInput = {
+    id?: string
+    userCourseId: string
+    checklistItemId: string
+    done?: boolean
+  }
+
+  export type UserChecklistProgressUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    checklist?: ChecklistItemUpdateOneRequiredWithoutUserStatesNestedInput
+    userCourse?: UserCourseUpdateOneRequiredWithoutUserChecklistProgressNestedInput
+  }
+
+  export type UserChecklistProgressUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userCourseId?: StringFieldUpdateOperationsInput | string
+    checklistItemId?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserChecklistProgressCreateManyInput = {
+    id?: string
+    userCourseId: string
+    checklistItemId: string
+    done?: boolean
+  }
+
+  export type UserChecklistProgressUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserChecklistProgressUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userCourseId?: StringFieldUpdateOperationsInput | string
+    checklistItemId?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -13222,6 +20256,12 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type RouteListRelationFilter = {
+    every?: RouteWhereInput
+    some?: RouteWhereInput
+    none?: RouteWhereInput
+  }
+
   export type AccountListRelationFilter = {
     every?: AccountWhereInput
     some?: AccountWhereInput
@@ -13231,12 +20271,6 @@ export namespace Prisma {
   export type SkillProfileNullableScalarRelationFilter = {
     is?: SkillProfileWhereInput | null
     isNot?: SkillProfileWhereInput | null
-  }
-
-  export type RouteListRelationFilter = {
-    every?: RouteWhereInput
-    some?: RouteWhereInput
-    none?: RouteWhereInput
   }
 
   export type TokenListRelationFilter = {
@@ -13250,11 +20284,11 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type AccountOrderByRelationAggregateInput = {
+  export type RouteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type RouteOrderByRelationAggregateInput = {
+  export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13520,15 +20554,15 @@ export namespace Prisma {
     not?: NestedEnumPrivateTypeFilter<$PrismaModel> | $Enums.PrivateType
   }
 
-  export type TopicMapNullableScalarRelationFilter = {
-    is?: TopicMapWhereInput | null
-    isNot?: TopicMapWhereInput | null
-  }
-
   export type RouteTagListRelationFilter = {
     every?: RouteTagWhereInput
     some?: RouteTagWhereInput
     none?: RouteTagWhereInput
+  }
+
+  export type TopicMapNullableScalarRelationFilter = {
+    is?: TopicMapWhereInput | null
+    isNot?: TopicMapWhereInput | null
   }
 
   export type RouteTagOrderByRelationAggregateInput = {
@@ -13622,6 +20656,61 @@ export namespace Prisma {
     routeId?: SortOrder
     tagId?: SortOrder
   }
+
+  export type TopicEdgeListRelationFilter = {
+    every?: TopicEdgeWhereInput
+    some?: TopicEdgeWhereInput
+    none?: TopicEdgeWhereInput
+  }
+
+  export type TopicNodeListRelationFilter = {
+    every?: TopicNodeWhereInput
+    some?: TopicNodeWhereInput
+    none?: TopicNodeWhereInput
+  }
+
+  export type UserCourseListRelationFilter = {
+    every?: UserCourseWhereInput
+    some?: UserCourseWhereInput
+    none?: UserCourseWhereInput
+  }
+
+  export type TopicEdgeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TopicNodeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCourseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TopicMapCountOrderByAggregateInput = {
+    id?: SortOrder
+    routeId?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TopicMapMaxOrderByAggregateInput = {
+    id?: SortOrder
+    routeId?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TopicMapMinOrderByAggregateInput = {
+    id?: SortOrder
+    routeId?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumNodeKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeKind | EnumNodeKindFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeKindFilter<$PrismaModel> | $Enums.NodeKind
+  }
   export type JsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -13645,40 +20734,121 @@ export namespace Prisma {
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type RouteNullableScalarRelationFilter = {
-    is?: RouteWhereInput | null
-    isNot?: RouteWhereInput | null
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type TopicContentListRelationFilter = {
-    every?: TopicContentWhereInput
-    some?: TopicContentWhereInput
-    none?: TopicContentWhereInput
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type TopicContentOrderByRelationAggregateInput = {
+  export type EnumCompletionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompletionType | EnumCompletionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompletionTypeFilter<$PrismaModel> | $Enums.CompletionType
+  }
+
+  export type ChecklistItemListRelationFilter = {
+    every?: ChecklistItemWhereInput
+    some?: ChecklistItemWhereInput
+    none?: ChecklistItemWhereInput
+  }
+
+  export type TopicMapScalarRelationFilter = {
+    is?: TopicMapWhereInput
+    isNot?: TopicMapWhereInput
+  }
+
+  export type UserTopicProgressListRelationFilter = {
+    every?: UserTopicProgressWhereInput
+    some?: UserTopicProgressWhereInput
+    none?: UserTopicProgressWhereInput
+  }
+
+  export type ChecklistItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type TopicMapCountOrderByAggregateInput = {
-    id?: SortOrder
-    routeId?: SortOrder
-    nodeData?: SortOrder
-    edgeData?: SortOrder
-    updatedAt?: SortOrder
+  export type UserTopicProgressOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type TopicMapMaxOrderByAggregateInput = {
+  export type TopicNodeCountOrderByAggregateInput = {
     id?: SortOrder
-    routeId?: SortOrder
-    updatedAt?: SortOrder
+    topicMapId?: SortOrder
+    kind?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    meta?: SortOrder
+    posxy?: SortOrder
+    zIndex?: SortOrder
+    completionType?: SortOrder
   }
 
-  export type TopicMapMinOrderByAggregateInput = {
+  export type TopicNodeAvgOrderByAggregateInput = {
+    zIndex?: SortOrder
+  }
+
+  export type TopicNodeMaxOrderByAggregateInput = {
     id?: SortOrder
-    routeId?: SortOrder
-    updatedAt?: SortOrder
+    topicMapId?: SortOrder
+    kind?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    zIndex?: SortOrder
+    completionType?: SortOrder
+  }
+
+  export type TopicNodeMinOrderByAggregateInput = {
+    id?: SortOrder
+    topicMapId?: SortOrder
+    kind?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    zIndex?: SortOrder
+    completionType?: SortOrder
+  }
+
+  export type TopicNodeSumOrderByAggregateInput = {
+    zIndex?: SortOrder
+  }
+
+  export type EnumNodeKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeKind | EnumNodeKindFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeKindWithAggregatesFilter<$PrismaModel> | $Enums.NodeKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNodeKindFilter<$PrismaModel>
+    _max?: NestedEnumNodeKindFilter<$PrismaModel>
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -13706,39 +20876,331 @@ export namespace Prisma {
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
   }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type TopicMapScalarRelationFilter = {
-    is?: TopicMapWhereInput
-    isNot?: TopicMapWhereInput
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type TopicContentRouteIdNodeIdCompoundUniqueInput = {
-    routeId: string
-    nodeId: string
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type TopicContentCountOrderByAggregateInput = {
+  export type EnumCompletionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompletionType | EnumCompletionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompletionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CompletionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCompletionTypeFilter<$PrismaModel>
+    _max?: NestedEnumCompletionTypeFilter<$PrismaModel>
+  }
+
+  export type TopicEdgeCountOrderByAggregateInput = {
     id?: SortOrder
-    routeId?: SortOrder
-    nodeId?: SortOrder
+    topicMapId?: SortOrder
+    sourceId?: SortOrder
+    targetId?: SortOrder
+    meta?: SortOrder
+  }
+
+  export type TopicEdgeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    topicMapId?: SortOrder
+    sourceId?: SortOrder
+    targetId?: SortOrder
+  }
+
+  export type TopicEdgeMinOrderByAggregateInput = {
+    id?: SortOrder
+    topicMapId?: SortOrder
+    sourceId?: SortOrder
+    targetId?: SortOrder
+  }
+
+  export type EnumCourseViewTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.CourseViewType | EnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCourseViewTypeNullableFilter<$PrismaModel> | $Enums.CourseViewType | null
+  }
+
+  export type EnumCourseModeTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.CourseModeType | EnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCourseModeTypeNullableFilter<$PrismaModel> | $Enums.CourseModeType | null
+  }
+
+  export type UserChecklistProgressListRelationFilter = {
+    every?: UserChecklistProgressWhereInput
+    some?: UserChecklistProgressWhereInput
+    none?: UserChecklistProgressWhereInput
+  }
+
+  export type UserChecklistProgressOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCourseCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    topicMapId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    view?: SortOrder
+    mode?: SortOrder
   }
 
-  export type TopicContentMaxOrderByAggregateInput = {
+  export type UserCourseMaxOrderByAggregateInput = {
     id?: SortOrder
-    routeId?: SortOrder
-    nodeId?: SortOrder
+    userId?: SortOrder
+    topicMapId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    view?: SortOrder
+    mode?: SortOrder
   }
 
-  export type TopicContentMinOrderByAggregateInput = {
+  export type UserCourseMinOrderByAggregateInput = {
     id?: SortOrder
-    routeId?: SortOrder
-    nodeId?: SortOrder
+    userId?: SortOrder
+    topicMapId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    view?: SortOrder
+    mode?: SortOrder
+  }
+
+  export type EnumCourseViewTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CourseViewType | EnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCourseViewTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.CourseViewType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumCourseViewTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumCourseViewTypeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumCourseModeTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CourseModeType | EnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCourseModeTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.CourseModeType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumCourseModeTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumCourseModeTypeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumNodeStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeStatus | EnumNodeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeStatus[] | ListEnumNodeStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeStatus[] | ListEnumNodeStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeStatusFilter<$PrismaModel> | $Enums.NodeStatus
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type TopicNodeScalarRelationFilter = {
+    is?: TopicNodeWhereInput
+    isNot?: TopicNodeWhereInput
+  }
+
+  export type UserCourseScalarRelationFilter = {
+    is?: UserCourseWhereInput
+    isNot?: UserCourseWhereInput
+  }
+
+  export type UserTopicProgressUserCourseIdTopicNodeIdCompoundUniqueInput = {
+    userCourseId: string
+    topicNodeId: string
+  }
+
+  export type UserTopicProgressCountOrderByAggregateInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    topicNodeId?: SortOrder
+    status?: SortOrder
+    progressValue?: SortOrder
+    startedAt?: SortOrder
+    finishedAt?: SortOrder
+  }
+
+  export type UserTopicProgressAvgOrderByAggregateInput = {
+    progressValue?: SortOrder
+  }
+
+  export type UserTopicProgressMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    topicNodeId?: SortOrder
+    status?: SortOrder
+    progressValue?: SortOrder
+    startedAt?: SortOrder
+    finishedAt?: SortOrder
+  }
+
+  export type UserTopicProgressMinOrderByAggregateInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    topicNodeId?: SortOrder
+    status?: SortOrder
+    progressValue?: SortOrder
+    startedAt?: SortOrder
+    finishedAt?: SortOrder
+  }
+
+  export type UserTopicProgressSumOrderByAggregateInput = {
+    progressValue?: SortOrder
+  }
+
+  export type EnumNodeStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeStatus | EnumNodeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeStatus[] | ListEnumNodeStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeStatus[] | ListEnumNodeStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeStatusWithAggregatesFilter<$PrismaModel> | $Enums.NodeStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNodeStatusFilter<$PrismaModel>
+    _max?: NestedEnumNodeStatusFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type ChecklistItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    topicNodeId?: SortOrder
+    text?: SortOrder
+  }
+
+  export type ChecklistItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    topicNodeId?: SortOrder
+    text?: SortOrder
+  }
+
+  export type ChecklistItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    topicNodeId?: SortOrder
+    text?: SortOrder
+  }
+
+  export type ChecklistItemScalarRelationFilter = {
+    is?: ChecklistItemWhereInput
+    isNot?: ChecklistItemWhereInput
+  }
+
+  export type UserChecklistProgressUserCourseIdChecklistItemIdCompoundUniqueInput = {
+    userCourseId: string
+    checklistItemId: string
+  }
+
+  export type UserChecklistProgressCountOrderByAggregateInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    checklistItemId?: SortOrder
+    done?: SortOrder
+  }
+
+  export type UserChecklistProgressMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    checklistItemId?: SortOrder
+    done?: SortOrder
+  }
+
+  export type UserChecklistProgressMinOrderByAggregateInput = {
+    id?: SortOrder
+    userCourseId?: SortOrder
+    checklistItemId?: SortOrder
+    done?: SortOrder
+  }
+
+  export type RouteCreateNestedManyWithoutUserInput = {
+    create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
+    createMany?: RouteCreateManyUserInputEnvelope
+    connect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -13754,18 +21216,18 @@ export namespace Prisma {
     connect?: SkillProfileWhereUniqueInput
   }
 
-  export type RouteCreateNestedManyWithoutUserInput = {
-    create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
-    createMany?: RouteCreateManyUserInputEnvelope
-    connect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
-  }
-
   export type TokenCreateNestedManyWithoutUserInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
     createMany?: TokenCreateManyUserInputEnvelope
     connect?: TokenWhereUniqueInput | TokenWhereUniqueInput[]
+  }
+
+  export type RouteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
+    createMany?: RouteCreateManyUserInputEnvelope
+    connect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
   }
 
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
@@ -13779,13 +21241,6 @@ export namespace Prisma {
     create?: XOR<SkillProfileCreateWithoutUserInput, SkillProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: SkillProfileCreateOrConnectWithoutUserInput
     connect?: SkillProfileWhereUniqueInput
-  }
-
-  export type RouteUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
-    createMany?: RouteCreateManyUserInputEnvelope
-    connect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
   }
 
   export type TokenUncheckedCreateNestedManyWithoutUserInput = {
@@ -13819,6 +21274,20 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type RouteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
+    upsert?: RouteUpsertWithWhereUniqueWithoutUserInput | RouteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RouteCreateManyUserInputEnvelope
+    set?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
+    disconnect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
+    delete?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
+    connect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
+    update?: RouteUpdateWithWhereUniqueWithoutUserInput | RouteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RouteUpdateManyWithWhereWithoutUserInput | RouteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RouteScalarWhereInput | RouteScalarWhereInput[]
+  }
+
   export type AccountUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -13843,20 +21312,6 @@ export namespace Prisma {
     update?: XOR<XOR<SkillProfileUpdateToOneWithWhereWithoutUserInput, SkillProfileUpdateWithoutUserInput>, SkillProfileUncheckedUpdateWithoutUserInput>
   }
 
-  export type RouteUpdateManyWithoutUserNestedInput = {
-    create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
-    upsert?: RouteUpsertWithWhereUniqueWithoutUserInput | RouteUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: RouteCreateManyUserInputEnvelope
-    set?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
-    disconnect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
-    delete?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
-    connect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
-    update?: RouteUpdateWithWhereUniqueWithoutUserInput | RouteUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: RouteUpdateManyWithWhereWithoutUserInput | RouteUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: RouteScalarWhereInput | RouteScalarWhereInput[]
-  }
-
   export type TokenUpdateManyWithoutUserNestedInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
@@ -13869,6 +21324,20 @@ export namespace Prisma {
     update?: TokenUpdateWithWhereUniqueWithoutUserInput | TokenUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: TokenUpdateManyWithWhereWithoutUserInput | TokenUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: TokenScalarWhereInput | TokenScalarWhereInput[]
+  }
+
+  export type RouteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
+    upsert?: RouteUpsertWithWhereUniqueWithoutUserInput | RouteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RouteCreateManyUserInputEnvelope
+    set?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
+    disconnect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
+    delete?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
+    connect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
+    update?: RouteUpdateWithWhereUniqueWithoutUserInput | RouteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RouteUpdateManyWithWhereWithoutUserInput | RouteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RouteScalarWhereInput | RouteScalarWhereInput[]
   }
 
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
@@ -13893,20 +21362,6 @@ export namespace Prisma {
     delete?: SkillProfileWhereInput | boolean
     connect?: SkillProfileWhereUniqueInput
     update?: XOR<XOR<SkillProfileUpdateToOneWithWhereWithoutUserInput, SkillProfileUpdateWithoutUserInput>, SkillProfileUncheckedUpdateWithoutUserInput>
-  }
-
-  export type RouteUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
-    upsert?: RouteUpsertWithWhereUniqueWithoutUserInput | RouteUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: RouteCreateManyUserInputEnvelope
-    set?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
-    disconnect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
-    delete?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
-    connect?: RouteWhereUniqueInput | RouteWhereUniqueInput[]
-    update?: RouteUpdateWithWhereUniqueWithoutUserInput | RouteUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: RouteUpdateManyWithWhereWithoutUserInput | RouteUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: RouteScalarWhereInput | RouteScalarWhereInput[]
   }
 
   export type TokenUncheckedUpdateManyWithoutUserNestedInput = {
@@ -13975,12 +21430,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type TopicMapCreateNestedOneWithoutRouteInput = {
-    create?: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
-    connectOrCreate?: TopicMapCreateOrConnectWithoutRouteInput
-    connect?: TopicMapWhereUniqueInput
-  }
-
   export type RouteTagCreateNestedManyWithoutRouteInput = {
     create?: XOR<RouteTagCreateWithoutRouteInput, RouteTagUncheckedCreateWithoutRouteInput> | RouteTagCreateWithoutRouteInput[] | RouteTagUncheckedCreateWithoutRouteInput[]
     connectOrCreate?: RouteTagCreateOrConnectWithoutRouteInput | RouteTagCreateOrConnectWithoutRouteInput[]
@@ -13988,7 +21437,7 @@ export namespace Prisma {
     connect?: RouteTagWhereUniqueInput | RouteTagWhereUniqueInput[]
   }
 
-  export type TopicMapUncheckedCreateNestedOneWithoutRouteInput = {
+  export type TopicMapCreateNestedOneWithoutRouteInput = {
     create?: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
     connectOrCreate?: TopicMapCreateOrConnectWithoutRouteInput
     connect?: TopicMapWhereUniqueInput
@@ -14001,6 +21450,12 @@ export namespace Prisma {
     connect?: RouteTagWhereUniqueInput | RouteTagWhereUniqueInput[]
   }
 
+  export type TopicMapUncheckedCreateNestedOneWithoutRouteInput = {
+    create?: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
+    connectOrCreate?: TopicMapCreateOrConnectWithoutRouteInput
+    connect?: TopicMapWhereUniqueInput
+  }
+
   export type EnumPrivateTypeFieldUpdateOperationsInput = {
     set?: $Enums.PrivateType
   }
@@ -14011,16 +21466,6 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutRouteInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRouteInput, UserUpdateWithoutRouteInput>, UserUncheckedUpdateWithoutRouteInput>
-  }
-
-  export type TopicMapUpdateOneWithoutRouteNestedInput = {
-    create?: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
-    connectOrCreate?: TopicMapCreateOrConnectWithoutRouteInput
-    upsert?: TopicMapUpsertWithoutRouteInput
-    disconnect?: TopicMapWhereInput | boolean
-    delete?: TopicMapWhereInput | boolean
-    connect?: TopicMapWhereUniqueInput
-    update?: XOR<XOR<TopicMapUpdateToOneWithWhereWithoutRouteInput, TopicMapUpdateWithoutRouteInput>, TopicMapUncheckedUpdateWithoutRouteInput>
   }
 
   export type RouteTagUpdateManyWithoutRouteNestedInput = {
@@ -14037,7 +21482,7 @@ export namespace Prisma {
     deleteMany?: RouteTagScalarWhereInput | RouteTagScalarWhereInput[]
   }
 
-  export type TopicMapUncheckedUpdateOneWithoutRouteNestedInput = {
+  export type TopicMapUpdateOneWithoutRouteNestedInput = {
     create?: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
     connectOrCreate?: TopicMapCreateOrConnectWithoutRouteInput
     upsert?: TopicMapUpsertWithoutRouteInput
@@ -14059,6 +21504,16 @@ export namespace Prisma {
     update?: RouteTagUpdateWithWhereUniqueWithoutRouteInput | RouteTagUpdateWithWhereUniqueWithoutRouteInput[]
     updateMany?: RouteTagUpdateManyWithWhereWithoutRouteInput | RouteTagUpdateManyWithWhereWithoutRouteInput[]
     deleteMany?: RouteTagScalarWhereInput | RouteTagScalarWhereInput[]
+  }
+
+  export type TopicMapUncheckedUpdateOneWithoutRouteNestedInput = {
+    create?: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
+    connectOrCreate?: TopicMapCreateOrConnectWithoutRouteInput
+    upsert?: TopicMapUpsertWithoutRouteInput
+    disconnect?: TopicMapWhereInput | boolean
+    delete?: TopicMapWhereInput | boolean
+    connect?: TopicMapWhereUniqueInput
+    update?: XOR<XOR<TopicMapUpdateToOneWithWhereWithoutRouteInput, TopicMapUpdateWithoutRouteInput>, TopicMapUncheckedUpdateWithoutRouteInput>
   }
 
   export type RouteTagCreateNestedManyWithoutTagInput = {
@@ -14131,76 +21586,506 @@ export namespace Prisma {
     update?: XOR<XOR<TagUpdateToOneWithWhereWithoutRoutesInput, TagUpdateWithoutRoutesInput>, TagUncheckedUpdateWithoutRoutesInput>
   }
 
+  export type TopicEdgeCreateNestedManyWithoutTopicMapInput = {
+    create?: XOR<TopicEdgeCreateWithoutTopicMapInput, TopicEdgeUncheckedCreateWithoutTopicMapInput> | TopicEdgeCreateWithoutTopicMapInput[] | TopicEdgeUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: TopicEdgeCreateOrConnectWithoutTopicMapInput | TopicEdgeCreateOrConnectWithoutTopicMapInput[]
+    createMany?: TopicEdgeCreateManyTopicMapInputEnvelope
+    connect?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+  }
+
   export type RouteCreateNestedOneWithoutTopicMapInput = {
     create?: XOR<RouteCreateWithoutTopicMapInput, RouteUncheckedCreateWithoutTopicMapInput>
     connectOrCreate?: RouteCreateOrConnectWithoutTopicMapInput
     connect?: RouteWhereUniqueInput
   }
 
-  export type TopicContentCreateNestedManyWithoutTopicMapInput = {
-    create?: XOR<TopicContentCreateWithoutTopicMapInput, TopicContentUncheckedCreateWithoutTopicMapInput> | TopicContentCreateWithoutTopicMapInput[] | TopicContentUncheckedCreateWithoutTopicMapInput[]
-    connectOrCreate?: TopicContentCreateOrConnectWithoutTopicMapInput | TopicContentCreateOrConnectWithoutTopicMapInput[]
-    createMany?: TopicContentCreateManyTopicMapInputEnvelope
-    connect?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
+  export type TopicNodeCreateNestedManyWithoutTopicMapInput = {
+    create?: XOR<TopicNodeCreateWithoutTopicMapInput, TopicNodeUncheckedCreateWithoutTopicMapInput> | TopicNodeCreateWithoutTopicMapInput[] | TopicNodeUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: TopicNodeCreateOrConnectWithoutTopicMapInput | TopicNodeCreateOrConnectWithoutTopicMapInput[]
+    createMany?: TopicNodeCreateManyTopicMapInputEnvelope
+    connect?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
   }
 
-  export type TopicContentUncheckedCreateNestedManyWithoutTopicMapInput = {
-    create?: XOR<TopicContentCreateWithoutTopicMapInput, TopicContentUncheckedCreateWithoutTopicMapInput> | TopicContentCreateWithoutTopicMapInput[] | TopicContentUncheckedCreateWithoutTopicMapInput[]
-    connectOrCreate?: TopicContentCreateOrConnectWithoutTopicMapInput | TopicContentCreateOrConnectWithoutTopicMapInput[]
-    createMany?: TopicContentCreateManyTopicMapInputEnvelope
-    connect?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
+  export type UserCourseCreateNestedManyWithoutTopicMapInput = {
+    create?: XOR<UserCourseCreateWithoutTopicMapInput, UserCourseUncheckedCreateWithoutTopicMapInput> | UserCourseCreateWithoutTopicMapInput[] | UserCourseUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: UserCourseCreateOrConnectWithoutTopicMapInput | UserCourseCreateOrConnectWithoutTopicMapInput[]
+    createMany?: UserCourseCreateManyTopicMapInputEnvelope
+    connect?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
   }
 
-  export type RouteUpdateOneWithoutTopicMapNestedInput = {
+  export type TopicEdgeUncheckedCreateNestedManyWithoutTopicMapInput = {
+    create?: XOR<TopicEdgeCreateWithoutTopicMapInput, TopicEdgeUncheckedCreateWithoutTopicMapInput> | TopicEdgeCreateWithoutTopicMapInput[] | TopicEdgeUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: TopicEdgeCreateOrConnectWithoutTopicMapInput | TopicEdgeCreateOrConnectWithoutTopicMapInput[]
+    createMany?: TopicEdgeCreateManyTopicMapInputEnvelope
+    connect?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+  }
+
+  export type TopicNodeUncheckedCreateNestedManyWithoutTopicMapInput = {
+    create?: XOR<TopicNodeCreateWithoutTopicMapInput, TopicNodeUncheckedCreateWithoutTopicMapInput> | TopicNodeCreateWithoutTopicMapInput[] | TopicNodeUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: TopicNodeCreateOrConnectWithoutTopicMapInput | TopicNodeCreateOrConnectWithoutTopicMapInput[]
+    createMany?: TopicNodeCreateManyTopicMapInputEnvelope
+    connect?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
+  }
+
+  export type UserCourseUncheckedCreateNestedManyWithoutTopicMapInput = {
+    create?: XOR<UserCourseCreateWithoutTopicMapInput, UserCourseUncheckedCreateWithoutTopicMapInput> | UserCourseCreateWithoutTopicMapInput[] | UserCourseUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: UserCourseCreateOrConnectWithoutTopicMapInput | UserCourseCreateOrConnectWithoutTopicMapInput[]
+    createMany?: UserCourseCreateManyTopicMapInputEnvelope
+    connect?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
+  }
+
+  export type TopicEdgeUpdateManyWithoutTopicMapNestedInput = {
+    create?: XOR<TopicEdgeCreateWithoutTopicMapInput, TopicEdgeUncheckedCreateWithoutTopicMapInput> | TopicEdgeCreateWithoutTopicMapInput[] | TopicEdgeUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: TopicEdgeCreateOrConnectWithoutTopicMapInput | TopicEdgeCreateOrConnectWithoutTopicMapInput[]
+    upsert?: TopicEdgeUpsertWithWhereUniqueWithoutTopicMapInput | TopicEdgeUpsertWithWhereUniqueWithoutTopicMapInput[]
+    createMany?: TopicEdgeCreateManyTopicMapInputEnvelope
+    set?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+    disconnect?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+    delete?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+    connect?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+    update?: TopicEdgeUpdateWithWhereUniqueWithoutTopicMapInput | TopicEdgeUpdateWithWhereUniqueWithoutTopicMapInput[]
+    updateMany?: TopicEdgeUpdateManyWithWhereWithoutTopicMapInput | TopicEdgeUpdateManyWithWhereWithoutTopicMapInput[]
+    deleteMany?: TopicEdgeScalarWhereInput | TopicEdgeScalarWhereInput[]
+  }
+
+  export type RouteUpdateOneRequiredWithoutTopicMapNestedInput = {
     create?: XOR<RouteCreateWithoutTopicMapInput, RouteUncheckedCreateWithoutTopicMapInput>
     connectOrCreate?: RouteCreateOrConnectWithoutTopicMapInput
     upsert?: RouteUpsertWithoutTopicMapInput
-    disconnect?: RouteWhereInput | boolean
-    delete?: RouteWhereInput | boolean
     connect?: RouteWhereUniqueInput
     update?: XOR<XOR<RouteUpdateToOneWithWhereWithoutTopicMapInput, RouteUpdateWithoutTopicMapInput>, RouteUncheckedUpdateWithoutTopicMapInput>
   }
 
-  export type TopicContentUpdateManyWithoutTopicMapNestedInput = {
-    create?: XOR<TopicContentCreateWithoutTopicMapInput, TopicContentUncheckedCreateWithoutTopicMapInput> | TopicContentCreateWithoutTopicMapInput[] | TopicContentUncheckedCreateWithoutTopicMapInput[]
-    connectOrCreate?: TopicContentCreateOrConnectWithoutTopicMapInput | TopicContentCreateOrConnectWithoutTopicMapInput[]
-    upsert?: TopicContentUpsertWithWhereUniqueWithoutTopicMapInput | TopicContentUpsertWithWhereUniqueWithoutTopicMapInput[]
-    createMany?: TopicContentCreateManyTopicMapInputEnvelope
-    set?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
-    disconnect?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
-    delete?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
-    connect?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
-    update?: TopicContentUpdateWithWhereUniqueWithoutTopicMapInput | TopicContentUpdateWithWhereUniqueWithoutTopicMapInput[]
-    updateMany?: TopicContentUpdateManyWithWhereWithoutTopicMapInput | TopicContentUpdateManyWithWhereWithoutTopicMapInput[]
-    deleteMany?: TopicContentScalarWhereInput | TopicContentScalarWhereInput[]
+  export type TopicNodeUpdateManyWithoutTopicMapNestedInput = {
+    create?: XOR<TopicNodeCreateWithoutTopicMapInput, TopicNodeUncheckedCreateWithoutTopicMapInput> | TopicNodeCreateWithoutTopicMapInput[] | TopicNodeUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: TopicNodeCreateOrConnectWithoutTopicMapInput | TopicNodeCreateOrConnectWithoutTopicMapInput[]
+    upsert?: TopicNodeUpsertWithWhereUniqueWithoutTopicMapInput | TopicNodeUpsertWithWhereUniqueWithoutTopicMapInput[]
+    createMany?: TopicNodeCreateManyTopicMapInputEnvelope
+    set?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
+    disconnect?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
+    delete?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
+    connect?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
+    update?: TopicNodeUpdateWithWhereUniqueWithoutTopicMapInput | TopicNodeUpdateWithWhereUniqueWithoutTopicMapInput[]
+    updateMany?: TopicNodeUpdateManyWithWhereWithoutTopicMapInput | TopicNodeUpdateManyWithWhereWithoutTopicMapInput[]
+    deleteMany?: TopicNodeScalarWhereInput | TopicNodeScalarWhereInput[]
   }
 
-  export type TopicContentUncheckedUpdateManyWithoutTopicMapNestedInput = {
-    create?: XOR<TopicContentCreateWithoutTopicMapInput, TopicContentUncheckedCreateWithoutTopicMapInput> | TopicContentCreateWithoutTopicMapInput[] | TopicContentUncheckedCreateWithoutTopicMapInput[]
-    connectOrCreate?: TopicContentCreateOrConnectWithoutTopicMapInput | TopicContentCreateOrConnectWithoutTopicMapInput[]
-    upsert?: TopicContentUpsertWithWhereUniqueWithoutTopicMapInput | TopicContentUpsertWithWhereUniqueWithoutTopicMapInput[]
-    createMany?: TopicContentCreateManyTopicMapInputEnvelope
-    set?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
-    disconnect?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
-    delete?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
-    connect?: TopicContentWhereUniqueInput | TopicContentWhereUniqueInput[]
-    update?: TopicContentUpdateWithWhereUniqueWithoutTopicMapInput | TopicContentUpdateWithWhereUniqueWithoutTopicMapInput[]
-    updateMany?: TopicContentUpdateManyWithWhereWithoutTopicMapInput | TopicContentUpdateManyWithWhereWithoutTopicMapInput[]
-    deleteMany?: TopicContentScalarWhereInput | TopicContentScalarWhereInput[]
+  export type UserCourseUpdateManyWithoutTopicMapNestedInput = {
+    create?: XOR<UserCourseCreateWithoutTopicMapInput, UserCourseUncheckedCreateWithoutTopicMapInput> | UserCourseCreateWithoutTopicMapInput[] | UserCourseUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: UserCourseCreateOrConnectWithoutTopicMapInput | UserCourseCreateOrConnectWithoutTopicMapInput[]
+    upsert?: UserCourseUpsertWithWhereUniqueWithoutTopicMapInput | UserCourseUpsertWithWhereUniqueWithoutTopicMapInput[]
+    createMany?: UserCourseCreateManyTopicMapInputEnvelope
+    set?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
+    disconnect?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
+    delete?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
+    connect?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
+    update?: UserCourseUpdateWithWhereUniqueWithoutTopicMapInput | UserCourseUpdateWithWhereUniqueWithoutTopicMapInput[]
+    updateMany?: UserCourseUpdateManyWithWhereWithoutTopicMapInput | UserCourseUpdateManyWithWhereWithoutTopicMapInput[]
+    deleteMany?: UserCourseScalarWhereInput | UserCourseScalarWhereInput[]
   }
 
-  export type TopicMapCreateNestedOneWithoutTopicContentInput = {
-    create?: XOR<TopicMapCreateWithoutTopicContentInput, TopicMapUncheckedCreateWithoutTopicContentInput>
-    connectOrCreate?: TopicMapCreateOrConnectWithoutTopicContentInput
+  export type TopicEdgeUncheckedUpdateManyWithoutTopicMapNestedInput = {
+    create?: XOR<TopicEdgeCreateWithoutTopicMapInput, TopicEdgeUncheckedCreateWithoutTopicMapInput> | TopicEdgeCreateWithoutTopicMapInput[] | TopicEdgeUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: TopicEdgeCreateOrConnectWithoutTopicMapInput | TopicEdgeCreateOrConnectWithoutTopicMapInput[]
+    upsert?: TopicEdgeUpsertWithWhereUniqueWithoutTopicMapInput | TopicEdgeUpsertWithWhereUniqueWithoutTopicMapInput[]
+    createMany?: TopicEdgeCreateManyTopicMapInputEnvelope
+    set?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+    disconnect?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+    delete?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+    connect?: TopicEdgeWhereUniqueInput | TopicEdgeWhereUniqueInput[]
+    update?: TopicEdgeUpdateWithWhereUniqueWithoutTopicMapInput | TopicEdgeUpdateWithWhereUniqueWithoutTopicMapInput[]
+    updateMany?: TopicEdgeUpdateManyWithWhereWithoutTopicMapInput | TopicEdgeUpdateManyWithWhereWithoutTopicMapInput[]
+    deleteMany?: TopicEdgeScalarWhereInput | TopicEdgeScalarWhereInput[]
+  }
+
+  export type TopicNodeUncheckedUpdateManyWithoutTopicMapNestedInput = {
+    create?: XOR<TopicNodeCreateWithoutTopicMapInput, TopicNodeUncheckedCreateWithoutTopicMapInput> | TopicNodeCreateWithoutTopicMapInput[] | TopicNodeUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: TopicNodeCreateOrConnectWithoutTopicMapInput | TopicNodeCreateOrConnectWithoutTopicMapInput[]
+    upsert?: TopicNodeUpsertWithWhereUniqueWithoutTopicMapInput | TopicNodeUpsertWithWhereUniqueWithoutTopicMapInput[]
+    createMany?: TopicNodeCreateManyTopicMapInputEnvelope
+    set?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
+    disconnect?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
+    delete?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
+    connect?: TopicNodeWhereUniqueInput | TopicNodeWhereUniqueInput[]
+    update?: TopicNodeUpdateWithWhereUniqueWithoutTopicMapInput | TopicNodeUpdateWithWhereUniqueWithoutTopicMapInput[]
+    updateMany?: TopicNodeUpdateManyWithWhereWithoutTopicMapInput | TopicNodeUpdateManyWithWhereWithoutTopicMapInput[]
+    deleteMany?: TopicNodeScalarWhereInput | TopicNodeScalarWhereInput[]
+  }
+
+  export type UserCourseUncheckedUpdateManyWithoutTopicMapNestedInput = {
+    create?: XOR<UserCourseCreateWithoutTopicMapInput, UserCourseUncheckedCreateWithoutTopicMapInput> | UserCourseCreateWithoutTopicMapInput[] | UserCourseUncheckedCreateWithoutTopicMapInput[]
+    connectOrCreate?: UserCourseCreateOrConnectWithoutTopicMapInput | UserCourseCreateOrConnectWithoutTopicMapInput[]
+    upsert?: UserCourseUpsertWithWhereUniqueWithoutTopicMapInput | UserCourseUpsertWithWhereUniqueWithoutTopicMapInput[]
+    createMany?: UserCourseCreateManyTopicMapInputEnvelope
+    set?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
+    disconnect?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
+    delete?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
+    connect?: UserCourseWhereUniqueInput | UserCourseWhereUniqueInput[]
+    update?: UserCourseUpdateWithWhereUniqueWithoutTopicMapInput | UserCourseUpdateWithWhereUniqueWithoutTopicMapInput[]
+    updateMany?: UserCourseUpdateManyWithWhereWithoutTopicMapInput | UserCourseUpdateManyWithWhereWithoutTopicMapInput[]
+    deleteMany?: UserCourseScalarWhereInput | UserCourseScalarWhereInput[]
+  }
+
+  export type ChecklistItemCreateNestedManyWithoutTopicNodeInput = {
+    create?: XOR<ChecklistItemCreateWithoutTopicNodeInput, ChecklistItemUncheckedCreateWithoutTopicNodeInput> | ChecklistItemCreateWithoutTopicNodeInput[] | ChecklistItemUncheckedCreateWithoutTopicNodeInput[]
+    connectOrCreate?: ChecklistItemCreateOrConnectWithoutTopicNodeInput | ChecklistItemCreateOrConnectWithoutTopicNodeInput[]
+    createMany?: ChecklistItemCreateManyTopicNodeInputEnvelope
+    connect?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+  }
+
+  export type TopicMapCreateNestedOneWithoutNodesInput = {
+    create?: XOR<TopicMapCreateWithoutNodesInput, TopicMapUncheckedCreateWithoutNodesInput>
+    connectOrCreate?: TopicMapCreateOrConnectWithoutNodesInput
     connect?: TopicMapWhereUniqueInput
   }
 
-  export type TopicMapUpdateOneRequiredWithoutTopicContentNestedInput = {
-    create?: XOR<TopicMapCreateWithoutTopicContentInput, TopicMapUncheckedCreateWithoutTopicContentInput>
-    connectOrCreate?: TopicMapCreateOrConnectWithoutTopicContentInput
-    upsert?: TopicMapUpsertWithoutTopicContentInput
+  export type UserTopicProgressCreateNestedManyWithoutTopicNodeInput = {
+    create?: XOR<UserTopicProgressCreateWithoutTopicNodeInput, UserTopicProgressUncheckedCreateWithoutTopicNodeInput> | UserTopicProgressCreateWithoutTopicNodeInput[] | UserTopicProgressUncheckedCreateWithoutTopicNodeInput[]
+    connectOrCreate?: UserTopicProgressCreateOrConnectWithoutTopicNodeInput | UserTopicProgressCreateOrConnectWithoutTopicNodeInput[]
+    createMany?: UserTopicProgressCreateManyTopicNodeInputEnvelope
+    connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+  }
+
+  export type ChecklistItemUncheckedCreateNestedManyWithoutTopicNodeInput = {
+    create?: XOR<ChecklistItemCreateWithoutTopicNodeInput, ChecklistItemUncheckedCreateWithoutTopicNodeInput> | ChecklistItemCreateWithoutTopicNodeInput[] | ChecklistItemUncheckedCreateWithoutTopicNodeInput[]
+    connectOrCreate?: ChecklistItemCreateOrConnectWithoutTopicNodeInput | ChecklistItemCreateOrConnectWithoutTopicNodeInput[]
+    createMany?: ChecklistItemCreateManyTopicNodeInputEnvelope
+    connect?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+  }
+
+  export type UserTopicProgressUncheckedCreateNestedManyWithoutTopicNodeInput = {
+    create?: XOR<UserTopicProgressCreateWithoutTopicNodeInput, UserTopicProgressUncheckedCreateWithoutTopicNodeInput> | UserTopicProgressCreateWithoutTopicNodeInput[] | UserTopicProgressUncheckedCreateWithoutTopicNodeInput[]
+    connectOrCreate?: UserTopicProgressCreateOrConnectWithoutTopicNodeInput | UserTopicProgressCreateOrConnectWithoutTopicNodeInput[]
+    createMany?: UserTopicProgressCreateManyTopicNodeInputEnvelope
+    connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+  }
+
+  export type EnumNodeKindFieldUpdateOperationsInput = {
+    set?: $Enums.NodeKind
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumCompletionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CompletionType
+  }
+
+  export type ChecklistItemUpdateManyWithoutTopicNodeNestedInput = {
+    create?: XOR<ChecklistItemCreateWithoutTopicNodeInput, ChecklistItemUncheckedCreateWithoutTopicNodeInput> | ChecklistItemCreateWithoutTopicNodeInput[] | ChecklistItemUncheckedCreateWithoutTopicNodeInput[]
+    connectOrCreate?: ChecklistItemCreateOrConnectWithoutTopicNodeInput | ChecklistItemCreateOrConnectWithoutTopicNodeInput[]
+    upsert?: ChecklistItemUpsertWithWhereUniqueWithoutTopicNodeInput | ChecklistItemUpsertWithWhereUniqueWithoutTopicNodeInput[]
+    createMany?: ChecklistItemCreateManyTopicNodeInputEnvelope
+    set?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+    disconnect?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+    delete?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+    connect?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+    update?: ChecklistItemUpdateWithWhereUniqueWithoutTopicNodeInput | ChecklistItemUpdateWithWhereUniqueWithoutTopicNodeInput[]
+    updateMany?: ChecklistItemUpdateManyWithWhereWithoutTopicNodeInput | ChecklistItemUpdateManyWithWhereWithoutTopicNodeInput[]
+    deleteMany?: ChecklistItemScalarWhereInput | ChecklistItemScalarWhereInput[]
+  }
+
+  export type TopicMapUpdateOneRequiredWithoutNodesNestedInput = {
+    create?: XOR<TopicMapCreateWithoutNodesInput, TopicMapUncheckedCreateWithoutNodesInput>
+    connectOrCreate?: TopicMapCreateOrConnectWithoutNodesInput
+    upsert?: TopicMapUpsertWithoutNodesInput
     connect?: TopicMapWhereUniqueInput
-    update?: XOR<XOR<TopicMapUpdateToOneWithWhereWithoutTopicContentInput, TopicMapUpdateWithoutTopicContentInput>, TopicMapUncheckedUpdateWithoutTopicContentInput>
+    update?: XOR<XOR<TopicMapUpdateToOneWithWhereWithoutNodesInput, TopicMapUpdateWithoutNodesInput>, TopicMapUncheckedUpdateWithoutNodesInput>
+  }
+
+  export type UserTopicProgressUpdateManyWithoutTopicNodeNestedInput = {
+    create?: XOR<UserTopicProgressCreateWithoutTopicNodeInput, UserTopicProgressUncheckedCreateWithoutTopicNodeInput> | UserTopicProgressCreateWithoutTopicNodeInput[] | UserTopicProgressUncheckedCreateWithoutTopicNodeInput[]
+    connectOrCreate?: UserTopicProgressCreateOrConnectWithoutTopicNodeInput | UserTopicProgressCreateOrConnectWithoutTopicNodeInput[]
+    upsert?: UserTopicProgressUpsertWithWhereUniqueWithoutTopicNodeInput | UserTopicProgressUpsertWithWhereUniqueWithoutTopicNodeInput[]
+    createMany?: UserTopicProgressCreateManyTopicNodeInputEnvelope
+    set?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    disconnect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    delete?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    update?: UserTopicProgressUpdateWithWhereUniqueWithoutTopicNodeInput | UserTopicProgressUpdateWithWhereUniqueWithoutTopicNodeInput[]
+    updateMany?: UserTopicProgressUpdateManyWithWhereWithoutTopicNodeInput | UserTopicProgressUpdateManyWithWhereWithoutTopicNodeInput[]
+    deleteMany?: UserTopicProgressScalarWhereInput | UserTopicProgressScalarWhereInput[]
+  }
+
+  export type ChecklistItemUncheckedUpdateManyWithoutTopicNodeNestedInput = {
+    create?: XOR<ChecklistItemCreateWithoutTopicNodeInput, ChecklistItemUncheckedCreateWithoutTopicNodeInput> | ChecklistItemCreateWithoutTopicNodeInput[] | ChecklistItemUncheckedCreateWithoutTopicNodeInput[]
+    connectOrCreate?: ChecklistItemCreateOrConnectWithoutTopicNodeInput | ChecklistItemCreateOrConnectWithoutTopicNodeInput[]
+    upsert?: ChecklistItemUpsertWithWhereUniqueWithoutTopicNodeInput | ChecklistItemUpsertWithWhereUniqueWithoutTopicNodeInput[]
+    createMany?: ChecklistItemCreateManyTopicNodeInputEnvelope
+    set?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+    disconnect?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+    delete?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+    connect?: ChecklistItemWhereUniqueInput | ChecklistItemWhereUniqueInput[]
+    update?: ChecklistItemUpdateWithWhereUniqueWithoutTopicNodeInput | ChecklistItemUpdateWithWhereUniqueWithoutTopicNodeInput[]
+    updateMany?: ChecklistItemUpdateManyWithWhereWithoutTopicNodeInput | ChecklistItemUpdateManyWithWhereWithoutTopicNodeInput[]
+    deleteMany?: ChecklistItemScalarWhereInput | ChecklistItemScalarWhereInput[]
+  }
+
+  export type UserTopicProgressUncheckedUpdateManyWithoutTopicNodeNestedInput = {
+    create?: XOR<UserTopicProgressCreateWithoutTopicNodeInput, UserTopicProgressUncheckedCreateWithoutTopicNodeInput> | UserTopicProgressCreateWithoutTopicNodeInput[] | UserTopicProgressUncheckedCreateWithoutTopicNodeInput[]
+    connectOrCreate?: UserTopicProgressCreateOrConnectWithoutTopicNodeInput | UserTopicProgressCreateOrConnectWithoutTopicNodeInput[]
+    upsert?: UserTopicProgressUpsertWithWhereUniqueWithoutTopicNodeInput | UserTopicProgressUpsertWithWhereUniqueWithoutTopicNodeInput[]
+    createMany?: UserTopicProgressCreateManyTopicNodeInputEnvelope
+    set?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    disconnect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    delete?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    update?: UserTopicProgressUpdateWithWhereUniqueWithoutTopicNodeInput | UserTopicProgressUpdateWithWhereUniqueWithoutTopicNodeInput[]
+    updateMany?: UserTopicProgressUpdateManyWithWhereWithoutTopicNodeInput | UserTopicProgressUpdateManyWithWhereWithoutTopicNodeInput[]
+    deleteMany?: UserTopicProgressScalarWhereInput | UserTopicProgressScalarWhereInput[]
+  }
+
+  export type TopicMapCreateNestedOneWithoutEdgesInput = {
+    create?: XOR<TopicMapCreateWithoutEdgesInput, TopicMapUncheckedCreateWithoutEdgesInput>
+    connectOrCreate?: TopicMapCreateOrConnectWithoutEdgesInput
+    connect?: TopicMapWhereUniqueInput
+  }
+
+  export type TopicMapUpdateOneRequiredWithoutEdgesNestedInput = {
+    create?: XOR<TopicMapCreateWithoutEdgesInput, TopicMapUncheckedCreateWithoutEdgesInput>
+    connectOrCreate?: TopicMapCreateOrConnectWithoutEdgesInput
+    upsert?: TopicMapUpsertWithoutEdgesInput
+    connect?: TopicMapWhereUniqueInput
+    update?: XOR<XOR<TopicMapUpdateToOneWithWhereWithoutEdgesInput, TopicMapUpdateWithoutEdgesInput>, TopicMapUncheckedUpdateWithoutEdgesInput>
+  }
+
+  export type UserChecklistProgressCreateNestedManyWithoutUserCourseInput = {
+    create?: XOR<UserChecklistProgressCreateWithoutUserCourseInput, UserChecklistProgressUncheckedCreateWithoutUserCourseInput> | UserChecklistProgressCreateWithoutUserCourseInput[] | UserChecklistProgressUncheckedCreateWithoutUserCourseInput[]
+    connectOrCreate?: UserChecklistProgressCreateOrConnectWithoutUserCourseInput | UserChecklistProgressCreateOrConnectWithoutUserCourseInput[]
+    createMany?: UserChecklistProgressCreateManyUserCourseInputEnvelope
+    connect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+  }
+
+  export type TopicMapCreateNestedOneWithoutUserCourseInput = {
+    create?: XOR<TopicMapCreateWithoutUserCourseInput, TopicMapUncheckedCreateWithoutUserCourseInput>
+    connectOrCreate?: TopicMapCreateOrConnectWithoutUserCourseInput
+    connect?: TopicMapWhereUniqueInput
+  }
+
+  export type UserTopicProgressCreateNestedManyWithoutUserCourseInput = {
+    create?: XOR<UserTopicProgressCreateWithoutUserCourseInput, UserTopicProgressUncheckedCreateWithoutUserCourseInput> | UserTopicProgressCreateWithoutUserCourseInput[] | UserTopicProgressUncheckedCreateWithoutUserCourseInput[]
+    connectOrCreate?: UserTopicProgressCreateOrConnectWithoutUserCourseInput | UserTopicProgressCreateOrConnectWithoutUserCourseInput[]
+    createMany?: UserTopicProgressCreateManyUserCourseInputEnvelope
+    connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+  }
+
+  export type UserChecklistProgressUncheckedCreateNestedManyWithoutUserCourseInput = {
+    create?: XOR<UserChecklistProgressCreateWithoutUserCourseInput, UserChecklistProgressUncheckedCreateWithoutUserCourseInput> | UserChecklistProgressCreateWithoutUserCourseInput[] | UserChecklistProgressUncheckedCreateWithoutUserCourseInput[]
+    connectOrCreate?: UserChecklistProgressCreateOrConnectWithoutUserCourseInput | UserChecklistProgressCreateOrConnectWithoutUserCourseInput[]
+    createMany?: UserChecklistProgressCreateManyUserCourseInputEnvelope
+    connect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+  }
+
+  export type UserTopicProgressUncheckedCreateNestedManyWithoutUserCourseInput = {
+    create?: XOR<UserTopicProgressCreateWithoutUserCourseInput, UserTopicProgressUncheckedCreateWithoutUserCourseInput> | UserTopicProgressCreateWithoutUserCourseInput[] | UserTopicProgressUncheckedCreateWithoutUserCourseInput[]
+    connectOrCreate?: UserTopicProgressCreateOrConnectWithoutUserCourseInput | UserTopicProgressCreateOrConnectWithoutUserCourseInput[]
+    createMany?: UserTopicProgressCreateManyUserCourseInputEnvelope
+    connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+  }
+
+  export type NullableEnumCourseViewTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CourseViewType | null
+  }
+
+  export type NullableEnumCourseModeTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CourseModeType | null
+  }
+
+  export type UserChecklistProgressUpdateManyWithoutUserCourseNestedInput = {
+    create?: XOR<UserChecklistProgressCreateWithoutUserCourseInput, UserChecklistProgressUncheckedCreateWithoutUserCourseInput> | UserChecklistProgressCreateWithoutUserCourseInput[] | UserChecklistProgressUncheckedCreateWithoutUserCourseInput[]
+    connectOrCreate?: UserChecklistProgressCreateOrConnectWithoutUserCourseInput | UserChecklistProgressCreateOrConnectWithoutUserCourseInput[]
+    upsert?: UserChecklistProgressUpsertWithWhereUniqueWithoutUserCourseInput | UserChecklistProgressUpsertWithWhereUniqueWithoutUserCourseInput[]
+    createMany?: UserChecklistProgressCreateManyUserCourseInputEnvelope
+    set?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    disconnect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    delete?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    connect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    update?: UserChecklistProgressUpdateWithWhereUniqueWithoutUserCourseInput | UserChecklistProgressUpdateWithWhereUniqueWithoutUserCourseInput[]
+    updateMany?: UserChecklistProgressUpdateManyWithWhereWithoutUserCourseInput | UserChecklistProgressUpdateManyWithWhereWithoutUserCourseInput[]
+    deleteMany?: UserChecklistProgressScalarWhereInput | UserChecklistProgressScalarWhereInput[]
+  }
+
+  export type TopicMapUpdateOneRequiredWithoutUserCourseNestedInput = {
+    create?: XOR<TopicMapCreateWithoutUserCourseInput, TopicMapUncheckedCreateWithoutUserCourseInput>
+    connectOrCreate?: TopicMapCreateOrConnectWithoutUserCourseInput
+    upsert?: TopicMapUpsertWithoutUserCourseInput
+    connect?: TopicMapWhereUniqueInput
+    update?: XOR<XOR<TopicMapUpdateToOneWithWhereWithoutUserCourseInput, TopicMapUpdateWithoutUserCourseInput>, TopicMapUncheckedUpdateWithoutUserCourseInput>
+  }
+
+  export type UserTopicProgressUpdateManyWithoutUserCourseNestedInput = {
+    create?: XOR<UserTopicProgressCreateWithoutUserCourseInput, UserTopicProgressUncheckedCreateWithoutUserCourseInput> | UserTopicProgressCreateWithoutUserCourseInput[] | UserTopicProgressUncheckedCreateWithoutUserCourseInput[]
+    connectOrCreate?: UserTopicProgressCreateOrConnectWithoutUserCourseInput | UserTopicProgressCreateOrConnectWithoutUserCourseInput[]
+    upsert?: UserTopicProgressUpsertWithWhereUniqueWithoutUserCourseInput | UserTopicProgressUpsertWithWhereUniqueWithoutUserCourseInput[]
+    createMany?: UserTopicProgressCreateManyUserCourseInputEnvelope
+    set?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    disconnect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    delete?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    update?: UserTopicProgressUpdateWithWhereUniqueWithoutUserCourseInput | UserTopicProgressUpdateWithWhereUniqueWithoutUserCourseInput[]
+    updateMany?: UserTopicProgressUpdateManyWithWhereWithoutUserCourseInput | UserTopicProgressUpdateManyWithWhereWithoutUserCourseInput[]
+    deleteMany?: UserTopicProgressScalarWhereInput | UserTopicProgressScalarWhereInput[]
+  }
+
+  export type UserChecklistProgressUncheckedUpdateManyWithoutUserCourseNestedInput = {
+    create?: XOR<UserChecklistProgressCreateWithoutUserCourseInput, UserChecklistProgressUncheckedCreateWithoutUserCourseInput> | UserChecklistProgressCreateWithoutUserCourseInput[] | UserChecklistProgressUncheckedCreateWithoutUserCourseInput[]
+    connectOrCreate?: UserChecklistProgressCreateOrConnectWithoutUserCourseInput | UserChecklistProgressCreateOrConnectWithoutUserCourseInput[]
+    upsert?: UserChecklistProgressUpsertWithWhereUniqueWithoutUserCourseInput | UserChecklistProgressUpsertWithWhereUniqueWithoutUserCourseInput[]
+    createMany?: UserChecklistProgressCreateManyUserCourseInputEnvelope
+    set?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    disconnect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    delete?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    connect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    update?: UserChecklistProgressUpdateWithWhereUniqueWithoutUserCourseInput | UserChecklistProgressUpdateWithWhereUniqueWithoutUserCourseInput[]
+    updateMany?: UserChecklistProgressUpdateManyWithWhereWithoutUserCourseInput | UserChecklistProgressUpdateManyWithWhereWithoutUserCourseInput[]
+    deleteMany?: UserChecklistProgressScalarWhereInput | UserChecklistProgressScalarWhereInput[]
+  }
+
+  export type UserTopicProgressUncheckedUpdateManyWithoutUserCourseNestedInput = {
+    create?: XOR<UserTopicProgressCreateWithoutUserCourseInput, UserTopicProgressUncheckedCreateWithoutUserCourseInput> | UserTopicProgressCreateWithoutUserCourseInput[] | UserTopicProgressUncheckedCreateWithoutUserCourseInput[]
+    connectOrCreate?: UserTopicProgressCreateOrConnectWithoutUserCourseInput | UserTopicProgressCreateOrConnectWithoutUserCourseInput[]
+    upsert?: UserTopicProgressUpsertWithWhereUniqueWithoutUserCourseInput | UserTopicProgressUpsertWithWhereUniqueWithoutUserCourseInput[]
+    createMany?: UserTopicProgressCreateManyUserCourseInputEnvelope
+    set?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    disconnect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    delete?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
+    update?: UserTopicProgressUpdateWithWhereUniqueWithoutUserCourseInput | UserTopicProgressUpdateWithWhereUniqueWithoutUserCourseInput[]
+    updateMany?: UserTopicProgressUpdateManyWithWhereWithoutUserCourseInput | UserTopicProgressUpdateManyWithWhereWithoutUserCourseInput[]
+    deleteMany?: UserTopicProgressScalarWhereInput | UserTopicProgressScalarWhereInput[]
+  }
+
+  export type TopicNodeCreateNestedOneWithoutUserTopicProgressInput = {
+    create?: XOR<TopicNodeCreateWithoutUserTopicProgressInput, TopicNodeUncheckedCreateWithoutUserTopicProgressInput>
+    connectOrCreate?: TopicNodeCreateOrConnectWithoutUserTopicProgressInput
+    connect?: TopicNodeWhereUniqueInput
+  }
+
+  export type UserCourseCreateNestedOneWithoutProgressInput = {
+    create?: XOR<UserCourseCreateWithoutProgressInput, UserCourseUncheckedCreateWithoutProgressInput>
+    connectOrCreate?: UserCourseCreateOrConnectWithoutProgressInput
+    connect?: UserCourseWhereUniqueInput
+  }
+
+  export type EnumNodeStatusFieldUpdateOperationsInput = {
+    set?: $Enums.NodeStatus
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type TopicNodeUpdateOneRequiredWithoutUserTopicProgressNestedInput = {
+    create?: XOR<TopicNodeCreateWithoutUserTopicProgressInput, TopicNodeUncheckedCreateWithoutUserTopicProgressInput>
+    connectOrCreate?: TopicNodeCreateOrConnectWithoutUserTopicProgressInput
+    upsert?: TopicNodeUpsertWithoutUserTopicProgressInput
+    connect?: TopicNodeWhereUniqueInput
+    update?: XOR<XOR<TopicNodeUpdateToOneWithWhereWithoutUserTopicProgressInput, TopicNodeUpdateWithoutUserTopicProgressInput>, TopicNodeUncheckedUpdateWithoutUserTopicProgressInput>
+  }
+
+  export type UserCourseUpdateOneRequiredWithoutProgressNestedInput = {
+    create?: XOR<UserCourseCreateWithoutProgressInput, UserCourseUncheckedCreateWithoutProgressInput>
+    connectOrCreate?: UserCourseCreateOrConnectWithoutProgressInput
+    upsert?: UserCourseUpsertWithoutProgressInput
+    connect?: UserCourseWhereUniqueInput
+    update?: XOR<XOR<UserCourseUpdateToOneWithWhereWithoutProgressInput, UserCourseUpdateWithoutProgressInput>, UserCourseUncheckedUpdateWithoutProgressInput>
+  }
+
+  export type TopicNodeCreateNestedOneWithoutChecklistInput = {
+    create?: XOR<TopicNodeCreateWithoutChecklistInput, TopicNodeUncheckedCreateWithoutChecklistInput>
+    connectOrCreate?: TopicNodeCreateOrConnectWithoutChecklistInput
+    connect?: TopicNodeWhereUniqueInput
+  }
+
+  export type UserChecklistProgressCreateNestedManyWithoutChecklistInput = {
+    create?: XOR<UserChecklistProgressCreateWithoutChecklistInput, UserChecklistProgressUncheckedCreateWithoutChecklistInput> | UserChecklistProgressCreateWithoutChecklistInput[] | UserChecklistProgressUncheckedCreateWithoutChecklistInput[]
+    connectOrCreate?: UserChecklistProgressCreateOrConnectWithoutChecklistInput | UserChecklistProgressCreateOrConnectWithoutChecklistInput[]
+    createMany?: UserChecklistProgressCreateManyChecklistInputEnvelope
+    connect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+  }
+
+  export type UserChecklistProgressUncheckedCreateNestedManyWithoutChecklistInput = {
+    create?: XOR<UserChecklistProgressCreateWithoutChecklistInput, UserChecklistProgressUncheckedCreateWithoutChecklistInput> | UserChecklistProgressCreateWithoutChecklistInput[] | UserChecklistProgressUncheckedCreateWithoutChecklistInput[]
+    connectOrCreate?: UserChecklistProgressCreateOrConnectWithoutChecklistInput | UserChecklistProgressCreateOrConnectWithoutChecklistInput[]
+    createMany?: UserChecklistProgressCreateManyChecklistInputEnvelope
+    connect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+  }
+
+  export type TopicNodeUpdateOneRequiredWithoutChecklistNestedInput = {
+    create?: XOR<TopicNodeCreateWithoutChecklistInput, TopicNodeUncheckedCreateWithoutChecklistInput>
+    connectOrCreate?: TopicNodeCreateOrConnectWithoutChecklistInput
+    upsert?: TopicNodeUpsertWithoutChecklistInput
+    connect?: TopicNodeWhereUniqueInput
+    update?: XOR<XOR<TopicNodeUpdateToOneWithWhereWithoutChecklistInput, TopicNodeUpdateWithoutChecklistInput>, TopicNodeUncheckedUpdateWithoutChecklistInput>
+  }
+
+  export type UserChecklistProgressUpdateManyWithoutChecklistNestedInput = {
+    create?: XOR<UserChecklistProgressCreateWithoutChecklistInput, UserChecklistProgressUncheckedCreateWithoutChecklistInput> | UserChecklistProgressCreateWithoutChecklistInput[] | UserChecklistProgressUncheckedCreateWithoutChecklistInput[]
+    connectOrCreate?: UserChecklistProgressCreateOrConnectWithoutChecklistInput | UserChecklistProgressCreateOrConnectWithoutChecklistInput[]
+    upsert?: UserChecklistProgressUpsertWithWhereUniqueWithoutChecklistInput | UserChecklistProgressUpsertWithWhereUniqueWithoutChecklistInput[]
+    createMany?: UserChecklistProgressCreateManyChecklistInputEnvelope
+    set?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    disconnect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    delete?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    connect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    update?: UserChecklistProgressUpdateWithWhereUniqueWithoutChecklistInput | UserChecklistProgressUpdateWithWhereUniqueWithoutChecklistInput[]
+    updateMany?: UserChecklistProgressUpdateManyWithWhereWithoutChecklistInput | UserChecklistProgressUpdateManyWithWhereWithoutChecklistInput[]
+    deleteMany?: UserChecklistProgressScalarWhereInput | UserChecklistProgressScalarWhereInput[]
+  }
+
+  export type UserChecklistProgressUncheckedUpdateManyWithoutChecklistNestedInput = {
+    create?: XOR<UserChecklistProgressCreateWithoutChecklistInput, UserChecklistProgressUncheckedCreateWithoutChecklistInput> | UserChecklistProgressCreateWithoutChecklistInput[] | UserChecklistProgressUncheckedCreateWithoutChecklistInput[]
+    connectOrCreate?: UserChecklistProgressCreateOrConnectWithoutChecklistInput | UserChecklistProgressCreateOrConnectWithoutChecklistInput[]
+    upsert?: UserChecklistProgressUpsertWithWhereUniqueWithoutChecklistInput | UserChecklistProgressUpsertWithWhereUniqueWithoutChecklistInput[]
+    createMany?: UserChecklistProgressCreateManyChecklistInputEnvelope
+    set?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    disconnect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    delete?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    connect?: UserChecklistProgressWhereUniqueInput | UserChecklistProgressWhereUniqueInput[]
+    update?: UserChecklistProgressUpdateWithWhereUniqueWithoutChecklistInput | UserChecklistProgressUpdateWithWhereUniqueWithoutChecklistInput[]
+    updateMany?: UserChecklistProgressUpdateManyWithWhereWithoutChecklistInput | UserChecklistProgressUpdateManyWithWhereWithoutChecklistInput[]
+    deleteMany?: UserChecklistProgressScalarWhereInput | UserChecklistProgressScalarWhereInput[]
+  }
+
+  export type ChecklistItemCreateNestedOneWithoutUserStatesInput = {
+    create?: XOR<ChecklistItemCreateWithoutUserStatesInput, ChecklistItemUncheckedCreateWithoutUserStatesInput>
+    connectOrCreate?: ChecklistItemCreateOrConnectWithoutUserStatesInput
+    connect?: ChecklistItemWhereUniqueInput
+  }
+
+  export type UserCourseCreateNestedOneWithoutUserChecklistProgressInput = {
+    create?: XOR<UserCourseCreateWithoutUserChecklistProgressInput, UserCourseUncheckedCreateWithoutUserChecklistProgressInput>
+    connectOrCreate?: UserCourseCreateOrConnectWithoutUserChecklistProgressInput
+    connect?: UserCourseWhereUniqueInput
+  }
+
+  export type ChecklistItemUpdateOneRequiredWithoutUserStatesNestedInput = {
+    create?: XOR<ChecklistItemCreateWithoutUserStatesInput, ChecklistItemUncheckedCreateWithoutUserStatesInput>
+    connectOrCreate?: ChecklistItemCreateOrConnectWithoutUserStatesInput
+    upsert?: ChecklistItemUpsertWithoutUserStatesInput
+    connect?: ChecklistItemWhereUniqueInput
+    update?: XOR<XOR<ChecklistItemUpdateToOneWithWhereWithoutUserStatesInput, ChecklistItemUpdateWithoutUserStatesInput>, ChecklistItemUncheckedUpdateWithoutUserStatesInput>
+  }
+
+  export type UserCourseUpdateOneRequiredWithoutUserChecklistProgressNestedInput = {
+    create?: XOR<UserCourseCreateWithoutUserChecklistProgressInput, UserCourseUncheckedCreateWithoutUserChecklistProgressInput>
+    connectOrCreate?: UserCourseCreateOrConnectWithoutUserChecklistProgressInput
+    upsert?: UserCourseUpsertWithoutUserChecklistProgressInput
+    connect?: UserCourseWhereUniqueInput
+    update?: XOR<XOR<UserCourseUpdateToOneWithWhereWithoutUserChecklistProgressInput, UserCourseUpdateWithoutUserChecklistProgressInput>, UserCourseUncheckedUpdateWithoutUserChecklistProgressInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -14392,6 +22277,30 @@ export namespace Prisma {
     _min?: NestedEnumPrivateTypeFilter<$PrismaModel>
     _max?: NestedEnumPrivateTypeFilter<$PrismaModel>
   }
+
+  export type NestedEnumNodeKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeKind | EnumNodeKindFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeKindFilter<$PrismaModel> | $Enums.NodeKind
+  }
+
+  export type NestedEnumCompletionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompletionType | EnumCompletionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompletionTypeFilter<$PrismaModel> | $Enums.CompletionType
+  }
+
+  export type NestedEnumNodeKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeKind | EnumNodeKindFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeKindWithAggregatesFilter<$PrismaModel> | $Enums.NodeKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNodeKindFilter<$PrismaModel>
+    _max?: NestedEnumNodeKindFilter<$PrismaModel>
+  }
   export type NestedJsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -14414,6 +22323,190 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumCompletionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompletionType | EnumCompletionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompletionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CompletionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCompletionTypeFilter<$PrismaModel>
+    _max?: NestedEnumCompletionTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCourseViewTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.CourseViewType | EnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCourseViewTypeNullableFilter<$PrismaModel> | $Enums.CourseViewType | null
+  }
+
+  export type NestedEnumCourseModeTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.CourseModeType | EnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCourseModeTypeNullableFilter<$PrismaModel> | $Enums.CourseModeType | null
+  }
+
+  export type NestedEnumCourseViewTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CourseViewType | EnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCourseViewTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.CourseViewType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumCourseViewTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumCourseViewTypeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCourseModeTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CourseModeType | EnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCourseModeTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.CourseModeType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumCourseModeTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumCourseModeTypeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumNodeStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeStatus | EnumNodeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeStatus[] | ListEnumNodeStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeStatus[] | ListEnumNodeStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeStatusFilter<$PrismaModel> | $Enums.NodeStatus
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumNodeStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeStatus | EnumNodeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeStatus[] | ListEnumNodeStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeStatus[] | ListEnumNodeStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeStatusWithAggregatesFilter<$PrismaModel> | $Enums.NodeStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNodeStatusFilter<$PrismaModel>
+    _max?: NestedEnumNodeStatusFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type RouteCreateWithoutUserInput = {
+    id?: string
+    title: string
+    description?: string | null
+    privateType?: $Enums.PrivateType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tags?: RouteTagCreateNestedManyWithoutRouteInput
+    topicMap?: TopicMapCreateNestedOneWithoutRouteInput
+  }
+
+  export type RouteUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    description?: string | null
+    privateType?: $Enums.PrivateType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tags?: RouteTagUncheckedCreateNestedManyWithoutRouteInput
+    topicMap?: TopicMapUncheckedCreateNestedOneWithoutRouteInput
+  }
+
+  export type RouteCreateOrConnectWithoutUserInput = {
+    where: RouteWhereUniqueInput
+    create: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput>
+  }
+
+  export type RouteCreateManyUserInputEnvelope = {
+    data: RouteCreateManyUserInput | RouteCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -14473,38 +22566,6 @@ export namespace Prisma {
     create: XOR<SkillProfileCreateWithoutUserInput, SkillProfileUncheckedCreateWithoutUserInput>
   }
 
-  export type RouteCreateWithoutUserInput = {
-    id?: string
-    title: string
-    description?: string | null
-    privateType?: $Enums.PrivateType
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    topicMap?: TopicMapCreateNestedOneWithoutRouteInput
-    tags?: RouteTagCreateNestedManyWithoutRouteInput
-  }
-
-  export type RouteUncheckedCreateWithoutUserInput = {
-    id?: string
-    title: string
-    description?: string | null
-    privateType?: $Enums.PrivateType
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    topicMap?: TopicMapUncheckedCreateNestedOneWithoutRouteInput
-    tags?: RouteTagUncheckedCreateNestedManyWithoutRouteInput
-  }
-
-  export type RouteCreateOrConnectWithoutUserInput = {
-    where: RouteWhereUniqueInput
-    create: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput>
-  }
-
-  export type RouteCreateManyUserInputEnvelope = {
-    data: RouteCreateManyUserInput | RouteCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
   export type TokenCreateWithoutUserInput = {
     id?: string
     email: string
@@ -14531,6 +22592,35 @@ export namespace Prisma {
   export type TokenCreateManyUserInputEnvelope = {
     data: TokenCreateManyUserInput | TokenCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type RouteUpsertWithWhereUniqueWithoutUserInput = {
+    where: RouteWhereUniqueInput
+    update: XOR<RouteUpdateWithoutUserInput, RouteUncheckedUpdateWithoutUserInput>
+    create: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput>
+  }
+
+  export type RouteUpdateWithWhereUniqueWithoutUserInput = {
+    where: RouteWhereUniqueInput
+    data: XOR<RouteUpdateWithoutUserInput, RouteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RouteUpdateManyWithWhereWithoutUserInput = {
+    where: RouteScalarWhereInput
+    data: XOR<RouteUpdateManyMutationInput, RouteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RouteScalarWhereInput = {
+    AND?: RouteScalarWhereInput | RouteScalarWhereInput[]
+    OR?: RouteScalarWhereInput[]
+    NOT?: RouteScalarWhereInput | RouteScalarWhereInput[]
+    id?: StringFilter<"Route"> | string
+    title?: StringFilter<"Route"> | string
+    description?: StringNullableFilter<"Route"> | string | null
+    privateType?: EnumPrivateTypeFilter<"Route"> | $Enums.PrivateType
+    createdAt?: DateTimeFilter<"Route"> | Date | string
+    updatedAt?: DateTimeFilter<"Route"> | Date | string
+    userId?: StringFilter<"Route"> | string
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -14594,35 +22684,6 @@ export namespace Prisma {
     telegramUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type RouteUpsertWithWhereUniqueWithoutUserInput = {
-    where: RouteWhereUniqueInput
-    update: XOR<RouteUpdateWithoutUserInput, RouteUncheckedUpdateWithoutUserInput>
-    create: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput>
-  }
-
-  export type RouteUpdateWithWhereUniqueWithoutUserInput = {
-    where: RouteWhereUniqueInput
-    data: XOR<RouteUpdateWithoutUserInput, RouteUncheckedUpdateWithoutUserInput>
-  }
-
-  export type RouteUpdateManyWithWhereWithoutUserInput = {
-    where: RouteScalarWhereInput
-    data: XOR<RouteUpdateManyMutationInput, RouteUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type RouteScalarWhereInput = {
-    AND?: RouteScalarWhereInput | RouteScalarWhereInput[]
-    OR?: RouteScalarWhereInput[]
-    NOT?: RouteScalarWhereInput | RouteScalarWhereInput[]
-    id?: StringFilter<"Route"> | string
-    title?: StringFilter<"Route"> | string
-    description?: StringNullableFilter<"Route"> | string | null
-    privateType?: EnumPrivateTypeFilter<"Route"> | $Enums.PrivateType
-    createdAt?: DateTimeFilter<"Route"> | Date | string
-    updatedAt?: DateTimeFilter<"Route"> | Date | string
-    userId?: StringFilter<"Route"> | string
-  }
-
   export type TokenUpsertWithWhereUniqueWithoutUserInput = {
     where: TokenWhereUniqueInput
     update: XOR<TokenUpdateWithoutUserInput, TokenUncheckedUpdateWithoutUserInput>
@@ -14664,8 +22725,8 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
-    accounts?: AccountCreateNestedManyWithoutUserInput
     Route?: RouteCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
   }
 
@@ -14681,8 +22742,8 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     Route?: RouteUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -14714,8 +22775,8 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accounts?: AccountUpdateManyWithoutUserNestedInput
     Route?: RouteUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
   }
 
@@ -14731,8 +22792,8 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     Route?: RouteUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -14748,8 +22809,8 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
-    skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
     Route?: RouteCreateNestedManyWithoutUserInput
+    skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
   }
 
@@ -14765,8 +22826,8 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
-    skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
     Route?: RouteUncheckedCreateNestedManyWithoutUserInput
+    skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -14798,8 +22859,8 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
     Route?: RouteUpdateManyWithoutUserNestedInput
+    skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
   }
 
@@ -14815,8 +22876,8 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
     Route?: RouteUncheckedUpdateManyWithoutUserNestedInput
+    skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -14832,9 +22893,9 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    Route?: RouteCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
-    Route?: RouteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTokensInput = {
@@ -14849,9 +22910,9 @@ export namespace Prisma {
     method: $Enums.AuthMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    Route?: RouteUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
-    Route?: RouteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTokensInput = {
@@ -14882,9 +22943,9 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Route?: RouteUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
-    Route?: RouteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensInput = {
@@ -14899,9 +22960,9 @@ export namespace Prisma {
     method?: EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Route?: RouteUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
-    Route?: RouteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutRouteInput = {
@@ -14943,27 +23004,6 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutRouteInput, UserUncheckedCreateWithoutRouteInput>
   }
 
-  export type TopicMapCreateWithoutRouteInput = {
-    id?: string
-    nodeData: JsonNullValueInput | InputJsonValue
-    edgeData: JsonNullValueInput | InputJsonValue
-    updatedAt?: Date | string
-    topicContent?: TopicContentCreateNestedManyWithoutTopicMapInput
-  }
-
-  export type TopicMapUncheckedCreateWithoutRouteInput = {
-    id?: string
-    nodeData: JsonNullValueInput | InputJsonValue
-    edgeData: JsonNullValueInput | InputJsonValue
-    updatedAt?: Date | string
-    topicContent?: TopicContentUncheckedCreateNestedManyWithoutTopicMapInput
-  }
-
-  export type TopicMapCreateOrConnectWithoutRouteInput = {
-    where: TopicMapWhereUniqueInput
-    create: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
-  }
-
   export type RouteTagCreateWithoutRouteInput = {
     id?: string
     tag: TagCreateNestedOneWithoutRoutesInput
@@ -14982,6 +23022,27 @@ export namespace Prisma {
   export type RouteTagCreateManyRouteInputEnvelope = {
     data: RouteTagCreateManyRouteInput | RouteTagCreateManyRouteInput[]
     skipDuplicates?: boolean
+  }
+
+  export type TopicMapCreateWithoutRouteInput = {
+    id?: string
+    updatedAt?: Date | string
+    edges?: TopicEdgeCreateNestedManyWithoutTopicMapInput
+    nodes?: TopicNodeCreateNestedManyWithoutTopicMapInput
+    UserCourse?: UserCourseCreateNestedManyWithoutTopicMapInput
+  }
+
+  export type TopicMapUncheckedCreateWithoutRouteInput = {
+    id?: string
+    updatedAt?: Date | string
+    edges?: TopicEdgeUncheckedCreateNestedManyWithoutTopicMapInput
+    nodes?: TopicNodeUncheckedCreateNestedManyWithoutTopicMapInput
+    UserCourse?: UserCourseUncheckedCreateNestedManyWithoutTopicMapInput
+  }
+
+  export type TopicMapCreateOrConnectWithoutRouteInput = {
+    where: TopicMapWhereUniqueInput
+    create: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
   }
 
   export type UserUpsertWithoutRouteInput = {
@@ -15029,33 +23090,6 @@ export namespace Prisma {
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type TopicMapUpsertWithoutRouteInput = {
-    update: XOR<TopicMapUpdateWithoutRouteInput, TopicMapUncheckedUpdateWithoutRouteInput>
-    create: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
-    where?: TopicMapWhereInput
-  }
-
-  export type TopicMapUpdateToOneWithWhereWithoutRouteInput = {
-    where?: TopicMapWhereInput
-    data: XOR<TopicMapUpdateWithoutRouteInput, TopicMapUncheckedUpdateWithoutRouteInput>
-  }
-
-  export type TopicMapUpdateWithoutRouteInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nodeData?: JsonNullValueInput | InputJsonValue
-    edgeData?: JsonNullValueInput | InputJsonValue
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    topicContent?: TopicContentUpdateManyWithoutTopicMapNestedInput
-  }
-
-  export type TopicMapUncheckedUpdateWithoutRouteInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nodeData?: JsonNullValueInput | InputJsonValue
-    edgeData?: JsonNullValueInput | InputJsonValue
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    topicContent?: TopicContentUncheckedUpdateManyWithoutTopicMapNestedInput
-  }
-
   export type RouteTagUpsertWithWhereUniqueWithoutRouteInput = {
     where: RouteTagWhereUniqueInput
     update: XOR<RouteTagUpdateWithoutRouteInput, RouteTagUncheckedUpdateWithoutRouteInput>
@@ -15079,6 +23113,33 @@ export namespace Prisma {
     id?: StringFilter<"RouteTag"> | string
     routeId?: StringFilter<"RouteTag"> | string
     tagId?: StringFilter<"RouteTag"> | string
+  }
+
+  export type TopicMapUpsertWithoutRouteInput = {
+    update: XOR<TopicMapUpdateWithoutRouteInput, TopicMapUncheckedUpdateWithoutRouteInput>
+    create: XOR<TopicMapCreateWithoutRouteInput, TopicMapUncheckedCreateWithoutRouteInput>
+    where?: TopicMapWhereInput
+  }
+
+  export type TopicMapUpdateToOneWithWhereWithoutRouteInput = {
+    where?: TopicMapWhereInput
+    data: XOR<TopicMapUpdateWithoutRouteInput, TopicMapUncheckedUpdateWithoutRouteInput>
+  }
+
+  export type TopicMapUpdateWithoutRouteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    edges?: TopicEdgeUpdateManyWithoutTopicMapNestedInput
+    nodes?: TopicNodeUpdateManyWithoutTopicMapNestedInput
+    UserCourse?: UserCourseUpdateManyWithoutTopicMapNestedInput
+  }
+
+  export type TopicMapUncheckedUpdateWithoutRouteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    edges?: TopicEdgeUncheckedUpdateManyWithoutTopicMapNestedInput
+    nodes?: TopicNodeUncheckedUpdateManyWithoutTopicMapNestedInput
+    UserCourse?: UserCourseUncheckedUpdateManyWithoutTopicMapNestedInput
   }
 
   export type RouteTagCreateWithoutTagInput = {
@@ -15213,6 +23274,30 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TopicEdgeCreateWithoutTopicMapInput = {
+    id?: string
+    sourceId: string
+    targetId: string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TopicEdgeUncheckedCreateWithoutTopicMapInput = {
+    id?: string
+    sourceId: string
+    targetId: string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TopicEdgeCreateOrConnectWithoutTopicMapInput = {
+    where: TopicEdgeWhereUniqueInput
+    create: XOR<TopicEdgeCreateWithoutTopicMapInput, TopicEdgeUncheckedCreateWithoutTopicMapInput>
+  }
+
+  export type TopicEdgeCreateManyTopicMapInputEnvelope = {
+    data: TopicEdgeCreateManyTopicMapInput | TopicEdgeCreateManyTopicMapInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RouteCreateWithoutTopicMapInput = {
     id?: string
     title: string
@@ -15240,28 +23325,99 @@ export namespace Prisma {
     create: XOR<RouteCreateWithoutTopicMapInput, RouteUncheckedCreateWithoutTopicMapInput>
   }
 
-  export type TopicContentCreateWithoutTopicMapInput = {
+  export type TopicNodeCreateWithoutTopicMapInput = {
     id?: string
-    nodeId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+    checklist?: ChecklistItemCreateNestedManyWithoutTopicNodeInput
+    UserTopicProgress?: UserTopicProgressCreateNestedManyWithoutTopicNodeInput
   }
 
-  export type TopicContentUncheckedCreateWithoutTopicMapInput = {
+  export type TopicNodeUncheckedCreateWithoutTopicMapInput = {
     id?: string
-    nodeId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+    checklist?: ChecklistItemUncheckedCreateNestedManyWithoutTopicNodeInput
+    UserTopicProgress?: UserTopicProgressUncheckedCreateNestedManyWithoutTopicNodeInput
   }
 
-  export type TopicContentCreateOrConnectWithoutTopicMapInput = {
-    where: TopicContentWhereUniqueInput
-    create: XOR<TopicContentCreateWithoutTopicMapInput, TopicContentUncheckedCreateWithoutTopicMapInput>
+  export type TopicNodeCreateOrConnectWithoutTopicMapInput = {
+    where: TopicNodeWhereUniqueInput
+    create: XOR<TopicNodeCreateWithoutTopicMapInput, TopicNodeUncheckedCreateWithoutTopicMapInput>
   }
 
-  export type TopicContentCreateManyTopicMapInputEnvelope = {
-    data: TopicContentCreateManyTopicMapInput | TopicContentCreateManyTopicMapInput[]
+  export type TopicNodeCreateManyTopicMapInputEnvelope = {
+    data: TopicNodeCreateManyTopicMapInput | TopicNodeCreateManyTopicMapInput[]
     skipDuplicates?: boolean
+  }
+
+  export type UserCourseCreateWithoutTopicMapInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressCreateNestedManyWithoutUserCourseInput
+    progress?: UserTopicProgressCreateNestedManyWithoutUserCourseInput
+  }
+
+  export type UserCourseUncheckedCreateWithoutTopicMapInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressUncheckedCreateNestedManyWithoutUserCourseInput
+    progress?: UserTopicProgressUncheckedCreateNestedManyWithoutUserCourseInput
+  }
+
+  export type UserCourseCreateOrConnectWithoutTopicMapInput = {
+    where: UserCourseWhereUniqueInput
+    create: XOR<UserCourseCreateWithoutTopicMapInput, UserCourseUncheckedCreateWithoutTopicMapInput>
+  }
+
+  export type UserCourseCreateManyTopicMapInputEnvelope = {
+    data: UserCourseCreateManyTopicMapInput | UserCourseCreateManyTopicMapInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TopicEdgeUpsertWithWhereUniqueWithoutTopicMapInput = {
+    where: TopicEdgeWhereUniqueInput
+    update: XOR<TopicEdgeUpdateWithoutTopicMapInput, TopicEdgeUncheckedUpdateWithoutTopicMapInput>
+    create: XOR<TopicEdgeCreateWithoutTopicMapInput, TopicEdgeUncheckedCreateWithoutTopicMapInput>
+  }
+
+  export type TopicEdgeUpdateWithWhereUniqueWithoutTopicMapInput = {
+    where: TopicEdgeWhereUniqueInput
+    data: XOR<TopicEdgeUpdateWithoutTopicMapInput, TopicEdgeUncheckedUpdateWithoutTopicMapInput>
+  }
+
+  export type TopicEdgeUpdateManyWithWhereWithoutTopicMapInput = {
+    where: TopicEdgeScalarWhereInput
+    data: XOR<TopicEdgeUpdateManyMutationInput, TopicEdgeUncheckedUpdateManyWithoutTopicMapInput>
+  }
+
+  export type TopicEdgeScalarWhereInput = {
+    AND?: TopicEdgeScalarWhereInput | TopicEdgeScalarWhereInput[]
+    OR?: TopicEdgeScalarWhereInput[]
+    NOT?: TopicEdgeScalarWhereInput | TopicEdgeScalarWhereInput[]
+    id?: StringFilter<"TopicEdge"> | string
+    topicMapId?: StringFilter<"TopicEdge"> | string
+    sourceId?: StringFilter<"TopicEdge"> | string
+    targetId?: StringFilter<"TopicEdge"> | string
+    meta?: JsonNullableFilter<"TopicEdge">
   }
 
   export type RouteUpsertWithoutTopicMapInput = {
@@ -15297,79 +23453,747 @@ export namespace Prisma {
     tags?: RouteTagUncheckedUpdateManyWithoutRouteNestedInput
   }
 
-  export type TopicContentUpsertWithWhereUniqueWithoutTopicMapInput = {
-    where: TopicContentWhereUniqueInput
-    update: XOR<TopicContentUpdateWithoutTopicMapInput, TopicContentUncheckedUpdateWithoutTopicMapInput>
-    create: XOR<TopicContentCreateWithoutTopicMapInput, TopicContentUncheckedCreateWithoutTopicMapInput>
+  export type TopicNodeUpsertWithWhereUniqueWithoutTopicMapInput = {
+    where: TopicNodeWhereUniqueInput
+    update: XOR<TopicNodeUpdateWithoutTopicMapInput, TopicNodeUncheckedUpdateWithoutTopicMapInput>
+    create: XOR<TopicNodeCreateWithoutTopicMapInput, TopicNodeUncheckedCreateWithoutTopicMapInput>
   }
 
-  export type TopicContentUpdateWithWhereUniqueWithoutTopicMapInput = {
-    where: TopicContentWhereUniqueInput
-    data: XOR<TopicContentUpdateWithoutTopicMapInput, TopicContentUncheckedUpdateWithoutTopicMapInput>
+  export type TopicNodeUpdateWithWhereUniqueWithoutTopicMapInput = {
+    where: TopicNodeWhereUniqueInput
+    data: XOR<TopicNodeUpdateWithoutTopicMapInput, TopicNodeUncheckedUpdateWithoutTopicMapInput>
   }
 
-  export type TopicContentUpdateManyWithWhereWithoutTopicMapInput = {
-    where: TopicContentScalarWhereInput
-    data: XOR<TopicContentUpdateManyMutationInput, TopicContentUncheckedUpdateManyWithoutTopicMapInput>
+  export type TopicNodeUpdateManyWithWhereWithoutTopicMapInput = {
+    where: TopicNodeScalarWhereInput
+    data: XOR<TopicNodeUpdateManyMutationInput, TopicNodeUncheckedUpdateManyWithoutTopicMapInput>
   }
 
-  export type TopicContentScalarWhereInput = {
-    AND?: TopicContentScalarWhereInput | TopicContentScalarWhereInput[]
-    OR?: TopicContentScalarWhereInput[]
-    NOT?: TopicContentScalarWhereInput | TopicContentScalarWhereInput[]
-    id?: StringFilter<"TopicContent"> | string
-    routeId?: StringFilter<"TopicContent"> | string
-    nodeId?: StringFilter<"TopicContent"> | string
-    createdAt?: DateTimeFilter<"TopicContent"> | Date | string
-    updatedAt?: DateTimeFilter<"TopicContent"> | Date | string
+  export type TopicNodeScalarWhereInput = {
+    AND?: TopicNodeScalarWhereInput | TopicNodeScalarWhereInput[]
+    OR?: TopicNodeScalarWhereInput[]
+    NOT?: TopicNodeScalarWhereInput | TopicNodeScalarWhereInput[]
+    id?: StringFilter<"TopicNode"> | string
+    topicMapId?: StringFilter<"TopicNode"> | string
+    kind?: EnumNodeKindFilter<"TopicNode"> | $Enums.NodeKind
+    type?: StringFilter<"TopicNode"> | string
+    title?: StringFilter<"TopicNode"> | string
+    meta?: JsonFilter<"TopicNode">
+    posxy?: JsonNullableFilter<"TopicNode">
+    zIndex?: IntNullableFilter<"TopicNode"> | number | null
+    completionType?: EnumCompletionTypeFilter<"TopicNode"> | $Enums.CompletionType
   }
 
-  export type TopicMapCreateWithoutTopicContentInput = {
+  export type UserCourseUpsertWithWhereUniqueWithoutTopicMapInput = {
+    where: UserCourseWhereUniqueInput
+    update: XOR<UserCourseUpdateWithoutTopicMapInput, UserCourseUncheckedUpdateWithoutTopicMapInput>
+    create: XOR<UserCourseCreateWithoutTopicMapInput, UserCourseUncheckedCreateWithoutTopicMapInput>
+  }
+
+  export type UserCourseUpdateWithWhereUniqueWithoutTopicMapInput = {
+    where: UserCourseWhereUniqueInput
+    data: XOR<UserCourseUpdateWithoutTopicMapInput, UserCourseUncheckedUpdateWithoutTopicMapInput>
+  }
+
+  export type UserCourseUpdateManyWithWhereWithoutTopicMapInput = {
+    where: UserCourseScalarWhereInput
+    data: XOR<UserCourseUpdateManyMutationInput, UserCourseUncheckedUpdateManyWithoutTopicMapInput>
+  }
+
+  export type UserCourseScalarWhereInput = {
+    AND?: UserCourseScalarWhereInput | UserCourseScalarWhereInput[]
+    OR?: UserCourseScalarWhereInput[]
+    NOT?: UserCourseScalarWhereInput | UserCourseScalarWhereInput[]
+    id?: StringFilter<"UserCourse"> | string
+    userId?: StringFilter<"UserCourse"> | string
+    topicMapId?: StringFilter<"UserCourse"> | string
+    createdAt?: DateTimeFilter<"UserCourse"> | Date | string
+    updatedAt?: DateTimeFilter<"UserCourse"> | Date | string
+    view?: EnumCourseViewTypeNullableFilter<"UserCourse"> | $Enums.CourseViewType | null
+    mode?: EnumCourseModeTypeNullableFilter<"UserCourse"> | $Enums.CourseModeType | null
+  }
+
+  export type ChecklistItemCreateWithoutTopicNodeInput = {
     id?: string
-    nodeData: JsonNullValueInput | InputJsonValue
-    edgeData: JsonNullValueInput | InputJsonValue
-    updatedAt?: Date | string
-    route?: RouteCreateNestedOneWithoutTopicMapInput
+    text: string
+    userStates?: UserChecklistProgressCreateNestedManyWithoutChecklistInput
   }
 
-  export type TopicMapUncheckedCreateWithoutTopicContentInput = {
+  export type ChecklistItemUncheckedCreateWithoutTopicNodeInput = {
+    id?: string
+    text: string
+    userStates?: UserChecklistProgressUncheckedCreateNestedManyWithoutChecklistInput
+  }
+
+  export type ChecklistItemCreateOrConnectWithoutTopicNodeInput = {
+    where: ChecklistItemWhereUniqueInput
+    create: XOR<ChecklistItemCreateWithoutTopicNodeInput, ChecklistItemUncheckedCreateWithoutTopicNodeInput>
+  }
+
+  export type ChecklistItemCreateManyTopicNodeInputEnvelope = {
+    data: ChecklistItemCreateManyTopicNodeInput | ChecklistItemCreateManyTopicNodeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TopicMapCreateWithoutNodesInput = {
+    id?: string
+    updatedAt?: Date | string
+    edges?: TopicEdgeCreateNestedManyWithoutTopicMapInput
+    route: RouteCreateNestedOneWithoutTopicMapInput
+    UserCourse?: UserCourseCreateNestedManyWithoutTopicMapInput
+  }
+
+  export type TopicMapUncheckedCreateWithoutNodesInput = {
     id?: string
     routeId: string
-    nodeData: JsonNullValueInput | InputJsonValue
-    edgeData: JsonNullValueInput | InputJsonValue
     updatedAt?: Date | string
+    edges?: TopicEdgeUncheckedCreateNestedManyWithoutTopicMapInput
+    UserCourse?: UserCourseUncheckedCreateNestedManyWithoutTopicMapInput
   }
 
-  export type TopicMapCreateOrConnectWithoutTopicContentInput = {
+  export type TopicMapCreateOrConnectWithoutNodesInput = {
     where: TopicMapWhereUniqueInput
-    create: XOR<TopicMapCreateWithoutTopicContentInput, TopicMapUncheckedCreateWithoutTopicContentInput>
+    create: XOR<TopicMapCreateWithoutNodesInput, TopicMapUncheckedCreateWithoutNodesInput>
   }
 
-  export type TopicMapUpsertWithoutTopicContentInput = {
-    update: XOR<TopicMapUpdateWithoutTopicContentInput, TopicMapUncheckedUpdateWithoutTopicContentInput>
-    create: XOR<TopicMapCreateWithoutTopicContentInput, TopicMapUncheckedCreateWithoutTopicContentInput>
+  export type UserTopicProgressCreateWithoutTopicNodeInput = {
+    id?: string
+    status?: $Enums.NodeStatus
+    progressValue?: number | null
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    userCourse: UserCourseCreateNestedOneWithoutProgressInput
+  }
+
+  export type UserTopicProgressUncheckedCreateWithoutTopicNodeInput = {
+    id?: string
+    userCourseId: string
+    status?: $Enums.NodeStatus
+    progressValue?: number | null
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+  }
+
+  export type UserTopicProgressCreateOrConnectWithoutTopicNodeInput = {
+    where: UserTopicProgressWhereUniqueInput
+    create: XOR<UserTopicProgressCreateWithoutTopicNodeInput, UserTopicProgressUncheckedCreateWithoutTopicNodeInput>
+  }
+
+  export type UserTopicProgressCreateManyTopicNodeInputEnvelope = {
+    data: UserTopicProgressCreateManyTopicNodeInput | UserTopicProgressCreateManyTopicNodeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChecklistItemUpsertWithWhereUniqueWithoutTopicNodeInput = {
+    where: ChecklistItemWhereUniqueInput
+    update: XOR<ChecklistItemUpdateWithoutTopicNodeInput, ChecklistItemUncheckedUpdateWithoutTopicNodeInput>
+    create: XOR<ChecklistItemCreateWithoutTopicNodeInput, ChecklistItemUncheckedCreateWithoutTopicNodeInput>
+  }
+
+  export type ChecklistItemUpdateWithWhereUniqueWithoutTopicNodeInput = {
+    where: ChecklistItemWhereUniqueInput
+    data: XOR<ChecklistItemUpdateWithoutTopicNodeInput, ChecklistItemUncheckedUpdateWithoutTopicNodeInput>
+  }
+
+  export type ChecklistItemUpdateManyWithWhereWithoutTopicNodeInput = {
+    where: ChecklistItemScalarWhereInput
+    data: XOR<ChecklistItemUpdateManyMutationInput, ChecklistItemUncheckedUpdateManyWithoutTopicNodeInput>
+  }
+
+  export type ChecklistItemScalarWhereInput = {
+    AND?: ChecklistItemScalarWhereInput | ChecklistItemScalarWhereInput[]
+    OR?: ChecklistItemScalarWhereInput[]
+    NOT?: ChecklistItemScalarWhereInput | ChecklistItemScalarWhereInput[]
+    id?: StringFilter<"ChecklistItem"> | string
+    topicNodeId?: StringFilter<"ChecklistItem"> | string
+    text?: StringFilter<"ChecklistItem"> | string
+  }
+
+  export type TopicMapUpsertWithoutNodesInput = {
+    update: XOR<TopicMapUpdateWithoutNodesInput, TopicMapUncheckedUpdateWithoutNodesInput>
+    create: XOR<TopicMapCreateWithoutNodesInput, TopicMapUncheckedCreateWithoutNodesInput>
     where?: TopicMapWhereInput
   }
 
-  export type TopicMapUpdateToOneWithWhereWithoutTopicContentInput = {
+  export type TopicMapUpdateToOneWithWhereWithoutNodesInput = {
     where?: TopicMapWhereInput
-    data: XOR<TopicMapUpdateWithoutTopicContentInput, TopicMapUncheckedUpdateWithoutTopicContentInput>
+    data: XOR<TopicMapUpdateWithoutNodesInput, TopicMapUncheckedUpdateWithoutNodesInput>
   }
 
-  export type TopicMapUpdateWithoutTopicContentInput = {
+  export type TopicMapUpdateWithoutNodesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nodeData?: JsonNullValueInput | InputJsonValue
-    edgeData?: JsonNullValueInput | InputJsonValue
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    route?: RouteUpdateOneWithoutTopicMapNestedInput
+    edges?: TopicEdgeUpdateManyWithoutTopicMapNestedInput
+    route?: RouteUpdateOneRequiredWithoutTopicMapNestedInput
+    UserCourse?: UserCourseUpdateManyWithoutTopicMapNestedInput
   }
 
-  export type TopicMapUncheckedUpdateWithoutTopicContentInput = {
+  export type TopicMapUncheckedUpdateWithoutNodesInput = {
     id?: StringFieldUpdateOperationsInput | string
     routeId?: StringFieldUpdateOperationsInput | string
-    nodeData?: JsonNullValueInput | InputJsonValue
-    edgeData?: JsonNullValueInput | InputJsonValue
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    edges?: TopicEdgeUncheckedUpdateManyWithoutTopicMapNestedInput
+    UserCourse?: UserCourseUncheckedUpdateManyWithoutTopicMapNestedInput
+  }
+
+  export type UserTopicProgressUpsertWithWhereUniqueWithoutTopicNodeInput = {
+    where: UserTopicProgressWhereUniqueInput
+    update: XOR<UserTopicProgressUpdateWithoutTopicNodeInput, UserTopicProgressUncheckedUpdateWithoutTopicNodeInput>
+    create: XOR<UserTopicProgressCreateWithoutTopicNodeInput, UserTopicProgressUncheckedCreateWithoutTopicNodeInput>
+  }
+
+  export type UserTopicProgressUpdateWithWhereUniqueWithoutTopicNodeInput = {
+    where: UserTopicProgressWhereUniqueInput
+    data: XOR<UserTopicProgressUpdateWithoutTopicNodeInput, UserTopicProgressUncheckedUpdateWithoutTopicNodeInput>
+  }
+
+  export type UserTopicProgressUpdateManyWithWhereWithoutTopicNodeInput = {
+    where: UserTopicProgressScalarWhereInput
+    data: XOR<UserTopicProgressUpdateManyMutationInput, UserTopicProgressUncheckedUpdateManyWithoutTopicNodeInput>
+  }
+
+  export type UserTopicProgressScalarWhereInput = {
+    AND?: UserTopicProgressScalarWhereInput | UserTopicProgressScalarWhereInput[]
+    OR?: UserTopicProgressScalarWhereInput[]
+    NOT?: UserTopicProgressScalarWhereInput | UserTopicProgressScalarWhereInput[]
+    id?: StringFilter<"UserTopicProgress"> | string
+    userCourseId?: StringFilter<"UserTopicProgress"> | string
+    topicNodeId?: StringFilter<"UserTopicProgress"> | string
+    status?: EnumNodeStatusFilter<"UserTopicProgress"> | $Enums.NodeStatus
+    progressValue?: FloatNullableFilter<"UserTopicProgress"> | number | null
+    startedAt?: DateTimeNullableFilter<"UserTopicProgress"> | Date | string | null
+    finishedAt?: DateTimeNullableFilter<"UserTopicProgress"> | Date | string | null
+  }
+
+  export type TopicMapCreateWithoutEdgesInput = {
+    id?: string
+    updatedAt?: Date | string
+    route: RouteCreateNestedOneWithoutTopicMapInput
+    nodes?: TopicNodeCreateNestedManyWithoutTopicMapInput
+    UserCourse?: UserCourseCreateNestedManyWithoutTopicMapInput
+  }
+
+  export type TopicMapUncheckedCreateWithoutEdgesInput = {
+    id?: string
+    routeId: string
+    updatedAt?: Date | string
+    nodes?: TopicNodeUncheckedCreateNestedManyWithoutTopicMapInput
+    UserCourse?: UserCourseUncheckedCreateNestedManyWithoutTopicMapInput
+  }
+
+  export type TopicMapCreateOrConnectWithoutEdgesInput = {
+    where: TopicMapWhereUniqueInput
+    create: XOR<TopicMapCreateWithoutEdgesInput, TopicMapUncheckedCreateWithoutEdgesInput>
+  }
+
+  export type TopicMapUpsertWithoutEdgesInput = {
+    update: XOR<TopicMapUpdateWithoutEdgesInput, TopicMapUncheckedUpdateWithoutEdgesInput>
+    create: XOR<TopicMapCreateWithoutEdgesInput, TopicMapUncheckedCreateWithoutEdgesInput>
+    where?: TopicMapWhereInput
+  }
+
+  export type TopicMapUpdateToOneWithWhereWithoutEdgesInput = {
+    where?: TopicMapWhereInput
+    data: XOR<TopicMapUpdateWithoutEdgesInput, TopicMapUncheckedUpdateWithoutEdgesInput>
+  }
+
+  export type TopicMapUpdateWithoutEdgesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    route?: RouteUpdateOneRequiredWithoutTopicMapNestedInput
+    nodes?: TopicNodeUpdateManyWithoutTopicMapNestedInput
+    UserCourse?: UserCourseUpdateManyWithoutTopicMapNestedInput
+  }
+
+  export type TopicMapUncheckedUpdateWithoutEdgesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    routeId?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    nodes?: TopicNodeUncheckedUpdateManyWithoutTopicMapNestedInput
+    UserCourse?: UserCourseUncheckedUpdateManyWithoutTopicMapNestedInput
+  }
+
+  export type UserChecklistProgressCreateWithoutUserCourseInput = {
+    id?: string
+    done?: boolean
+    checklist: ChecklistItemCreateNestedOneWithoutUserStatesInput
+  }
+
+  export type UserChecklistProgressUncheckedCreateWithoutUserCourseInput = {
+    id?: string
+    checklistItemId: string
+    done?: boolean
+  }
+
+  export type UserChecklistProgressCreateOrConnectWithoutUserCourseInput = {
+    where: UserChecklistProgressWhereUniqueInput
+    create: XOR<UserChecklistProgressCreateWithoutUserCourseInput, UserChecklistProgressUncheckedCreateWithoutUserCourseInput>
+  }
+
+  export type UserChecklistProgressCreateManyUserCourseInputEnvelope = {
+    data: UserChecklistProgressCreateManyUserCourseInput | UserChecklistProgressCreateManyUserCourseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TopicMapCreateWithoutUserCourseInput = {
+    id?: string
+    updatedAt?: Date | string
+    edges?: TopicEdgeCreateNestedManyWithoutTopicMapInput
+    route: RouteCreateNestedOneWithoutTopicMapInput
+    nodes?: TopicNodeCreateNestedManyWithoutTopicMapInput
+  }
+
+  export type TopicMapUncheckedCreateWithoutUserCourseInput = {
+    id?: string
+    routeId: string
+    updatedAt?: Date | string
+    edges?: TopicEdgeUncheckedCreateNestedManyWithoutTopicMapInput
+    nodes?: TopicNodeUncheckedCreateNestedManyWithoutTopicMapInput
+  }
+
+  export type TopicMapCreateOrConnectWithoutUserCourseInput = {
+    where: TopicMapWhereUniqueInput
+    create: XOR<TopicMapCreateWithoutUserCourseInput, TopicMapUncheckedCreateWithoutUserCourseInput>
+  }
+
+  export type UserTopicProgressCreateWithoutUserCourseInput = {
+    id?: string
+    status?: $Enums.NodeStatus
+    progressValue?: number | null
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    topicNode: TopicNodeCreateNestedOneWithoutUserTopicProgressInput
+  }
+
+  export type UserTopicProgressUncheckedCreateWithoutUserCourseInput = {
+    id?: string
+    topicNodeId: string
+    status?: $Enums.NodeStatus
+    progressValue?: number | null
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+  }
+
+  export type UserTopicProgressCreateOrConnectWithoutUserCourseInput = {
+    where: UserTopicProgressWhereUniqueInput
+    create: XOR<UserTopicProgressCreateWithoutUserCourseInput, UserTopicProgressUncheckedCreateWithoutUserCourseInput>
+  }
+
+  export type UserTopicProgressCreateManyUserCourseInputEnvelope = {
+    data: UserTopicProgressCreateManyUserCourseInput | UserTopicProgressCreateManyUserCourseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserChecklistProgressUpsertWithWhereUniqueWithoutUserCourseInput = {
+    where: UserChecklistProgressWhereUniqueInput
+    update: XOR<UserChecklistProgressUpdateWithoutUserCourseInput, UserChecklistProgressUncheckedUpdateWithoutUserCourseInput>
+    create: XOR<UserChecklistProgressCreateWithoutUserCourseInput, UserChecklistProgressUncheckedCreateWithoutUserCourseInput>
+  }
+
+  export type UserChecklistProgressUpdateWithWhereUniqueWithoutUserCourseInput = {
+    where: UserChecklistProgressWhereUniqueInput
+    data: XOR<UserChecklistProgressUpdateWithoutUserCourseInput, UserChecklistProgressUncheckedUpdateWithoutUserCourseInput>
+  }
+
+  export type UserChecklistProgressUpdateManyWithWhereWithoutUserCourseInput = {
+    where: UserChecklistProgressScalarWhereInput
+    data: XOR<UserChecklistProgressUpdateManyMutationInput, UserChecklistProgressUncheckedUpdateManyWithoutUserCourseInput>
+  }
+
+  export type UserChecklistProgressScalarWhereInput = {
+    AND?: UserChecklistProgressScalarWhereInput | UserChecklistProgressScalarWhereInput[]
+    OR?: UserChecklistProgressScalarWhereInput[]
+    NOT?: UserChecklistProgressScalarWhereInput | UserChecklistProgressScalarWhereInput[]
+    id?: StringFilter<"UserChecklistProgress"> | string
+    userCourseId?: StringFilter<"UserChecklistProgress"> | string
+    checklistItemId?: StringFilter<"UserChecklistProgress"> | string
+    done?: BoolFilter<"UserChecklistProgress"> | boolean
+  }
+
+  export type TopicMapUpsertWithoutUserCourseInput = {
+    update: XOR<TopicMapUpdateWithoutUserCourseInput, TopicMapUncheckedUpdateWithoutUserCourseInput>
+    create: XOR<TopicMapCreateWithoutUserCourseInput, TopicMapUncheckedCreateWithoutUserCourseInput>
+    where?: TopicMapWhereInput
+  }
+
+  export type TopicMapUpdateToOneWithWhereWithoutUserCourseInput = {
+    where?: TopicMapWhereInput
+    data: XOR<TopicMapUpdateWithoutUserCourseInput, TopicMapUncheckedUpdateWithoutUserCourseInput>
+  }
+
+  export type TopicMapUpdateWithoutUserCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    edges?: TopicEdgeUpdateManyWithoutTopicMapNestedInput
+    route?: RouteUpdateOneRequiredWithoutTopicMapNestedInput
+    nodes?: TopicNodeUpdateManyWithoutTopicMapNestedInput
+  }
+
+  export type TopicMapUncheckedUpdateWithoutUserCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    routeId?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    edges?: TopicEdgeUncheckedUpdateManyWithoutTopicMapNestedInput
+    nodes?: TopicNodeUncheckedUpdateManyWithoutTopicMapNestedInput
+  }
+
+  export type UserTopicProgressUpsertWithWhereUniqueWithoutUserCourseInput = {
+    where: UserTopicProgressWhereUniqueInput
+    update: XOR<UserTopicProgressUpdateWithoutUserCourseInput, UserTopicProgressUncheckedUpdateWithoutUserCourseInput>
+    create: XOR<UserTopicProgressCreateWithoutUserCourseInput, UserTopicProgressUncheckedCreateWithoutUserCourseInput>
+  }
+
+  export type UserTopicProgressUpdateWithWhereUniqueWithoutUserCourseInput = {
+    where: UserTopicProgressWhereUniqueInput
+    data: XOR<UserTopicProgressUpdateWithoutUserCourseInput, UserTopicProgressUncheckedUpdateWithoutUserCourseInput>
+  }
+
+  export type UserTopicProgressUpdateManyWithWhereWithoutUserCourseInput = {
+    where: UserTopicProgressScalarWhereInput
+    data: XOR<UserTopicProgressUpdateManyMutationInput, UserTopicProgressUncheckedUpdateManyWithoutUserCourseInput>
+  }
+
+  export type TopicNodeCreateWithoutUserTopicProgressInput = {
+    id?: string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+    checklist?: ChecklistItemCreateNestedManyWithoutTopicNodeInput
+    topicMap: TopicMapCreateNestedOneWithoutNodesInput
+  }
+
+  export type TopicNodeUncheckedCreateWithoutUserTopicProgressInput = {
+    id?: string
+    topicMapId: string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+    checklist?: ChecklistItemUncheckedCreateNestedManyWithoutTopicNodeInput
+  }
+
+  export type TopicNodeCreateOrConnectWithoutUserTopicProgressInput = {
+    where: TopicNodeWhereUniqueInput
+    create: XOR<TopicNodeCreateWithoutUserTopicProgressInput, TopicNodeUncheckedCreateWithoutUserTopicProgressInput>
+  }
+
+  export type UserCourseCreateWithoutProgressInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressCreateNestedManyWithoutUserCourseInput
+    topicMap: TopicMapCreateNestedOneWithoutUserCourseInput
+  }
+
+  export type UserCourseUncheckedCreateWithoutProgressInput = {
+    id?: string
+    userId: string
+    topicMapId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressUncheckedCreateNestedManyWithoutUserCourseInput
+  }
+
+  export type UserCourseCreateOrConnectWithoutProgressInput = {
+    where: UserCourseWhereUniqueInput
+    create: XOR<UserCourseCreateWithoutProgressInput, UserCourseUncheckedCreateWithoutProgressInput>
+  }
+
+  export type TopicNodeUpsertWithoutUserTopicProgressInput = {
+    update: XOR<TopicNodeUpdateWithoutUserTopicProgressInput, TopicNodeUncheckedUpdateWithoutUserTopicProgressInput>
+    create: XOR<TopicNodeCreateWithoutUserTopicProgressInput, TopicNodeUncheckedCreateWithoutUserTopicProgressInput>
+    where?: TopicNodeWhereInput
+  }
+
+  export type TopicNodeUpdateToOneWithWhereWithoutUserTopicProgressInput = {
+    where?: TopicNodeWhereInput
+    data: XOR<TopicNodeUpdateWithoutUserTopicProgressInput, TopicNodeUncheckedUpdateWithoutUserTopicProgressInput>
+  }
+
+  export type TopicNodeUpdateWithoutUserTopicProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+    checklist?: ChecklistItemUpdateManyWithoutTopicNodeNestedInput
+    topicMap?: TopicMapUpdateOneRequiredWithoutNodesNestedInput
+  }
+
+  export type TopicNodeUncheckedUpdateWithoutUserTopicProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+    checklist?: ChecklistItemUncheckedUpdateManyWithoutTopicNodeNestedInput
+  }
+
+  export type UserCourseUpsertWithoutProgressInput = {
+    update: XOR<UserCourseUpdateWithoutProgressInput, UserCourseUncheckedUpdateWithoutProgressInput>
+    create: XOR<UserCourseCreateWithoutProgressInput, UserCourseUncheckedCreateWithoutProgressInput>
+    where?: UserCourseWhereInput
+  }
+
+  export type UserCourseUpdateToOneWithWhereWithoutProgressInput = {
+    where?: UserCourseWhereInput
+    data: XOR<UserCourseUpdateWithoutProgressInput, UserCourseUncheckedUpdateWithoutProgressInput>
+  }
+
+  export type UserCourseUpdateWithoutProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressUpdateManyWithoutUserCourseNestedInput
+    topicMap?: TopicMapUpdateOneRequiredWithoutUserCourseNestedInput
+  }
+
+  export type UserCourseUncheckedUpdateWithoutProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressUncheckedUpdateManyWithoutUserCourseNestedInput
+  }
+
+  export type TopicNodeCreateWithoutChecklistInput = {
+    id?: string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+    topicMap: TopicMapCreateNestedOneWithoutNodesInput
+    UserTopicProgress?: UserTopicProgressCreateNestedManyWithoutTopicNodeInput
+  }
+
+  export type TopicNodeUncheckedCreateWithoutChecklistInput = {
+    id?: string
+    topicMapId: string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+    UserTopicProgress?: UserTopicProgressUncheckedCreateNestedManyWithoutTopicNodeInput
+  }
+
+  export type TopicNodeCreateOrConnectWithoutChecklistInput = {
+    where: TopicNodeWhereUniqueInput
+    create: XOR<TopicNodeCreateWithoutChecklistInput, TopicNodeUncheckedCreateWithoutChecklistInput>
+  }
+
+  export type UserChecklistProgressCreateWithoutChecklistInput = {
+    id?: string
+    done?: boolean
+    userCourse: UserCourseCreateNestedOneWithoutUserChecklistProgressInput
+  }
+
+  export type UserChecklistProgressUncheckedCreateWithoutChecklistInput = {
+    id?: string
+    userCourseId: string
+    done?: boolean
+  }
+
+  export type UserChecklistProgressCreateOrConnectWithoutChecklistInput = {
+    where: UserChecklistProgressWhereUniqueInput
+    create: XOR<UserChecklistProgressCreateWithoutChecklistInput, UserChecklistProgressUncheckedCreateWithoutChecklistInput>
+  }
+
+  export type UserChecklistProgressCreateManyChecklistInputEnvelope = {
+    data: UserChecklistProgressCreateManyChecklistInput | UserChecklistProgressCreateManyChecklistInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TopicNodeUpsertWithoutChecklistInput = {
+    update: XOR<TopicNodeUpdateWithoutChecklistInput, TopicNodeUncheckedUpdateWithoutChecklistInput>
+    create: XOR<TopicNodeCreateWithoutChecklistInput, TopicNodeUncheckedCreateWithoutChecklistInput>
+    where?: TopicNodeWhereInput
+  }
+
+  export type TopicNodeUpdateToOneWithWhereWithoutChecklistInput = {
+    where?: TopicNodeWhereInput
+    data: XOR<TopicNodeUpdateWithoutChecklistInput, TopicNodeUncheckedUpdateWithoutChecklistInput>
+  }
+
+  export type TopicNodeUpdateWithoutChecklistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+    topicMap?: TopicMapUpdateOneRequiredWithoutNodesNestedInput
+    UserTopicProgress?: UserTopicProgressUpdateManyWithoutTopicNodeNestedInput
+  }
+
+  export type TopicNodeUncheckedUpdateWithoutChecklistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+    UserTopicProgress?: UserTopicProgressUncheckedUpdateManyWithoutTopicNodeNestedInput
+  }
+
+  export type UserChecklistProgressUpsertWithWhereUniqueWithoutChecklistInput = {
+    where: UserChecklistProgressWhereUniqueInput
+    update: XOR<UserChecklistProgressUpdateWithoutChecklistInput, UserChecklistProgressUncheckedUpdateWithoutChecklistInput>
+    create: XOR<UserChecklistProgressCreateWithoutChecklistInput, UserChecklistProgressUncheckedCreateWithoutChecklistInput>
+  }
+
+  export type UserChecklistProgressUpdateWithWhereUniqueWithoutChecklistInput = {
+    where: UserChecklistProgressWhereUniqueInput
+    data: XOR<UserChecklistProgressUpdateWithoutChecklistInput, UserChecklistProgressUncheckedUpdateWithoutChecklistInput>
+  }
+
+  export type UserChecklistProgressUpdateManyWithWhereWithoutChecklistInput = {
+    where: UserChecklistProgressScalarWhereInput
+    data: XOR<UserChecklistProgressUpdateManyMutationInput, UserChecklistProgressUncheckedUpdateManyWithoutChecklistInput>
+  }
+
+  export type ChecklistItemCreateWithoutUserStatesInput = {
+    id?: string
+    text: string
+    topicNode: TopicNodeCreateNestedOneWithoutChecklistInput
+  }
+
+  export type ChecklistItemUncheckedCreateWithoutUserStatesInput = {
+    id?: string
+    topicNodeId: string
+    text: string
+  }
+
+  export type ChecklistItemCreateOrConnectWithoutUserStatesInput = {
+    where: ChecklistItemWhereUniqueInput
+    create: XOR<ChecklistItemCreateWithoutUserStatesInput, ChecklistItemUncheckedCreateWithoutUserStatesInput>
+  }
+
+  export type UserCourseCreateWithoutUserChecklistProgressInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
+    topicMap: TopicMapCreateNestedOneWithoutUserCourseInput
+    progress?: UserTopicProgressCreateNestedManyWithoutUserCourseInput
+  }
+
+  export type UserCourseUncheckedCreateWithoutUserChecklistProgressInput = {
+    id?: string
+    userId: string
+    topicMapId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
+    progress?: UserTopicProgressUncheckedCreateNestedManyWithoutUserCourseInput
+  }
+
+  export type UserCourseCreateOrConnectWithoutUserChecklistProgressInput = {
+    where: UserCourseWhereUniqueInput
+    create: XOR<UserCourseCreateWithoutUserChecklistProgressInput, UserCourseUncheckedCreateWithoutUserChecklistProgressInput>
+  }
+
+  export type ChecklistItemUpsertWithoutUserStatesInput = {
+    update: XOR<ChecklistItemUpdateWithoutUserStatesInput, ChecklistItemUncheckedUpdateWithoutUserStatesInput>
+    create: XOR<ChecklistItemCreateWithoutUserStatesInput, ChecklistItemUncheckedCreateWithoutUserStatesInput>
+    where?: ChecklistItemWhereInput
+  }
+
+  export type ChecklistItemUpdateToOneWithWhereWithoutUserStatesInput = {
+    where?: ChecklistItemWhereInput
+    data: XOR<ChecklistItemUpdateWithoutUserStatesInput, ChecklistItemUncheckedUpdateWithoutUserStatesInput>
+  }
+
+  export type ChecklistItemUpdateWithoutUserStatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    topicNode?: TopicNodeUpdateOneRequiredWithoutChecklistNestedInput
+  }
+
+  export type ChecklistItemUncheckedUpdateWithoutUserStatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicNodeId?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCourseUpsertWithoutUserChecklistProgressInput = {
+    update: XOR<UserCourseUpdateWithoutUserChecklistProgressInput, UserCourseUncheckedUpdateWithoutUserChecklistProgressInput>
+    create: XOR<UserCourseCreateWithoutUserChecklistProgressInput, UserCourseUncheckedCreateWithoutUserChecklistProgressInput>
+    where?: UserCourseWhereInput
+  }
+
+  export type UserCourseUpdateToOneWithWhereWithoutUserChecklistProgressInput = {
+    where?: UserCourseWhereInput
+    data: XOR<UserCourseUpdateWithoutUserChecklistProgressInput, UserCourseUncheckedUpdateWithoutUserChecklistProgressInput>
+  }
+
+  export type UserCourseUpdateWithoutUserChecklistProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+    topicMap?: TopicMapUpdateOneRequiredWithoutUserCourseNestedInput
+    progress?: UserTopicProgressUpdateManyWithoutUserCourseNestedInput
+  }
+
+  export type UserCourseUncheckedUpdateWithoutUserChecklistProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    topicMapId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+    progress?: UserTopicProgressUncheckedUpdateManyWithoutUserCourseNestedInput
+  }
+
+  export type RouteCreateManyUserInput = {
+    id?: string
+    title: string
+    description?: string | null
+    privateType?: $Enums.PrivateType
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountCreateManyUserInput = {
@@ -15384,15 +24208,6 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type RouteCreateManyUserInput = {
-    id?: string
-    title: string
-    description?: string | null
-    privateType?: $Enums.PrivateType
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type TokenCreateManyUserInput = {
     id?: string
     email: string
@@ -15400,6 +24215,37 @@ export namespace Prisma {
     type: $Enums.TokenType
     expiresIn: Date | string
     oauthToken?: string | null
+  }
+
+  export type RouteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: RouteTagUpdateManyWithoutRouteNestedInput
+    topicMap?: TopicMapUpdateOneWithoutRouteNestedInput
+  }
+
+  export type RouteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: RouteTagUncheckedUpdateManyWithoutRouteNestedInput
+    topicMap?: TopicMapUncheckedUpdateOneWithoutRouteNestedInput
+  }
+
+  export type RouteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -15434,37 +24280,6 @@ export namespace Prisma {
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type RouteUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    topicMap?: TopicMapUpdateOneWithoutRouteNestedInput
-    tags?: RouteTagUpdateManyWithoutRouteNestedInput
-  }
-
-  export type RouteUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    topicMap?: TopicMapUncheckedUpdateOneWithoutRouteNestedInput
-    tags?: RouteTagUncheckedUpdateManyWithoutRouteNestedInput
-  }
-
-  export type RouteUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15536,32 +24351,262 @@ export namespace Prisma {
     routeId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type TopicContentCreateManyTopicMapInput = {
+  export type TopicEdgeCreateManyTopicMapInput = {
     id?: string
-    nodeId: string
+    sourceId: string
+    targetId: string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TopicNodeCreateManyTopicMapInput = {
+    id?: string
+    kind?: $Enums.NodeKind
+    type: string
+    title: string
+    meta: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: number | null
+    completionType?: $Enums.CompletionType
+  }
+
+  export type UserCourseCreateManyTopicMapInput = {
+    id?: string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    view?: $Enums.CourseViewType | null
+    mode?: $Enums.CourseModeType | null
   }
 
-  export type TopicContentUpdateWithoutTopicMapInput = {
+  export type TopicEdgeUpdateWithoutTopicMapInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nodeId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    targetId?: StringFieldUpdateOperationsInput | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type TopicContentUncheckedUpdateWithoutTopicMapInput = {
+  export type TopicEdgeUncheckedUpdateWithoutTopicMapInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nodeId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    targetId?: StringFieldUpdateOperationsInput | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type TopicContentUncheckedUpdateManyWithoutTopicMapInput = {
+  export type TopicEdgeUncheckedUpdateManyWithoutTopicMapInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nodeId?: StringFieldUpdateOperationsInput | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    targetId?: StringFieldUpdateOperationsInput | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TopicNodeUpdateWithoutTopicMapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+    checklist?: ChecklistItemUpdateManyWithoutTopicNodeNestedInput
+    UserTopicProgress?: UserTopicProgressUpdateManyWithoutTopicNodeNestedInput
+  }
+
+  export type TopicNodeUncheckedUpdateWithoutTopicMapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+    checklist?: ChecklistItemUncheckedUpdateManyWithoutTopicNodeNestedInput
+    UserTopicProgress?: UserTopicProgressUncheckedUpdateManyWithoutTopicNodeNestedInput
+  }
+
+  export type TopicNodeUncheckedUpdateManyWithoutTopicMapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    posxy?: NullableJsonNullValueInput | InputJsonValue
+    zIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
+  }
+
+  export type UserCourseUpdateWithoutTopicMapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressUpdateManyWithoutUserCourseNestedInput
+    progress?: UserTopicProgressUpdateManyWithoutUserCourseNestedInput
+  }
+
+  export type UserCourseUncheckedUpdateWithoutTopicMapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+    UserChecklistProgress?: UserChecklistProgressUncheckedUpdateManyWithoutUserCourseNestedInput
+    progress?: UserTopicProgressUncheckedUpdateManyWithoutUserCourseNestedInput
+  }
+
+  export type UserCourseUncheckedUpdateManyWithoutTopicMapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
+    mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
+  }
+
+  export type ChecklistItemCreateManyTopicNodeInput = {
+    id?: string
+    text: string
+  }
+
+  export type UserTopicProgressCreateManyTopicNodeInput = {
+    id?: string
+    userCourseId: string
+    status?: $Enums.NodeStatus
+    progressValue?: number | null
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+  }
+
+  export type ChecklistItemUpdateWithoutTopicNodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    userStates?: UserChecklistProgressUpdateManyWithoutChecklistNestedInput
+  }
+
+  export type ChecklistItemUncheckedUpdateWithoutTopicNodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    userStates?: UserChecklistProgressUncheckedUpdateManyWithoutChecklistNestedInput
+  }
+
+  export type ChecklistItemUncheckedUpdateManyWithoutTopicNodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserTopicProgressUpdateWithoutTopicNodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userCourse?: UserCourseUpdateOneRequiredWithoutProgressNestedInput
+  }
+
+  export type UserTopicProgressUncheckedUpdateWithoutTopicNodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userCourseId?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserTopicProgressUncheckedUpdateManyWithoutTopicNodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userCourseId?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserChecklistProgressCreateManyUserCourseInput = {
+    id?: string
+    checklistItemId: string
+    done?: boolean
+  }
+
+  export type UserTopicProgressCreateManyUserCourseInput = {
+    id?: string
+    topicNodeId: string
+    status?: $Enums.NodeStatus
+    progressValue?: number | null
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+  }
+
+  export type UserChecklistProgressUpdateWithoutUserCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    checklist?: ChecklistItemUpdateOneRequiredWithoutUserStatesNestedInput
+  }
+
+  export type UserChecklistProgressUncheckedUpdateWithoutUserCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    checklistItemId?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserChecklistProgressUncheckedUpdateManyWithoutUserCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    checklistItemId?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserTopicProgressUpdateWithoutUserCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    topicNode?: TopicNodeUpdateOneRequiredWithoutUserTopicProgressNestedInput
+  }
+
+  export type UserTopicProgressUncheckedUpdateWithoutUserCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicNodeId?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserTopicProgressUncheckedUpdateManyWithoutUserCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicNodeId?: StringFieldUpdateOperationsInput | string
+    status?: EnumNodeStatusFieldUpdateOperationsInput | $Enums.NodeStatus
+    progressValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserChecklistProgressCreateManyChecklistInput = {
+    id?: string
+    userCourseId: string
+    done?: boolean
+  }
+
+  export type UserChecklistProgressUpdateWithoutChecklistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    userCourse?: UserCourseUpdateOneRequiredWithoutUserChecklistProgressNestedInput
+  }
+
+  export type UserChecklistProgressUncheckedUpdateWithoutChecklistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userCourseId?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserChecklistProgressUncheckedUpdateManyWithoutChecklistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userCourseId?: StringFieldUpdateOperationsInput | string
+    done?: BoolFieldUpdateOperationsInput | boolean
   }
 
 

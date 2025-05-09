@@ -1,0 +1,24 @@
+query getUserCourse($topicMapId: String!) {
+  getUserCourse(topicMapId: $topicMapId) {
+    id
+    userId
+    topicMapId
+    createdAt
+    updatedAt
+    view
+    mode 
+    progress {
+      id
+      topicNodeId
+      status
+      progressValue
+      startedAt
+      finishedAt
+    }
+    UserChecklistProgress {
+      id
+      checklistItemId
+      done
+    }
+  }
+}

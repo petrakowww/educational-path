@@ -16,6 +16,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
 export type AccountModel = {
@@ -37,26 +38,61 @@ export enum AuthMethod {
   Yandex = 'YANDEX'
 }
 
+export type ChecklistItem = {
+  __typename?: 'ChecklistItem';
+  id: Scalars['ID']['output'];
+  text: Scalars['String']['output'];
+  topicNodeId: Scalars['String']['output'];
+};
+
+export type ChecklistItemInput = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  text: Scalars['String']['input'];
+};
+
+export enum CompletionType {
+  Manual = 'MANUAL',
+  None = 'NONE',
+  Todo = 'TODO'
+}
+
+export enum CourseModeType {
+  Flexible = 'FLEXIBLE',
+  Strict = 'STRICT'
+}
+
+export type CourseProgressSummary = {
+  __typename?: 'CourseProgressSummary';
+  completed: Scalars['Int']['output'];
+  inProgress: Scalars['Int']['output'];
+  notStarted: Scalars['Int']['output'];
+  skipped: Scalars['Int']['output'];
+  total: Scalars['Int']['output'];
+};
+
+export enum CourseViewType {
+  Graph = 'GRAPH',
+  Linear = 'LINEAR'
+}
+
 export type CreateRouteDto = {
   description?: InputMaybe<Scalars['String']['input']>;
   tagIds?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };
 
-export type CreateTopicContentDto = {
-  nodeId: Scalars['String']['input'];
-  routeId: Scalars['String']['input'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
-  createRoute: RouteModel;
-  createTopicContent: TopicContentModel;
+  createRoute: Route;
   deleteRoute: Scalars['Boolean']['output'];
-  deleteTopicContent: Scalars['Boolean']['output'];
   deleteTopicMap: Scalars['Boolean']['output'];
-  saveTopicMap: TopicMapModel;
-  updateRoute: RouteModel;
+  removeCourse: Scalars['Boolean']['output'];
+  saveTopicMap: TopicMap;
+  setChecklistItemDone: Scalars['Boolean']['output'];
+  setNodeStatus: Scalars['Boolean']['output'];
+  startCourse: UserCourse;
+  updateProgressValue: Scalars['Boolean']['output'];
+  updateRoute: Route;
   updateSkillProfile: SkillProfile;
   updateUserProfile: UserModel;
 };
@@ -67,29 +103,46 @@ export type MutationCreateRouteArgs = {
 };
 
 
-export type MutationCreateTopicContentArgs = {
-  data: CreateTopicContentDto;
-};
-
-
 export type MutationDeleteRouteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type MutationDeleteTopicContentArgs = {
-  nodeId: Scalars['String']['input'];
+export type MutationDeleteTopicMapArgs = {
   routeId: Scalars['String']['input'];
 };
 
 
-export type MutationDeleteTopicMapArgs = {
-  id: Scalars['ID']['input'];
+export type MutationRemoveCourseArgs = {
+  topicMapId: Scalars['String']['input'];
 };
 
 
 export type MutationSaveTopicMapArgs = {
-  data: SaveTopicMapDto;
+  input: SaveTopicMapInput;
+};
+
+
+export type MutationSetChecklistItemDoneArgs = {
+  checkListItemId: Scalars['String']['input'];
+  isCompleted: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetNodeStatusArgs = {
+  status: NodeStatus;
+  topicNodeId: Scalars['String']['input'];
+};
+
+
+export type MutationStartCourseArgs = {
+  input: StartCourseInput;
+};
+
+
+export type MutationUpdateProgressValueArgs = {
+  topicNodeId: Scalars['String']['input'];
+  value: Scalars['Float']['input'];
 };
 
 
@@ -108,6 +161,19 @@ export type MutationUpdateUserProfileArgs = {
   dto: UserProfileDto;
 };
 
+export enum NodeKind {
+  Markable = 'MARKABLE',
+  Topic = 'TOPIC',
+  Visual = 'VISUAL'
+}
+
+export enum NodeStatus {
+  Completed = 'COMPLETED',
+  InProgress = 'IN_PROGRESS',
+  NotStarted = 'NOT_STARTED',
+  Skipped = 'SKIPPED'
+}
+
 export enum PrivateType {
   General = 'GENERAL',
   Private = 'PRIVATE'
@@ -118,13 +184,13 @@ export type Query = {
   findAllTags: Array<TagModel>;
   findById: UserModel;
   findProfile: UserModel;
-  findRoute: RouteModel;
-  findRoutesByUser: Array<RouteModel>;
-  findTopicMap: TopicMapModel;
-  findTopicMapByRouteId: TopicMapModel;
+  findRoute: Route;
+  findRoutesByUser: Array<Route>;
   findUserTags: Array<TagModel>;
-  getAllTopicContents: Array<TopicContentModel>;
-  getTopicContent?: Maybe<TopicContentModel>;
+  getCourseProgress: CourseProgressSummary;
+  getTopicMap: TopicMap;
+  getTopicNodeById: TopicNode;
+  getUserCourse: UserCourse;
 };
 
 
@@ -138,35 +204,34 @@ export type QueryFindRouteArgs = {
 };
 
 
-export type QueryFindTopicMapArgs = {
-  id: Scalars['ID']['input'];
+export type QueryGetCourseProgressArgs = {
+  topicMapId: Scalars['String']['input'];
 };
 
 
-export type QueryFindTopicMapByRouteIdArgs = {
+export type QueryGetTopicMapArgs = {
   routeId: Scalars['String']['input'];
 };
 
 
-export type QueryGetAllTopicContentsArgs = {
-  routeId: Scalars['String']['input'];
+export type QueryGetTopicNodeByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
-export type QueryGetTopicContentArgs = {
-  nodeId: Scalars['String']['input'];
-  routeId: Scalars['String']['input'];
+export type QueryGetUserCourseArgs = {
+  topicMapId: Scalars['String']['input'];
 };
 
-export type RouteModel = {
-  __typename?: 'RouteModel';
+export type Route = {
+  __typename?: 'Route';
   createdAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   privateType: PrivateType;
   tags?: Maybe<Array<RouteTagModel>>;
   title: Scalars['String']['output'];
-  topicMap?: Maybe<TopicMapModel>;
+  topicMap?: Maybe<TopicMap>;
   updatedAt: Scalars['DateTime']['output'];
   user: UserModel;
 };
@@ -174,14 +239,13 @@ export type RouteModel = {
 export type RouteTagModel = {
   __typename?: 'RouteTagModel';
   id: Scalars['ID']['output'];
-  route: RouteModel;
+  route: Route;
   tag: TagModel;
 };
 
-export type SaveTopicMapDto = {
-  contents?: InputMaybe<Array<CreateTopicContentDto>>;
-  edgeData?: InputMaybe<Scalars['String']['input']>;
-  nodeData?: InputMaybe<Scalars['String']['input']>;
+export type SaveTopicMapInput = {
+  edges?: InputMaybe<Array<UpdateTopicEdgeInput>>;
+  nodes?: InputMaybe<Array<UpdateTopicNodeInput>>;
   routeId: Scalars['String']['input'];
 };
 
@@ -204,30 +268,49 @@ export type SkillProfileDto = {
   vkUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type StartCourseInput = {
+  topicMapId: Scalars['ID']['input'];
+};
+
 export type TagModel = {
   __typename?: 'TagModel';
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
 };
 
-export type TopicContentModel = {
-  __typename?: 'TopicContentModel';
-  createdAt: Scalars['DateTime']['output'];
-  id: Scalars['String']['output'];
-  nodeId: Scalars['String']['output'];
+export type TopicEdge = {
+  __typename?: 'TopicEdge';
+  id: Scalars['ID']['output'];
+  meta?: Maybe<Scalars['String']['output']>;
+  sourceId: Scalars['String']['output'];
+  targetId: Scalars['String']['output'];
+  topicMapId: Scalars['String']['output'];
+};
+
+export type TopicMap = {
+  __typename?: 'TopicMap';
+  UserCourse: Array<UserCourse>;
+  edges: Array<TopicEdge>;
+  id: Scalars['ID']['output'];
+  nodes: Array<TopicNode>;
+  route?: Maybe<Route>;
   routeId: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
-export type TopicMapModel = {
-  __typename?: 'TopicMapModel';
-  edgeData: Scalars['String']['output'];
+export type TopicNode = {
+  __typename?: 'TopicNode';
+  UserTopicProgress: Array<UserTopicProgress>;
+  checklist: Array<ChecklistItem>;
+  completionType: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  nodeData: Scalars['String']['output'];
-  route?: Maybe<RouteModel>;
-  routeId: Scalars['String']['output'];
-  topicContent?: Maybe<Array<TopicContentModel>>;
-  updatedAt: Scalars['DateTime']['output'];
+  kind: NodeKind;
+  meta: Scalars['String']['output'];
+  posxy?: Maybe<Scalars['JSON']['output']>;
+  title: Scalars['String']['output'];
+  topicMapId: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  zIndex?: Maybe<Scalars['Float']['output']>;
 };
 
 export type UpdateRouteDto = {
@@ -235,6 +318,49 @@ export type UpdateRouteDto = {
   privateType?: InputMaybe<PrivateType>;
   tagIds?: InputMaybe<Array<Scalars['String']['input']>>;
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateTopicEdgeInput = {
+  id: Scalars['String']['input'];
+  meta?: InputMaybe<Scalars['String']['input']>;
+  sourceId: Scalars['String']['input'];
+  targetId: Scalars['String']['input'];
+};
+
+export type UpdateTopicNodeInput = {
+  checklist?: InputMaybe<Array<ChecklistItemInput>>;
+  completionType: CompletionType;
+  id: Scalars['String']['input'];
+  kind: NodeKind;
+  meta: Scalars['String']['input'];
+  posxy?: InputMaybe<Scalars['JSON']['input']>;
+  title: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+  zIndex?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type UserChecklistProgress = {
+  __typename?: 'UserChecklistProgress';
+  checklist: ChecklistItem;
+  checklistItemId: Scalars['String']['output'];
+  done: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
+  userCourse: UserCourse;
+  userCourseId: Scalars['String']['output'];
+};
+
+export type UserCourse = {
+  __typename?: 'UserCourse';
+  UserChecklistProgress: Array<UserChecklistProgress>;
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  mode?: Maybe<CourseModeType>;
+  progress: Array<UserTopicProgress>;
+  topicMap: TopicMap;
+  topicMapId: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  userId: Scalars['String']['output'];
+  view?: Maybe<CourseViewType>;
 };
 
 export type UserModel = {
@@ -258,12 +384,37 @@ export type UserProfileDto = {
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UserTopicProgress = {
+  __typename?: 'UserTopicProgress';
+  finishedAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  progressValue?: Maybe<Scalars['Float']['output']>;
+  startedAt?: Maybe<Scalars['DateTime']['output']>;
+  status: NodeStatus;
+  topicNodeId: Scalars['String']['output'];
+  userCourseId: Scalars['String']['output'];
+};
+
+export type DeleteTopicMapMutationVariables = Exact<{
+  routeId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteTopicMapMutation = { __typename?: 'Mutation', deleteTopicMap: boolean };
+
+export type SaveTopicMapMutationVariables = Exact<{
+  input: SaveTopicMapInput;
+}>;
+
+
+export type SaveTopicMapMutation = { __typename?: 'Mutation', saveTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, title: string, type: string, meta: string, completionType: string, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, sourceId: string, targetId: string, meta?: string | null }> } };
+
 export type CreateRouteMutationVariables = Exact<{
   mapDto: CreateRouteDto;
 }>;
 
 
-export type CreateRouteMutation = { __typename?: 'Mutation', createRoute: { __typename?: 'RouteModel', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null } };
+export type CreateRouteMutation = { __typename?: 'Mutation', createRoute: { __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null } };
 
 export type DeleteRouteMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -278,14 +429,7 @@ export type UpdateRouteMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRouteMutation = { __typename?: 'Mutation', updateRoute: { __typename?: 'RouteModel', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null } };
-
-export type SaveTopicMapMutationVariables = Exact<{
-  data: SaveTopicMapDto;
-}>;
-
-
-export type SaveTopicMapMutation = { __typename?: 'Mutation', saveTopicMap: { __typename?: 'TopicMapModel', id: string, routeId: string, nodeData: string, edgeData: string, updatedAt: any } };
+export type UpdateRouteMutation = { __typename?: 'Mutation', updateRoute: { __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null } };
 
 export type UpdateProfileMutationVariables = Exact<{
   dto: UserProfileDto;
@@ -301,22 +445,36 @@ export type UpdateSkillProfileMutationVariables = Exact<{
 
 export type UpdateSkillProfileMutation = { __typename?: 'Mutation', updateSkillProfile: { __typename?: 'SkillProfile', profilename?: string | null, headline?: string | null, githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null } };
 
+export type GetPreviewCourseInfoQueryVariables = Exact<{
+  routeId: Scalars['String']['input'];
+}>;
+
+
+export type GetPreviewCourseInfoQuery = { __typename?: 'Query', getTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, topicMapId: string, title: string, type: string, kind: NodeKind, meta: string, posxy?: any | null, completionType: string, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string, topicNodeId: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, topicMapId: string, sourceId: string, targetId: string, meta?: string | null }>, UserCourse: Array<{ __typename?: 'UserCourse', id: string, userId: string, createdAt: any }>, route?: { __typename?: 'Route', id: string, title: string, description?: string | null, createdAt: any, updatedAt: any, user: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null }, tags?: Array<{ __typename?: 'RouteTagModel', tag: { __typename?: 'TagModel', name: string } }> | null } | null } };
+
+export type GetUserCourseQueryVariables = Exact<{
+  topicMapId: Scalars['String']['input'];
+}>;
+
+
+export type GetUserCourseQuery = { __typename?: 'Query', getUserCourse: { __typename?: 'UserCourse', id: string, userId: string, topicMapId: string, createdAt: any, updatedAt: any, view?: CourseViewType | null, mode?: CourseModeType | null, progress: Array<{ __typename?: 'UserTopicProgress', id: string, topicNodeId: string, status: NodeStatus, progressValue?: number | null, startedAt?: any | null, finishedAt?: any | null }>, UserChecklistProgress: Array<{ __typename?: 'UserChecklistProgress', id: string, checklistItemId: string, done: boolean }> } };
+
+export type GetTopicMapQueryVariables = Exact<{
+  routeId: Scalars['String']['input'];
+}>;
+
+
+export type GetTopicMapQuery = { __typename?: 'Query', getTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, topicMapId: string, title: string, type: string, kind: NodeKind, meta: string, posxy?: any | null, completionType: string, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string, topicNodeId: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, topicMapId: string, sourceId: string, targetId: string, meta?: string | null }> } };
+
 export type FindRoutesByUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindRoutesByUserQuery = { __typename?: 'Query', findRoutesByUser: Array<{ __typename?: 'RouteModel', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null, topicMap?: { __typename?: 'TopicMapModel', topicContent?: Array<{ __typename?: 'TopicContentModel', id: string }> | null } | null }> };
+export type FindRoutesByUserQuery = { __typename?: 'Query', findRoutesByUser: Array<{ __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null, topicMap?: { __typename?: 'TopicMap', id: string, nodes: Array<{ __typename?: 'TopicNode', id: string }> } | null }> };
 
 export type FindAllTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindAllTagsQuery = { __typename?: 'Query', findAllTags: Array<{ __typename?: 'TagModel', id: string, name: string }> };
-
-export type FindTopicMapByRouteIdQueryVariables = Exact<{
-  routeId: Scalars['String']['input'];
-}>;
-
-
-export type FindTopicMapByRouteIdQuery = { __typename?: 'Query', findTopicMapByRouteId: { __typename?: 'TopicMapModel', id: string, routeId: string, nodeData: string, edgeData: string, updatedAt: any, topicContent?: Array<{ __typename?: 'TopicContentModel', id: string, nodeId: string, createdAt: any, updatedAt: any }> | null } };
 
 export type FindProfileLogoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -334,6 +492,90 @@ export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: AuthMethod, isTwoFactorEnabled: boolean, email: string, skillProfile?: { __typename?: 'SkillProfile', githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null, headline?: string | null, profilename?: string | null } | null } };
 
 
+export const DeleteTopicMapDocument = gql`
+    mutation deleteTopicMap($routeId: String!) {
+  deleteTopicMap(routeId: $routeId)
+}
+    `;
+export type DeleteTopicMapMutationFn = Apollo.MutationFunction<DeleteTopicMapMutation, DeleteTopicMapMutationVariables>;
+
+/**
+ * __useDeleteTopicMapMutation__
+ *
+ * To run a mutation, you first call `useDeleteTopicMapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTopicMapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTopicMapMutation, { data, loading, error }] = useDeleteTopicMapMutation({
+ *   variables: {
+ *      routeId: // value for 'routeId'
+ *   },
+ * });
+ */
+export function useDeleteTopicMapMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTopicMapMutation, DeleteTopicMapMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTopicMapMutation, DeleteTopicMapMutationVariables>(DeleteTopicMapDocument, options);
+      }
+export type DeleteTopicMapMutationHookResult = ReturnType<typeof useDeleteTopicMapMutation>;
+export type DeleteTopicMapMutationResult = Apollo.MutationResult<DeleteTopicMapMutation>;
+export type DeleteTopicMapMutationOptions = Apollo.BaseMutationOptions<DeleteTopicMapMutation, DeleteTopicMapMutationVariables>;
+export const SaveTopicMapDocument = gql`
+    mutation saveTopicMap($input: SaveTopicMapInput!) {
+  saveTopicMap(input: $input) {
+    id
+    routeId
+    updatedAt
+    nodes {
+      id
+      title
+      type
+      meta
+      completionType
+      zIndex
+      checklist {
+        id
+        text
+      }
+    }
+    edges {
+      id
+      sourceId
+      targetId
+      meta
+    }
+  }
+}
+    `;
+export type SaveTopicMapMutationFn = Apollo.MutationFunction<SaveTopicMapMutation, SaveTopicMapMutationVariables>;
+
+/**
+ * __useSaveTopicMapMutation__
+ *
+ * To run a mutation, you first call `useSaveTopicMapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveTopicMapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveTopicMapMutation, { data, loading, error }] = useSaveTopicMapMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSaveTopicMapMutation(baseOptions?: Apollo.MutationHookOptions<SaveTopicMapMutation, SaveTopicMapMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SaveTopicMapMutation, SaveTopicMapMutationVariables>(SaveTopicMapDocument, options);
+      }
+export type SaveTopicMapMutationHookResult = ReturnType<typeof useSaveTopicMapMutation>;
+export type SaveTopicMapMutationResult = Apollo.MutationResult<SaveTopicMapMutation>;
+export type SaveTopicMapMutationOptions = Apollo.BaseMutationOptions<SaveTopicMapMutation, SaveTopicMapMutationVariables>;
 export const CreateRouteDocument = gql`
     mutation createRoute($mapDto: CreateRouteDto!) {
   createRoute(data: $mapDto) {
@@ -456,43 +698,6 @@ export function useUpdateRouteMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateRouteMutationHookResult = ReturnType<typeof useUpdateRouteMutation>;
 export type UpdateRouteMutationResult = Apollo.MutationResult<UpdateRouteMutation>;
 export type UpdateRouteMutationOptions = Apollo.BaseMutationOptions<UpdateRouteMutation, UpdateRouteMutationVariables>;
-export const SaveTopicMapDocument = gql`
-    mutation saveTopicMap($data: SaveTopicMapDto!) {
-  saveTopicMap(data: $data) {
-    id
-    routeId
-    nodeData
-    edgeData
-    updatedAt
-  }
-}
-    `;
-export type SaveTopicMapMutationFn = Apollo.MutationFunction<SaveTopicMapMutation, SaveTopicMapMutationVariables>;
-
-/**
- * __useSaveTopicMapMutation__
- *
- * To run a mutation, you first call `useSaveTopicMapMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSaveTopicMapMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [saveTopicMapMutation, { data, loading, error }] = useSaveTopicMapMutation({
- *   variables: {
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useSaveTopicMapMutation(baseOptions?: Apollo.MutationHookOptions<SaveTopicMapMutation, SaveTopicMapMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SaveTopicMapMutation, SaveTopicMapMutationVariables>(SaveTopicMapDocument, options);
-      }
-export type SaveTopicMapMutationHookResult = ReturnType<typeof useSaveTopicMapMutation>;
-export type SaveTopicMapMutationResult = Apollo.MutationResult<SaveTopicMapMutation>;
-export type SaveTopicMapMutationOptions = Apollo.BaseMutationOptions<SaveTopicMapMutation, SaveTopicMapMutationVariables>;
 export const UpdateProfileDocument = gql`
     mutation updateProfile($dto: UserProfileDto!) {
   updateUserProfile(dto: $dto) {
@@ -565,6 +770,217 @@ export function useUpdateSkillProfileMutation(baseOptions?: Apollo.MutationHookO
 export type UpdateSkillProfileMutationHookResult = ReturnType<typeof useUpdateSkillProfileMutation>;
 export type UpdateSkillProfileMutationResult = Apollo.MutationResult<UpdateSkillProfileMutation>;
 export type UpdateSkillProfileMutationOptions = Apollo.BaseMutationOptions<UpdateSkillProfileMutation, UpdateSkillProfileMutationVariables>;
+export const GetPreviewCourseInfoDocument = gql`
+    query getPreviewCourseInfo($routeId: String!) {
+  getTopicMap(routeId: $routeId) {
+    id
+    routeId
+    updatedAt
+    nodes {
+      id
+      topicMapId
+      title
+      type
+      kind
+      meta
+      posxy
+      completionType
+      zIndex
+      checklist {
+        id
+        text
+        topicNodeId
+      }
+    }
+    edges {
+      id
+      topicMapId
+      sourceId
+      targetId
+      meta
+    }
+    UserCourse {
+      id
+      userId
+      createdAt
+    }
+    route {
+      id
+      title
+      description
+      createdAt
+      updatedAt
+      user {
+        id
+        name
+        avatar
+      }
+      tags {
+        tag {
+          name
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPreviewCourseInfoQuery__
+ *
+ * To run a query within a React component, call `useGetPreviewCourseInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPreviewCourseInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPreviewCourseInfoQuery({
+ *   variables: {
+ *      routeId: // value for 'routeId'
+ *   },
+ * });
+ */
+export function useGetPreviewCourseInfoQuery(baseOptions: Apollo.QueryHookOptions<GetPreviewCourseInfoQuery, GetPreviewCourseInfoQueryVariables> & ({ variables: GetPreviewCourseInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPreviewCourseInfoQuery, GetPreviewCourseInfoQueryVariables>(GetPreviewCourseInfoDocument, options);
+      }
+export function useGetPreviewCourseInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPreviewCourseInfoQuery, GetPreviewCourseInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPreviewCourseInfoQuery, GetPreviewCourseInfoQueryVariables>(GetPreviewCourseInfoDocument, options);
+        }
+export function useGetPreviewCourseInfoSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPreviewCourseInfoQuery, GetPreviewCourseInfoQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPreviewCourseInfoQuery, GetPreviewCourseInfoQueryVariables>(GetPreviewCourseInfoDocument, options);
+        }
+export type GetPreviewCourseInfoQueryHookResult = ReturnType<typeof useGetPreviewCourseInfoQuery>;
+export type GetPreviewCourseInfoLazyQueryHookResult = ReturnType<typeof useGetPreviewCourseInfoLazyQuery>;
+export type GetPreviewCourseInfoSuspenseQueryHookResult = ReturnType<typeof useGetPreviewCourseInfoSuspenseQuery>;
+export type GetPreviewCourseInfoQueryResult = Apollo.QueryResult<GetPreviewCourseInfoQuery, GetPreviewCourseInfoQueryVariables>;
+export const GetUserCourseDocument = gql`
+    query getUserCourse($topicMapId: String!) {
+  getUserCourse(topicMapId: $topicMapId) {
+    id
+    userId
+    topicMapId
+    createdAt
+    updatedAt
+    view
+    mode
+    progress {
+      id
+      topicNodeId
+      status
+      progressValue
+      startedAt
+      finishedAt
+    }
+    UserChecklistProgress {
+      id
+      checklistItemId
+      done
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserCourseQuery__
+ *
+ * To run a query within a React component, call `useGetUserCourseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserCourseQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserCourseQuery({
+ *   variables: {
+ *      topicMapId: // value for 'topicMapId'
+ *   },
+ * });
+ */
+export function useGetUserCourseQuery(baseOptions: Apollo.QueryHookOptions<GetUserCourseQuery, GetUserCourseQueryVariables> & ({ variables: GetUserCourseQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserCourseQuery, GetUserCourseQueryVariables>(GetUserCourseDocument, options);
+      }
+export function useGetUserCourseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserCourseQuery, GetUserCourseQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserCourseQuery, GetUserCourseQueryVariables>(GetUserCourseDocument, options);
+        }
+export function useGetUserCourseSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserCourseQuery, GetUserCourseQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserCourseQuery, GetUserCourseQueryVariables>(GetUserCourseDocument, options);
+        }
+export type GetUserCourseQueryHookResult = ReturnType<typeof useGetUserCourseQuery>;
+export type GetUserCourseLazyQueryHookResult = ReturnType<typeof useGetUserCourseLazyQuery>;
+export type GetUserCourseSuspenseQueryHookResult = ReturnType<typeof useGetUserCourseSuspenseQuery>;
+export type GetUserCourseQueryResult = Apollo.QueryResult<GetUserCourseQuery, GetUserCourseQueryVariables>;
+export const GetTopicMapDocument = gql`
+    query getTopicMap($routeId: String!) {
+  getTopicMap(routeId: $routeId) {
+    id
+    routeId
+    updatedAt
+    nodes {
+      id
+      topicMapId
+      title
+      type
+      kind
+      meta
+      posxy
+      completionType
+      zIndex
+      checklist {
+        id
+        text
+        topicNodeId
+      }
+    }
+    edges {
+      id
+      topicMapId
+      sourceId
+      targetId
+      meta
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTopicMapQuery__
+ *
+ * To run a query within a React component, call `useGetTopicMapQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopicMapQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTopicMapQuery({
+ *   variables: {
+ *      routeId: // value for 'routeId'
+ *   },
+ * });
+ */
+export function useGetTopicMapQuery(baseOptions: Apollo.QueryHookOptions<GetTopicMapQuery, GetTopicMapQueryVariables> & ({ variables: GetTopicMapQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTopicMapQuery, GetTopicMapQueryVariables>(GetTopicMapDocument, options);
+      }
+export function useGetTopicMapLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopicMapQuery, GetTopicMapQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTopicMapQuery, GetTopicMapQueryVariables>(GetTopicMapDocument, options);
+        }
+export function useGetTopicMapSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTopicMapQuery, GetTopicMapQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTopicMapQuery, GetTopicMapQueryVariables>(GetTopicMapDocument, options);
+        }
+export type GetTopicMapQueryHookResult = ReturnType<typeof useGetTopicMapQuery>;
+export type GetTopicMapLazyQueryHookResult = ReturnType<typeof useGetTopicMapLazyQuery>;
+export type GetTopicMapSuspenseQueryHookResult = ReturnType<typeof useGetTopicMapSuspenseQuery>;
+export type GetTopicMapQueryResult = Apollo.QueryResult<GetTopicMapQuery, GetTopicMapQueryVariables>;
 export const FindRoutesByUserDocument = gql`
     query findRoutesByUser {
   findRoutesByUser {
@@ -582,7 +998,8 @@ export const FindRoutesByUserDocument = gql`
       }
     }
     topicMap {
-      topicContent {
+      id
+      nodes {
         id
       }
     }
@@ -661,56 +1078,6 @@ export type FindAllTagsQueryHookResult = ReturnType<typeof useFindAllTagsQuery>;
 export type FindAllTagsLazyQueryHookResult = ReturnType<typeof useFindAllTagsLazyQuery>;
 export type FindAllTagsSuspenseQueryHookResult = ReturnType<typeof useFindAllTagsSuspenseQuery>;
 export type FindAllTagsQueryResult = Apollo.QueryResult<FindAllTagsQuery, FindAllTagsQueryVariables>;
-export const FindTopicMapByRouteIdDocument = gql`
-    query findTopicMapByRouteId($routeId: String!) {
-  findTopicMapByRouteId(routeId: $routeId) {
-    id
-    routeId
-    nodeData
-    edgeData
-    updatedAt
-    topicContent {
-      id
-      nodeId
-      createdAt
-      updatedAt
-    }
-  }
-}
-    `;
-
-/**
- * __useFindTopicMapByRouteIdQuery__
- *
- * To run a query within a React component, call `useFindTopicMapByRouteIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindTopicMapByRouteIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFindTopicMapByRouteIdQuery({
- *   variables: {
- *      routeId: // value for 'routeId'
- *   },
- * });
- */
-export function useFindTopicMapByRouteIdQuery(baseOptions: Apollo.QueryHookOptions<FindTopicMapByRouteIdQuery, FindTopicMapByRouteIdQueryVariables> & ({ variables: FindTopicMapByRouteIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindTopicMapByRouteIdQuery, FindTopicMapByRouteIdQueryVariables>(FindTopicMapByRouteIdDocument, options);
-      }
-export function useFindTopicMapByRouteIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindTopicMapByRouteIdQuery, FindTopicMapByRouteIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindTopicMapByRouteIdQuery, FindTopicMapByRouteIdQueryVariables>(FindTopicMapByRouteIdDocument, options);
-        }
-export function useFindTopicMapByRouteIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindTopicMapByRouteIdQuery, FindTopicMapByRouteIdQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<FindTopicMapByRouteIdQuery, FindTopicMapByRouteIdQueryVariables>(FindTopicMapByRouteIdDocument, options);
-        }
-export type FindTopicMapByRouteIdQueryHookResult = ReturnType<typeof useFindTopicMapByRouteIdQuery>;
-export type FindTopicMapByRouteIdLazyQueryHookResult = ReturnType<typeof useFindTopicMapByRouteIdLazyQuery>;
-export type FindTopicMapByRouteIdSuspenseQueryHookResult = ReturnType<typeof useFindTopicMapByRouteIdSuspenseQuery>;
-export type FindTopicMapByRouteIdQueryResult = Apollo.QueryResult<FindTopicMapByRouteIdQuery, FindTopicMapByRouteIdQueryVariables>;
 export const FindProfileLogoDocument = gql`
     query findProfileLogo {
   findProfile {

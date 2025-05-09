@@ -74,6 +74,7 @@ export const CustomEdge = (props: CustomEdgeProps) => {
 	return (
 		<>
 			<path
+				id={id}
 				d={edgePath}
 				markerEnd={markerEnd}
 				style={{
@@ -81,7 +82,7 @@ export const CustomEdge = (props: CustomEdgeProps) => {
 					stroke: color ?? '',
 					strokeDasharray: strokeStyle === 'dashed' ? '5,5' : '0',
 					strokeWidth: 2,
-					pointerEvents: 'all',
+					pointerEvents: 'visibleStroke',
 				}}
 				className="stroke-primary"
 			/>

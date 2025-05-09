@@ -7,128 +7,157 @@ import { Route } from '@prisma/__generated__';
 
 @Injectable()
 export class RouteService {
-    constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-    public async findById(id: string): Promise<Route | null> {
-        return this.prismaService.route.findUnique({
-            where: { id },
-            include: {
-                topicMap: true,
-                tags: {
-                    include: {
-                        tag: true,
-                    },
-                },
+  private async validateUser(userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new ForbiddenException('Такого пользователя не существует');
+    return user;
+  }
+
+  public async findById(id: string): Promise<Route | null> {
+    return this.prisma.route.findUnique({
+      where: { id },
+      include: {
+        topicMap: {
+          include: {
+            nodes: true,
+            edges: true,
+          },
+        },
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+        user: true,
+      },
+    });
+  }
+
+  public async findByUserId(userId: string): Promise<Route[]> {
+    return this.prisma.route.findMany({
+      where: { userId },
+      include: {
+        topicMap: {
+          include: {
+            nodes: true,
+            edges: true,
+          },
+        },
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+        user: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
+  public async create(userId: string, data: CreateRouteDto): Promise<Route> {
+    await this.validateUser(userId);
+
+    return this.prisma.$transaction(async tx => {
+      const route = await tx.route.create({
+        data: {
+          title: data.title,
+          description: data.description,
+          userId,
+          tags: {
+            create: data.tagIds?.map(tagId => ({
+              tag: { connect: { id: tagId } },
+            })) ?? [],
+          },
+        },
+      });
+
+      await tx.topicMap.create({
+        data: {
+          routeId: route.id,
+        },
+      });
+
+      return tx.route.findUnique({
+        where: { id: route.id },
+        include: {
+          topicMap: true,
+          tags: { include: { tag: true } },
+        },
+      }) as Promise<Route>;
+    });
+  }
+
+  public async update(
+    id: string,
+    userId: string,
+    data: UpdateRouteDto,
+  ): Promise<Route> {
+    const route = await this.prisma.route.findUnique({ where: { id } });
+    if (!route || route.userId !== userId) {
+      throw new UnauthorizedException('Вы не являетесь создателем данного маршрута');
+    }
+
+    return this.prisma.$transaction(async tx => {
+      if (data.tagIds) {
+        await tx.routeTag.deleteMany({
+          where: { routeId: id },
+        });
+
+        await tx.route.update({
+          where: { id },
+          data: {
+            tags: {
+              create: data.tagIds.map(tagId => ({
+                tag: { connect: { id: tagId } },
+              })),
             },
+          },
         });
+      }
+
+      await tx.route.update({
+        where: { id },
+        data: {
+          title: data.title,
+          description: data.description,
+          privateType: data.privateType,
+        },
+      });
+
+      return tx.route.findUnique({
+        where: { id },
+        include: {
+          topicMap: true,
+          tags: { include: { tag: true } },
+        },
+      }) as Promise<Route>;
+    });
+  }
+
+  public async delete(id: string, userId: string): Promise<boolean> {
+    const route = await this.prisma.route.findUnique({
+      where: { id },
+      include: { topicMap: true },
+    });
+
+    if (!route || route.userId !== userId) {
+      throw new UnauthorizedException('Вы не являетесь создателем данного маршрута');
     }
 
-    public async findByUserId(userId: string): Promise<Route[]> {
-        return this.prismaService.route.findMany({
-            where: { userId },
-            include: {
-                topicMap: {
-                    include: {
-                        topicContent: true,
-                    }
-                },
-                tags: {
-                    include: {
-                        tag: true,
-                    },
-                },
-                user: true,
-            },
-            orderBy: {
-                createdAt: 'desc',
-            },
-        });
+    try {
+      await this.prisma.$transaction([
+        this.prisma.topicMap.deleteMany({
+          where: { routeId: id },
+        }),
+        this.prisma.route.delete({ where: { id } }),
+      ]);
+      return true;
+    } catch (error) {
+      return false;
     }
-
-    public async create(userId: string, data: CreateRouteDto): Promise<Route> {
-        const userExists = await this.prismaService.user.findUnique({
-            where: { id: userId },
-        });
-
-        if (!userExists) {
-            throw new ForbiddenException('Такого пользователя не существует');
-        }
-
-        return this.prismaService.route.create({
-            data: {
-                title: data.title,
-                description: data.description,
-                userId: userExists.id,
-                tags: {
-                    create:
-                        data.tagIds?.map(tagId => ({
-                            tag: { connect: { id: tagId } },
-                        })) ?? [],
-                },
-            },
-        });
-    }
-
-    public async update(
-        id: string,
-        userId: string,
-        data: UpdateRouteDto,
-    ): Promise<Route> {
-        const route = await this.prismaService.route.findUnique({
-            where: { id },
-        });
-        if (!route || route.userId !== userId) {
-            throw new UnauthorizedException('Вы не являетесь создателем данного маршрута');
-        }
-
-        return this.prismaService.$transaction(async tx => {
-            if (data.tagIds) {
-                await tx.routeTag.deleteMany({
-                  where: {
-                    routeId: id,
-                  },
-                });
-              }
-
-            return tx.route.update({
-                where: { id },
-                data: {
-                    title: data.title,
-                    description: data.description,
-                    privateType: data.privateType,
-                    tags: {
-                        create:
-                            data.tagIds?.map(tagId => ({
-                                tag: { connect: { id: tagId } },
-                            })) ?? [],
-                    },
-                },
-                include: {
-                    tags: {
-                        include: {
-                          tag: true,
-                        },
-                      },
-                },
-            });
-        });
-    }
-
-    public async delete(id: string, userId: string): Promise<boolean> {
-        const route = await this.prismaService.route.findUnique({
-            where: { id },
-        });
-        if (!route || route.userId !== userId) {
-            throw new UnauthorizedException('Вы не являетесь создателем данного маршрута');
-        }
-
-        try {
-            await this.prismaService.route.delete({
-                where: { id },
-            });
-            return true;
-        } catch {
-            return false;
-        }
-    }
+  }
 }

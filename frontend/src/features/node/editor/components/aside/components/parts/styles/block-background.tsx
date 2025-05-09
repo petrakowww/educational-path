@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react';
 import { Node } from 'reactflow';
 import { cn, isHexColor } from '@/shared/lib';
 import { WithBackgroundColorCommand } from '@/features/node/editor/utils/command/commands-impl';
-import { nodeGetter } from '@/features/node/editor/utils/node-properties';
+import { NodeAccessor } from '@/features/node/editor/utils/node-properties';
 import { BackgroundColorConstant } from '@/features/node/constants/block';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { BackgroundColorsEnum } from '@/features/node/editor/types/colors';
+import { nodeBuilderConfig } from '@/features/node/editor/config/node-builder-config';
 
 interface ICommandComponentBlockBackground {
 	editedNode: Node<NodeMain>;
@@ -43,7 +44,10 @@ export const CommandComponentBlockBackground = ({
 
 	useEffect(() => {
 		setBackgroundColor(
-			nodeGetter.getBackgroundColor(editedNode) as string | null
+			new NodeAccessor(editedNode).get(
+				'meta.blockProps.backgroundColor',
+				nodeBuilderConfig.meta.blockProps.backgroundColor as string
+			)
 		);
 	}, [editedNode]);
 

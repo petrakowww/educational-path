@@ -5,9 +5,8 @@ import {
 	TextAlignmentEnum,
 	TextFontWeightEnum,
 } from '../../types/styles';
-import { ToDo, ToDos } from '../../types/extended-node';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
-import { NodeDataShapeButton, NodeDataShapeChecklist, NodeDataShapeToDo } from '../../types/node';
+import { CompletionType, NodeKind } from '@/shared/graphql/generated/output';
 
 const updateNodeProperties = useNodeStore.getState().updateNodeProperties;
 
@@ -17,8 +16,10 @@ export class WithBackgroundColorCommand extends CommandBase<React.CSSProperties[
 			nodeId: this.nodeId,
 			properties: {
 				data: {
-					blockProps: {
-						backgroundColor: this.newProperties,
+					meta: {
+						blockProps: {
+							backgroundColor: this.newProperties,
+						},
 					},
 				},
 			},
@@ -32,129 +33,10 @@ export class WithBorderColorCommand extends CommandBase<React.CSSProperties['col
 			nodeId: this.nodeId,
 			properties: {
 				data: {
-					blockProps: {
-						borderColor: this.newProperties,
-					},
-				},
-			},
-		});
-	}
-}
-
-export class WithFontSizeCommand extends CommandBase<number> {
-	execute(): void {
-		updateNodeProperties({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					fontProps: {
-						fontSize: this.newProperties,
-					},
-				},
-			},
-		});
-	}
-}
-
-export class WithFontColorCommand extends CommandBase<React.CSSProperties['color'] | null> {
-	execute(): void {
-		updateNodeProperties({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					fontProps: {
-						fontColor: this.newProperties,
-					},
-				},
-			},
-		});
-	}
-}
-
-export class WithBorderWidthCommand extends CommandBase<number | null> {
-	execute(): void {
-		updateNodeProperties({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					blockProps: {
-						borderWidth: this.newProperties,
-					},
-				},
-			},
-		});
-	}
-}
-
-export class WithBorderRadiusCommand extends CommandBase<BorderRadiusEnum | number> {
-	execute(): void {
-		updateNodeProperties({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					blockProps: {
-						borderRadius: this.newProperties,
-					},
-				},
-			},
-		});
-	}
-}
-
-export class WithFontWeightCommand extends CommandBase<TextFontWeightEnum | number> {
-	execute(): void {
-		updateNodeProperties({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					fontProps: {
-						fontWeight: this.newProperties,
-					},
-				},
-			},
-		});
-	}
-}
-
-export class WithTextAlignCommand extends CommandBase<TextAlignmentEnum> {
-	execute(): void {
-		const textAlign = this.newProperties ?? TextAlignmentEnum.Center;
-		updateNodeProperties({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					fontProps: {
-						textAlign,
-					},
-				},
-			},
-		});
-	}
-}
-
-export class WithJustificationCommand extends CommandBase<JustificationEnum> {
-	execute(): void {
-		updateNodeProperties({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					fontProps: {
-						justification: this.newProperties,
-					},
-				},
-			},
-		});
-	}
-}
-
-export class WithButtonCommand extends CommandBase<string | null> {
-	execute(): void {
-		updateNodeProperties<NodeDataShapeButton>({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					buttonProps: {
-						url: this.newProperties,
+					meta: {
+						blockProps: {
+							borderColor: this.newProperties,
+						},
 					},
 				},
 			},
@@ -168,8 +50,10 @@ export class WithPaddingCommand extends CommandBase<number | null> {
 			nodeId: this.nodeId,
 			properties: {
 				data: {
-					blockProps: {
-						padding: this.newProperties,
+					meta: {
+						blockProps: {
+							padding: this.newProperties,
+						},
 					},
 				},
 			},
@@ -177,14 +61,16 @@ export class WithPaddingCommand extends CommandBase<number | null> {
 	}
 }
 
-export class WithChecklistToDoCommand extends CommandBase<ToDos> {
+export class WithBorderRadiusCommand extends CommandBase<BorderRadiusEnum | number> {
 	execute(): void {
-		updateNodeProperties<NodeDataShapeChecklist>({
+		updateNodeProperties({
 			nodeId: this.nodeId,
 			properties: {
 				data: {
-					checklistProps: {
-						todos: this.newProperties,
+					meta: {
+						blockProps: {
+							borderRadius: this.newProperties,
+						},
 					},
 				},
 			},
@@ -192,15 +78,141 @@ export class WithChecklistToDoCommand extends CommandBase<ToDos> {
 	}
 }
 
-export class WithToDoCommand extends CommandBase<ToDo> {
+export class WithBorderWidthCommand extends CommandBase<number | null> {
 	execute(): void {
-		updateNodeProperties<NodeDataShapeToDo>({
+		updateNodeProperties({
 			nodeId: this.nodeId,
 			properties: {
 				data: {
-					todoProps: {
-						todo: this.newProperties,
+					meta: {
+						blockProps: {
+							borderWidth: this.newProperties,
+						},
 					},
+				},
+			},
+		});
+	}
+}
+
+export class WithFontSizeCommand extends CommandBase<number> {
+	execute(): void {
+		updateNodeProperties({
+			nodeId: this.nodeId,
+			properties: {
+				data: {
+					meta: {
+						fontProps: {
+							fontSize: this.newProperties,
+						},
+					},
+				},
+			},
+		});
+	}
+}
+
+export class WithFontColorCommand extends CommandBase<React.CSSProperties['color'] | null> {
+	execute(): void {
+		updateNodeProperties({
+			nodeId: this.nodeId,
+			properties: {
+				data: {
+					meta: {
+						fontProps: {
+							fontColor: this.newProperties,
+						},
+					},
+				},
+			},
+		});
+	}
+}
+
+export class WithFontWeightCommand extends CommandBase<TextFontWeightEnum | number> {
+	execute(): void {
+		updateNodeProperties({
+			nodeId: this.nodeId,
+			properties: {
+				data: {
+					meta: {
+						fontProps: {
+							fontWeight: this.newProperties,
+						},
+					},
+				},
+			},
+		});
+	}
+}
+
+export class WithTextAlignCommand extends CommandBase<TextAlignmentEnum> {
+	execute(): void {
+		updateNodeProperties({
+			nodeId: this.nodeId,
+			properties: {
+				data: {
+					meta: {
+						fontProps: {
+							textAlign: this.newProperties,
+						},
+					},
+				},
+			},
+		});
+	}
+}
+
+export class WithJustificationCommand extends CommandBase<JustificationEnum> {
+	execute(): void {
+		updateNodeProperties({
+			nodeId: this.nodeId,
+			properties: {
+				data: {
+					meta: {
+						fontProps: {
+							justification: this.newProperties,
+						},
+					},
+				},
+			},
+		});
+	}
+}
+
+export class WithTitleCommand extends CommandBase<string> {
+	execute(): void {
+		updateNodeProperties({
+			nodeId: this.nodeId,
+			properties: {
+				data: {
+					title: this.newProperties,
+				},
+			},
+		});
+	}
+}
+
+export class WithKindCommand extends CommandBase<NodeKind> {
+	execute(): void {
+		updateNodeProperties({
+			nodeId: this.nodeId,
+			properties: {
+				data: {
+					kind: this.newProperties,
+				},
+			},
+		});
+	}
+}
+
+export class WithCompletionTypeCommand extends CommandBase<CompletionType> {
+	execute(): void {
+		updateNodeProperties({
+			nodeId: this.nodeId,
+			properties: {
+				data: {
+					completionType: this.newProperties,
 				},
 			},
 		});

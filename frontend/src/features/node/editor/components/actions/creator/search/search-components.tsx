@@ -74,7 +74,7 @@ export const SearchComponents = () => {
 								focusNode(node.id);
 							}}
 							className={clsx(
-								'flex flex-row px-2 py-1 justify-between rounded-md border border-border bg-background cursor-pointer transition hover:bg-muted/50 group',
+								'flex flex-row px-2 py-0.5 justify-between rounded-md border border-border bg-background cursor-pointer transition hover:bg-muted/60 group',
 								node.id === selectedNodeId && 'bg-primary/30'
 							)}
 						>

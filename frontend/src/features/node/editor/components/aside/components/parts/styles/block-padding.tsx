@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import { cn } from '@/shared/lib';
 import { WithPaddingCommand } from '@/features/node/editor/utils/command/commands-impl';
-import { nodeGetter } from '@/features/node/editor/utils/node-properties';
+import { NodeAccessor } from '@/features/node/editor/utils/node-properties';
 import { NodeMain } from '@/features/node/editor/types/node';
+import { nodeBuilderConfig } from '@/features/node/editor/config/node-builder-config';
 
 interface ICommandComponentPadding {
 	editedNode: Node<NodeMain>;
@@ -42,7 +43,12 @@ export const CommandComponentPadding = ({
 	};
 
 	useEffect(() => {
-		setBlockPadding(nodeGetter.getPadding(editedNode));
+		setBlockPadding(
+			new NodeAccessor(editedNode).get(
+				'meta.blockProps.padding',
+				nodeBuilderConfig.meta.blockProps.padding
+			)
+		);
 	}, [editedNode]);
 
 	return (

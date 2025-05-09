@@ -23,7 +23,6 @@ import { CategoriesEnum } from '@/features/node/editor/types/categories';
 import { Link, Links } from '@/features/node/editor/types/extended-node';
 import { toast } from 'sonner';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
-import { NodeDataShapeTopic } from '@/features/node/editor/types/node';
 
 const IMPORTANCE_LEVELS: { value: TaskImportanceEnum; color: string }[] = [
 	{ value: TaskImportanceEnum.VeryLow, color: 'bg-green-500' },
@@ -92,7 +91,7 @@ export const LinksSettings = () => {
 						description: 'Изменения успешно сохранены',
 					});
 				}
-			}, 1500),
+			}, 250),
 		[selectedNodeId]
 	);
 
@@ -256,7 +255,7 @@ export const LinksSettings = () => {
 				type="button"
 				variant="outline"
 				onClick={handleAddLink}
-				className="self-start"
+				className="w-full"
 			>
 				<PlusIcon className="mr-2 h-4 w-4" />
 				Добавить ссылку

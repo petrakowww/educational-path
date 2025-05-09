@@ -2,9 +2,10 @@ import { Button, Label } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import { WithBorderRadiusCommand } from '@/features/node/editor/utils/command/commands-impl';
-import { nodeGetter } from '@/features/node/editor/utils/node-properties';
+import { NodeAccessor } from '@/features/node/editor/utils/node-properties';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { BlockBorderRadius } from '@/features/node/constants/block';
+import { nodeBuilderConfig } from '@/features/node/editor/config/node-builder-config';
 
 interface ICommandComponentBlockBorderRadius {
 	editedNode: Node<NodeMain>;
@@ -23,7 +24,12 @@ export const CommandComponentBlockBorderRadius = ({
 	};
 
 	useEffect(() => {
-		setBorderRadius(nodeGetter.getBorderRadius(editedNode) ?? 0);
+		setBorderRadius(
+			new NodeAccessor(editedNode).get(
+				'meta.blockProps.borderRadius',
+				nodeBuilderConfig.meta.blockProps.borderRadius ?? 0
+			)
+		);
 	}, [editedNode]);
 
 	return (

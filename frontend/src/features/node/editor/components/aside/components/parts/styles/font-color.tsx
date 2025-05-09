@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import { cn, isHexColor } from '@/shared/lib';
 import { WithFontColorCommand } from '@/features/node/editor/utils/command/commands-impl';
-import { nodeGetter } from '@/features/node/editor/utils/node-properties';
+import {
+	NodeAccessor,
+} from '@/features/node/editor/utils/node-properties';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { TextFontColorConstant } from '@/features/node/constants/text';
 import { TextFontColorsEnum } from '@/features/node/editor/types/colors';
+import { nodeBuilderConfig } from '@/features/node/editor/config/node-builder-config';
 
 interface ICommandComponentFontColor {
 	editedNode: Node<NodeMain>;
@@ -40,9 +43,14 @@ export const CommandComponentFontColor = ({
 			color === TextFontColorsEnum.White && 'text-black hover:text-black'
 		);
 	};
-
+	
 	useEffect(() => {
-		setFontColor(nodeGetter.getFontColor(editedNode) as string | null);
+		setFontColor(
+			new NodeAccessor(editedNode).get(
+				'meta.fontProps.fontColor',
+				nodeBuilderConfig.meta.fontProps.fontColor as string
+			)
+		);
 	}, [editedNode]);
 
 	return (

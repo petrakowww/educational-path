@@ -20,15 +20,45 @@ enum AuthMethod {
   YANDEX
 }
 
+type ChecklistItem {
+  id: ID!
+  text: String!
+  topicNodeId: String!
+}
+
+input ChecklistItemInput {
+  id: String
+  text: String!
+}
+
+enum CompletionType {
+  MANUAL
+  NONE
+  TODO
+}
+
+enum CourseModeType {
+  FLEXIBLE
+  STRICT
+}
+
+type CourseProgressSummary {
+  completed: Int!
+  inProgress: Int!
+  notStarted: Int!
+  skipped: Int!
+  total: Int!
+}
+
+enum CourseViewType {
+  GRAPH
+  LINEAR
+}
+
 input CreateRouteDto {
   description: String
   tagIds: [String!]
   title: String!
-}
-
-input CreateTopicContentDto {
-  nodeId: String!
-  routeId: String!
 }
 
 """
@@ -36,16 +66,37 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
 type Mutation {
-  createRoute(data: CreateRouteDto!): RouteModel!
-  createTopicContent(data: CreateTopicContentDto!): TopicContentModel!
+  createRoute(data: CreateRouteDto!): Route!
   deleteRoute(id: ID!): Boolean!
-  deleteTopicContent(nodeId: String!, routeId: String!): Boolean!
-  deleteTopicMap(id: ID!): Boolean!
-  saveTopicMap(data: SaveTopicMapDto!): TopicMapModel!
-  updateRoute(data: UpdateRouteDto!, id: ID!): RouteModel!
+  deleteTopicMap(routeId: String!): Boolean!
+  removeCourse(topicMapId: String!): Boolean!
+  saveTopicMap(input: SaveTopicMapInput!): TopicMap!
+  setChecklistItemDone(checkListItemId: String!, isCompleted: Boolean!): Boolean!
+  setNodeStatus(status: NodeStatus!, topicNodeId: String!): Boolean!
+  startCourse(input: StartCourseInput!): UserCourse!
+  updateProgressValue(topicNodeId: String!, value: Float!): Boolean!
+  updateRoute(data: UpdateRouteDto!, id: ID!): Route!
   updateSkillProfile(dto: SkillProfileDto!): SkillProfile!
   updateUserProfile(dto: UserProfileDto!): UserModel!
+}
+
+enum NodeKind {
+  MARKABLE
+  TOPIC
+  VISUAL
+}
+
+enum NodeStatus {
+  COMPLETED
+  IN_PROGRESS
+  NOT_STARTED
+  SKIPPED
 }
 
 enum PrivateType {
@@ -57,37 +108,36 @@ type Query {
   findAllTags: [TagModel!]!
   findById(id: String!): UserModel!
   findProfile: UserModel!
-  findRoute(id: ID!): RouteModel!
-  findRoutesByUser: [RouteModel!]!
-  findTopicMap(id: ID!): TopicMapModel!
-  findTopicMapByRouteId(routeId: String!): TopicMapModel!
+  findRoute(id: ID!): Route!
+  findRoutesByUser: [Route!]!
   findUserTags: [TagModel!]!
-  getAllTopicContents(routeId: String!): [TopicContentModel!]!
-  getTopicContent(nodeId: String!, routeId: String!): TopicContentModel
+  getCourseProgress(topicMapId: String!): CourseProgressSummary!
+  getTopicMap(routeId: String!): TopicMap!
+  getTopicNodeById(id: String!): TopicNode!
+  getUserCourse(topicMapId: String!): UserCourse!
 }
 
-type RouteModel {
+type Route {
   createdAt: DateTime!
   description: String
   id: ID!
   privateType: PrivateType!
   tags: [RouteTagModel!]
   title: String!
-  topicMap: TopicMapModel
+  topicMap: TopicMap
   updatedAt: DateTime!
   user: UserModel!
 }
 
 type RouteTagModel {
   id: ID!
-  route: RouteModel!
+  route: Route!
   tag: TagModel!
 }
 
-input SaveTopicMapDto {
-  contents: [CreateTopicContentDto!]
-  edgeData: String
-  nodeData: String
+input SaveTopicMapInput {
+  edges: [UpdateTopicEdgeInput!]
+  nodes: [UpdateTopicNodeInput!]
   routeId: String!
 }
 
@@ -109,27 +159,45 @@ input SkillProfileDto {
   vkUrl: String
 }
 
+input StartCourseInput {
+  topicMapId: ID!
+}
+
 type TagModel {
   id: ID!
   name: String!
 }
 
-type TopicContentModel {
-  createdAt: DateTime!
-  id: String!
-  nodeId: String!
+type TopicEdge {
+  id: ID!
+  meta: String
+  sourceId: String!
+  targetId: String!
+  topicMapId: String!
+}
+
+type TopicMap {
+  UserCourse: [UserCourse!]!
+  edges: [TopicEdge!]!
+  id: ID!
+  nodes: [TopicNode!]!
+  route: Route
   routeId: String!
   updatedAt: DateTime!
 }
 
-type TopicMapModel {
-  edgeData: String!
+type TopicNode {
+  UserTopicProgress: [UserTopicProgress!]!
+  checklist: [ChecklistItem!]!
+  completionType: String!
   id: ID!
-  nodeData: String!
-  route: RouteModel
-  routeId: String!
-  topicContent: [TopicContentModel!]
-  updatedAt: DateTime!
+  kind: NodeKind!
+  meta: String!
+  posxy: JSON
+  title: String!
+  topicMapId: String!
+  type: String!
+  zIndex: Float
 }
 
 input UpdateRouteDto {
@@ -137,6 +205,47 @@ input UpdateRouteDto {
   privateType: PrivateType
   tagIds: [String!]
   title: String
+}
+
+input UpdateTopicEdgeInput {
+  id: String!
+  meta: String
+  sourceId: String!
+  targetId: String!
+}
+
+input UpdateTopicNodeInput {
+  checklist: [ChecklistItemInput!]
+  completionType: CompletionType!
+  id: String!
+  kind: NodeKind!
+  meta: String!
+  posxy: JSON
+  title: String!
+  type: String!
+  zIndex: Float
+}
+
+type UserChecklistProgress {
+  checklist: ChecklistItem!
+  checklistItemId: String!
+  done: Boolean!
+  id: ID!
+  userCourse: UserCourse!
+  userCourseId: String!
+}
+
+type UserCourse {
+  UserChecklistProgress: [UserChecklistProgress!]!
+  createdAt: DateTime!
+  id: ID!
+  mode: CourseModeType
+  progress: [UserTopicProgress!]!
+  topicMap: TopicMap!
+  topicMapId: String!
+  updatedAt: DateTime!
+  userId: String!
+  view: CourseViewType
 }
 
 type UserModel {
@@ -157,4 +266,14 @@ type UserModel {
 input UserProfileDto {
   isTwoFactorEnabled: Boolean
   name: String
+}
+
+type UserTopicProgress {
+  finishedAt: DateTime
+  id: ID!
+  progressValue: Float
+  startedAt: DateTime
+  status: NodeStatus!
+  topicNodeId: String!
+  userCourseId: String!
 }

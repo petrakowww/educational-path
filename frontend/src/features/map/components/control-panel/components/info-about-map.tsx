@@ -11,11 +11,11 @@ import {
 
 import { MicroscopeIcon } from 'lucide-react';
 
-import { RouteModel } from '@/shared/graphql/generated/output';
 import { UpdateMapWrapper } from '../widgets/update-form-map';
 import { RouteAccessSelect } from './select-private-type';
 import { RouteActionsMenu } from './route-actions-menu';
 import { formatDate } from '@/shared/lib/utils/format-date';
+import { Route } from '@/shared/graphql/generated/output';
 
 type RouteTags = {
 	tags?:
@@ -32,7 +32,7 @@ type RouteTags = {
 		| undefined;
 };
 
-interface IRouteInformationCard extends Omit<RouteModel, 'tags' | 'user'> {
+interface IRouteInformationCard extends Omit<Route, 'tags' | 'user'> {
 	routeTags?: RouteTags['tags'];
 }
 
@@ -55,7 +55,7 @@ export const InformationAboutMap = (props: IRouteInformationCard) => {
 					<div className="flex flex-col">
 						<span className="break-all mb-2">{title}</span>
 						<div className="mb-2 text-sm text-secondary-foreground flex flex-row gap-2 items-center flex-shrink-0">
-							<span>{topicMap?.topicContent?.length ?? 0} тем</span>
+							<span>{0} тем</span>
 							<MicroscopeIcon size={20} />
 						</div>
 						<span className="text-sm text-secondary-foreground font-normal">

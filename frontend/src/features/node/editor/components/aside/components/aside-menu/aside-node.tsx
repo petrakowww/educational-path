@@ -33,7 +33,6 @@ export const AsideBarNodeEditor = (props: IAsideBarNodeEditor) => {
 	const [activeTab, setActiveTab] = useState('general');
 
 	useEffect(() => {
-		// При смене узла сбрасываем вкладку на general
 		setActiveTab('general');
 	}, [selectedNode]);
 

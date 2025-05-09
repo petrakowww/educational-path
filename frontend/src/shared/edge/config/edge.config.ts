@@ -1,6 +1,6 @@
 import { Edge } from 'reactflow';
 import { IEdgeData } from '@/shared/edge/types/edge-data';
-import { MarkerType } from '@xyflow/react';
+import { MarkerType } from 'reactflow';
 import { PrimaryColors } from '@/features/node/editor/types/colors';
 
 export const defaultEdgeConfig: Partial<Edge<IEdgeData>> = {

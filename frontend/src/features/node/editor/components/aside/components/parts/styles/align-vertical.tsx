@@ -1,8 +1,9 @@
 import { VerticalTextAlignmentOptions } from '@/features/node/constants/text';
+import { nodeBuilderConfig } from '@/features/node/editor/config/node-builder-config';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { JustificationEnum } from '@/features/node/editor/types/styles';
 import { WithJustificationCommand } from '@/features/node/editor/utils/command/commands-impl';
-import { nodeGetter } from '@/features/node/editor/utils/node-properties';
+import { NodeAccessor } from '@/features/node/editor/utils/node-properties';
 import { Button, Label } from '@/shared/ui';
 import { useState, useEffect } from 'react';
 import { Node } from 'reactflow';
@@ -32,7 +33,12 @@ export const CommandComponentJustify = ({
 	};
 
 	useEffect(() => {
-		setTextJustify(nodeGetter.getJustification(editedNode));
+		setTextJustify(
+			new NodeAccessor(editedNode).get(
+				'meta.fontProps.justification',
+				nodeBuilderConfig.meta.fontProps.justification
+			)
+		);
 	}, [editedNode]);
 
 	return (

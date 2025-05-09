@@ -1,27 +1,20 @@
-import clsx from 'clsx';
-import { DeleteNodeComponent } from '../utils/delete-node';
-import { IsSelectedNode } from '../utils/is-selected-node';
-import { ResizeNodeComponent } from '../utils/resize-node';
 import { memo, useRef } from 'react';
+import clsx from 'clsx';
 import { NodeProps } from 'reactflow';
 import { OctagonAlertIcon } from 'lucide-react';
+
 import { NodeDataShapeChecklist } from '@/features/node/editor/types/node';
 import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
+import { SkeletonNode } from './base/skeleton-node';
+import { EditableNode } from './base/editable-node';
+
 
 export const ChecklistNode = (props: NodeProps<NodeDataShapeChecklist>) => {
 	const { data } = props;
-	const focusClassName = IsSelectedNode(props);
-
+	const focusRef = useRef<HTMLDivElement>(null);
 	const { setSelectedTodo } = useEditorAsideStore();
 
-	const finalClassName = clsx(
-		'relative group h-full w-full rounded-md bg-background border-[2px] flex justify-start',
-		focusClassName
-	);
-
-	const containerRef = useRef<HTMLDivElement>(null);
-
-	const todoItems = data.checklistProps.todos ?? [];
+	const todoItems = data.todos ?? [];
 
 	const handleDoubleClickTodoItem = (e: React.MouseEvent, id: string) => {
 		e.stopPropagation();
@@ -29,51 +22,39 @@ export const ChecklistNode = (props: NodeProps<NodeDataShapeChecklist>) => {
 	};
 
 	return (
-		<article
-			className={finalClassName}
+		<SkeletonNode
+			nodeProps={props}
+			stylesForComponent="justify-start items-start"
 			style={{
-				backgroundColor: data.blockProps?.backgroundColor as string,
-				borderColor: data.blockProps?.borderColor as string,
+				backgroundColor: data.meta.blockProps?.backgroundColor as string,
+				borderColor: data.meta.blockProps?.borderColor as string,
 			}}
 		>
-			<div>
-				<div
-					ref={containerRef}
-					className="inline-flex flex-col gap-2 p-3"
-				>
+			<EditableNode nodeProps={props} canResize={false} canHandle={false}>
+				<div ref={focusRef} className="flex flex-col gap-2 p-3">
 					{todoItems.length > 0 ? (
 						<div className="flex flex-col gap-1.5">
-							{todoItems.map((element) => (
-								<div
-									key={element.idItem}
-									className="flex gap-2 flex-shrink-0"
-								>
-									<div className="w-6 border border-foreground/50 rounded-md flex-shrink-0 pointer-events-none aspect-square" />
+							{todoItems.map((todo) => (
+								<div key={todo.id} className="flex gap-2">
+									<div className="w-6 h-6 border border-foreground/50 rounded-md flex-shrink-0 pointer-events-none" />
 									<span
 										className="whitespace-pre-wrap text-nowrap flex-shrink-0"
-										onDoubleClick={(e) =>
-											handleDoubleClickTodoItem(
-												e,
-												element.idItem
-											)
-										}
+										onDoubleClick={(e) => handleDoubleClickTodoItem(e, todo.id)}
 									>
-										{element.label}
+										{todo.text || 'Задача списка не задана'}
 									</span>
 								</div>
 							))}
 						</div>
 					) : (
-						<span className="flex gap-2 flex-shrink-0 whitespace-nowrap text-destructive">
+						<span className="flex items-center gap-2 text-destructive whitespace-nowrap">
 							Список пуст
-							<OctagonAlertIcon />
+							<OctagonAlertIcon className="w-4 h-4" />
 						</span>
 					)}
 				</div>
-			</div>
-			<ResizeNodeComponent ref={containerRef} />
-			<DeleteNodeComponent node={props} />
-		</article>
+			</EditableNode>
+		</SkeletonNode>
 	);
 };
 

@@ -14,25 +14,25 @@ export const ParagraphNode = (props: NodeProps<NodeMain>) => {
 		<SkeletonNode
 			nodeProps={props}
 			style={{
-				backgroundColor: data.blockProps?.backgroundColor as string,
-				borderRadius: data.blockProps?.borderRadius,
-				borderWidth: data.blockProps?.borderWidth as number,
-				borderColor: data.blockProps?.borderColor as string,
-				alignItems: data.fontProps?.justification,
-				justifyContent: data.fontProps?.textAlign,
+				backgroundColor: data.meta.blockProps?.backgroundColor as string,
+				borderRadius: data.meta.blockProps?.borderRadius,
+				borderWidth: data.meta.blockProps?.borderWidth as number,
+				borderColor: data.meta.blockProps?.borderColor as string,
+				alignItems: data.meta.fontProps?.justification,
+				justifyContent: data.meta.fontProps?.textAlign,
 			}}
 		>
 			<EditableNode nodeProps={props}>
 				<p
 					className="leading-none whitespace-pre-wrap break-all p-3"
 					style={{
-						fontSize: data.fontProps?.fontSize,
-						color: data.fontProps?.fontColor as string,
-						fontWeight: data.fontProps?.fontWeight,
-						padding: data.blockProps?.padding as number,
+						fontSize: data.meta.fontProps?.fontSize,
+						color: data.meta.fontProps?.fontColor as string,
+						fontWeight: data.meta.fontProps?.fontWeight,
+						padding: data.meta.blockProps?.padding as number,
 					}}
 				>
-					{data.labelProps?.label}
+					{data.title}
 				</p>
 			</EditableNode>
 		</SkeletonNode>

@@ -9,7 +9,7 @@ import { LabelEditorPart } from '../parts/unique/label';
 
 interface IBaseSettings {
 	node: Node;
-	nodeHasLabel?: boolean;
+	nodeCanShowLabel?: boolean;
 	startChildrenComponent?: React.ReactNode;
 	endChildrenComponent?: React.ReactNode;
 }
@@ -19,7 +19,7 @@ export const BaseSettings = (props: IBaseSettings) => {
 		startChildrenComponent,
 		endChildrenComponent,
 		node,
-		nodeHasLabel = false,
+		nodeCanShowLabel,
 	} = props;
 
 	const builder = new NodeComponentBuilder(node);
@@ -28,7 +28,7 @@ export const BaseSettings = (props: IBaseSettings) => {
 	return (
 		<div className="flex flex-col gap-6">
 			{startChildrenComponent}
-			{nodeHasLabel && <LabelEditorPart node={node} />}
+			{nodeCanShowLabel && <LabelEditorPart node={node} />}
 
 			<ComponentNodeCharacteristics />
 

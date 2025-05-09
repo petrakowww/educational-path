@@ -12,7 +12,7 @@ export const BaseAdvancedSettings = ({ node }: IBaseAdvancedSettings) => {
 		<>
 			<div>
 				<div>
-					<h3 className="text-lg font-semibold text-foreground">
+					<h3 className="text-lg font-semibold text-foreground mb-2">
 						Дополнительные действия
 					</h3>
 					<p className="text-sm text-muted-foreground max-w-[30ch]">

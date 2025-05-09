@@ -1,5 +1,5 @@
 query findRoutesByUser {
-  findRoutesByUser{
+  findRoutesByUser {
     id
     title
     description
@@ -14,9 +14,10 @@ query findRoutesByUser {
       }
     }
     topicMap {
-      topicContent {
-      	id
-    	}
+      id
+      nodes {
+        id
+      }
     }
   }
 }

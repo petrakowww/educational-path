@@ -17,7 +17,7 @@ export abstract class NodeDeleter {
 
 	protected deleteNode(): void {
 		const {selectedNode, deleteNode} = useNodeStore.getState();
-
+		console.log(this.nodeId);
 		deleteNode(this.nodeId);
 
 		if (selectedNode && selectedNode.id === this.nodeId) {

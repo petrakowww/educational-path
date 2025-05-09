@@ -2,10 +2,11 @@ import { Button, Label } from '@/shared/ui';
 import { useState, useEffect } from 'react';
 import { Node } from 'reactflow';
 import { WithTextAlignCommand } from '@/features/node/editor/utils/command/commands-impl';
-import { nodeGetter } from '@/features/node/editor/utils/node-properties';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { TextAlignmentEnum } from '@/features/node/editor/types/styles';
 import { HorizontalTextAlignmentOptions } from '@/features/node/constants/text';
+import { NodeAccessor } from '@/features/node/editor/utils/node-properties';
+import { nodeBuilderConfig } from '@/features/node/editor/config/node-builder-config';
 
 interface ICommandComponentTextAlignment {
 	editedNode: Node<NodeMain>;
@@ -27,7 +28,12 @@ export const CommandComponentTextAlignment = ({
 	};
 
 	useEffect(() => {
-		setTextAlignment(nodeGetter.getTextAlign(editedNode));
+		setTextAlignment(
+			new NodeAccessor(editedNode).get(
+				'meta.fontProps.textAlign',
+				nodeBuilderConfig.meta.fontProps.textAlign
+			)
+		);
 	}, [editedNode]);
 
 	return (

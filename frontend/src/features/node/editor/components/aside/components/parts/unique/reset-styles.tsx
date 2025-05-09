@@ -50,7 +50,9 @@ export const ComponentResetStyles = ({
 			nodeId: editedNode.id,
 			properties: {
 				data: {
-					...defaultStyles,
+					meta: {
+						...defaultStyles,
+					}
 				},
 			},
 		});

@@ -12,12 +12,12 @@ import {
 	addEdge,
 	Connection,
 	Edge,
+	MiniMap,
 } from 'reactflow';
-import '@xyflow/react/dist/style.css';
+import 'reactflow/dist/style.css';
 import React, { useCallback, useMemo } from 'react';
-
-import { nodeBuilderRegistry } from '../config/node-templates-config';
 import { NodeMain } from '../types/node';
+import { nodeBuilderRegistry } from '../config/node-templates-config';
 import { nodeVisualComponents } from '@/shared/node/fabric/node-components';
 import { useNodeStore } from '@/shared/managers/store/nodes.store';
 import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
@@ -28,6 +28,7 @@ import { useEdgeStore } from '@/shared/managers/store/edge.store';
 import { shallow } from 'zustand/vanilla/shallow';
 import { defaultEdgeConfig } from '@/shared/edge/config/edge.config';
 import { CustomConnectionLine } from '@/shared/node/components/line/connection-line';
+import { getNodeColorByType } from './utils/get-node-color-by-type';
 
 const edgeTypes = {
 	custom: CustomEdge,
@@ -46,32 +47,27 @@ export const Editor = () => {
 		shallow
 	);
 
-	const {
-		setSelectedEdge,
-		clearSelectedEdge,
-		edges,
-		setEdges,
-	} = useEdgeStore(
-		(state) => ({
-			selectedEdgeId: state.selectedEdgeId,
-			setSelectedEdge: state.setSelectedEdge,
-			clearSelectedEdge: state.clearSelectedEdge,
-			edges: state.edges,
-			setEdges: state.setEdges,
-		}),
-		shallow
-	);
-
-	const { openEditor, closeEditor, setFocusingLabel } =
-		useEditorAsideStore(
+	const { setSelectedEdge, clearSelectedEdge, edges, setEdges } =
+		useEdgeStore(
 			(state) => ({
-				openEditor: state.openEditor,
-				closeEditor: state.closeEditor,
-				setFocusingLabel: state.setFocusingLabel,
-				isOpenMenu: state.isOpenMenu,
+				selectedEdgeId: state.selectedEdgeId,
+				setSelectedEdge: state.setSelectedEdge,
+				clearSelectedEdge: state.clearSelectedEdge,
+				edges: state.edges,
+				setEdges: state.setEdges,
 			}),
-			(a, b) => a.isOpenMenu === b.isOpenMenu
+			shallow
 		);
+
+	const { openEditor, closeEditor, setFocusingLabel } = useEditorAsideStore(
+		(state) => ({
+			openEditor: state.openEditor,
+			closeEditor: state.closeEditor,
+			setFocusingLabel: state.setFocusingLabel,
+			isOpenMenu: state.isOpenMenu,
+		}),
+		(a, b) => a.isOpenMenu === b.isOpenMenu
+	);
 
 	const type = useDragAndDropStore(
 		(state) => state.type,
@@ -115,7 +111,7 @@ export const Editor = () => {
 	const handleNodeDoubleClick = useCallback(
 		(e: React.MouseEvent, node: Node<NodeMain>) => {
 			e.stopPropagation();
-			if (node.data.labelProps?.label) {
+			if (node.data.title && node.data.canShowLabel) {
 				setFocusingLabel(true);
 			}
 		},
@@ -151,11 +147,11 @@ export const Editor = () => {
 		},
 		[setNode, selectedNodeId]
 	);
-
+	// удаление нельзя выполнить через клавиатуру, учитывать это (исправить)
 	const handleNodesChange = useCallback(
 		(changes: NodeChange[]) => {
 			const filtered = changes.filter((change) => {
-				console.log(change);
+				if (change.type === 'remove') return true;
 				if (change.type === 'select') return false;
 				if (change.type === 'position' && !change.dragging) {
 					return false;
@@ -166,6 +162,7 @@ export const Editor = () => {
 			if (filtered.length === 0) return;
 
 			const updatedNodes = applyNodeChanges(filtered, nodesList);
+			console.log(updatedNodes[0]);
 			setNodes(updatedNodes);
 		},
 		[nodesList, setNodes]
@@ -195,7 +192,7 @@ export const Editor = () => {
 				},
 				edges
 			);
-
+			console.log(newEdges);
 			setEdges(newEdges);
 		},
 		[edges, setEdges]
@@ -220,9 +217,21 @@ export const Editor = () => {
 				onConnect={onConnect}
 				minZoom={0.2}
 				connectionLineComponent={CustomConnectionLine}
+				deleteKeyCode={null}
 			>
 				<Controls position="top-right" />
-				<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
+				<Background
+					variant={BackgroundVariant.Dots}
+					gap={12}
+					size={1}
+				/>
+				<MiniMap
+					pannable
+					zoomable
+					style={{ height: 150, width: 300 }}
+					nodeColor={(n) => getNodeColorByType(n.type)}
+					nodeBorderRadius={4}
+				/>
 			</ReactFlow>
 		</div>
 	);

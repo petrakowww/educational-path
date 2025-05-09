@@ -24,28 +24,28 @@ function hasKey<T extends object>(obj: T | undefined, key: keyof any): boolean {
 
 export const componentRules: ComponentRule[] = [
 	{
-		condition: (config) => hasKey(config.fontProps, 'textAlign'),
+		condition: (config) => hasKey(config.meta.fontProps, 'textAlign'),
 		component: (node) => () => (
 			<CommandComponentTextAlignment editedNode={node} />
 		),
 		order: 5,
 	},
 	{
-		condition: (config) => hasKey(config.fontProps, 'justification'),
+		condition: (config) => hasKey(config.meta.fontProps, 'justification'),
 		component: (node) => () => (
 			<CommandComponentJustify editedNode={node} />
 		),
 		order: 10,
 	},
 	{
-		condition: (config) => hasKey(config.blockProps, 'backgroundColor'),
+		condition: (config) => hasKey(config.meta.blockProps, 'backgroundColor'),
 		component: (node) => () => (
 			<CommandComponentBlockBackground editedNode={node} />
 		),
 		order: 15,
 	},
 	{
-		condition: (config) => hasKey(config.blockProps, 'padding'),
+		condition: (config) => hasKey(config.meta.blockProps, 'padding'),
 		component: (node) => () => {
 			const minValue = 1;
 			const maxValue = 10;
@@ -60,21 +60,21 @@ export const componentRules: ComponentRule[] = [
 		order: 20,
 	},
 	{
-		condition: (config) => hasKey(config.blockProps, 'borderColor'),
+		condition: (config) => hasKey(config.meta.blockProps, 'borderColor'),
 		component: (node) => () => (
 			<CommandComponentBlockBorderColor editedNode={node} />
 		),
 		order: 30,
 	},
 	{
-		condition: (config) => hasKey(config.blockProps, 'borderRadius'),
+		condition: (config) => hasKey(config.meta.blockProps, 'borderRadius'),
 		component: (node) => () => (
 			<CommandComponentBlockBorderRadius editedNode={node} />
 		),
 		order: 40,
 	},
 	{
-		condition: (config) => hasKey(config.blockProps, 'borderWidth'),
+		condition: (config) => hasKey(config.meta.blockProps, 'borderWidth'),
 		component: (node) => () => {
 			const minValue = 1;
 			const maxValue = 10;
@@ -89,21 +89,21 @@ export const componentRules: ComponentRule[] = [
 		order: 50,
 	},
 	{
-		condition: (config) => hasKey(config.fontProps, 'fontColor'),
+		condition: (config) => hasKey(config.meta.fontProps, 'fontColor'),
 		component: (node) => () => (
 			<CommandComponentFontColor editedNode={node} />
 		),
 		order: 60,
 	},
 	{
-		condition: (config) => hasKey(config.fontProps, 'fontWeight'),
+		condition: (config) => hasKey(config.meta.fontProps, 'fontWeight'),
 		component: (node) => () => (
 			<CommandComponentFontWeight editedNode={node} />
 		),
 		order: 70,
 	},
 	{
-		condition: (config) => hasKey(config.fontProps, 'fontSize'),
+		condition: (config) => hasKey(config.meta.fontProps, 'fontSize'),
 		component: (node) => () => {
 			const minValue = 1;
 			const maxValue = 100;

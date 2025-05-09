@@ -1,3 +1,4 @@
+import { CompletionType, NodeKind } from '@/shared/graphql/generated/output';
 import { NodeLabel, NodeType } from '../types/node';
 import {
 	NodeBuilder,
@@ -19,24 +20,35 @@ import {
 export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 	[NodeType.title]: () =>
 		new NodeBuilder(nodeBuilderConfig, NodeType.title)
-			.withLabel(NodeLabel.title)
-			.withFontSize(),
+			.withTitle(NodeLabel.title)
+			.withKind(NodeKind.Visual)
+			.withCompletionType(CompletionType.None)
+			.withFontSize()
+			.withShowLabel(true),
 
 	[NodeType.topic]: () =>
 		new NodeBuilderTopic(nodeBuilderConfigTopic)
-			.withLabel(NodeLabel.topic)
+			.withTitle(NodeLabel.topic)
+			.withKind(NodeKind.Topic)
+			.withCompletionType(CompletionType.Manual)
 			.withFontSize()
-			.withBackgroundColor(),
+			.withBackgroundColor()
+			.withShowLabel(true),
 
 	[NodeType.subtopic]: () =>
 		new NodeBuilderSubTopic(nodeBuilderConfigSubTopic)
-			.withLabel(NodeLabel.subtopic)
+			.withTitle(NodeLabel.subtopic)
+			.withKind(NodeKind.Topic)
+			.withCompletionType(CompletionType.Manual)
 			.withFontSize()
-			.withBackgroundColor(),
+			.withBackgroundColor()
+			.withShowLabel(true),
 
 	[NodeType.paragraph]: () =>
 		new NodeBuilder(nodeBuilderConfig, NodeType.paragraph)
-			.withLabel(NodeLabel.paragraph)
+			.withTitle(NodeLabel.paragraph)
+			.withKind(NodeKind.Visual)
+			.withCompletionType(CompletionType.None)
 			.withTextAlign()
 			.withJustification()
 			.withFontSize()
@@ -45,40 +57,46 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 			.withBackgroundColor()
 			.withBorderRadius()
 			.withBorderWidth()
-			.withBorderColor(),
+			.withBorderColor()
+			.withShowLabel(true),
 
 	[NodeType.label]: () =>
 		new NodeBuilder(nodeBuilderConfig, NodeType.label)
-			.withLabel(NodeLabel.label)
+			.withTitle(NodeLabel.label)
+			.withKind(NodeKind.Visual)
+			.withCompletionType(CompletionType.None)
 			.withFontSize()
-			.withFontColor(),
+			.withFontColor()
+			.withShowLabel(true),
 
 	[NodeType.button]: () =>
 		new NodeBuilderButton(nodeBuilderConfigButton)
-			.withLabel(NodeLabel.button)
+			.withTitle(NodeLabel.button)
+			.withKind(NodeKind.Visual)
+			.withCompletionType(CompletionType.None)
 			.withFontSize()
 			.withFontColor()
 			.withBackgroundColor()
-			.withBorderColor(),
-
-	// [NodeType.legend]: () =>
-	// 	new NodeBuilderLegend(nodeBuilderConfigLegend)
-	// 		.withFontColor()
-	// 		.withFontSize()
-	// 		.withBackgroundColor()
-	// 		.withBorderColor(),
+			.withBorderColor()
+			.withShowLabel(true),
 
 	[NodeType.todo]: () =>
 		new NodeBuilderTodo(nodeBuilderConfigToDo)
-			.withLabel(NodeLabel.todo)
+			.withTitle(NodeLabel.todo)
+			.withKind(NodeKind.Markable)
+			.withCompletionType(CompletionType.Todo)
 			.withFontColor()
 			.withFontSize()
 			.withBackgroundColor()
-			.withBorderColor(),
+			.withBorderColor()
+			.withShowLabel(true),
 
 	[NodeType.checklist]: () =>
 		new NodeBuilderChecklist(nodeBuilderConfigChecklist)
-			.withLabel(NodeLabel.checklist)
+			.withTitle(NodeLabel.checklist)
+			.withKind(NodeKind.Topic)
+			.withCompletionType(CompletionType.Todo)
 			.withBackgroundColor()
-			.withBorderColor(),
+			.withBorderColor()
+			.withShowLabel(false),
 };

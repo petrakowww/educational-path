@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import { isHexColor } from '@/shared/lib';
 import { WithBorderColorCommand } from '@/features/node/editor/utils/command/commands-impl';
-import { nodeGetter } from '@/features/node/editor/utils/node-properties';
+import { NodeAccessor } from '@/features/node/editor/utils/node-properties';
 import { NodeMain } from '@/features/node/editor/types/node';
+import { nodeBuilderConfig } from '@/features/node/editor/config/node-builder-config';
 
 interface ICommandComponentBlockBorder {
 	editedNode: Node<NodeMain>;
@@ -32,7 +33,12 @@ export const CommandComponentBlockBorderColor = ({
 	};
 
 	useEffect(() => {
-		setBorderColor(nodeGetter.getBorderColor(editedNode) as string | null);
+		setBorderColor(
+			new NodeAccessor(editedNode).get(
+				'meta.blockProps.borderColor',
+				nodeBuilderConfig.meta.blockProps.borderColor as string
+			)
+		);
 	}, [editedNode]);
 
 	return (

@@ -2,10 +2,11 @@ import { Button, Label } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import { WithFontWeightCommand } from '@/features/node/editor/utils/command/commands-impl';
-import { nodeGetter } from '@/features/node/editor/utils/node-properties';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { TextFontWeightConstant } from '@/features/node/constants/text';
 import { TextFontWeightEnum } from '@/features/node/editor/types/styles';
+import { NodeAccessor } from '@/features/node/editor/utils/node-properties';
+import { nodeBuilderConfig } from '@/features/node/editor/config/node-builder-config';
 
 interface ICommandComponentFontWeight {
 	editedNode: Node<NodeMain>;
@@ -25,7 +26,12 @@ export const CommandComponentFontWeight = ({
 	};
 
 	useEffect(() => {
-		setFontWeight(nodeGetter.getFontWeight(editedNode));
+		setFontWeight(
+			new NodeAccessor(editedNode).get(
+				'meta.fontProps.fontWeight',
+				nodeBuilderConfig.meta.fontProps.fontWeight
+			)
+		);
 	}, [editedNode]);
 
 	return (

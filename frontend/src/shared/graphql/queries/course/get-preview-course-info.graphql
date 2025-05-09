@@ -1,0 +1,53 @@
+query getPreviewCourseInfo($routeId: String!) {
+	getTopicMap(routeId: $routeId) {
+		id
+		routeId
+		updatedAt
+		nodes {
+			id
+			topicMapId
+      title
+      type
+      kind
+			meta
+			posxy
+			completionType
+      zIndex
+			checklist {
+				id
+				text
+				topicNodeId
+			}
+		}
+		edges {
+			id
+			topicMapId
+			sourceId
+			targetId
+			meta
+		}
+		UserCourse {
+			id
+			userId
+			createdAt
+		}
+    route {
+      id
+      title
+      description
+      createdAt
+      updatedAt
+      user {
+        id
+        name
+        avatar
+      }
+      tags {
+        tag {
+          name
+        }
+      }
+    }
+	}
+}
+

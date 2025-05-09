@@ -16,10 +16,10 @@ export const ButtonNode = (props: NodeProps<NodeDataShapeButton>) => {
 		<SkeletonNode
 			nodeProps={props}
 			style={{
-				backgroundColor: data.blockProps?.backgroundColor as string,
-				borderRadius: data.blockProps?.borderRadius,
-				borderWidth: data.blockProps?.borderWidth as number,
-				borderColor: data.blockProps?.borderColor as string,
+				backgroundColor: data.meta.blockProps?.backgroundColor as string,
+				borderRadius: data.meta.blockProps?.borderRadius,
+				borderWidth: data.meta.blockProps?.borderWidth as number,
+				borderColor: data.meta.blockProps?.borderColor as string,
 			}}
 			stylesForComponent={'bg-primary'}
 		>
@@ -27,12 +27,12 @@ export const ButtonNode = (props: NodeProps<NodeDataShapeButton>) => {
 				<p
 					className="p-3 leading-none whitespace-pre-wrap text-nowrap  text-center flex-shrink-0 text-primary-foreground"
 					style={{
-						fontSize: data.fontProps?.fontSize,
-						color: data.fontProps?.fontColor as string,
-						fontWeight: data.fontProps?.fontWeight,
+						fontSize: data.meta.fontProps?.fontSize,
+						color: data.meta.fontProps?.fontColor as string,
+						fontWeight: data.meta.fontProps?.fontWeight,
 					}}
 				>
-					{data.labelProps?.label}
+					{data.title}
 				</p>
 			</EditableNode>
 		</SkeletonNode>

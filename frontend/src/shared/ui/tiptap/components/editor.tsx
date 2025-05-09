@@ -131,7 +131,7 @@ export const TiptapEditor = (props: ITipTapEditor) => {
 				className="cursor-text min-h-[18rem] bg-background"
 			>
 				<EditorContent
-					className="outline-none w-full max-w-[400px] mx-auto overflow-auto"
+					className="outline-none w-full max-w-[400px] mx-auto px-2 overflow-auto"
 					editor={editor}
 				/>
 			</div>

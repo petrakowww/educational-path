@@ -1,0 +1,25 @@
+mutation saveTopicMap($input: SaveTopicMapInput!) {
+  saveTopicMap(input: $input) {
+    id
+    routeId
+    updatedAt
+    nodes {
+      id
+      title
+      type
+      meta
+      completionType
+      zIndex
+      checklist {
+        id
+        text
+      }
+    }
+    edges {
+      id
+      sourceId
+      targetId
+      meta
+    }
+  }
+}

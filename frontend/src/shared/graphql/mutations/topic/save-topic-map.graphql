@@ -1,9 +1,0 @@
-mutation saveTopicMap($data: SaveTopicMapDto!) {
-  saveTopicMap(data: $data) {
-    id
-    routeId
-    nodeData
-    edgeData
-    updatedAt
-  }
-}

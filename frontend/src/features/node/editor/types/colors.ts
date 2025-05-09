@@ -27,3 +27,14 @@ export enum TextFontColorsEnum {
 export enum PrimaryColors {
 	Primary = '#16a34a',
 }
+
+export enum MapColorsByType {
+	Title = '#0070f3',
+	Topic = '#34d399',
+	SubTopic = '#facc15',
+	Label = '#f472b6',
+	Paragraph = '#60a5fa',
+	Todo = '#a78bfa',
+	Checklist = '#fb923c',
+	Button = '#f87171'
+}

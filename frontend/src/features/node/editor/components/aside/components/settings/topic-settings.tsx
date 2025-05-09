@@ -7,5 +7,5 @@ interface ITopicNodeSettings {
 }
 
 export const TopicNodeSettings = ({ node }: ITopicNodeSettings) => {
-	return <BaseSettings nodeHasLabel={true} node={node} />;
+	return <BaseSettings nodeCanShowLabel={true} node={node} />;
 };

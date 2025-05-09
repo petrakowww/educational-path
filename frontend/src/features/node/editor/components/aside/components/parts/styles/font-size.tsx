@@ -2,10 +2,11 @@ import { Button, Input, Label } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import { WithFontSizeCommand } from '@/features/node/editor/utils/command/commands-impl';
-import { nodeGetter } from '@/features/node/editor/utils/node-properties';
+import { NodeAccessor } from '@/features/node/editor/utils/node-properties';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { TextFontSizeConstant } from '@/features/node/constants/text';
 import { TextFontSizeEnum } from '@/features/node/editor/types/styles';
+import { nodeBuilderConfig } from '@/features/node/editor/config/node-builder-config';
 
 interface ICommandComponentFontSize {
 	editedNode: Node<NodeMain>;
@@ -44,7 +45,12 @@ export const CommandComponentFontSize = ({
 	};
 
 	useEffect(() => {
-		setFontSize(nodeGetter.getFontSize(editedNode));
+		setFontSize(
+			new NodeAccessor(editedNode).get(
+				'meta.fontProps.fontSize',
+				nodeBuilderConfig.meta.fontProps.fontSize
+			)
+		);
 	}, [editedNode]);
 
 	return (

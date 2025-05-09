@@ -1,10 +1,15 @@
 import { createWithEqualityFn } from 'zustand/traditional';
-import { merge } from 'lodash';
+import { merge, pick } from 'lodash';
 import { applyNodeChanges, Node } from 'reactflow';
 import { NodeData, NodeMain } from '@/features/node/editor/types/node';
 import { shallow } from 'zustand/vanilla/shallow';
 import { DeepPartial } from '@/shared/lib/types/deep-partial';
 import { Links } from '@/features/node/editor/types/extended-node';
+import {
+	ChecklistItem,
+	CompletionType,
+	NodeKind,
+} from '@/shared/graphql/generated/output';
 
 interface NodeState {
 	selectedNode: Node | null;
@@ -20,12 +25,12 @@ interface NodeState {
 	}) => void;
 	deleteNode: (nodeId: string) => void;
 
-  moveNodeToTop: (nodeId: string) => void;
-  moveNodeToBottom: (nodeId: string) => void;
-  moveNodeUp: (nodeId: string) => void;
-  moveNodeDown: (nodeId: string) => void;
+	moveNodeToTop: (nodeId: string) => void;
+	moveNodeToBottom: (nodeId: string) => void;
+	moveNodeUp: (nodeId: string) => void;
+	moveNodeDown: (nodeId: string) => void;
 
-  replaceLinks: (nodeId: string, newLinks: Links) => void;
+	replaceLinks: (nodeId: string, newLinks: Links) => void;
 }
 
 export const useNodeStore = createWithEqualityFn<NodeState>(
@@ -43,14 +48,14 @@ export const useNodeStore = createWithEqualityFn<NodeState>(
 		},
 
 		setNodes: (nodes) => {
+			const sorted = [...nodes].sort(
+				(a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0)
+			);
 			const newNodesById: Record<string, NodeData> = {};
 			const newNodesList: NodeData[] = [];
 
-			for (const node of nodes) {
-				if (!node?.id) continue;
-				if (newNodesById[node.id]) {
-					continue;
-				}
+			for (const node of sorted) {
+				if (!node?.id || newNodesById[node.id]) continue;
 				newNodesById[node.id] = node;
 				newNodesList.push(node);
 			}
@@ -65,17 +70,57 @@ export const useNodeStore = createWithEqualityFn<NodeState>(
 			});
 		},
 
-		updateNodeProperties: ({ nodeId, properties }) => {
+		updateNodeProperties: ({
+			nodeId,
+			properties,
+		}: {
+			nodeId: string;
+			properties: {
+				data?: Partial<{
+					title: string;
+					canShowLabel: boolean;
+					kind: NodeKind;
+					completionType: CompletionType;
+					todos: ChecklistItem[];
+					meta: Partial<NodeMain['meta']>;
+				}>;
+				style?: React.CSSProperties;
+			};
+		}) => {
 			const { nodesById, nodesList, selectedNodeId } = get();
 			const existing = nodesById[nodeId];
 			if (!existing) return;
 
+			console.log(properties.data?.todos);
 			const updated: NodeData = {
 				...existing,
-				...properties,
 				style: merge({}, existing.style, properties.style),
-				data: merge({}, existing.data, properties.data),
+				data: {
+					...existing.data,
+					...pick(properties.data, [
+						'title',
+						'kind',
+						'completionType',
+						'todos',
+						'topicProps',
+						'linkProps',
+						'buttonProps',
+					]),
+					meta: {
+						...existing.data.meta,
+						...properties.data?.meta,
+						blockProps: {
+							...existing.data.meta?.blockProps,
+							...properties.data?.meta?.blockProps,
+						},
+						fontProps: {
+							...existing.data.meta?.fontProps,
+							...properties.data?.meta?.fontProps,
+						},
+					},
+				},
 			};
+
 			set({
 				nodesById: {
 					...nodesById,
@@ -87,119 +132,145 @@ export const useNodeStore = createWithEqualityFn<NodeState>(
 				selectedNode:
 					selectedNodeId === nodeId ? updated : get().selectedNode,
 			});
-		},    
+		},
 
 		deleteNode: (nodeId) => {
-      const { nodesList } = get();
-      const changes = [{ id: nodeId, type: 'remove' } as const];
-    
-      const updatedNodes = applyNodeChanges(changes, nodesList);
-    
-      set({
-        nodesList: updatedNodes,
-        nodesById: Object.fromEntries(updatedNodes.map((n) => [n.id, n])),
-        selectedNodeId: get().selectedNodeId === nodeId ? null : get().selectedNodeId,
-        selectedNode: get().selectedNodeId === nodeId ? null : get().selectedNode,
-      });
-    },
+			const { nodesList } = get();
+			const changes = [{ id: nodeId, type: 'remove' } as const];
+			const updatedNodes = applyNodeChanges(changes, nodesList);
+
+			set({
+				nodesList: updatedNodes,
+				nodesById: Object.fromEntries(
+					updatedNodes.map((n) => [n.id, n])
+				),
+				selectedNodeId:
+					get().selectedNodeId === nodeId
+						? null
+						: get().selectedNodeId,
+				selectedNode:
+					get().selectedNodeId === nodeId ? null : get().selectedNode,
+			});
+		},
 
 		moveNodeToTop: (id: string) =>
 			set((state) => {
-				const node = state.nodesList.find((n) => n.id === id);
-				if (!node) return state;
-				const filtered = state.nodesList.filter((n) => n.id !== id);
-				const newList = [...filtered, node];
+				const maxZ = Math.max(
+					...state.nodesList.map((n) => n.zIndex ?? 0),
+					0
+				);
+				const updated = state.nodesList.map((n) =>
+					n.id === id ? { ...n, zIndex: maxZ + 1 } : n
+				);
 				return {
-					nodesList: newList,
+					nodesList: updated.sort(
+						(a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0)
+					),
 					nodesById: Object.fromEntries(
-						newList.map((n) => [n.id, n])
+						updated.map((n) => [n.id, n])
 					),
 				};
 			}),
 
 		moveNodeToBottom: (id: string) =>
 			set((state) => {
-				const node = state.nodesList.find((n) => n.id === id);
-				if (!node) return state;
-				const filtered = state.nodesList.filter((n) => n.id !== id);
-				const newList = [node, ...filtered];
+				const minZ = Math.min(
+					...state.nodesList.map((n) => n.zIndex ?? 0),
+					0
+				);
+				const updated = state.nodesList.map((n) =>
+					n.id === id ? { ...n, zIndex: minZ - 1 } : n
+				);
 				return {
-					nodesList: newList,
+					nodesList: updated.sort(
+						(a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0)
+					),
 					nodesById: Object.fromEntries(
-						newList.map((n) => [n.id, n])
+						updated.map((n) => [n.id, n])
 					),
 				};
 			}),
 
 		moveNodeUp: (id: string) =>
 			set((state) => {
-				const index = state.nodesList.findIndex((n) => n.id === id);
-				if (index === -1 || index === state.nodesList.length - 1)
-					return state;
-				const newList = [...state.nodesList];
-				[newList[index], newList[index + 1]] = [
-					newList[index + 1],
-					newList[index],
+				let list = normalizeZIndexes(state.nodesList);
+				const index = list.findIndex((n) => n.id === id);
+				if (index === -1 || index === list.length - 1) return state;
+
+				// swap zIndex
+				[list[index].zIndex, list[index + 1].zIndex] = [
+					list[index + 1].zIndex,
+					list[index].zIndex,
 				];
+
+				const normalized = normalizeZIndexes(list);
 				return {
-					nodesList: newList,
+					nodesList: normalized,
 					nodesById: Object.fromEntries(
-						newList.map((n) => [n.id, n])
+						normalized.map((n) => [n.id, n])
 					),
 				};
 			}),
 
 		moveNodeDown: (id: string) =>
 			set((state) => {
-				const index = state.nodesList.findIndex((n) => n.id === id);
+				let list = normalizeZIndexes(state.nodesList);
+				const index = list.findIndex((n) => n.id === id);
 				if (index <= 0) return state;
-				const newList = [...state.nodesList];
-				[newList[index], newList[index - 1]] = [
-					newList[index - 1],
-					newList[index],
+
+				// swap zIndex
+				[list[index].zIndex, list[index - 1].zIndex] = [
+					list[index - 1].zIndex,
+					list[index].zIndex,
 				];
+
+				const normalized = normalizeZIndexes(list);
 				return {
-					nodesList: newList,
+					nodesList: normalized,
 					nodesById: Object.fromEntries(
-						newList.map((n) => [n.id, n])
+						normalized.map((n) => [n.id, n])
 					),
 				};
 			}),
 
-      /**
-       * 
-       * Далее идут отдельные реализации
-       */
+		/**
+		 *
+		 * Далее идут отдельные реализации
+		 */
 
-      replaceLinks: (nodeId: string, newLinks: Links) => {
-        const { nodesById, nodesList, selectedNodeId } = get();
-        const existing = nodesById[nodeId];
-        if (!existing) return;
-      
-        const updated: NodeData = {
-          ...existing,
-          data: {
-            ...existing.data,
-            linkProps: {
-              ...existing.data?.linkProps,
-              links: newLinks,
-            },
-          },
-        };
-      
-        set({
-          nodesById: {
-            ...nodesById,
-            [nodeId]: updated,
-          },
-          nodesList: nodesList.map((node) =>
-            node.id === nodeId ? updated : node
-          ),
-          selectedNode:
-            selectedNodeId === nodeId ? updated : get().selectedNode,
-        });
-      },
-      
+		replaceLinks: (nodeId: string, newLinks: Links) => {
+			const { nodesById, nodesList, selectedNodeId } = get();
+			const existing = nodesById[nodeId];
+			if (!existing) return;
+
+			const updated: NodeData = {
+				...existing,
+				data: {
+					...existing.data,
+					linkProps: {
+						...existing.data?.linkProps,
+						links: newLinks,
+					},
+				},
+			};
+
+			set({
+				nodesById: {
+					...nodesById,
+					[nodeId]: updated,
+				},
+				nodesList: nodesList.map((node) =>
+					node.id === nodeId ? updated : node
+				),
+				selectedNode:
+					selectedNodeId === nodeId ? updated : get().selectedNode,
+			});
+		},
 	}),
 	shallow
 );
+
+const normalizeZIndexes = (nodes: Node[]): Node[] => {
+	const sorted = [...nodes].sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0));
+	return sorted.map((node, index) => ({ ...node, zIndex: index }));
+};

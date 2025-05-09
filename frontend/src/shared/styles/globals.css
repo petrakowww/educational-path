@@ -198,3 +198,58 @@ h3.tiptap-heading + h2.tiptap-heading {
 	margin: 1.5rem 0;
 	padding-left: 1rem;
 }
+
+.react-flow svg { overflow: visible; }
+
+.react-flow__controls,
+.react-flow__minimap {
+	@apply shadow-md rounded border;
+}
+
+.dark .react-flow__controls {
+	background-color: hsl(var(--sidebar-background));
+	color: hsl(var(--sidebar-foreground));
+	border-color: hsl(var(--sidebar-border));
+}
+
+.dark .react-flow__controls button {
+	background-color: var(--xy-controls-button-background-color);
+	border-color: var(--xy-controls-button-border-color);
+}
+
+.dark .react-flow__controls button svg {
+	fill: hsl(var(--primary)) !important;
+}
+
+.dark .react-flow__controls button:hover {
+	background-color: var(--xy-controls-button-background-color-hover);
+}
+
+.dark .react-flow__minimap {
+	background-color: hsl(var(--background));
+	border-color: hsl(var(--border));
+}
+
+.react-flow__controls {
+	background-color: hsl(var(--sidebar-background));
+	color: hsl(var(--sidebar-foreground));
+	border-color: hsl(var(--sidebar-border));
+}
+
+.react-flow__controls button {
+	background-color: var(--xy-controls-button-background-color);
+	border-color: var(--xy-controls-button-border-color);
+}
+
+.react-flow__controls button:hover {
+	background-color: var(--xy-controls-button-background-color-hover);
+}
+
+.react-flow__minimap {
+	background-color: hsl(var(--background));
+	border-color: hsl(var(--border));
+}
+
+.react-flow__panel.react-flow__attribution {
+	display: none;
+}

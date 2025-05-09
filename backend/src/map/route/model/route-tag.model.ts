@@ -1,15 +1,16 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { RouteModel } from './route.model';
 import { TagModel } from '../../tag/model/tag.model';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+
+import { Route } from './route.model';
 
 @ObjectType()
 export class RouteTagModel {
-  @Field(() => ID)
-  id: string;
+    @Field(() => ID)
+    id: string;
 
-  @Field(() => RouteModel)
-  route: RouteModel;
+    @Field(() => Route)
+    route: Route;
 
-  @Field(() => TagModel)
-  tag: TagModel;
+    @Field(() => TagModel)
+    tag: TagModel;
 }

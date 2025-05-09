@@ -1,0 +1,30 @@
+query getTopicMap($routeId: String!) {
+	getTopicMap(routeId: $routeId) {
+		id
+		routeId
+		updatedAt
+		nodes {
+			id
+			topicMapId
+      title
+      type
+      kind
+			meta
+			posxy
+			completionType
+      zIndex
+			checklist {
+				id
+				text
+				topicNodeId
+			}
+		}
+		edges {
+			id
+			topicMapId
+			sourceId
+			targetId
+			meta
+		}
+	}
+}

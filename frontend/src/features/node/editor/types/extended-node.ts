@@ -2,14 +2,6 @@ import { CategoriesEnum } from './categories';
 import { TaskImportanceEnum } from './importance';
 import { NodeType } from './node';
 
-export type ToDo = {
-	label: string;
-	idItem: string;
-	isDone: boolean;
-};
-
-export type ToDos = Array<ToDo>;
-
 export type Legend = {
 	label: string;
 	color: string;

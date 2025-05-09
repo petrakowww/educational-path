@@ -7,5 +7,5 @@ interface IButtonNodeSettings {
 }
 
 export const ButtonNodeSettings = ({ node }: IButtonNodeSettings) => {
-	return <BaseSettings nodeHasLabel={true} node={node} />;
+	return <BaseSettings nodeCanShowLabel={true} node={node} />;
 };

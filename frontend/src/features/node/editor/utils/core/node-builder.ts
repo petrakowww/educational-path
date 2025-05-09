@@ -2,29 +2,28 @@ import { Node } from 'reactflow';
 import {
 	NodeBuilderConfig,
 	NodeBuilderConfigChecklist,
-	NodeBuilderConfigToDo,
 	NodeBuilderConfigTopic,
 	NodeBuilderConfigLinks,
 	NodeBuilderConfigButton,
+	NodeBuilderConfigTodo,
 } from '../../config/node-builder-config';
 import { DeepPartial } from '@/shared/lib/types/deep-partial';
-import {
-	BorderRadiusEnum,
-	JustificationEnum,
-	TextAlignmentEnum,
-	TextFontWeightEnum,
-} from '../../types/styles';
+
 import {
 	NodeDataShapeChecklist,
 	NodeDataShapeExtended,
 	NodeDataShapeToDo,
 	NodeDataShapeLinks,
 	NodeMain,
-	NodeLabel,
 	NodeType,
 	NodeDataShapeTopic,
 	NodeDataShapeButton,
 } from '../../types/node';
+import {
+	ChecklistItem,
+	CompletionType,
+	NodeKind,
+} from '@/shared/graphql/generated/output';
 
 export class NodeBuilder<
 	TData extends NodeMain = NodeMain,
@@ -35,6 +34,8 @@ export class NodeBuilder<
 	protected id: string;
 	protected position = { x: 0, y: 0 };
 	protected type: NodeType;
+	private width?: number;
+	private height?: number;
 
 	constructor(config: TConfig, type: NodeType) {
 		this.config = config;
@@ -42,164 +43,159 @@ export class NodeBuilder<
 		this.type = type;
 	}
 
-	withBackgroundColor(): NodeBuilder<
-		TData & {
-			blockProps: { backgroundColor: React.CSSProperties['color'] };
-		}
-	> {
-		this.data = {
-			...this.data,
+	withTitle(title: string): this {
+		this.data.title = title;
+		return this;
+	}
+
+	withShowLabel(flag: boolean): this {
+		this.data.canShowLabel = flag;
+		return this;
+	}
+
+	withKind(kind: NodeKind): this {
+		this.data.kind = kind;
+		return this;
+	}
+
+	withCompletionType(type: CompletionType): this {
+		this.data.completionType = type;
+		return this;
+	}
+
+	withBackgroundColor(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
 			blockProps: {
-				...(this.data.blockProps ?? {}),
-				backgroundColor: this.config.blockProps.backgroundColor,
+				...(this.data.meta?.blockProps ?? {}),
+				backgroundColor: this.config.meta.blockProps.backgroundColor,
 			},
-		};
-
-		return this as never;
+		} as TData['meta'];
+		return this;
 	}
 
-	withBorderColor(): NodeBuilder<
-		TData & { blockProps: { borderColor: React.CSSProperties['color'] } }
-	> {
-		this.data = {
-			...this.data,
+	withBorderColor(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
 			blockProps: {
-				...(this.data.blockProps ?? {}),
-				borderColor: this.config.blockProps.borderColor,
+				...(this.data.meta?.blockProps ?? {}),
+				borderColor: this.config.meta.blockProps.borderColor,
 			},
-		};
-
-		return this as never;
+		} as TData['meta'];
+		return this;
 	}
 
-	withPadding(): NodeBuilder<TData & { blockProps: { padding: number } }> {
-		this.data = {
-			...this.data,
+	withPadding(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
 			blockProps: {
-				...(this.data.blockProps ?? {}),
-				padding: this.config.blockProps.padding,
+				...(this.data.meta?.blockProps ?? {}),
+				padding: this.config.meta.blockProps.padding,
 			},
-		};
-
-		return this as never;
+		} as TData['meta'];
+		return this;
 	}
 
-	withFontSize(): NodeBuilder<TData & { fontProps: { fontSize: number } }> {
-		this.data = {
-			...this.data,
-			fontProps: {
-				...(this.data.fontProps ?? {}),
-				fontSize: this.config.fontProps.fontSize,
-			},
-		};
-
-		return this as never;
-	}
-
-	withFontColor(): NodeBuilder<
-		TData & { fontProps: { fontColor: React.CSSProperties['color'] } }
-	> {
-		this.data = {
-			...this.data,
-			fontProps: {
-				...(this.data.fontProps ?? {}),
-				fontColor: this.config.fontProps.fontColor,
-			},
-		};
-
-		return this as never;
-	}
-
-	withBorderWidth(): NodeBuilder<
-		TData & { blockProps: { borderWidth: number | null } }
-	> {
-		this.data = {
-			...this.data,
+	withBorderWidth(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
 			blockProps: {
-				...(this.data.blockProps ?? {}),
-				borderWidth: this.config.blockProps.borderWidth,
+				...(this.data.meta?.blockProps ?? {}),
+				borderWidth: this.config.meta.blockProps.borderWidth,
 			},
-		};
-
-		return this as never;
+		} as TData['meta'];
+		return this;
 	}
 
-	withBorderRadius(): NodeBuilder<
-		TData & { blockProps: { borderRadius: BorderRadiusEnum | number } }
-	> {
-		this.data = {
-			...this.data,
+	withBorderRadius(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
 			blockProps: {
-				...(this.data.blockProps ?? {}),
-				borderRadius: this.config.blockProps.borderRadius,
+				...(this.data.meta?.blockProps ?? {}),
+				borderRadius: this.config.meta.blockProps.borderRadius,
 			},
-		};
-
-		return this as never;
+		} as TData['meta'];
+		return this;
 	}
 
-	withFontWeight(): NodeBuilder<
-		TData & { fontProps: { fontWeight: TextFontWeightEnum | number } }
-	> {
-		this.data = {
-			...this.data,
+	withFontSize(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
 			fontProps: {
-				...(this.data.fontProps ?? {}),
-				fontWeight: this.config.fontProps.fontWeight,
+				...(this.data.meta?.fontProps ?? {}),
+				fontSize: this.config.meta.fontProps.fontSize,
 			},
-		};
-
-		return this as never;
+		} as TData['meta'];
+		return this;
 	}
 
-	withTextAlign(): NodeBuilder<
-		TData & { fontProps: { textAlign: TextAlignmentEnum } }
-	> {
-		this.data = {
-			...this.data,
+	withFontWeight(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
 			fontProps: {
-				...(this.data.fontProps ?? {}),
-				textAlign: this.config.fontProps.textAlign,
+				...(this.data.meta?.fontProps ?? {}),
+				fontWeight: this.config.meta.fontProps.fontWeight,
 			},
-		};
-
-		return this as never;
+		} as TData['meta'];
+		return this;
 	}
 
-	withJustification(): NodeBuilder<
-		TData & { fontProps: { justification: JustificationEnum } }
-	> {
-		this.data = {
-			...this.data,
+	withFontColor(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
 			fontProps: {
-				...(this.data.fontProps ?? {}),
-				justification: this.config.fontProps.justification,
+				...(this.data.meta?.fontProps ?? {}),
+				fontColor: this.config.meta.fontProps.fontColor,
 			},
-		};
-
-		return this as never;
+		} as TData['meta'];
+		return this;
 	}
 
-	withLabel(
-		label: NodeLabel
-	): NodeBuilder<TData & { labelProps: { label: string } }> {
-		this.data = {
-			...this.data,
-			labelProps: {
-				...(this.data.labelProps ?? {}),
-				label,
+	withTextAlign(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
+			fontProps: {
+				...(this.data.meta?.fontProps ?? {}),
+				textAlign: this.config.meta.fontProps.textAlign,
 			},
-		};
-		return this as never;
+		} as TData['meta'];
+		return this;
 	}
 
-	withType(type: NodeType) {
+	withJustification(): this {
+		this.data.meta = {
+			...(this.data.meta ?? {}),
+			fontProps: {
+				...(this.data.meta?.fontProps ?? {}),
+				justification: this.config.meta.fontProps.justification,
+			},
+		} as TData['meta'];
+		return this;
+	}
+
+	withType(type: NodeType): this {
 		this.type = type;
 		return this;
 	}
 
-	withPosition(x: number, y: number) {
+	withTodos(todos: ChecklistItem[]) {
+		this.data.todo = todos;
+		return this;
+	}
+
+	withPosition(x: number, y: number): this {
 		this.position = { x, y };
+		return this;
+	}
+
+	withSize(width?: number, height?: number) {
+		this.width = width;
+		this.height = height;
+		return this;
+	}
+
+	withMeta(meta: any) {
+		this.data.meta = meta;
 		return this;
 	}
 
@@ -207,12 +203,14 @@ export class NodeBuilder<
 		return this.data;
 	}
 
-	build(): Node<TData> {
+	build(id?: string): Node {
 		return {
-			id: this.id,
-			data: this.data as TData,
-			position: this.position,
+			id: id ?? crypto.randomUUID(),
 			type: this.type,
+			position: this.position,
+			width: this.width,
+			height: this.height,
+			data: this.data,
 		};
 	}
 }
@@ -274,13 +272,13 @@ export class NodeBuilderLinks extends NodeBuilderWithContent<
 
 export class NodeBuilderTodo extends NodeBuilderWithContent<
 	NodeDataShapeToDo,
-	NodeBuilderConfigToDo
+	NodeBuilderConfigTodo
 > {
-	constructor(config: NodeBuilderConfigToDo) {
+	constructor(config: NodeBuilderConfigTodo) {
 		super(config, NodeType.todo);
 		this.data = {
 			...this.data,
-			todoProps: config.todoProps,
+			todos: config.todos,
 		};
 	}
 }
@@ -293,7 +291,7 @@ export class NodeBuilderChecklist extends NodeBuilderWithContent<
 		super(config, NodeType.checklist);
 		this.data = {
 			...this.data,
-			checklistProps: config.checklistProps,
+			todos: config.todos,
 		};
 	}
 }

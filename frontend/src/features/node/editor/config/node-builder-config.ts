@@ -16,26 +16,31 @@ import {
 	NodeDataShapeButton,
 } from '../types/node';
 import { BackgroundColorsEnum } from '../types/colors';
+import { CompletionType, NodeKind } from '@/shared/graphql/generated/output';
 
 export type NodeBuilderConfig = DeepRequired<Required<NodeMain>>;
 
 export const nodeBuilderConfig: NodeBuilderConfig = {
-	labelProps: {
-		label: null,
-	},
-	blockProps: {
-		backgroundColor: null,
-		borderColor: null,
-		borderRadius: BorderRadiusEnum.MD,
-		borderWidth: null,
-		padding: null,
-	},
-	fontProps: {
-		fontSize: TextFontSizeEnum.XL,
-		fontWeight: TextFontWeightEnum.Regular,
-		fontColor: null,
-		textAlign: TextAlignmentEnum.Center,
-		justification: JustificationEnum.Middle,
+	title: '',
+	kind: NodeKind.Visual,
+	type: CompletionType.None,
+	todo: [],
+	canShowLabel: true,
+	meta: {
+		blockProps: {
+			backgroundColor: null,
+			borderColor: null,
+			borderRadius: BorderRadiusEnum.MD,
+			borderWidth: null,
+			padding: null,
+		},
+		fontProps: {
+			fontSize: TextFontSizeEnum.XL,
+			fontWeight: TextFontWeightEnum.Regular,
+			fontColor: null,
+			textAlign: TextAlignmentEnum.Center,
+			justification: JustificationEnum.Middle,
+		},
 	},
 };
 
@@ -49,16 +54,6 @@ export const nodeBuilderConfigLinks: NodeBuilderConfigLinks = {
 	},
 };
 
-export type NodeBuilderConfigToDo = DeepRequired<Required<NodeDataShapeToDo>>;
-
-export const nodeBuilderConfigToDo: NodeBuilderConfigToDo = {
-	...nodeBuilderConfig,
-	extendedSettings: true,
-	todoProps: {
-		todo: null,
-	},
-};
-
 export type NodeBuilderConfigChecklist = DeepRequired<
 	Required<NodeDataShapeChecklist>
 >;
@@ -66,8 +61,20 @@ export type NodeBuilderConfigChecklist = DeepRequired<
 export const nodeBuilderConfigChecklist: NodeBuilderConfigChecklist = {
 	...nodeBuilderConfig,
 	extendedSettings: true,
-	checklistProps: {
-		todos: [],
+	todos: [],
+};
+
+export type NodeBuilderConfigTodo = DeepRequired<Required<NodeDataShapeToDo>>;
+
+export const nodeBuilderConfigToDo: NodeBuilderConfigTodo = {
+	...nodeBuilderConfig,
+	extendedSettings: true,
+	todos: [],
+	topicProps: {
+		topicContent: null,
+	},
+	linkProps: {
+		links: [],
 	},
 };
 
@@ -91,23 +98,29 @@ export const nodeBuilderConfigTopic: NodeBuilderConfigTopic = {
 	topicProps: {
 		topicContent: null,
 	},
-	blockProps: {
-		...nodeBuilderConfig.blockProps,
-		backgroundColor: BackgroundColorsEnum.Primary,
+	meta: {
+		...nodeBuilderConfig.meta,
+		blockProps: {
+			...nodeBuilderConfig.meta.blockProps,
+			backgroundColor: BackgroundColorsEnum.Primary,
+		},
 	},
 	linkProps: {
 		links: [],
-	}
+	},
 };
 
 export type NodeBuilderConfigSubTopic = NodeBuilderConfigTopic;
 
 export const nodeBuilderConfigSubTopic: NodeBuilderConfigSubTopic = {
 	...nodeBuilderConfigTopic,
-	blockProps: {
-		...nodeBuilderConfig.blockProps,
-		backgroundColor: BackgroundColorsEnum.Highlight,
-	}
+	meta: {
+		...nodeBuilderConfig.meta,
+		blockProps: {
+			...nodeBuilderConfig.meta.blockProps,
+			backgroundColor: BackgroundColorsEnum.Highlight,
+		},
+	},
 };
 
 export type NodeBuilderConfigButton = DeepRequired<

@@ -36,7 +36,7 @@ export const TopicTiptapEditor = ({ node }: ITopicContent) => {
 				toast.success('Изменения сохранены', {
 					description: 'Содержание топика обновлено',
 				});
-			}, 1500),
+			}, 500),
 		[node.id, node.data]
 	);
 

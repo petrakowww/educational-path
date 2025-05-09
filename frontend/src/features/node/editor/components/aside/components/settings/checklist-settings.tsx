@@ -7,5 +7,5 @@ interface IChecklistNodeSettings {
 }
 
 export const ChecklistNodeSettings = ({ node }: IChecklistNodeSettings) => {
-	return <BaseSettings node={node} />;
+	return <BaseSettings node={node} nodeCanShowLabel={false}/>;
 };

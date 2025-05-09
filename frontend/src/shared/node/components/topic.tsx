@@ -16,16 +16,16 @@ export const TopicNode = (
 	return (
 		<SkeletonNode
 			nodeProps={props}
-			style={{ backgroundColor: data.blockProps?.backgroundColor ?? '' }}
+			style={{ backgroundColor: data.meta.blockProps?.backgroundColor ?? '' }}
 		>
 			<EditableNode nodeProps={props}>
 				<p
 					className="leading-none whitespace-pre-wrap text-center p-3 flex-shrink-0 text-nowrap"
 					style={{
-						fontSize: data.fontProps?.fontSize,
+						fontSize: data.meta.fontProps?.fontSize,
 					}}
 				>
-					{data.labelProps?.label}
+					{data.title}
 				</p>
 			</EditableNode>
 		</SkeletonNode>

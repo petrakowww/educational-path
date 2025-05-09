@@ -19,30 +19,33 @@ export const removeRouteFromUserRoutes = (
 };
 
 export const addRouteToUserRoutes = (
-  cache: ApolloCache<unknown>,
-  newRoute: CreateRouteMutation['createRoute']
+	cache: ApolloCache<unknown>,
+	newRoute: CreateRouteMutation['createRoute']
 ) => {
-  if (!newRoute) return;
+	if (!newRoute) return;
 
-  cache.modify({
-    fields: {
-      findRoutesByUser(existingRoutesRefs = [], { readField, toReference }) {
-        const newRouteRef = toReference({
-          __typename: 'RouteModel',
-          id: newRoute.id,
-        });
+	cache.modify({
+		fields: {
+			findRoutesByUser(
+				existingRoutesRefs = [],
+				{ readField, toReference }
+			) {
+				const newRouteRef = toReference({
+					__typename: 'Route',
+					id: newRoute.id,
+				});
 
-        if (
-          existingRoutesRefs.some(
-            (ref: StoreObject) => readField('id', ref) === newRoute.id
-          )
-        ) {
-          return existingRoutesRefs;
-        }
+				if (
+					existingRoutesRefs.some(
+						(ref: StoreObject) =>
+							readField('id', ref) === newRoute.id
+					)
+				) {
+					return existingRoutesRefs;
+				}
 
-        return [...existingRoutesRefs, newRouteRef];
-      },
-    },
-  });
+				return [...existingRoutesRefs, newRouteRef];
+			},
+		},
+	});
 };
-

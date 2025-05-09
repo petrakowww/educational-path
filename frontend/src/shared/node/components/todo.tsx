@@ -1,53 +1,56 @@
 import { memo, useRef } from 'react';
 import { NodeProps } from 'reactflow';
-import { DeleteNodeComponent } from '../utils/delete-node';
-import { ResizeNodeComponent } from '../utils/resize-node';
-import { IsSelectedNode } from '../utils/is-selected-node';
-import clsx from 'clsx';
 import { NodeDataShapeToDo } from '@/features/node/editor/types/node';
-
+import { SkeletonNode } from './base/skeleton-node';
+import { EditableNode } from './base/editable-node';
 
 export const TodoNode = (props: NodeProps<NodeDataShapeToDo>) => {
 	const { data } = props;
-	const focusClassName = IsSelectedNode(props);
-
-	const finalClassName = clsx(
-		'relative group h-full w-full bg-background flex items-start justify-start border-[2px] rounded-md',
-		focusClassName
-	);
-
 	const containerRef = useRef<HTMLDivElement>(null);
+
+	const taskText = data.todos?.[0]?.text ?? 'Задача не задана';
+	const todos = data.todos ?? [];
+	const title = data.title ?? 'Без названия';
+
 	return (
-		<article
-			className={finalClassName}
+		<SkeletonNode
+			nodeProps={props}
 			style={{
-				backgroundColor: data.blockProps?.backgroundColor as string,
-				borderColor: data.blockProps?.borderColor as string,
+				backgroundColor: data.meta.blockProps
+					?.backgroundColor as string,
+				borderColor: data.meta.blockProps?.borderColor as string,
 			}}
 		>
-			<div>
+			<EditableNode nodeProps={props} canResize={false} canHandle={false}>
 				<div
 					ref={containerRef}
-					className="inline-flex gap-2 p-3 items-center"
+					className="w-full relative flex items-center justify-center px-3 py-4"
 					style={{
-						padding: data.blockProps?.padding as number,
+						padding: data.meta.blockProps?.padding ?? 8,
 					}}
 				>
-					<div className="w-6 border border-foreground/50 rounded-md flex-shrink-0 pointer-events-none aspect-square" />
-					<p
-						className="text-left flex-shrink-0  whitespace-pre-wrap text-nowrap"
-						style={{
-							fontSize: data.fontProps?.fontSize,
-							color: data.fontProps?.fontColor as string,
-						}}
-					>
-						{data.labelProps?.label}
-					</p>
+					<span className="absolute top-[-20px] right-2 text-xs text-muted-foreground truncate max-w-[60%]">
+						{title}
+					</span>
+
+					<div className="flex items-center gap-2 max-w-full overflow-hidden">
+						{todos.length > 0 && (
+							<div className="w-5 h-5 border border-foreground/50 rounded-md flex-shrink-0 pointer-events-none" />
+						)}
+						<p
+							className="text-sm leading-snug text-left truncate"
+							style={{
+								fontSize: data.meta.fontProps?.fontSize,
+								color: data.meta.fontProps?.fontColor as string,
+							}}
+							title={taskText}
+						>
+							{taskText}
+						</p>
+					</div>
 				</div>
-			</div>
-			<ResizeNodeComponent ref={containerRef} />
-			<DeleteNodeComponent node={props} />
-		</article>
+			</EditableNode>
+		</SkeletonNode>
 	);
 };
 
