@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { CompletionType, NodeKind } from '@prisma/__generated__';
+import { NodeType } from '@prisma/__generated__';
 import { IsString, IsEnum } from 'class-validator';
 
 @InputType()
@@ -9,18 +9,10 @@ export class CreateTopicNodeInput {
   title: string;
 
   @Field()
-  @IsString()
+  @IsEnum(NodeType)
   type: string;
 
   @Field()
   meta: string;
-
-  @Field(() => NodeKind)
-  @IsEnum(NodeKind)
-  kind: NodeKind;
-
-  @Field(() => CompletionType)
-  @IsEnum(CompletionType)
-  completionType: CompletionType;
 }
 

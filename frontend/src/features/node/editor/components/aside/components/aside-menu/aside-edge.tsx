@@ -1,4 +1,4 @@
-import { useEdgeStore } from '@/shared/managers/store/edge.store';
+import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
 import { Trash2, XIcon } from 'lucide-react';
 import { Button, Separator } from '@/shared/ui';
 import { CommandComponentEdgeLine } from '../parts/edges/edge-color-line';

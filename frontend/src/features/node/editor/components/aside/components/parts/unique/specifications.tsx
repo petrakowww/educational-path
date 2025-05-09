@@ -1,5 +1,5 @@
 import { nodePosition } from '@/features/node/editor/utils/node-position';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 
 export const ComponentNodeCharacteristics = () => {
 	const node = useNodeStore((state) =>

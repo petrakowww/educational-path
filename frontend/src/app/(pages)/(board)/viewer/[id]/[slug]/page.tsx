@@ -1,5 +1,6 @@
 'use client';
 
+import { useGetPreviewCourseInfoQuery } from '@/shared/graphql/generated/output';
 import { useMediaQuery } from '@/shared/lib';
 import {
 	Avatar,
@@ -13,8 +14,10 @@ import {
 	Label,
 	Separator,
 	Sidebar,
+	SidebarTrigger,
 	Switch,
 } from '@/shared/ui';
+import { ViewerSidebar } from '@/widgets/viewer/aside/aside';
 import { CourseProgressCircle } from '@/widgets/viewer/aside/information/course-progress-circle';
 import {
 	AsideRouteMapNavigation,
@@ -35,6 +38,9 @@ import {
 	RouteHeaderStatsPanelDesktop,
 	RouteHeaderStatsWrapper,
 } from '@/widgets/viewer/header/header-stats-panel';
+import { ReactFlowViewer } from '@/widgets/viewer/reactflow/viewer-reactflow';
+import { ViewerPageSkeleton } from '@/widgets/viewer/skeleton/viewer-page';
+import { useParams } from 'next/navigation';
 import {
 	ReactFlow,
 	Background,
@@ -45,62 +51,55 @@ import {
 
 import 'reactflow/dist/style.css';
 
-const mockRoute = {
-	title: 'Изучение JavaScript',
-	description:
-		'Маршрут включает в себя изучение основ JS, DOM, ES6 и асинхронности.',
-	topicCount: 12,
-	nodeCount: 21,
-	isLinear: false,
-	isStarted: true,
-	createdAt: '2025-05-08T16:36:52+00:00',
-	updatedAt: '1746722212',
-	author: {
-		id: 'user-123',
-		name: 'Иван Петровыыыыыыыыыыыыыыыыыы',
-		avatarUrl: '',
-	},
-};
-
 export default function Page() {
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
+	const params = useParams();
 
+	const { data, loading, error, refetch } = useGetPreviewCourseInfoQuery({
+		variables: { routeId: String(params?.id) },
+		skip: !params?.id,
+	});
+
+	if (loading) return <ViewerPageSkeleton/>;
+	
 	return (
-		<div className="flex flex-grow h-screen flex-col">
-			<header className="relative min-h-16 border-b px-6 flex items-center justify-between bg-background">
-				<HeaderRouteTitle title={mockRoute.title} isVerified={false} />
-				<RouteHeaderStatsWrapper
-					progress={6}
-					completed={1}
-					inProgress={0}
-					skipped={0}
-					topicCount={5}
-					nodeCount={18}
-					isDesktop={isDesktop}
-				/>
-			</header>
+		<div className="flex flex-row w-full">
+			<ViewerSidebar
+				route={data?.getUserTopicMap.route}
+				course={data?.getUserTopicMap.UserCourse}
+				error={error}
+				refetch={() => refetch?.()}
+			/>
+			<div className="bg-muted/40 border-r">
+				<SidebarTrigger />
+			</div>
+			<div className="flex flex-grow h-screen flex-col">
+				<header className="relative min-h-16 border-b px-6 flex items-center justify-between bg-background">
+					<HeaderRouteTitle
+						title={data?.getUserTopicMap.route?.title ?? ''}
+						isVerified={false}
+					/>
+					<RouteHeaderStatsWrapper
+						progress={6}
+						completed={1}
+						inProgress={0}
+						skipped={0}
+						topicCount={5}
+						nodeCount={18}
+						isDesktop={isDesktop}
+					/>
+				</header>
 
-			<div className="flex-1 relative">
-				<ReactFlow
-					nodes={[]} // временно пусто
-					edges={[]} // временно пусто
-					fitView
-				>
-					<Background
-						variant={BackgroundVariant.Dots}
-						gap={12}
-						size={1}
-					/>
-					<MiniMap pannable zoomable />
-					<Controls position="top-right" />
-				</ReactFlow>
-				<div className="absolute bottom-4 left-3">
-					<RouteViewMenubar
-						isLinearMode={true}
-						onModeChange={(val) => console.log('mode:', val)}
-						view="graph"
-						onViewChange={(val) => console.log('view:', val)}
-					/>
+				<div className="flex-1 relative">
+					<ReactFlowViewer nodes={data?.getUserTopicMap.nodes} edges={data?.getUserTopicMap.edges}/>
+					<div className="absolute bottom-4 left-3">
+						<RouteViewMenubar
+							isLinearMode={true}
+							onModeChange={(val) => console.log('mode:', val)}
+							view="graph"
+							onViewChange={(val) => console.log('view:', val)}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>

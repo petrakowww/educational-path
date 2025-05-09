@@ -116,13 +116,11 @@ model TopicMap {
 model TopicNode {
   id                String              @id @default(uuid())
   topicMapId        String              @map("topic_map_id")
-  kind              NodeKind            @default(TOPIC)
-  type              String
+  type              NodeType
   title             String
   meta              Json
   posxy             Json?
   zIndex            Int?                @map("z_index")
-  completionType    CompletionType      @default(MANUAL) @map("completion_type")
   checklist         ChecklistItem[]
   topicMap          TopicMap            @relation(fields: [topicMapId], references: [id], onDelete: Cascade)
   UserTopicProgress UserTopicProgress[]
@@ -207,16 +205,15 @@ enum PrivateType {
   PRIVATE
 }
 
-enum NodeKind {
-  VISUAL
-  MARKABLE
+enum NodeType {
+  TITLE
   TOPIC
-}
-
-enum CompletionType {
+  SUBTOPIC
+  PARAGRAPH
+  LABEL
+  BUTTON
   TODO
-  MANUAL
-  NONE
+  CHECKLIST
 }
 
 enum NodeStatus {

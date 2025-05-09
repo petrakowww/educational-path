@@ -22,7 +22,7 @@ import { TaskImportanceEnum } from '@/features/node/editor/types/importance';
 import { CategoriesEnum } from '@/features/node/editor/types/categories';
 import { Link, Links } from '@/features/node/editor/types/extended-node';
 import { toast } from 'sonner';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 
 const IMPORTANCE_LEVELS: { value: TaskImportanceEnum; color: string }[] = [
 	{ value: TaskImportanceEnum.VeryLow, color: 'bg-green-500' },

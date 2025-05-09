@@ -1,4 +1,4 @@
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 import { Button, Label } from '@/shared/ui';
 import {
 	ArrowDownToLineIcon,
@@ -10,18 +10,22 @@ import {
 import { shallow } from 'zustand/shallow';
 
 export const ComponentLayering = () => {
-
-	const [selectedNodeId, moveNodeToTop, moveNodeUp, moveNodeDown, moveNodeToBottom] =
-		useNodeStore(
-			(state) => [
-				state.selectedNodeId,
-				state.moveNodeToTop,
-				state.moveNodeUp,
-				state.moveNodeDown,
-				state.moveNodeToBottom,
-			],
-			shallow
-		);
+	const [
+		selectedNodeId,
+		moveNodeToTop,
+		moveNodeUp,
+		moveNodeDown,
+		moveNodeToBottom,
+	] = useNodeStore(
+		(state) => [
+			state.selectedNodeId,
+			state.moveNodeToTop,
+			state.moveNodeUp,
+			state.moveNodeDown,
+			state.moveNodeToBottom,
+		],
+		shallow
+	);
 
 	const isDisabled = !selectedNodeId;
 
@@ -34,9 +38,11 @@ export const ComponentLayering = () => {
 				<Button
 					className="w-6 h-6 p-0 m-0"
 					variant="outline"
-					onClick={() => selectedNodeId && moveNodeToTop(selectedNodeId)}
+					onClick={() =>
+						selectedNodeId && moveNodeToTop(selectedNodeId)
+					}
 					disabled={isDisabled}
-					title='В самый вверх'
+					title="В самый вверх"
 				>
 					<ArrowUpToLineIcon className="w-4 h-4" />
 				</Button>
@@ -45,25 +51,29 @@ export const ComponentLayering = () => {
 					variant="outline"
 					onClick={() => selectedNodeId && moveNodeUp(selectedNodeId)}
 					disabled={isDisabled}
-					title='В вверх'
+					title="В вверх"
 				>
 					<ArrowUpIcon className="w-4 h-4" />
 				</Button>
 				<Button
 					className="w-6 h-6 p-0 m-0"
 					variant="outline"
-					onClick={() => selectedNodeId && moveNodeToBottom(selectedNodeId)}
+					onClick={() =>
+						selectedNodeId && moveNodeToBottom(selectedNodeId)
+					}
 					disabled={isDisabled}
-					title='В самый низ'
+					title="В самый низ"
 				>
 					<ArrowDownToLineIcon className="w-4 h-4" />
 				</Button>
 				<Button
 					className="w-6 h-6 p-0 m-0"
 					variant="outline"
-					onClick={() => selectedNodeId && moveNodeDown(selectedNodeId)}
+					onClick={() =>
+						selectedNodeId && moveNodeDown(selectedNodeId)
+					}
 					disabled={isDisabled}
-					title='В низ'
+					title="В низ"
 				>
 					<ArrowDownIcon className="w-4 h-4" />
 				</Button>

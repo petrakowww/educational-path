@@ -18,8 +18,6 @@ export function transformNodesAndEdgesForMutation(
         zIndex,
         data: {
           title,
-          completionType,
-          kind,
           todos,
         },
       } = node;
@@ -41,8 +39,6 @@ export function transformNodesAndEdgesForMutation(
         id,
         title,
         type,
-        kind,
-        completionType,
         meta: JSON.stringify(data),
         posxy: posxy,
         zIndex: zIndex ?? 0,
@@ -51,7 +47,6 @@ export function transformNodesAndEdgesForMutation(
     });
   
     const edges: UpdateTopicEdgeInput[] = edgesList.map((edge) => {
-        console.log(edge);
         const meta = Object.keys(edge).length > 0 ? JSON.stringify(edge) : undefined;
     
         return {

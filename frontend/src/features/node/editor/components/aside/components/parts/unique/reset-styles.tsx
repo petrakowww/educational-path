@@ -11,7 +11,7 @@ import { InfoIcon } from 'lucide-react';
 import { NodeMain, NodeType } from '@/features/node/editor/types/node';
 import { nodeBuilderRegistry } from '@/features/node/editor/config/node-templates-config';
 import { NodeStyleBuilder } from '@/features/node/editor/utils/core/node-style-builder';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 
 interface ComponentResetStylesProps {
 	editedNode: Node<NodeMain>;
@@ -52,7 +52,7 @@ export const ComponentResetStyles = ({
 				data: {
 					meta: {
 						...defaultStyles,
-					}
+					},
 				},
 			},
 		});

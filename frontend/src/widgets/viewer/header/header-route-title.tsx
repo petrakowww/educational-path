@@ -9,12 +9,12 @@ export const HeaderRouteTitle = ({
 	isVerified?: boolean;
 }) => {
 	return (
-		<div className="flex gap-1 flex-row items-center md:gap-3 py-1">
+		<div className="flex gap-1 flex-grow flex-row items-center md:gap-3 py-1">
 			<h1 className="font-semibold text-lg line-clamp-2 break-all text-ellipsis w-fit">
 				{title}
 			</h1>
 
-			<div className="flex items-center gap-3 w-full md:w-auto">
+			<div className="flex items-center gap-3 md:w-auto">
 				<Separator orientation="vertical" className="h-5" />
 				<Badge
 					className={cn(

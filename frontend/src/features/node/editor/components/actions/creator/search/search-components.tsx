@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Trash2, LocateFixed } from 'lucide-react';
 import clsx from 'clsx';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 import { Button, Input } from '@/shared/ui';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { nodeTypeIconRegistry } from './constants';
 import { NodeType } from '@/features/node/editor/types/node';
 import { shallow } from 'zustand/shallow';
-import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
+import { useEditorAsideStore } from '@/shared/managers/store/editor/editor.store';
 import { getNodesBounds, useReactFlow } from 'reactflow';
 
 export const SearchComponents = () => {
@@ -21,7 +21,8 @@ export const SearchComponents = () => {
 				setNode: state.setNode,
 				deleteNode: state.deleteNode,
 			}),
-			(a, b) => (a.nodes === b.nodes && a.selectedNodeId === b.selectedNodeId)
+			(a, b) =>
+				a.nodes === b.nodes && a.selectedNodeId === b.selectedNodeId
 		);
 
 	const { openEditor } = useEditorAsideStore(

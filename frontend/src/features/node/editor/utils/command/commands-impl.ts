@@ -5,12 +5,14 @@ import {
 	TextAlignmentEnum,
 	TextFontWeightEnum,
 } from '../../types/styles';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 import { CompletionType, NodeKind } from '@/shared/graphql/generated/output';
 
 const updateNodeProperties = useNodeStore.getState().updateNodeProperties;
 
-export class WithBackgroundColorCommand extends CommandBase<React.CSSProperties['color'] | null> {
+export class WithBackgroundColorCommand extends CommandBase<
+	React.CSSProperties['color'] | null
+> {
 	execute(): void {
 		updateNodeProperties({
 			nodeId: this.nodeId,
@@ -27,7 +29,9 @@ export class WithBackgroundColorCommand extends CommandBase<React.CSSProperties[
 	}
 }
 
-export class WithBorderColorCommand extends CommandBase<React.CSSProperties['color'] | null> {
+export class WithBorderColorCommand extends CommandBase<
+	React.CSSProperties['color'] | null
+> {
 	execute(): void {
 		updateNodeProperties({
 			nodeId: this.nodeId,
@@ -61,7 +65,9 @@ export class WithPaddingCommand extends CommandBase<number | null> {
 	}
 }
 
-export class WithBorderRadiusCommand extends CommandBase<BorderRadiusEnum | number> {
+export class WithBorderRadiusCommand extends CommandBase<
+	BorderRadiusEnum | number
+> {
 	execute(): void {
 		updateNodeProperties({
 			nodeId: this.nodeId,
@@ -112,7 +118,9 @@ export class WithFontSizeCommand extends CommandBase<number> {
 	}
 }
 
-export class WithFontColorCommand extends CommandBase<React.CSSProperties['color'] | null> {
+export class WithFontColorCommand extends CommandBase<
+	React.CSSProperties['color'] | null
+> {
 	execute(): void {
 		updateNodeProperties({
 			nodeId: this.nodeId,
@@ -129,7 +137,9 @@ export class WithFontColorCommand extends CommandBase<React.CSSProperties['color
 	}
 }
 
-export class WithFontWeightCommand extends CommandBase<TextFontWeightEnum | number> {
+export class WithFontWeightCommand extends CommandBase<
+	TextFontWeightEnum | number
+> {
 	execute(): void {
 		updateNodeProperties({
 			nodeId: this.nodeId,

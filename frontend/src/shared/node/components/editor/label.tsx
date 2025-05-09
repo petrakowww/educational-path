@@ -1,8 +1,5 @@
 import { memo } from 'react';
 import { NodeProps } from 'reactflow';
-import { DeleteNodeComponent } from '../utils/delete-node';
-import { IsSelectedNode } from '../utils/is-selected-node';
-import clsx from 'clsx';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { SkeletonNode } from './base/skeleton-node';
 import { EditableNode } from './base/editable-node';

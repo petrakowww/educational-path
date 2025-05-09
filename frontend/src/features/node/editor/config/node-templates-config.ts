@@ -21,16 +21,12 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 	[NodeType.title]: () =>
 		new NodeBuilder(nodeBuilderConfig, NodeType.title)
 			.withTitle(NodeLabel.title)
-			.withKind(NodeKind.Visual)
-			.withCompletionType(CompletionType.None)
 			.withFontSize()
 			.withShowLabel(true),
 
 	[NodeType.topic]: () =>
 		new NodeBuilderTopic(nodeBuilderConfigTopic)
 			.withTitle(NodeLabel.topic)
-			.withKind(NodeKind.Topic)
-			.withCompletionType(CompletionType.Manual)
 			.withFontSize()
 			.withBackgroundColor()
 			.withShowLabel(true),
@@ -38,8 +34,6 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 	[NodeType.subtopic]: () =>
 		new NodeBuilderSubTopic(nodeBuilderConfigSubTopic)
 			.withTitle(NodeLabel.subtopic)
-			.withKind(NodeKind.Topic)
-			.withCompletionType(CompletionType.Manual)
 			.withFontSize()
 			.withBackgroundColor()
 			.withShowLabel(true),
@@ -47,8 +41,6 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 	[NodeType.paragraph]: () =>
 		new NodeBuilder(nodeBuilderConfig, NodeType.paragraph)
 			.withTitle(NodeLabel.paragraph)
-			.withKind(NodeKind.Visual)
-			.withCompletionType(CompletionType.None)
 			.withTextAlign()
 			.withJustification()
 			.withFontSize()
@@ -63,8 +55,6 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 	[NodeType.label]: () =>
 		new NodeBuilder(nodeBuilderConfig, NodeType.label)
 			.withTitle(NodeLabel.label)
-			.withKind(NodeKind.Visual)
-			.withCompletionType(CompletionType.None)
 			.withFontSize()
 			.withFontColor()
 			.withShowLabel(true),
@@ -72,8 +62,6 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 	[NodeType.button]: () =>
 		new NodeBuilderButton(nodeBuilderConfigButton)
 			.withTitle(NodeLabel.button)
-			.withKind(NodeKind.Visual)
-			.withCompletionType(CompletionType.None)
 			.withFontSize()
 			.withFontColor()
 			.withBackgroundColor()
@@ -83,8 +71,6 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 	[NodeType.todo]: () =>
 		new NodeBuilderTodo(nodeBuilderConfigToDo)
 			.withTitle(NodeLabel.todo)
-			.withKind(NodeKind.Markable)
-			.withCompletionType(CompletionType.Todo)
 			.withFontColor()
 			.withFontSize()
 			.withBackgroundColor()
@@ -94,8 +80,6 @@ export const nodeBuilderRegistry: Record<NodeType, () => NodeBuilder> = {
 	[NodeType.checklist]: () =>
 		new NodeBuilderChecklist(nodeBuilderConfigChecklist)
 			.withTitle(NodeLabel.checklist)
-			.withKind(NodeKind.Topic)
-			.withCompletionType(CompletionType.Todo)
 			.withBackgroundColor()
 			.withBorderColor()
 			.withShowLabel(false),

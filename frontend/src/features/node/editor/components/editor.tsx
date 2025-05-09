@@ -18,21 +18,19 @@ import 'reactflow/dist/style.css';
 import React, { useCallback, useMemo } from 'react';
 import { NodeMain } from '../types/node';
 import { nodeBuilderRegistry } from '../config/node-templates-config';
-import { nodeVisualComponents } from '@/shared/node/fabric/node-components';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
-import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
-import { useDragAndDropStore } from '@/shared/managers/store/dnd.store';
+import { nodeVisualComponents } from '@/shared/node/components/editor/fabric/node-components';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
+import { useEditorAsideStore } from '@/shared/managers/store/editor/editor.store';
+import { useDragAndDropStore } from '@/shared/managers/store/editor/dnd-editor.store';
 import { createsCycle } from '../utils/edges/creates-cycle';
-import { CustomEdge } from '@/shared/edge/components/edge';
-import { useEdgeStore } from '@/shared/managers/store/edge.store';
+import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
 import { shallow } from 'zustand/vanilla/shallow';
-import { defaultEdgeConfig } from '@/shared/edge/config/edge.config';
-import { CustomConnectionLine } from '@/shared/node/components/line/connection-line';
-import { getNodeColorByType } from './utils/get-node-color-by-type';
-
-const edgeTypes = {
-	custom: CustomEdge,
-};
+import {
+	defaultEdgeConfig,
+	edgeEditorType,
+} from '@/shared/edge/config/edge.config';
+import { getNodeColorByType } from '../../utils/get-node-color-by-type';
+import { CustomConnectionLine } from '@/shared/node/components/editor/line/connection-line';
 
 export const Editor = () => {
 	const { screenToFlowPosition } = useReactFlow();
@@ -150,19 +148,18 @@ export const Editor = () => {
 	// удаление нельзя выполнить через клавиатуру, учитывать это (исправить)
 	const handleNodesChange = useCallback(
 		(changes: NodeChange[]) => {
-			const filtered = changes.filter((change) => {
-				if (change.type === 'remove') return true;
-				if (change.type === 'select') return false;
-				if (change.type === 'position' && !change.dragging) {
-					return false;
-				}
-				return true;
-			});
+			// const filtered = changes.filter((change) => {
+			// 	if (change.type === 'remove') return true;
+			// 	if (change.type === 'select') return false;
+			// 	if (change.type === 'position' && !change.dragging) {
+			// 		return false;
+			// 	}
+			// 	return true;
+			// });
 
-			if (filtered.length === 0) return;
-
-			const updatedNodes = applyNodeChanges(filtered, nodesList);
-			console.log(updatedNodes[0]);
+			// if (filtered.length === 0) return;
+			// console.log(updatedNodes);
+			const updatedNodes = applyNodeChanges(changes, nodesList);
 			setNodes(updatedNodes);
 		},
 		[nodesList, setNodes]
@@ -206,7 +203,7 @@ export const Editor = () => {
 				onEdgesChange={handleEdgesChange}
 				onNodesChange={handleNodesChange}
 				nodeTypes={nodeVisualComponents}
-				edgeTypes={edgeTypes}
+				edgeTypes={edgeEditorType}
 				onClick={handleFlowEditorOnClick}
 				onNodeDoubleClick={handleNodeDoubleClick}
 				onNodeClick={handleNodeClick}

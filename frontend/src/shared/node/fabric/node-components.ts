@@ -1,11 +1,11 @@
 import { NodeType } from "@/features/node/editor/types/node";
-import { TodoNodeMemo } from "../components/todo";
-import { ChecklistNodeMemo } from "../components/checklist";
-import { ButtonNodeMemo } from "../components/button";
-import { LabelNodeMemo } from "../components/label";
-import { ParagraphNodeMemo } from "../components/paragraph";
-import { TitleNodeMemo } from "../components/title";
-import { TopicNodeMemo } from "../components/topic";
+import { TopicNodeMemo } from "../components/editor/topic";
+import { TitleNodeMemo } from "../components/editor/title";
+import { ParagraphNodeMemo } from "../components/editor/paragraph";
+import { LabelNodeMemo } from "../components/editor/label";
+import { ButtonNodeMemo } from "../components/editor/button";
+import { ChecklistNodeMemo } from "../components/editor/checklist";
+import { TodoNodeMemo } from "../components/editor/todo";
 
 export const nodeVisualComponents = {
     [NodeType.subtopic]: TopicNodeMemo,

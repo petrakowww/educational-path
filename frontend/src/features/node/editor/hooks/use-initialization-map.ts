@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useGetTopicMapQuery } from '@/shared/graphql/generated/output';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
-import { useEdgeStore } from '@/shared/managers/store/edge.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
+import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
 import { Node, Edge } from 'reactflow';
 import { useParams } from 'next/navigation';
 import { shallow } from 'zustand/shallow';
-import { deserializeNode } from './utils';
+import { deserializeNode } from '../../utils/node-deserialize';
 import { defaultEdgeConfig } from '@/shared/edge/config/edge.config';
 
-export const useInitializationMap = () => {
+export const useInitializationEditorMap = () => {
 	const params = useParams<{ id: string }>();
 	const routeId = params?.id;
 

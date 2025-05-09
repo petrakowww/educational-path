@@ -11,14 +11,12 @@ import {
 
 interface RouteDetailsCardProps {
 	title: string;
-	description?: string;
-	tags?: string[];
+	description?: string | null;
 }
 
 export const RouteDetailsCard = ({
 	title,
-	description,
-	tags = [],
+	description = 'Описание маршрута не задано',
 }: RouteDetailsCardProps) => {
 	return (
 		<Card className="max-h-[500px] overflow-hidden">

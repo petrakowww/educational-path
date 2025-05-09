@@ -124,22 +124,18 @@ export const PrivateType: {
 export type PrivateType = (typeof PrivateType)[keyof typeof PrivateType]
 
 
-export const NodeKind: {
-  VISUAL: 'VISUAL',
-  MARKABLE: 'MARKABLE',
-  TOPIC: 'TOPIC'
-};
-
-export type NodeKind = (typeof NodeKind)[keyof typeof NodeKind]
-
-
-export const CompletionType: {
+export const NodeType: {
+  TITLE: 'TITLE',
+  TOPIC: 'TOPIC',
+  SUBTOPIC: 'SUBTOPIC',
+  PARAGRAPH: 'PARAGRAPH',
+  LABEL: 'LABEL',
+  BUTTON: 'BUTTON',
   TODO: 'TODO',
-  MANUAL: 'MANUAL',
-  NONE: 'NONE'
+  CHECKLIST: 'CHECKLIST'
 };
 
-export type CompletionType = (typeof CompletionType)[keyof typeof CompletionType]
+export type NodeType = (typeof NodeType)[keyof typeof NodeType]
 
 
 export const NodeStatus: {
@@ -185,13 +181,9 @@ export type PrivateType = $Enums.PrivateType
 
 export const PrivateType: typeof $Enums.PrivateType
 
-export type NodeKind = $Enums.NodeKind
+export type NodeType = $Enums.NodeType
 
-export const NodeKind: typeof $Enums.NodeKind
-
-export type CompletionType = $Enums.CompletionType
-
-export const CompletionType: typeof $Enums.CompletionType
+export const NodeType: typeof $Enums.NodeType
 
 export type NodeStatus = $Enums.NodeStatus
 
@@ -11310,33 +11302,27 @@ export namespace Prisma {
   export type TopicNodeMinAggregateOutputType = {
     id: string | null
     topicMapId: string | null
-    kind: $Enums.NodeKind | null
-    type: string | null
+    type: $Enums.NodeType | null
     title: string | null
     zIndex: number | null
-    completionType: $Enums.CompletionType | null
   }
 
   export type TopicNodeMaxAggregateOutputType = {
     id: string | null
     topicMapId: string | null
-    kind: $Enums.NodeKind | null
-    type: string | null
+    type: $Enums.NodeType | null
     title: string | null
     zIndex: number | null
-    completionType: $Enums.CompletionType | null
   }
 
   export type TopicNodeCountAggregateOutputType = {
     id: number
     topicMapId: number
-    kind: number
     type: number
     title: number
     meta: number
     posxy: number
     zIndex: number
-    completionType: number
     _all: number
   }
 
@@ -11352,33 +11338,27 @@ export namespace Prisma {
   export type TopicNodeMinAggregateInputType = {
     id?: true
     topicMapId?: true
-    kind?: true
     type?: true
     title?: true
     zIndex?: true
-    completionType?: true
   }
 
   export type TopicNodeMaxAggregateInputType = {
     id?: true
     topicMapId?: true
-    kind?: true
     type?: true
     title?: true
     zIndex?: true
-    completionType?: true
   }
 
   export type TopicNodeCountAggregateInputType = {
     id?: true
     topicMapId?: true
-    kind?: true
     type?: true
     title?: true
     meta?: true
     posxy?: true
     zIndex?: true
-    completionType?: true
     _all?: true
   }
 
@@ -11471,13 +11451,11 @@ export namespace Prisma {
   export type TopicNodeGroupByOutputType = {
     id: string
     topicMapId: string
-    kind: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonValue
     posxy: JsonValue | null
     zIndex: number | null
-    completionType: $Enums.CompletionType
     _count: TopicNodeCountAggregateOutputType | null
     _avg: TopicNodeAvgAggregateOutputType | null
     _sum: TopicNodeSumAggregateOutputType | null
@@ -11502,13 +11480,11 @@ export namespace Prisma {
   export type TopicNodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     topicMapId?: boolean
-    kind?: boolean
     type?: boolean
     title?: boolean
     meta?: boolean
     posxy?: boolean
     zIndex?: boolean
-    completionType?: boolean
     checklist?: boolean | TopicNode$checklistArgs<ExtArgs>
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
     UserTopicProgress?: boolean | TopicNode$UserTopicProgressArgs<ExtArgs>
@@ -11518,42 +11494,36 @@ export namespace Prisma {
   export type TopicNodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     topicMapId?: boolean
-    kind?: boolean
     type?: boolean
     title?: boolean
     meta?: boolean
     posxy?: boolean
     zIndex?: boolean
-    completionType?: boolean
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topicNode"]>
 
   export type TopicNodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     topicMapId?: boolean
-    kind?: boolean
     type?: boolean
     title?: boolean
     meta?: boolean
     posxy?: boolean
     zIndex?: boolean
-    completionType?: boolean
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topicNode"]>
 
   export type TopicNodeSelectScalar = {
     id?: boolean
     topicMapId?: boolean
-    kind?: boolean
     type?: boolean
     title?: boolean
     meta?: boolean
     posxy?: boolean
     zIndex?: boolean
-    completionType?: boolean
   }
 
-  export type TopicNodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "topicMapId" | "kind" | "type" | "title" | "meta" | "posxy" | "zIndex" | "completionType", ExtArgs["result"]["topicNode"]>
+  export type TopicNodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "topicMapId" | "type" | "title" | "meta" | "posxy" | "zIndex", ExtArgs["result"]["topicNode"]>
   export type TopicNodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     checklist?: boolean | TopicNode$checklistArgs<ExtArgs>
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
@@ -11577,13 +11547,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       topicMapId: string
-      kind: $Enums.NodeKind
-      type: string
+      type: $Enums.NodeType
       title: string
       meta: Prisma.JsonValue
       posxy: Prisma.JsonValue | null
       zIndex: number | null
-      completionType: $Enums.CompletionType
     }, ExtArgs["result"]["topicNode"]>
     composites: {}
   }
@@ -12012,13 +11980,11 @@ export namespace Prisma {
   interface TopicNodeFieldRefs {
     readonly id: FieldRef<"TopicNode", 'String'>
     readonly topicMapId: FieldRef<"TopicNode", 'String'>
-    readonly kind: FieldRef<"TopicNode", 'NodeKind'>
-    readonly type: FieldRef<"TopicNode", 'String'>
+    readonly type: FieldRef<"TopicNode", 'NodeType'>
     readonly title: FieldRef<"TopicNode", 'String'>
     readonly meta: FieldRef<"TopicNode", 'Json'>
     readonly posxy: FieldRef<"TopicNode", 'Json'>
     readonly zIndex: FieldRef<"TopicNode", 'Int'>
-    readonly completionType: FieldRef<"TopicNode", 'CompletionType'>
   }
     
 
@@ -18033,13 +17999,11 @@ export namespace Prisma {
   export const TopicNodeScalarFieldEnum: {
     id: 'id',
     topicMapId: 'topicMapId',
-    kind: 'kind',
     type: 'type',
     title: 'title',
     meta: 'meta',
     posxy: 'posxy',
-    zIndex: 'zIndex',
-    completionType: 'completionType'
+    zIndex: 'zIndex'
   };
 
   export type TopicNodeScalarFieldEnum = (typeof TopicNodeScalarFieldEnum)[keyof typeof TopicNodeScalarFieldEnum]
@@ -18246,16 +18210,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'NodeKind'
+   * Reference to a field of type 'NodeType'
    */
-  export type EnumNodeKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeKind'>
+  export type EnumNodeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeType'>
     
 
 
   /**
-   * Reference to a field of type 'NodeKind[]'
+   * Reference to a field of type 'NodeType[]'
    */
-  export type ListEnumNodeKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeKind[]'>
+  export type ListEnumNodeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeType[]'>
     
 
 
@@ -18284,20 +18248,6 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'CompletionType'
-   */
-  export type EnumCompletionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompletionType'>
-    
-
-
-  /**
-   * Reference to a field of type 'CompletionType[]'
-   */
-  export type ListEnumCompletionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompletionType[]'>
     
 
 
@@ -18886,13 +18836,11 @@ export namespace Prisma {
     NOT?: TopicNodeWhereInput | TopicNodeWhereInput[]
     id?: StringFilter<"TopicNode"> | string
     topicMapId?: StringFilter<"TopicNode"> | string
-    kind?: EnumNodeKindFilter<"TopicNode"> | $Enums.NodeKind
-    type?: StringFilter<"TopicNode"> | string
+    type?: EnumNodeTypeFilter<"TopicNode"> | $Enums.NodeType
     title?: StringFilter<"TopicNode"> | string
     meta?: JsonFilter<"TopicNode">
     posxy?: JsonNullableFilter<"TopicNode">
     zIndex?: IntNullableFilter<"TopicNode"> | number | null
-    completionType?: EnumCompletionTypeFilter<"TopicNode"> | $Enums.CompletionType
     checklist?: ChecklistItemListRelationFilter
     topicMap?: XOR<TopicMapScalarRelationFilter, TopicMapWhereInput>
     UserTopicProgress?: UserTopicProgressListRelationFilter
@@ -18901,13 +18849,11 @@ export namespace Prisma {
   export type TopicNodeOrderByWithRelationInput = {
     id?: SortOrder
     topicMapId?: SortOrder
-    kind?: SortOrder
     type?: SortOrder
     title?: SortOrder
     meta?: SortOrder
     posxy?: SortOrderInput | SortOrder
     zIndex?: SortOrderInput | SortOrder
-    completionType?: SortOrder
     checklist?: ChecklistItemOrderByRelationAggregateInput
     topicMap?: TopicMapOrderByWithRelationInput
     UserTopicProgress?: UserTopicProgressOrderByRelationAggregateInput
@@ -18919,13 +18865,11 @@ export namespace Prisma {
     OR?: TopicNodeWhereInput[]
     NOT?: TopicNodeWhereInput | TopicNodeWhereInput[]
     topicMapId?: StringFilter<"TopicNode"> | string
-    kind?: EnumNodeKindFilter<"TopicNode"> | $Enums.NodeKind
-    type?: StringFilter<"TopicNode"> | string
+    type?: EnumNodeTypeFilter<"TopicNode"> | $Enums.NodeType
     title?: StringFilter<"TopicNode"> | string
     meta?: JsonFilter<"TopicNode">
     posxy?: JsonNullableFilter<"TopicNode">
     zIndex?: IntNullableFilter<"TopicNode"> | number | null
-    completionType?: EnumCompletionTypeFilter<"TopicNode"> | $Enums.CompletionType
     checklist?: ChecklistItemListRelationFilter
     topicMap?: XOR<TopicMapScalarRelationFilter, TopicMapWhereInput>
     UserTopicProgress?: UserTopicProgressListRelationFilter
@@ -18934,13 +18878,11 @@ export namespace Prisma {
   export type TopicNodeOrderByWithAggregationInput = {
     id?: SortOrder
     topicMapId?: SortOrder
-    kind?: SortOrder
     type?: SortOrder
     title?: SortOrder
     meta?: SortOrder
     posxy?: SortOrderInput | SortOrder
     zIndex?: SortOrderInput | SortOrder
-    completionType?: SortOrder
     _count?: TopicNodeCountOrderByAggregateInput
     _avg?: TopicNodeAvgOrderByAggregateInput
     _max?: TopicNodeMaxOrderByAggregateInput
@@ -18954,13 +18896,11 @@ export namespace Prisma {
     NOT?: TopicNodeScalarWhereWithAggregatesInput | TopicNodeScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"TopicNode"> | string
     topicMapId?: StringWithAggregatesFilter<"TopicNode"> | string
-    kind?: EnumNodeKindWithAggregatesFilter<"TopicNode"> | $Enums.NodeKind
-    type?: StringWithAggregatesFilter<"TopicNode"> | string
+    type?: EnumNodeTypeWithAggregatesFilter<"TopicNode"> | $Enums.NodeType
     title?: StringWithAggregatesFilter<"TopicNode"> | string
     meta?: JsonWithAggregatesFilter<"TopicNode">
     posxy?: JsonNullableWithAggregatesFilter<"TopicNode">
     zIndex?: IntNullableWithAggregatesFilter<"TopicNode"> | number | null
-    completionType?: EnumCompletionTypeWithAggregatesFilter<"TopicNode"> | $Enums.CompletionType
   }
 
   export type TopicEdgeWhereInput = {
@@ -19815,13 +19755,11 @@ export namespace Prisma {
 
   export type TopicNodeCreateInput = {
     id?: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
     checklist?: ChecklistItemCreateNestedManyWithoutTopicNodeInput
     topicMap: TopicMapCreateNestedOneWithoutNodesInput
     UserTopicProgress?: UserTopicProgressCreateNestedManyWithoutTopicNodeInput
@@ -19830,26 +19768,22 @@ export namespace Prisma {
   export type TopicNodeUncheckedCreateInput = {
     id?: string
     topicMapId: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
     checklist?: ChecklistItemUncheckedCreateNestedManyWithoutTopicNodeInput
     UserTopicProgress?: UserTopicProgressUncheckedCreateNestedManyWithoutTopicNodeInput
   }
 
   export type TopicNodeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
     checklist?: ChecklistItemUpdateManyWithoutTopicNodeNestedInput
     topicMap?: TopicMapUpdateOneRequiredWithoutNodesNestedInput
     UserTopicProgress?: UserTopicProgressUpdateManyWithoutTopicNodeNestedInput
@@ -19858,13 +19792,11 @@ export namespace Prisma {
   export type TopicNodeUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     topicMapId?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
     checklist?: ChecklistItemUncheckedUpdateManyWithoutTopicNodeNestedInput
     UserTopicProgress?: UserTopicProgressUncheckedUpdateManyWithoutTopicNodeNestedInput
   }
@@ -19872,36 +19804,30 @@ export namespace Prisma {
   export type TopicNodeCreateManyInput = {
     id?: string
     topicMapId: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
   }
 
   export type TopicNodeUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
   }
 
   export type TopicNodeUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     topicMapId?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
   }
 
   export type TopicEdgeCreateInput = {
@@ -20705,11 +20631,11 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type EnumNodeKindFilter<$PrismaModel = never> = {
-    equals?: $Enums.NodeKind | EnumNodeKindFieldRefInput<$PrismaModel>
-    in?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
-    notIn?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
-    not?: NestedEnumNodeKindFilter<$PrismaModel> | $Enums.NodeKind
+  export type EnumNodeTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeType | EnumNodeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeType[] | ListEnumNodeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeType[] | ListEnumNodeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeTypeFilter<$PrismaModel> | $Enums.NodeType
   }
   export type JsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -20769,13 +20695,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type EnumCompletionTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.CompletionType | EnumCompletionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumCompletionTypeFilter<$PrismaModel> | $Enums.CompletionType
-  }
-
   export type ChecklistItemListRelationFilter = {
     every?: ChecklistItemWhereInput
     some?: ChecklistItemWhereInput
@@ -20804,13 +20723,11 @@ export namespace Prisma {
   export type TopicNodeCountOrderByAggregateInput = {
     id?: SortOrder
     topicMapId?: SortOrder
-    kind?: SortOrder
     type?: SortOrder
     title?: SortOrder
     meta?: SortOrder
     posxy?: SortOrder
     zIndex?: SortOrder
-    completionType?: SortOrder
   }
 
   export type TopicNodeAvgOrderByAggregateInput = {
@@ -20820,35 +20737,31 @@ export namespace Prisma {
   export type TopicNodeMaxOrderByAggregateInput = {
     id?: SortOrder
     topicMapId?: SortOrder
-    kind?: SortOrder
     type?: SortOrder
     title?: SortOrder
     zIndex?: SortOrder
-    completionType?: SortOrder
   }
 
   export type TopicNodeMinOrderByAggregateInput = {
     id?: SortOrder
     topicMapId?: SortOrder
-    kind?: SortOrder
     type?: SortOrder
     title?: SortOrder
     zIndex?: SortOrder
-    completionType?: SortOrder
   }
 
   export type TopicNodeSumOrderByAggregateInput = {
     zIndex?: SortOrder
   }
 
-  export type EnumNodeKindWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.NodeKind | EnumNodeKindFieldRefInput<$PrismaModel>
-    in?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
-    notIn?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
-    not?: NestedEnumNodeKindWithAggregatesFilter<$PrismaModel> | $Enums.NodeKind
+  export type EnumNodeTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeType | EnumNodeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeType[] | ListEnumNodeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeType[] | ListEnumNodeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeTypeWithAggregatesFilter<$PrismaModel> | $Enums.NodeType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumNodeKindFilter<$PrismaModel>
-    _max?: NestedEnumNodeKindFilter<$PrismaModel>
+    _min?: NestedEnumNodeTypeFilter<$PrismaModel>
+    _max?: NestedEnumNodeTypeFilter<$PrismaModel>
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -20917,16 +20830,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type EnumCompletionTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.CompletionType | EnumCompletionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumCompletionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CompletionType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumCompletionTypeFilter<$PrismaModel>
-    _max?: NestedEnumCompletionTypeFilter<$PrismaModel>
   }
 
   export type TopicEdgeCountOrderByAggregateInput = {
@@ -21760,8 +21663,8 @@ export namespace Prisma {
     connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
   }
 
-  export type EnumNodeKindFieldUpdateOperationsInput = {
-    set?: $Enums.NodeKind
+  export type EnumNodeTypeFieldUpdateOperationsInput = {
+    set?: $Enums.NodeType
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -21770,10 +21673,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type EnumCompletionTypeFieldUpdateOperationsInput = {
-    set?: $Enums.CompletionType
   }
 
   export type ChecklistItemUpdateManyWithoutTopicNodeNestedInput = {
@@ -22278,28 +22177,21 @@ export namespace Prisma {
     _max?: NestedEnumPrivateTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumNodeKindFilter<$PrismaModel = never> = {
-    equals?: $Enums.NodeKind | EnumNodeKindFieldRefInput<$PrismaModel>
-    in?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
-    notIn?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
-    not?: NestedEnumNodeKindFilter<$PrismaModel> | $Enums.NodeKind
+  export type NestedEnumNodeTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeType | EnumNodeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeType[] | ListEnumNodeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeType[] | ListEnumNodeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeTypeFilter<$PrismaModel> | $Enums.NodeType
   }
 
-  export type NestedEnumCompletionTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.CompletionType | EnumCompletionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumCompletionTypeFilter<$PrismaModel> | $Enums.CompletionType
-  }
-
-  export type NestedEnumNodeKindWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.NodeKind | EnumNodeKindFieldRefInput<$PrismaModel>
-    in?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
-    notIn?: $Enums.NodeKind[] | ListEnumNodeKindFieldRefInput<$PrismaModel>
-    not?: NestedEnumNodeKindWithAggregatesFilter<$PrismaModel> | $Enums.NodeKind
+  export type NestedEnumNodeTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeType | EnumNodeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeType[] | ListEnumNodeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeType[] | ListEnumNodeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeTypeWithAggregatesFilter<$PrismaModel> | $Enums.NodeType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumNodeKindFilter<$PrismaModel>
-    _max?: NestedEnumNodeKindFilter<$PrismaModel>
+    _min?: NestedEnumNodeTypeFilter<$PrismaModel>
+    _max?: NestedEnumNodeTypeFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -22373,16 +22265,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedEnumCompletionTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.CompletionType | EnumCompletionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.CompletionType[] | ListEnumCompletionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumCompletionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CompletionType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumCompletionTypeFilter<$PrismaModel>
-    _max?: NestedEnumCompletionTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumCourseViewTypeNullableFilter<$PrismaModel = never> = {
@@ -23327,26 +23209,22 @@ export namespace Prisma {
 
   export type TopicNodeCreateWithoutTopicMapInput = {
     id?: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
     checklist?: ChecklistItemCreateNestedManyWithoutTopicNodeInput
     UserTopicProgress?: UserTopicProgressCreateNestedManyWithoutTopicNodeInput
   }
 
   export type TopicNodeUncheckedCreateWithoutTopicMapInput = {
     id?: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
     checklist?: ChecklistItemUncheckedCreateNestedManyWithoutTopicNodeInput
     UserTopicProgress?: UserTopicProgressUncheckedCreateNestedManyWithoutTopicNodeInput
   }
@@ -23475,13 +23353,11 @@ export namespace Prisma {
     NOT?: TopicNodeScalarWhereInput | TopicNodeScalarWhereInput[]
     id?: StringFilter<"TopicNode"> | string
     topicMapId?: StringFilter<"TopicNode"> | string
-    kind?: EnumNodeKindFilter<"TopicNode"> | $Enums.NodeKind
-    type?: StringFilter<"TopicNode"> | string
+    type?: EnumNodeTypeFilter<"TopicNode"> | $Enums.NodeType
     title?: StringFilter<"TopicNode"> | string
     meta?: JsonFilter<"TopicNode">
     posxy?: JsonNullableFilter<"TopicNode">
     zIndex?: IntNullableFilter<"TopicNode"> | number | null
-    completionType?: EnumCompletionTypeFilter<"TopicNode"> | $Enums.CompletionType
   }
 
   export type UserCourseUpsertWithWhereUniqueWithoutTopicMapInput = {
@@ -23855,13 +23731,11 @@ export namespace Prisma {
 
   export type TopicNodeCreateWithoutUserTopicProgressInput = {
     id?: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
     checklist?: ChecklistItemCreateNestedManyWithoutTopicNodeInput
     topicMap: TopicMapCreateNestedOneWithoutNodesInput
   }
@@ -23869,13 +23743,11 @@ export namespace Prisma {
   export type TopicNodeUncheckedCreateWithoutUserTopicProgressInput = {
     id?: string
     topicMapId: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
     checklist?: ChecklistItemUncheckedCreateNestedManyWithoutTopicNodeInput
   }
 
@@ -23924,13 +23796,11 @@ export namespace Prisma {
 
   export type TopicNodeUpdateWithoutUserTopicProgressInput = {
     id?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
     checklist?: ChecklistItemUpdateManyWithoutTopicNodeNestedInput
     topicMap?: TopicMapUpdateOneRequiredWithoutNodesNestedInput
   }
@@ -23938,13 +23808,11 @@ export namespace Prisma {
   export type TopicNodeUncheckedUpdateWithoutUserTopicProgressInput = {
     id?: StringFieldUpdateOperationsInput | string
     topicMapId?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
     checklist?: ChecklistItemUncheckedUpdateManyWithoutTopicNodeNestedInput
   }
 
@@ -23983,13 +23851,11 @@ export namespace Prisma {
 
   export type TopicNodeCreateWithoutChecklistInput = {
     id?: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
     topicMap: TopicMapCreateNestedOneWithoutNodesInput
     UserTopicProgress?: UserTopicProgressCreateNestedManyWithoutTopicNodeInput
   }
@@ -23997,13 +23863,11 @@ export namespace Prisma {
   export type TopicNodeUncheckedCreateWithoutChecklistInput = {
     id?: string
     topicMapId: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
     UserTopicProgress?: UserTopicProgressUncheckedCreateNestedManyWithoutTopicNodeInput
   }
 
@@ -24047,13 +23911,11 @@ export namespace Prisma {
 
   export type TopicNodeUpdateWithoutChecklistInput = {
     id?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
     topicMap?: TopicMapUpdateOneRequiredWithoutNodesNestedInput
     UserTopicProgress?: UserTopicProgressUpdateManyWithoutTopicNodeNestedInput
   }
@@ -24061,13 +23923,11 @@ export namespace Prisma {
   export type TopicNodeUncheckedUpdateWithoutChecklistInput = {
     id?: StringFieldUpdateOperationsInput | string
     topicMapId?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
     UserTopicProgress?: UserTopicProgressUncheckedUpdateManyWithoutTopicNodeNestedInput
   }
 
@@ -24360,13 +24220,11 @@ export namespace Prisma {
 
   export type TopicNodeCreateManyTopicMapInput = {
     id?: string
-    kind?: $Enums.NodeKind
-    type: string
+    type: $Enums.NodeType
     title: string
     meta: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: number | null
-    completionType?: $Enums.CompletionType
   }
 
   export type UserCourseCreateManyTopicMapInput = {
@@ -24401,39 +24259,33 @@ export namespace Prisma {
 
   export type TopicNodeUpdateWithoutTopicMapInput = {
     id?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
     checklist?: ChecklistItemUpdateManyWithoutTopicNodeNestedInput
     UserTopicProgress?: UserTopicProgressUpdateManyWithoutTopicNodeNestedInput
   }
 
   export type TopicNodeUncheckedUpdateWithoutTopicMapInput = {
     id?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
     checklist?: ChecklistItemUncheckedUpdateManyWithoutTopicNodeNestedInput
     UserTopicProgress?: UserTopicProgressUncheckedUpdateManyWithoutTopicNodeNestedInput
   }
 
   export type TopicNodeUncheckedUpdateManyWithoutTopicMapInput = {
     id?: StringFieldUpdateOperationsInput | string
-    kind?: EnumNodeKindFieldUpdateOperationsInput | $Enums.NodeKind
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
     title?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     posxy?: NullableJsonNullValueInput | InputJsonValue
     zIndex?: NullableIntFieldUpdateOperationsInput | number | null
-    completionType?: EnumCompletionTypeFieldUpdateOperationsInput | $Enums.CompletionType
   }
 
   export type UserCourseUpdateWithoutTopicMapInput = {

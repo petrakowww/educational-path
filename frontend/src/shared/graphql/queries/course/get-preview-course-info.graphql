@@ -1,5 +1,5 @@
 query getPreviewCourseInfo($routeId: String!) {
-	getTopicMap(routeId: $routeId) {
+	getUserTopicMap(routeId: $routeId) {
 		id
 		routeId
 		updatedAt
@@ -8,10 +8,8 @@ query getPreviewCourseInfo($routeId: String!) {
 			topicMapId
       title
       type
-      kind
 			meta
 			posxy
-			completionType
       zIndex
 			checklist {
 				id
@@ -28,8 +26,25 @@ query getPreviewCourseInfo($routeId: String!) {
 		}
 		UserCourse {
 			id
-			userId
-			createdAt
+      userId
+      topicMapId
+      createdAt
+      updatedAt
+      view
+      mode 
+      progress {
+        id
+        topicNodeId
+        status
+        progressValue
+        startedAt
+        finishedAt
+      }
+      UserChecklistProgress {
+        id
+        checklistItemId
+        done
+      }
 		}
     route {
       id

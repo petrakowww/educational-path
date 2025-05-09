@@ -50,12 +50,6 @@ export type ChecklistItemInput = {
   text: Scalars['String']['input'];
 };
 
-export enum CompletionType {
-  Manual = 'MANUAL',
-  None = 'NONE',
-  Todo = 'TODO'
-}
-
 export enum CourseModeType {
   Flexible = 'FLEXIBLE',
   Strict = 'STRICT'
@@ -161,12 +155,6 @@ export type MutationUpdateUserProfileArgs = {
   dto: UserProfileDto;
 };
 
-export enum NodeKind {
-  Markable = 'MARKABLE',
-  Topic = 'TOPIC',
-  Visual = 'VISUAL'
-}
-
 export enum NodeStatus {
   Completed = 'COMPLETED',
   InProgress = 'IN_PROGRESS',
@@ -191,6 +179,7 @@ export type Query = {
   getTopicMap: TopicMap;
   getTopicNodeById: TopicNode;
   getUserCourse: UserCourse;
+  getUserTopicMap: TopicMap;
 };
 
 
@@ -221,6 +210,11 @@ export type QueryGetTopicNodeByIdArgs = {
 
 export type QueryGetUserCourseArgs = {
   topicMapId: Scalars['String']['input'];
+};
+
+
+export type QueryGetUserTopicMapArgs = {
+  routeId: Scalars['String']['input'];
 };
 
 export type Route = {
@@ -302,9 +296,7 @@ export type TopicNode = {
   __typename?: 'TopicNode';
   UserTopicProgress: Array<UserTopicProgress>;
   checklist: Array<ChecklistItem>;
-  completionType: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  kind: NodeKind;
   meta: Scalars['String']['output'];
   posxy?: Maybe<Scalars['JSON']['output']>;
   title: Scalars['String']['output'];
@@ -329,9 +321,7 @@ export type UpdateTopicEdgeInput = {
 
 export type UpdateTopicNodeInput = {
   checklist?: InputMaybe<Array<ChecklistItemInput>>;
-  completionType: CompletionType;
   id: Scalars['String']['input'];
-  kind: NodeKind;
   meta: Scalars['String']['input'];
   posxy?: InputMaybe<Scalars['JSON']['input']>;
   title: Scalars['String']['input'];
@@ -407,7 +397,7 @@ export type SaveTopicMapMutationVariables = Exact<{
 }>;
 
 
-export type SaveTopicMapMutation = { __typename?: 'Mutation', saveTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, title: string, type: string, meta: string, completionType: string, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, sourceId: string, targetId: string, meta?: string | null }> } };
+export type SaveTopicMapMutation = { __typename?: 'Mutation', saveTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, title: string, type: string, meta: string, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, sourceId: string, targetId: string, meta?: string | null }> } };
 
 export type CreateRouteMutationVariables = Exact<{
   mapDto: CreateRouteDto;
@@ -450,7 +440,7 @@ export type GetPreviewCourseInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetPreviewCourseInfoQuery = { __typename?: 'Query', getTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, topicMapId: string, title: string, type: string, kind: NodeKind, meta: string, posxy?: any | null, completionType: string, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string, topicNodeId: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, topicMapId: string, sourceId: string, targetId: string, meta?: string | null }>, UserCourse: Array<{ __typename?: 'UserCourse', id: string, userId: string, createdAt: any }>, route?: { __typename?: 'Route', id: string, title: string, description?: string | null, createdAt: any, updatedAt: any, user: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null }, tags?: Array<{ __typename?: 'RouteTagModel', tag: { __typename?: 'TagModel', name: string } }> | null } | null } };
+export type GetPreviewCourseInfoQuery = { __typename?: 'Query', getUserTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, topicMapId: string, title: string, type: string, meta: string, posxy?: any | null, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string, topicNodeId: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, topicMapId: string, sourceId: string, targetId: string, meta?: string | null }>, UserCourse: Array<{ __typename?: 'UserCourse', id: string, userId: string, topicMapId: string, createdAt: any, updatedAt: any, view?: CourseViewType | null, mode?: CourseModeType | null, progress: Array<{ __typename?: 'UserTopicProgress', id: string, topicNodeId: string, status: NodeStatus, progressValue?: number | null, startedAt?: any | null, finishedAt?: any | null }>, UserChecklistProgress: Array<{ __typename?: 'UserChecklistProgress', id: string, checklistItemId: string, done: boolean }> }>, route?: { __typename?: 'Route', id: string, title: string, description?: string | null, createdAt: any, updatedAt: any, user: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null }, tags?: Array<{ __typename?: 'RouteTagModel', tag: { __typename?: 'TagModel', name: string } }> | null } | null } };
 
 export type GetUserCourseQueryVariables = Exact<{
   topicMapId: Scalars['String']['input'];
@@ -464,7 +454,7 @@ export type GetTopicMapQueryVariables = Exact<{
 }>;
 
 
-export type GetTopicMapQuery = { __typename?: 'Query', getTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, topicMapId: string, title: string, type: string, kind: NodeKind, meta: string, posxy?: any | null, completionType: string, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string, topicNodeId: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, topicMapId: string, sourceId: string, targetId: string, meta?: string | null }> } };
+export type GetTopicMapQuery = { __typename?: 'Query', getTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, topicMapId: string, title: string, type: string, meta: string, posxy?: any | null, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string, topicNodeId: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, topicMapId: string, sourceId: string, targetId: string, meta?: string | null }> } };
 
 export type FindRoutesByUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -534,7 +524,6 @@ export const SaveTopicMapDocument = gql`
       title
       type
       meta
-      completionType
       zIndex
       checklist {
         id
@@ -772,7 +761,7 @@ export type UpdateSkillProfileMutationResult = Apollo.MutationResult<UpdateSkill
 export type UpdateSkillProfileMutationOptions = Apollo.BaseMutationOptions<UpdateSkillProfileMutation, UpdateSkillProfileMutationVariables>;
 export const GetPreviewCourseInfoDocument = gql`
     query getPreviewCourseInfo($routeId: String!) {
-  getTopicMap(routeId: $routeId) {
+  getUserTopicMap(routeId: $routeId) {
     id
     routeId
     updatedAt
@@ -781,10 +770,8 @@ export const GetPreviewCourseInfoDocument = gql`
       topicMapId
       title
       type
-      kind
       meta
       posxy
-      completionType
       zIndex
       checklist {
         id
@@ -802,7 +789,24 @@ export const GetPreviewCourseInfoDocument = gql`
     UserCourse {
       id
       userId
+      topicMapId
       createdAt
+      updatedAt
+      view
+      mode
+      progress {
+        id
+        topicNodeId
+        status
+        progressValue
+        startedAt
+        finishedAt
+      }
+      UserChecklistProgress {
+        id
+        checklistItemId
+        done
+      }
     }
     route {
       id
@@ -927,10 +931,8 @@ export const GetTopicMapDocument = gql`
       topicMapId
       title
       type
-      kind
       meta
       posxy
-      completionType
       zIndex
       checklist {
         id

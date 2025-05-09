@@ -1,6 +1,6 @@
 import { SaveTopicMapInput } from './dto/save-topic-map.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { TopicMap } from '@prisma/__generated__';
+import { TopicMap, User } from '@prisma/__generated__';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -39,7 +39,28 @@ export class TopicMapService {
                 ).map(e => e.id),
             );
 
-            // 3. Обрабатываем узлы
+            // 3. Удаляем устаревшие узлы и рёбра
+            const incomingNodeIds = new Set(nodes.map(n => n.id));
+            const incomingEdgeIds = new Set(edges.map(e => e.id));
+
+            const nodesToDelete = Array.from(existingNodeIds).filter(
+                id => !incomingNodeIds.has(id),
+            );
+            if (nodesToDelete.length > 0) {
+                await tx.topicNode.deleteMany({
+                    where: { id: { in: nodesToDelete } },
+                });
+            }
+
+            const edgesToDelete = Array.from(existingEdgeIds).filter(
+                id => !incomingEdgeIds.has(id),
+            );
+            if (edgesToDelete.length > 0) {
+                await tx.topicEdge.deleteMany({
+                    where: { id: { in: edgesToDelete } },
+                });
+            }
+
             for (const node of nodes) {
                 const hasChecklist =
                     node.checklist && node.checklist.length > 0;
@@ -48,20 +69,18 @@ export class TopicMapService {
                     title: node.title,
                     type: node.type,
                     meta: node.meta,
-                    completionType: node.completionType,
                     zIndex: node.zIndex ?? null,
                     ...(node.posxy && { posxy: node.posxy }),
                 };
 
                 if (node.id && existingNodeIds.has(node.id)) {
-                    // Обновление узла + очистка чеклиста
                     await tx.topicNode.update({
                         where: { id: node.id },
                         data: {
                             ...commonData,
                             ...(hasChecklist && {
                                 checklist: {
-                                    deleteMany: {}, // ← удалить старые
+                                    deleteMany: {},
                                     create: node.checklist.map(item => ({
                                         text: item.text,
                                     })),
@@ -70,9 +89,9 @@ export class TopicMapService {
                         },
                     });
                 } else {
-                    // Создание нового узла
                     await tx.topicNode.create({
                         data: {
+                            id: node.id,
                             ...commonData,
                             topicMapId,
                             ...(hasChecklist && {
@@ -87,7 +106,7 @@ export class TopicMapService {
                 }
             }
 
-            // 4. Обрабатываем рёбра
+            // 5. Обрабатываем рёбра
             for (const edge of edges) {
                 const edgeData = {
                     sourceId: edge.sourceId,
@@ -103,6 +122,7 @@ export class TopicMapService {
                 } else {
                     await tx.topicEdge.create({
                         data: {
+                            id: edge.id,
                             ...edgeData,
                             topicMapId,
                         },
@@ -110,15 +130,11 @@ export class TopicMapService {
                 }
             }
 
-            // 5. Возвращаем всю карту
+            // 6. Возвращаем актуальную карту
             return tx.topicMap.findUniqueOrThrow({
                 where: { routeId },
                 include: {
-                    nodes: {
-                        include: {
-                            checklist: true,
-                        },
-                    },
+                    nodes: { include: { checklist: true } },
                     edges: true,
                     UserCourse: true,
                     route: true,
@@ -144,17 +160,52 @@ export class TopicMapService {
                 },
                 edges: true,
                 UserCourse: true,
-                route: true,
+                route: {
+                    include: {
+                        user: true,
+                    },
+                },
             },
         });
-    
+
         if (!topicMap) {
             throw new NotFoundException(
                 `Карта темы с идентификатором маршрута "${routeId}" не найдена`,
             );
         }
-    
+
         return topicMap;
     }
-    
+
+    async getUserTopicMap(user: User, routeId: string): Promise<TopicMap> {
+        const topicMap = await this.prisma.topicMap.findFirst({
+            where: { routeId },
+            include: {
+                nodes: {
+                    include: {
+                        checklist: true,
+                    },
+                },
+                edges: true,
+                route: {
+                    include: {
+                        user: true,
+                    },
+                },
+                UserCourse: {
+                    where: {
+                        userId: user.id,
+                    },
+                },
+            },
+        });
+
+        if (!topicMap) {
+            throw new NotFoundException(
+                `Карта темы с идентификатором маршрута "${routeId}" не найдена`,
+            );
+        }
+
+        return topicMap;
+    }
 }

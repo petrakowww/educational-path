@@ -8,7 +8,7 @@ interface ITopicContent {
 
 import { useEffect, useMemo } from 'react';
 import { debounce } from 'lodash';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 import { Label, Separator } from '@/shared/ui';
 import { toast } from 'sonner';
 

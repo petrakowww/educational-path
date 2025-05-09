@@ -17,21 +17,20 @@ import { AsideBarFunctionalTabs } from '@/widgets/editor/components/side-bar/sid
 import { AsideBarTabContent } from '@/features/node/editor/components/actions/creator/tab-content';
 import { useParams } from 'next/navigation';
 import { useGetTopicMapQuery } from '@/shared/graphql/generated/output';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
-import { useEdgeStore } from '@/shared/managers/store/edge.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
+import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
 import { shallow } from 'zustand/shallow';
-import { useInitializationMap } from '@/features/node/editor/hooks/use-initialization-map';
+import { useInitializationEditorMap } from '@/features/node/editor/hooks/use-initialization-map';
 import { SpinnerOverlay } from '@/shared/ui/spinner-overlay/spinner-overlay';
 
 export default function Page() {
-	const initialized = useRef(false);
 	const params = useParams<{ id: string; slug: string }>();
 
 	if (!params?.id) {
 		return null;
 	}
 
-	const { loading, error, isReady } = useInitializationMap();
+	const { loading, error, isReady } = useInitializationEditorMap();
 
 	const showSpinner = loading || !isReady;
 

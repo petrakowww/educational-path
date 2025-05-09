@@ -39,8 +39,6 @@ export enum NodeLabel {
 
 export interface NodeMain {
 	title: string;
-	kind: NodeKind;
-	completionType: CompletionType;
 	todo?: ChecklistItem[];
 	canShowLabel: boolean | null;
 	meta: {

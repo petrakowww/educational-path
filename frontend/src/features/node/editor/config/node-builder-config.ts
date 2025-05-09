@@ -16,14 +16,11 @@ import {
 	NodeDataShapeButton,
 } from '../types/node';
 import { BackgroundColorsEnum } from '../types/colors';
-import { CompletionType, NodeKind } from '@/shared/graphql/generated/output';
 
 export type NodeBuilderConfig = DeepRequired<Required<NodeMain>>;
 
 export const nodeBuilderConfig: NodeBuilderConfig = {
 	title: '',
-	kind: NodeKind.Visual,
-	type: CompletionType.None,
 	todo: [],
 	canShowLabel: true,
 	meta: {

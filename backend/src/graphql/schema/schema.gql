@@ -31,12 +31,6 @@ input ChecklistItemInput {
   text: String!
 }
 
-enum CompletionType {
-  MANUAL
-  NONE
-  TODO
-}
-
 enum CourseModeType {
   FLEXIBLE
   STRICT
@@ -86,12 +80,6 @@ type Mutation {
   updateUserProfile(dto: UserProfileDto!): UserModel!
 }
 
-enum NodeKind {
-  MARKABLE
-  TOPIC
-  VISUAL
-}
-
 enum NodeStatus {
   COMPLETED
   IN_PROGRESS
@@ -115,6 +103,7 @@ type Query {
   getTopicMap(routeId: String!): TopicMap!
   getTopicNodeById(id: String!): TopicNode!
   getUserCourse(topicMapId: String!): UserCourse!
+  getUserTopicMap(routeId: String!): TopicMap!
 }
 
 type Route {
@@ -189,9 +178,7 @@ type TopicMap {
 type TopicNode {
   UserTopicProgress: [UserTopicProgress!]!
   checklist: [ChecklistItem!]!
-  completionType: String!
   id: ID!
-  kind: NodeKind!
   meta: String!
   posxy: JSON
   title: String!
@@ -216,9 +203,7 @@ input UpdateTopicEdgeInput {
 
 input UpdateTopicNodeInput {
   checklist: [ChecklistItemInput!]
-  completionType: CompletionType!
   id: String!
-  kind: NodeKind!
   meta: String!
   posxy: JSON
   title: String!

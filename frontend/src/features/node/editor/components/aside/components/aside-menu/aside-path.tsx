@@ -1,6 +1,6 @@
 import { cn } from '@/shared/lib';
 import { useCallback } from 'react';
-import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
+import { useEditorAsideStore } from '@/shared/managers/store/editor/editor.store';
 import { AsideBarNodeEditor } from './aside-node';
 import { AsideBarEdgeEditor } from './aside-edge';
 

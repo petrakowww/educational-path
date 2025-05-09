@@ -1,5 +1,5 @@
-import { useEdgeStore } from '@/shared/managers/store/edge.store';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 import { Button } from '@/shared/ui';
 import { Save, Loader2 } from 'lucide-react';
 import React from 'react';
@@ -27,7 +27,7 @@ export const SaveRoadmap = ({
 	}));
 	const { edgeList } = useEdgeStore((state) => ({ edgeList: state.edges }));
 	const [saveTopicMap, { loading }] = useSaveTopicMapMutation();
-
+	console.log(nodesList, edgeList);
 	const handleSave = async () => {
 		if (!routeId) return;
 

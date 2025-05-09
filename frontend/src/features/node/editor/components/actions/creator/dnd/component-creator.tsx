@@ -1,7 +1,7 @@
 import { nodeLabels } from './constants';
 import { NodeType } from '../../../../types/node';
 import { useCallback } from 'react';
-import { useDragAndDropStore } from '@/shared/managers/store/dnd.store';
+import { useDragAndDropStore } from '@/shared/managers/store/editor/dnd-editor.store';
 
 export const AsideBarComponentCreator = () => {
 	const setNodeType = useDragAndDropStore((state) => state.setNodeType);

@@ -1,5 +1,5 @@
-import { useEditorAsideStore } from "@/shared/managers/store/editor.store";
-import { useNodeStore } from "@/shared/managers/store/nodes.store";
+import { useEditorAsideStore } from '@/shared/managers/store/editor/editor.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 
 const setEditorStatusMenu = useEditorAsideStore.getState().setEditorStatusMenu;
 
@@ -16,7 +16,7 @@ export abstract class NodeDeleter {
 	protected afterDelete(): void {}
 
 	protected deleteNode(): void {
-		const {selectedNode, deleteNode} = useNodeStore.getState();
+		const { selectedNode, deleteNode } = useNodeStore.getState();
 		console.log(this.nodeId);
 		deleteNode(this.nodeId);
 

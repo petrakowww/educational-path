@@ -1,8 +1,8 @@
 import { NodeProps } from 'reactflow';
 import { useRef } from 'react';
-import { ResizeNodeComponent } from '../../utils/resize-node';
-import { DeleteNodeComponent } from '../../utils/delete-node';
 import { Handle, Position } from 'reactflow';
+import { ResizeNodeComponent } from '@/shared/node/utils/resize-node';
+import { DeleteNodeComponent } from '@/shared/node/utils/delete-node';
 
 interface EditableNodeProps {
 	children: React.ReactNode;

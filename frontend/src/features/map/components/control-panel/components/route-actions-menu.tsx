@@ -67,6 +67,7 @@ export const RouteActionsMenu = (props: RouteActionsMenuProps) => {
 									routeId,
 									routeTitle
 								)}
+								target='_blank'
 							>
 								Просмотреть
 							</Link>
@@ -78,6 +79,7 @@ export const RouteActionsMenu = (props: RouteActionsMenuProps) => {
 									routeId,
 									routeTitle
 								)}
+								target='_blank'
 							>
 								Редактировать
 							</Link>

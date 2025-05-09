@@ -194,13 +194,11 @@ exports.Prisma.TopicMapScalarFieldEnum = {
 exports.Prisma.TopicNodeScalarFieldEnum = {
   id: 'id',
   topicMapId: 'topicMapId',
-  kind: 'kind',
   type: 'type',
   title: 'title',
   meta: 'meta',
   posxy: 'posxy',
-  zIndex: 'zIndex',
-  completionType: 'completionType'
+  zIndex: 'zIndex'
 };
 
 exports.Prisma.TopicEdgeScalarFieldEnum = {
@@ -297,16 +295,15 @@ exports.PrivateType = exports.$Enums.PrivateType = {
   PRIVATE: 'PRIVATE'
 };
 
-exports.NodeKind = exports.$Enums.NodeKind = {
-  VISUAL: 'VISUAL',
-  MARKABLE: 'MARKABLE',
-  TOPIC: 'TOPIC'
-};
-
-exports.CompletionType = exports.$Enums.CompletionType = {
+exports.NodeType = exports.$Enums.NodeType = {
+  TITLE: 'TITLE',
+  TOPIC: 'TOPIC',
+  SUBTOPIC: 'SUBTOPIC',
+  PARAGRAPH: 'PARAGRAPH',
+  LABEL: 'LABEL',
+  BUTTON: 'BUTTON',
   TODO: 'TODO',
-  MANUAL: 'MANUAL',
-  NONE: 'NONE'
+  CHECKLIST: 'CHECKLIST'
 };
 
 exports.CourseViewType = exports.$Enums.CourseViewType = {

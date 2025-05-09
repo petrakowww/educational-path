@@ -16,7 +16,9 @@ export const TopicNode = (
 	return (
 		<SkeletonNode
 			nodeProps={props}
-			style={{ backgroundColor: data.meta.blockProps?.backgroundColor ?? '' }}
+			style={{
+				backgroundColor: data.meta.blockProps?.backgroundColor ?? '',
+			}}
 		>
 			<EditableNode nodeProps={props}>
 				<p
@@ -33,4 +35,3 @@ export const TopicNode = (
 };
 
 export const TopicNodeMemo = memo(TopicNode);
-

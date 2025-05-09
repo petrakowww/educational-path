@@ -4,10 +4,9 @@ import { NodeProps } from 'reactflow';
 import { OctagonAlertIcon } from 'lucide-react';
 
 import { NodeDataShapeChecklist } from '@/features/node/editor/types/node';
-import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
+import { useEditorAsideStore } from '@/shared/managers/store/editor/editor.store';
 import { SkeletonNode } from './base/skeleton-node';
 import { EditableNode } from './base/editable-node';
-
 
 export const ChecklistNode = (props: NodeProps<NodeDataShapeChecklist>) => {
 	const { data } = props;
@@ -26,7 +25,8 @@ export const ChecklistNode = (props: NodeProps<NodeDataShapeChecklist>) => {
 			nodeProps={props}
 			stylesForComponent="justify-start items-start"
 			style={{
-				backgroundColor: data.meta.blockProps?.backgroundColor as string,
+				backgroundColor: data.meta.blockProps
+					?.backgroundColor as string,
 				borderColor: data.meta.blockProps?.borderColor as string,
 			}}
 		>
@@ -36,10 +36,15 @@ export const ChecklistNode = (props: NodeProps<NodeDataShapeChecklist>) => {
 						<div className="flex flex-col gap-1.5">
 							{todoItems.map((todo) => (
 								<div key={todo.id} className="flex gap-2">
-									<div className="w-6 h-6 border border-foreground/50 rounded-md flex-shrink-0 pointer-events-none" />
+									<div className="w-6 h-6 aspect-square border border-foreground/50 rounded-md cursor-pointer" />
 									<span
-										className="whitespace-pre-wrap text-nowrap flex-shrink-0"
-										onDoubleClick={(e) => handleDoubleClickTodoItem(e, todo.id)}
+										className="whitespace-pre-wrap text-nowrap text-lg flex-shrink-0"
+										onDoubleClick={(e) =>
+											handleDoubleClickTodoItem(
+												e,
+												todo.id
+											)
+										}
 									>
 										{todo.text || 'Задача списка не задана'}
 									</span>

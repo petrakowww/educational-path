@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import clsx, { ClassValue } from 'clsx';
 import { NodeProps } from 'reactflow';
-import { IsSelectedNode } from '../../utils/is-selected-node';
 import { CSSProperties } from 'react';
+import { IsSelectedNode } from '@/shared/node/utils/is-selected-node';
 
 interface SkeletonNodeProps<T = unknown> {
 	children: ReactNode;

@@ -1,5 +1,5 @@
 import { CommandBase } from '@/features/node/editor/utils/command/commands';
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 
 const updateNodeProperties = useNodeStore.getState().updateNodeProperties;
 

@@ -1,34 +1,9 @@
-import {
-	EdgeLabelRenderer,
-	getBezierPath,
-	getSmoothStepPath,
-	getStraightPath,
-	EdgeProps,
-} from 'reactflow';
+import { EdgeLabelRenderer, EdgeProps } from 'reactflow';
 
-import { EdgePosition, TPath, IEdgeData } from '../types/edge-data';
+import { IEdgeData } from '../types/edge-data';
 import { InfoIcon } from 'lucide-react';
-import { useEdgeStore } from '@/shared/managers/store/edge.store';
-
-const pathStrategies: Record<
-	TPath,
-	(params: {
-		sourceX: number;
-		sourceY: number;
-		targetX: number;
-		targetY: number;
-	}) => [string, number, number, number, number]
-> = {
-	bezier: getBezierPath,
-	smoothstep: getSmoothStepPath,
-	straight: getStraightPath,
-};
-
-const getPathByType = (pathType: TPath, position: EdgePosition) => {
-	const { sourceX, sourceY, targetX, targetY } = position;
-	const strategy = pathStrategies[pathType] || getBezierPath;
-	return strategy({ sourceX, sourceY, targetX, targetY });
-};
+import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
+import { getPathByType } from '../utils/path';
 
 interface CustomEdgeProps<T = unknown> extends EdgeProps {
 	id: string;
@@ -36,7 +11,7 @@ interface CustomEdgeProps<T = unknown> extends EdgeProps {
 	markerEnd?: string;
 }
 
-export const CustomEdge = (props: CustomEdgeProps) => {
+export const CustomEditorEdge = (props: CustomEdgeProps) => {
 	const {
 		id,
 		data = {
@@ -96,7 +71,7 @@ export const CustomEdge = (props: CustomEdgeProps) => {
 						pointerEvents: 'all',
 					}}
 				>
-					<InfoIcon size={15}/>
+					<InfoIcon size={15} />
 				</button>
 			</EdgeLabelRenderer>
 		</>

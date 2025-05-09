@@ -1,4 +1,4 @@
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 import { Topic } from '../types/extended-node';
 import { Node } from 'reactflow';
 import { nodeBuilderRegistry } from '../config/node-templates-config';

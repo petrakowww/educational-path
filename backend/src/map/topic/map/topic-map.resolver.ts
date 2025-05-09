@@ -5,6 +5,8 @@ import { TopicMap } from './model/topic-map.model';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { TopicMapService } from './topic-map.service';
+import { CurrentUser } from '@/auth/decorators/user.decorator';
+import { User } from '@prisma/__generated__';
 
 @Resolver(() => TopicMap)
 export class TopicMapResolver {
@@ -28,5 +30,11 @@ export class TopicMapResolver {
     @Query(() => TopicMap)
     async getTopicMap(@Args('routeId') routeId: string) {
         return this.topicMapService.getTopicMap(routeId);
+    }
+
+    @Authorization()
+    @Query(() => TopicMap)
+    async getUserTopicMap(@CurrentUser() user: User, @Args('routeId') routeId: string) {
+        return this.topicMapService.getUserTopicMap(user, routeId);
     }
 }

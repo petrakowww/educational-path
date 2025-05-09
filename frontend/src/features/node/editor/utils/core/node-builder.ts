@@ -21,8 +21,6 @@ import {
 } from '../../types/node';
 import {
 	ChecklistItem,
-	CompletionType,
-	NodeKind,
 } from '@/shared/graphql/generated/output';
 
 export class NodeBuilder<
@@ -50,16 +48,6 @@ export class NodeBuilder<
 
 	withShowLabel(flag: boolean): this {
 		this.data.canShowLabel = flag;
-		return this;
-	}
-
-	withKind(kind: NodeKind): this {
-		this.data.kind = kind;
-		return this;
-	}
-
-	withCompletionType(type: CompletionType): this {
-		this.data.completionType = type;
 		return this;
 	}
 

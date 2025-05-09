@@ -2,7 +2,7 @@ import { Node } from 'reactflow';
 import { useEffect, useRef, useState } from 'react';
 import { Button, Input } from '@/shared/ui';
 import { TrashIcon } from 'lucide-react';
-import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
+import { useEditorAsideStore } from '@/shared/managers/store/editor/editor.store';
 import { NodeDataShapeChecklist } from '@/features/node/editor/types/node';
 import { WithChecklistTodosCommand } from './utils';
 import { ChecklistItem } from '@/shared/graphql/generated/output';
@@ -51,7 +51,9 @@ export const ComponentCheckList = ({ node }: ComponentEditorChecklistProps) => {
 
 	return (
 		<div className="flex flex-col gap-2">
-			<span className="text-foreground/80 text-sm font-medium">Задачи</span>
+			<span className="text-foreground/80 text-sm font-medium">
+				Задачи
+			</span>
 
 			<div className="flex flex-col gap-3">
 				{todos.length > 0 ? (
@@ -66,7 +68,9 @@ export const ComponentCheckList = ({ node }: ComponentEditorChecklistProps) => {
 						/>
 					))
 				) : (
-					<span className="text-sm text-foreground/80">Задач ещё нету</span>
+					<span className="text-sm text-foreground/80">
+						Задач ещё нету
+					</span>
 				)}
 			</div>
 

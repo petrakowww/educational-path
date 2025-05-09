@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Label } from '@/shared/ui';
-import { useEdgeStore } from '@/shared/managers/store/edge.store';
+import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
 import { cn } from '@/shared/lib';
 import { Edge } from 'reactflow';
 import { IEdgeData } from '@/shared/edge/types/edge-data';
@@ -35,7 +35,9 @@ export const EdgeMarkerSelector = ({
 			properties: {
 				markerEnd: {
 					type,
-					color: (editedEdge.markerEnd as EdgeMarker)?.color ?? PrimaryColors.Primary,
+					color:
+						(editedEdge.markerEnd as EdgeMarker)?.color ??
+						PrimaryColors.Primary,
 					width: 15,
 					height: 15,
 				},
@@ -60,7 +62,7 @@ export const EdgeMarkerSelector = ({
 					<ArrowBigRightIcon />
 				</Button>
 				<Button
-                variant={
+					variant={
 						markerType === MarkerType.Arrow ? 'default' : 'outline'
 					}
 					className={cn('h-8 w-8 p-0')}

@@ -3,16 +3,8 @@ import GraphQLJSON from 'graphql-type-json';
 import { UserTopicProgress } from '../../user/progress/model/user-progress.model';
 import { ChecklistItem } from '../checklist/model/checklist.model';
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { CompletionType, NodeKind } from '@prisma/__generated__';
-import { UserChecklistProgress } from '../../user/checklist/model/user-checklist.model';
-
-registerEnumType(NodeKind, {
-    name: 'NodeKind',
-});
-
-registerEnumType(CompletionType, {
-    name: 'CompletionType',
-});
+import { NodeType } from '@prisma/__generated__';
+import { IsEnum } from 'class-validator';
 
 @ObjectType()
 export class TopicNode {
@@ -22,11 +14,9 @@ export class TopicNode {
     @Field()
     topicMapId: string;
 
-    @Field(() => NodeKind)
-    kind: NodeKind;
-
     @Field()
-    type: string;
+    @IsEnum(NodeType)
+    type: NodeType;
 
     @Field()
     title: string;
@@ -46,9 +36,6 @@ export class TopicNode {
 
     @Field({ nullable: true })
     zIndex?: number;
-
-    @Field()
-    completionType: CompletionType;
 
     @Field(() => [UserTopicProgress])
     UserTopicProgress: UserTopicProgress[];

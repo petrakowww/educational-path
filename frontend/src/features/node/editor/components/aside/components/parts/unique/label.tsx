@@ -2,7 +2,7 @@ import { Input, Label } from '@/shared/ui';
 import { Node } from 'reactflow';
 import { useEffect, useRef, useState } from 'react';
 import { NodeMain } from '@/features/node/editor/types/node';
-import { useEditorAsideStore } from '@/shared/managers/store/editor.store';
+import { useEditorAsideStore } from '@/shared/managers/store/editor/editor.store';
 import { shallow } from 'zustand/shallow';
 import { WithTitleCommand } from '@/features/node/editor/utils/command/commands-impl';
 

@@ -1,9 +1,5 @@
 import { memo, useRef } from 'react';
 import { NodeProps } from 'reactflow';
-import { ResizeNodeComponent } from '../utils/resize-node';
-import { DeleteNodeComponent } from '../utils/delete-node';
-import { IsSelectedNode } from '../utils/is-selected-node';
-import clsx from 'clsx';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { EditableNode } from './base/editable-node';
 import { SkeletonNode } from './base/skeleton-node';
@@ -14,7 +10,8 @@ export const ParagraphNode = (props: NodeProps<NodeMain>) => {
 		<SkeletonNode
 			nodeProps={props}
 			style={{
-				backgroundColor: data.meta.blockProps?.backgroundColor as string,
+				backgroundColor: data.meta.blockProps
+					?.backgroundColor as string,
 				borderRadius: data.meta.blockProps?.borderRadius,
 				borderWidth: data.meta.blockProps?.borderWidth as number,
 				borderColor: data.meta.blockProps?.borderColor as string,

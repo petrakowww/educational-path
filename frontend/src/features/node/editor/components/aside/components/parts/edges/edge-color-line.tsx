@@ -2,7 +2,7 @@ import { Button, Input, Label } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import { Edge, EdgeMarker, MarkerType } from 'reactflow';
 import { isHexColor } from '@/shared/lib';
-import { useEdgeStore } from '@/shared/managers/store/edge.store';
+import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
 import { IEdgeData } from '@/shared/edge/types/edge-data';
 import { PrimaryColors } from '@/features/node/editor/types/colors';
 
@@ -27,7 +27,7 @@ export const CommandComponentEdgeLine = ({
 					color: color,
 				},
 				markerEnd: {
-                    ...((editedEdge.markerEnd as EdgeMarker) ?? {}),
+					...((editedEdge.markerEnd as EdgeMarker) ?? {}),
 					color: color,
 				},
 			},

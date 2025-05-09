@@ -8,10 +8,8 @@ query getTopicMap($routeId: String!) {
 			topicMapId
       title
       type
-      kind
 			meta
 			posxy
-			completionType
       zIndex
 			checklist {
 				id

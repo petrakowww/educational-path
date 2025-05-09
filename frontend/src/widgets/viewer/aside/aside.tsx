@@ -1,4 +1,10 @@
-import { Button, Separator, Sidebar, SidebarContent } from '@/shared/ui';
+import {
+	Button,
+	Separator,
+	Sidebar,
+	SidebarContent,
+	Skeleton,
+} from '@/shared/ui';
 import { CourseProgressCircle } from './information/course-progress-circle';
 import { AsideRouteMapNavigationWrapper } from './links/aside-route-map-navigation';
 import { AuthorInfo } from './route/author-info';
@@ -10,31 +16,60 @@ import { LinearViewToggle } from './settings/linear-view-togle';
 import { ModeSwitchToggle } from './settings/mode-switch-toggle';
 import { ResetCourseButton } from './settings/reset-coure-button';
 import { RouteSettingsPanel } from './settings/route-settings-panel';
+import { Route, UserCourse } from '@/shared/graphql/generated/output';
+import { GetPreviewCourseInfoQuery } from '@/shared/graphql/generated/output';
+import { ApolloError } from '@apollo/client';
 
-const mockRoute = {
-	title: 'Изучение JavaScript',
-	description:
-		'Маршрут включает в себя изучение основ JS, DOM, ES6 и асинхронности.',
-	topicCount: 12,
-	nodeCount: 21,
-	isLinear: false,
-	isStarted: true,
-	createdAt: '2025-05-08T16:36:52+00:00',
-	updatedAt: '1746722212',
-	author: {
-		id: 'user-123',
-		name: 'Иван Петровыыыыыыыыыыыыыыыыыы',
-		avatarUrl: '',
-	},
-};
+interface ViewerSidebarProps {
+	route?: GetPreviewCourseInfoQuery['getUserTopicMap']['route'];
+	course?: GetPreviewCourseInfoQuery['getUserTopicMap']['UserCourse'];
+	error?: ApolloError;
+	refetch?: () => void;
+}
 
-export function ViewerSidebar() {
+export function ViewerSidebar(props: ViewerSidebarProps) {
+	const { route, course, error, refetch } = props;
+
+	if (error) {
+		return (
+			<Sidebar>
+				<SidebarContent className="p-4 bg-muted">
+					<AsideRouteMapNavigationWrapper />
+					<p className="text-sm text-destructive">
+						Не удалось загрузить маршрут.
+					</p>
+					<Button variant="outline" onClick={refetch}>
+						Повторить попытку
+					</Button>
+				</SidebarContent>
+			</Sidebar>
+		);
+	}
+
+	if (!route) {
+		return (
+			<Sidebar>
+				<SidebarContent className="p-4 bg-muted space-y-4">
+					<Skeleton className="h-10 w-full" />
+					<Separator />
+					<Skeleton className="h-6 w-1/2" />
+					<Skeleton className="h-24 w-full" />
+					<Separator />
+					<Skeleton className="h-6 w-1/3" />
+					<Skeleton className="h-16 w-full" />
+				</SidebarContent>
+			</Sidebar>
+		);
+	}
+
+	const isCourseWasAdded = !!course?.[0]?.id;
+
 	return (
 		<Sidebar>
-			<SidebarContent className='bg-muted p-4'>
+			<SidebarContent className="bg-muted p-4">
 				<AsideRouteMapNavigationWrapper />
 
-				{true ? (
+				{isCourseWasAdded ? (
 					<div className="flex flex-col gap-2">
 						<CourseProgressCircle progress={45} />
 					</div>
@@ -50,37 +85,40 @@ export function ViewerSidebar() {
 					details={
 						<>
 							<AuthorInfo
-								id={mockRoute.author.id}
-								name={mockRoute.author.name}
-								avatarUrl="https://github.com/shadcn.png"
+								id={route.user.id}
+								name={route.user.name}
+								avatarUrl={route.user.avatar ?? ''}
 							/>
 							<RouteDetailsCard
 								title="О маршруте"
-								description={mockRoute.description}
+								description={route.description}
 							/>
 							<Separator />
 							<RouteDatesCard
-								createdAt={mockRoute.createdAt}
-								updatedAt={mockRoute.updatedAt}
+								createdAt={route.createdAt}
+								updatedAt={route.updatedAt}
 							/>
 							<Separator />
 							<RouteTagsDetailsCard
-								tags={['JavaScript', 'Асинхронность', 'ES6']}
+								tags={route.tags?.map(
+									(route) => route.tag.name
+								)}
 							/>
 							<Separator />
 						</>
 					}
 					settings={
 						<RouteSettingsPanel
-							isAddedByUser={true}
-							publicSettings={<LinearViewToggle />}
-							privateSettings={
+							isAddedByUser={isCourseWasAdded}
+							publicSettings={
 								<>
-									<ModeSwitchToggle isLinear={true} />
+									<LinearViewToggle />
 									<Separator />
-									<ResetCourseButton />
+									<ModeSwitchToggle />
+									<Separator />
 								</>
 							}
+							privateSettings={<ResetCourseButton />}
 						/>
 					}
 				/>

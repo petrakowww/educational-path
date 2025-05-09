@@ -1,5 +1,5 @@
 import { Button, Label } from '@/shared/ui';
-import { useEdgeStore } from '@/shared/managers/store/edge.store';
+import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
 import { cn } from '@/shared/lib';
 import { IEdgeData, TPath } from '@/shared/edge/types/edge-data';
 import { pathTypes } from '@/features/node/constants/path';

@@ -1,4 +1,4 @@
-import { useNodeStore } from '@/shared/managers/store/nodes.store';
+import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
 import { Node } from 'reactflow';
 
 export const autoSizeNode = (node: Node) => {

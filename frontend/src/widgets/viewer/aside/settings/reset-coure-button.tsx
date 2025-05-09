@@ -14,7 +14,7 @@ import {
 	AlertDialogAction,
 } from '@/shared/ui';
 
-export const ResetCourseButton = ({ onConfirm }: { onConfirm: () => void }) => {
+export const ResetCourseButton = ({ onConfirm }: { onConfirm?: () => void }) => {
 	const [open, setOpen] = useState(false);
 
 	return (
