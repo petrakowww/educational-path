@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { NodeProps } from 'reactflow';
-import { SkeletonNode } from './base/skeleton-node';
+import { SkeletonNode } from './base/skeleton-editor-node';
 import { EditableNode } from './base/editable-node';
 import { NodeMain } from '@/features/node/editor/types/node';
 

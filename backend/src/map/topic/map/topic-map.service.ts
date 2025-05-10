@@ -163,6 +163,7 @@ export class TopicMapService {
                 route: {
                     include: {
                         user: true,
+                        topicMap: true
                     },
                 },
             },
@@ -190,13 +191,17 @@ export class TopicMapService {
                 route: {
                     include: {
                         user: true,
+                        topicMap: true,
                     },
                 },
                 UserCourse: {
-                    where: {
-                        userId: user.id,
+                    where: { userId: user.id },
+                    include: {
+                      progress: true,
+                      UserChecklistProgress: true,
                     },
-                },
+                  },
+                  
             },
         });
 

@@ -1,0 +1,10 @@
+mutation updateUserTopicProgressStatus($input: UpdateTopicProgressInput!) {
+  updateUserTopicProgressStatus(input: $input) {
+    id
+    topicNodeId
+    status
+    progressValue
+    startedAt
+    finishedAt
+  }
+}

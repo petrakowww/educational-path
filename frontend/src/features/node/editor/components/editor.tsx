@@ -15,7 +15,7 @@ import {
 	MiniMap,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { NodeMain } from '../types/node';
 import { nodeBuilderRegistry } from '../config/node-templates-config';
 import { nodeVisualComponents } from '@/shared/node/components/editor/fabric/node-components';
@@ -123,7 +123,7 @@ export const Editor = () => {
 			clearSelectedEdge();
 			openEditor('node');
 		},
-		[selectedNodeId, setNode, clearSelectedEdge, openEditor]
+		[setNode, clearSelectedEdge, openEditor]
 	);
 
 	const handleEdgeClick = useCallback(

@@ -1,11 +1,10 @@
 import { memo, useRef } from 'react';
-import clsx from 'clsx';
 import { NodeProps } from 'reactflow';
 import { OctagonAlertIcon } from 'lucide-react';
 
 import { NodeDataShapeChecklist } from '@/features/node/editor/types/node';
 import { useEditorAsideStore } from '@/shared/managers/store/editor/editor.store';
-import { SkeletonNode } from './base/skeleton-node';
+import { SkeletonNode } from './base/skeleton-editor-node';
 import { EditableNode } from './base/editable-node';
 
 export const ChecklistNode = (props: NodeProps<NodeDataShapeChecklist>) => {
@@ -36,9 +35,9 @@ export const ChecklistNode = (props: NodeProps<NodeDataShapeChecklist>) => {
 						<div className="flex flex-col gap-1.5">
 							{todoItems.map((todo) => (
 								<div key={todo.id} className="flex gap-2">
-									<div className="w-6 h-6 aspect-square border border-foreground/50 rounded-md cursor-pointer" />
+									<div className="w-4 h-4 aspect-square border border-foreground/50 rounded-md cursor-pointer" />
 									<span
-										className="whitespace-pre-wrap text-nowrap text-lg flex-shrink-0"
+										className="whitespace-pre-wrap text-nowrap text-base flex-shrink-0"
 										onDoubleClick={(e) =>
 											handleDoubleClickTodoItem(
 												e,

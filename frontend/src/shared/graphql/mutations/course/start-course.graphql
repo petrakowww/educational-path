@@ -1,0 +1,11 @@
+mutation startCourse($courseDto: StartCourseInput!) {
+  startCourse(input: $courseDto) {
+    id
+    userId
+    topicMapId
+    createdAt
+    updatedAt
+    view
+    mode
+  }
+}

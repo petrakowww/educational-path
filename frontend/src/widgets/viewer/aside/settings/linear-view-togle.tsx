@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
 	Button,
 	Card,
@@ -13,9 +12,27 @@ import {
 } from '@/shared/ui';
 import { GitBranchIcon, ListOrderedIcon } from 'lucide-react';
 import { cn } from '@/shared/lib';
+import { useViewerStore } from '@/shared/managers/store/viewer/view.store';
+import { useCourseSettingsController } from '@/features/view/hooks/use-course-settings-controller';
+import { CourseViewType } from '@/shared/graphql/generated/output';
+import { shallow } from 'zustand/shallow';
 
 export const LinearViewToggle = () => {
-	const [view, setView] = useState<'graph' | 'linear'>('graph');
+	const { topicMapId, viewMode } = useViewerStore(
+		(s) => ({
+			topicMapId: s.topicMapId,
+			viewMode: s.viewMode,
+		}),
+		shallow
+	);
+
+	const { handleViewChange } = useCourseSettingsController(topicMapId);
+
+	const handleChangeView = (view: CourseViewType) => {
+		if (view !== viewMode) {
+			handleViewChange(view);
+		}
+	};
 
 	return (
 		<Card>
@@ -25,16 +42,18 @@ export const LinearViewToggle = () => {
 				<TooltipProvider>
 					<div className="flex flex-col gap-2">
 						<Separator />
-                        <p className='text-xs text-foreground/80'>Выберите тип представления маршрута</p>
-						<div className='flex flex-row justify-start items-center gap-2'>
+						<p className="text-xs text-foreground/80">
+							Выберите тип представления маршрута
+						</p>
+						<div className="flex flex-row justify-start items-center gap-2">
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<Button
 										variant="outline"
-										onClick={() => setView('graph')}
+										onClick={() => handleChangeView(CourseViewType.Graph)}
 										className={cn(
 											'p-2 aspect-square',
-											view === 'graph' &&
+											viewMode === CourseViewType.Graph &&
 												'bg-primary text-primary-foreground'
 										)}
 									>
@@ -42,10 +61,7 @@ export const LinearViewToggle = () => {
 									</Button>
 								</TooltipTrigger>
 								<TooltipContent>
-									<p>
-										Графовое представление — структура с
-										ветвлениями.
-									</p>
+									<p>Графовое представление — структура с ветвлениями.</p>
 								</TooltipContent>
 							</Tooltip>
 
@@ -53,10 +69,10 @@ export const LinearViewToggle = () => {
 								<TooltipTrigger asChild>
 									<Button
 										variant="outline"
-										onClick={() => setView('linear')}
+										onClick={() => handleChangeView(CourseViewType.Linear)}
 										className={cn(
 											'p-2 aspect-square',
-											view === 'linear' &&
+											viewMode === CourseViewType.Linear &&
 												'bg-primary text-primary-foreground'
 										)}
 									>
@@ -64,10 +80,7 @@ export const LinearViewToggle = () => {
 									</Button>
 								</TooltipTrigger>
 								<TooltipContent>
-									<p>
-										Линейное представление — темы идут
-										последовательно.
-									</p>
+									<p>Линейное представление — темы идут последовательно.</p>
 								</TooltipContent>
 							</Tooltip>
 						</div>

@@ -36,7 +36,7 @@ export const useInitializationEditorMap = () => {
 
 		const map = data.getTopicMap;
 
-		const nodes: Node[] = map.nodes.map(deserializeNode);
+		const nodes: Node[] = map.nodes.map((n) => deserializeNode(n));
 		const edges: Edge[] = map.edges.map((edge) => {
 			const meta = edge.meta ? JSON.parse(edge.meta) : {};
 			return {

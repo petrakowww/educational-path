@@ -1,12 +1,16 @@
-import { NodeKind, CompletionType } from '@/shared/graphql/generated/output';
+import { useState } from 'react';
+import { NodeType } from '@/features/node/editor/types/node';
+import { isManualNode } from '@/shared/node/utils/is-openable-node';
 import { IsSelectedViewNode } from '@/shared/node/utils/is-selected-node';
 import clsx, { ClassValue } from 'clsx';
-import { CheckCircle2Icon, FileTextIcon, CircleIcon } from 'lucide-react';
-
 import { ReactNode, CSSProperties } from 'react';
 import { NodeProps } from 'reactflow';
 
-interface SkeletonViewNodeProps<T = unknown> {
+type NodeBlocked = {
+	isBlocked: boolean;
+};
+
+interface SkeletonViewNodeProps<T = NodeBlocked> {
 	children: ReactNode;
 	nodeProps: NodeProps<T>;
 	stylesForComponent?: ClassValue;
@@ -20,45 +24,39 @@ export const SkeletonViewNode = <T,>({
 	style,
 }: SkeletonViewNodeProps<T>) => {
 	const isSelected = IsSelectedViewNode(nodeProps);
+	const [isHovered, setHovered] = useState(false);
 
-	// const renderKindIcon = () => {
-	// 	switch (kind) {
-	// 		case NodeKind.Markable:
-	// 			return (
-	// 				<CheckCircle2Icon className="w-4 h-4 text-emerald-500" />
-	// 			);
-	// 		case NodeKind.Topic:
-	// 			return <FileTextIcon className="w-4 h-4 text-cyan-500" />;
-	// 		default:
-	// 			return <CircleIcon className="w-4 h-4 text-muted-foreground" />;
-	// 	}
-	// };
+	const isClickable =
+		isManualNode(nodeProps.type) || nodeProps.type === NodeType.button;
 
-	// const renderCompletionIcon = () => {
-	// 	switch (completionType) {
-	// 		case CompletionType.Todo:
-	// 			return <CheckCircle2Icon className="w-4 h-4 text-yellow-500" />;
-	// 		case CompletionType.Manual:
-	// 			return <CheckCircle2Icon className="w-4 h-4 text-blue-500" />;
-	// 		default:
-	// 			return <CircleIcon className="w-4 h-4 text-muted-foreground" />;
-	// 	}
-	// };
+	const data = nodeProps.data as NodeBlocked | undefined;
+	const isBlocked = data?.isBlocked ?? false;
+
+	const baseStyle: CSSProperties = {
+		...style,
+		pointerEvents: isBlocked ? 'none' : 'all',
+		transition: 'all 0.3s ease-in-out',
+		...(isHovered && !isSelected && !isBlocked && {
+			borderColor: '#16a34a',
+			boxShadow: '0px 0px 15px 1px rgba(153,153,153,0.61)',
+		}),
+	};
 
 	return (
 		<article
 			className={clsx(
-				'relative group h-full w-full bg-background flex items-center justify-center border-[2px] rounded-md',
+				'relative group h-full w-full flex items-center justify-center border-[2px] rounded-md',
+				'transition-all duration-300 ease-in-out bg-background',
+				isBlocked && 'opacity-50 grayscale blur-[1px] pointer-events-none',
 				isSelected &&
-					'outline outline-offset-2 outline-solid outline-[3px] outline-primary',
+					'outline outline-offset-2 outline-[3px] outline-primary',
+				isClickable && 'cursor-pointer',
 				stylesForComponent
 			)}
-			style={style}
+			onMouseEnter={() => setHovered(true)}
+			onMouseLeave={() => setHovered(false)}
+			style={baseStyle}
 		>
-			<div className="absolute left-1 top-1 flex flex-col gap-1">
-				{/* {renderKindIcon()}
-				{renderCompletionIcon()} */}
-			</div>
 			{children}
 		</article>
 	);

@@ -1,4 +1,3 @@
-import { create } from 'zustand';
 import { Node, Edge } from 'reactflow';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { shallow } from 'zustand/shallow';

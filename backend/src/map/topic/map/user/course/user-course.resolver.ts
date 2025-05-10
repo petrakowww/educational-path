@@ -8,6 +8,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { NodeStatus, User } from '@prisma/__generated__';
 
 import { UserCourseService } from './user-course.service';
+import { UpdateCourseSettingsInput } from './dto/update-course-settings.dto';
 
 @Resolver(() => UserCourse)
 export class UserCourseResolver {
@@ -38,7 +39,7 @@ export class UserCourseResolver {
         @Args('checkListItemId') checkListItemId: string,
         @Args('isCompleted') isCompleted: boolean,
     ) {
-        this.userCourseService.setChecklistItemDone(
+        await this.userCourseService.setChecklistItemDone(
             user,
             checkListItemId,
             isCompleted,
@@ -77,6 +78,7 @@ export class UserCourseResolver {
         @CurrentUser() user: User,
         @Args('topicMapId') topicMapId: string,
     ) {
+        console.log(topicMapId);
         return this.userCourseService.getUserCourse(user, topicMapId);
     }
 
@@ -87,5 +89,14 @@ export class UserCourseResolver {
         @Args('topicMapId') topicMapId: string,
     ): Promise<CourseProgressSummary> {
         return this.userCourseService.getCourseProgress(user, topicMapId);
+    }
+
+    @Authorization()
+    @Mutation(() => Boolean)
+    async updateUserCourseSettings(
+        @CurrentUser() user: User,
+        @Args('input') input: UpdateCourseSettingsInput,
+    ): Promise<boolean> {
+        return this.userCourseService.updateSettings(user, input);
     }
 }

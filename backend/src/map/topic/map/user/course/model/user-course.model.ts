@@ -26,8 +26,8 @@ export class UserCourse {
     @Field(() => TopicMap)
     topicMap: TopicMap;
 
-    @Field(() => [UserTopicProgress])
-    progress: UserTopicProgress[];
+    @Field(() => [UserTopicProgress], { nullable: true })
+    progress?: UserTopicProgress[];
 
     @Field()
     createdAt: Date;

@@ -6,11 +6,11 @@ query getTopicMap($routeId: String!) {
 		nodes {
 			id
 			topicMapId
-      title
-      type
+      	title
+      	type
 			meta
 			posxy
-      zIndex
+      	zIndex
 			checklist {
 				id
 				text

@@ -2,11 +2,12 @@ import { Node } from 'reactflow';
 import { TopicNode as GqlTopicNode } from '@/shared/graphql/generated/output';
 
 export function deserializeNode(
-	dbNode: Omit<GqlTopicNode, 'UserTopicProgress'>
+	dbNode: Omit<GqlTopicNode, 'UserTopicProgress'>,
+	enhance?: (node: Node) => Node
 ): Node {
 	const data = dbNode.meta ? JSON.parse(dbNode.meta) : {};
 
-	return {
+	const node: Node = {
 		id: dbNode.id,
 		type: dbNode.type,
 		position: {
@@ -23,6 +24,8 @@ export function deserializeNode(
 			width: dbNode.posxy?.styleWidth,
 			height: dbNode.posxy?.styleHeight,
 		},
-        zIndex: dbNode.zIndex ?? undefined,
+		zIndex: dbNode.zIndex ?? undefined,
 	};
+
+	return enhance ? enhance(node) : node;
 }

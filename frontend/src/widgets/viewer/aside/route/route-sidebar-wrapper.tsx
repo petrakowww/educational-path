@@ -26,7 +26,7 @@ export const RouteSidebarWrapper = ({
 				className
 			)}
 		>
-			<div className="flex-1 overflow-y-auto pr-1 space-y-4">
+			<div className="flex-1 overflow-y-auto space-y-4">
 				{tab === 'details' ? details : settings}
 			</div>
 

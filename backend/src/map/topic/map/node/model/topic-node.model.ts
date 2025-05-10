@@ -2,7 +2,7 @@ import GraphQLJSON from 'graphql-type-json';
 
 import { UserTopicProgress } from '../../user/progress/model/user-progress.model';
 import { ChecklistItem } from '../checklist/model/checklist.model';
-import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { NodeType } from '@prisma/__generated__';
 import { IsEnum } from 'class-validator';
 

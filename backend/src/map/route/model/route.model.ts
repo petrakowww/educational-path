@@ -2,12 +2,15 @@
 import { UserModel } from '@/user/model/db/user.model';
 
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { PrivateType } from '@prisma/__generated__';
+import { PrivateType, VerificationStatus } from '@prisma/__generated__';
 
 import { RouteTagModel } from './route-tag.model';
 import { TopicMap } from '@/map/topic/map/model/topic-map.model';
+import { IsEnum } from 'class-validator';
 
 registerEnumType(PrivateType, { name: 'PrivateType' });
+
+registerEnumType(VerificationStatus, { name: 'VerificationStatus' });
 
 @ObjectType()
 export class Route {
@@ -21,7 +24,12 @@ export class Route {
     description?: string;
 
     @Field(() => PrivateType)
+    @IsEnum(PrivateType)
     privateType: PrivateType;
+
+    @Field(() => VerificationStatus)
+    @IsEnum(VerificationStatus)
+    isVerified!: VerificationStatus;
 
     @Field(() => Date)
     createdAt: Date;

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
 	Button,
 	Card,
@@ -11,11 +10,29 @@ import {
 	TooltipContent,
 	Separator,
 } from '@/shared/ui';
-import { ChevronsLeftRightEllipsisIcon, GitBranchIcon, ListOrderedIcon, Rows4Icon } from 'lucide-react';
+import { ChevronsLeftRightEllipsisIcon, Rows4Icon } from 'lucide-react';
 import { cn } from '@/shared/lib';
+import { useCourseSettingsController } from '@/features/view/hooks/use-course-settings-controller';
+import { useViewerStore } from '@/shared/managers/store/viewer/view.store';
+import { shallow } from 'zustand/shallow';
+import { CourseModeType } from '@/shared/graphql/generated/output';
 
 export const ModeSwitchToggle = () => {
-	const [mode, setMode] = useState<'graph' | 'linear'>('linear');
+	const { topicMapId, courseMode } = useViewerStore(
+		(s) => ({
+			topicMapId: s.topicMapId,
+			courseMode: s.courseMode,
+		}),
+		shallow
+	);
+
+	const { handleModeChange } = useCourseSettingsController(topicMapId);
+
+	const handlerModeType = (type: CourseModeType) => {
+		if (type !== courseMode) {
+			handleModeChange(type);
+		}
+	};
 
 	return (
 		<Card>
@@ -33,10 +50,10 @@ export const ModeSwitchToggle = () => {
 								<TooltipTrigger asChild>
 									<Button
 										variant="outline"
-										onClick={() => setMode('linear')}
+										onClick={() => handlerModeType(CourseModeType.Strict)}
 										className={cn(
 											'p-2 aspect-square',
-											mode === 'linear' &&
+											courseMode === CourseModeType.Strict &&
 												'bg-primary text-primary-foreground'
 										)}
 									>
@@ -55,10 +72,10 @@ export const ModeSwitchToggle = () => {
 								<TooltipTrigger asChild>
 									<Button
 										variant="outline"
-										onClick={() => setMode('graph')}
+										onClick={() => handlerModeType(CourseModeType.Flexible)}
 										className={cn(
 											'p-2 aspect-square',
-											mode === 'graph' &&
+											courseMode === CourseModeType.Flexible &&
 												'bg-primary text-primary-foreground'
 										)}
 									>

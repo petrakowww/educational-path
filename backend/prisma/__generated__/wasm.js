@@ -169,6 +169,7 @@ exports.Prisma.RouteScalarFieldEnum = {
   title: 'title',
   description: 'description',
   privateType: 'privateType',
+  isVerified: 'isVerified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'
@@ -293,6 +294,12 @@ exports.TokenType = exports.$Enums.TokenType = {
 exports.PrivateType = exports.$Enums.PrivateType = {
   GENERAL: 'GENERAL',
   PRIVATE: 'PRIVATE'
+};
+
+exports.VerificationStatus = exports.$Enums.VerificationStatus = {
+  NOT_VERIFIED: 'NOT_VERIFIED',
+  PENDING: 'PENDING',
+  VERIFIED: 'VERIFIED'
 };
 
 exports.NodeType = exports.$Enums.NodeType = {

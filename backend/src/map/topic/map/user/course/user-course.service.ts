@@ -11,6 +11,7 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { NodeStatus, User } from '@prisma/__generated__';
+import { UpdateCourseSettingsInput } from './dto/update-course-settings.dto';
 
 @Injectable()
 export class UserCourseService {
@@ -165,7 +166,6 @@ export class UserCourseService {
             });
         }
 
-        // Получим все чеклисты для узла и статус пользователя по ним
         const checklistItems = checklistItem.topicNode.checklist.map(c => c.id);
 
         const userChecklistStates =
@@ -189,7 +189,6 @@ export class UserCourseService {
             newStatus = NodeStatus.COMPLETED;
         }
 
-        // Обновим статус узла
         await this.prisma.userTopicProgress.updateMany({
             where: {
                 userCourseId,
@@ -286,4 +285,30 @@ export class UserCourseService {
         );
         return true;
     }
+
+    async updateSettings(
+        user: User,
+        input: UpdateCourseSettingsInput
+      ): Promise<boolean> {
+        const { topicMapId, view, mode } = input;
+      
+        const course = await this.prisma.userCourse.findFirst({
+          where: { userId: user.id, topicMapId },
+        });
+      
+        if (!course) {
+          throw new NotFoundException('Курс не найден');
+        }
+      
+        await this.prisma.userCourse.update({
+          where: { id: course.id },
+          data: {
+            ...(view && { view }),
+            ...(mode && { mode }),
+          },
+        });
+      
+        return true;
+      }
+      
 }

@@ -8,6 +8,7 @@ import { Route } from './model/route.model';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { RouteService } from './route.service';
+import { UserRole, VerificationStatus } from '@prisma/__generated__';
 
 @Resolver(() => Route)
 export class RouteResolver {
@@ -50,5 +51,15 @@ export class RouteResolver {
         @CurrentUser('id') userId: string,
     ) {
         return this.routeService.delete(args.id, userId);
+    }
+
+    @Authorization(UserRole.ADMIN)
+    @Mutation(() => Route)
+    async verifyRoute(
+        @Args() args: FindRouteArgs,
+        @Args('status', { type: () => VerificationStatus })
+        status: VerificationStatus,
+    ) {
+        return this.routeService.verify(args.id, status);
     }
 }

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeDataShapeButton } from '@/features/node/editor/types/node';
-import { SkeletonNode } from './base/skeleton-node';
+import { SkeletonNode } from './base/skeleton-editor-node';
 import { EditableNode } from './base/editable-node';
 
 export const ButtonNode = (props: NodeProps<NodeDataShapeButton>) => {

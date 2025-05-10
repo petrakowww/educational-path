@@ -1,5 +1,4 @@
 
-import ReactFlow, { Background, BackgroundVariant, Controls, MiniMap } from 'reactflow';
 import { ViewerSidebarSkeleton } from './viewer-sidebar-skeleton';
 import { ViewerHeaderSkeleton } from './viewer-header-skeleton';
 import { Skeleton } from '@/shared/ui';

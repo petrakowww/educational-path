@@ -1,8 +1,8 @@
-import { memo, useRef } from 'react';
+import { memo } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeMain } from '@/features/node/editor/types/node';
 import { EditableNode } from './base/editable-node';
-import { SkeletonNode } from './base/skeleton-node';
+import { SkeletonNode } from './base/skeleton-editor-node';
 
 export const ParagraphNode = (props: NodeProps<NodeMain>) => {
 	const { data } = props;

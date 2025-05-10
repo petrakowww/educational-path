@@ -6,6 +6,7 @@ import { UserTopicProgressService } from './progress/user-progress.service';
 import { Module } from '@nestjs/common';
 import { JwtService } from '@/auth/jwt/jwt.service';
 import { RedisService } from '@/auth/redis/redis.service';
+import { UserTopicProgressResolver } from './progress/user-progress.resolver';
 
 @Module({
     providers: [
@@ -13,6 +14,7 @@ import { RedisService } from '@/auth/redis/redis.service';
         UserTopicProgressService,
         UserChecklistItemService,
         UserCourseResolver,
+        UserTopicProgressResolver,
         UserService,
         JwtService,
         RedisService,

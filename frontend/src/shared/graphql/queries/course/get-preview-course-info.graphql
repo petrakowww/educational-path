@@ -24,7 +24,7 @@ query getPreviewCourseInfo($routeId: String!) {
 			targetId
 			meta
 		}
-		UserCourse {
+		userCourse {
 			id
       userId
       topicMapId
@@ -34,6 +34,7 @@ query getPreviewCourseInfo($routeId: String!) {
       mode 
       progress {
         id
+        userCourseId
         topicNodeId
         status
         progressValue
@@ -52,6 +53,10 @@ query getPreviewCourseInfo($routeId: String!) {
       description
       createdAt
       updatedAt
+      isVerified
+      topicMap {
+        id
+      }
       user {
         id
         name

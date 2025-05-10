@@ -77,7 +77,10 @@ type Mutation {
   updateProgressValue(topicNodeId: String!, value: Float!): Boolean!
   updateRoute(data: UpdateRouteDto!, id: ID!): Route!
   updateSkillProfile(dto: SkillProfileDto!): SkillProfile!
+  updateUserCourseSettings(input: UpdateCourseSettingsInput!): Boolean!
   updateUserProfile(dto: UserProfileDto!): UserModel!
+  updateUserTopicProgressStatus(input: UpdateTopicProgressInput!): UserTopicProgress!
+  verifyRoute(id: ID!, status: VerificationStatus!): Route!
 }
 
 enum NodeStatus {
@@ -110,6 +113,7 @@ type Route {
   createdAt: DateTime!
   description: String
   id: ID!
+  isVerified: VerificationStatus!
   privateType: PrivateType!
   tags: [RouteTagModel!]
   title: String!
@@ -173,6 +177,7 @@ type TopicMap {
   route: Route
   routeId: String!
   updatedAt: DateTime!
+  userCourse: UserCourse
 }
 
 type TopicNode {
@@ -185,6 +190,12 @@ type TopicNode {
   topicMapId: String!
   type: String!
   zIndex: Float
+}
+
+input UpdateCourseSettingsInput {
+  mode: CourseModeType
+  topicMapId: ID!
+  view: CourseViewType
 }
 
 input UpdateRouteDto {
@@ -211,6 +222,11 @@ input UpdateTopicNodeInput {
   zIndex: Float
 }
 
+input UpdateTopicProgressInput {
+  status: NodeStatus!
+  topicNodeId: String!
+}
+
 type UserChecklistProgress {
   checklist: ChecklistItem!
   checklistItemId: String!
@@ -225,7 +241,7 @@ type UserCourse {
   createdAt: DateTime!
   id: ID!
   mode: CourseModeType
-  progress: [UserTopicProgress!]!
+  progress: [UserTopicProgress!]
   topicMap: TopicMap!
   topicMapId: String!
   updatedAt: DateTime!
@@ -261,4 +277,10 @@ type UserTopicProgress {
   status: NodeStatus!
   topicNodeId: String!
   userCourseId: String!
+}
+
+enum VerificationStatus {
+  NOT_VERIFIED
+  PENDING
+  VERIFIED
 }

@@ -16,19 +16,26 @@ import { LinearViewToggle } from './settings/linear-view-togle';
 import { ModeSwitchToggle } from './settings/mode-switch-toggle';
 import { ResetCourseButton } from './settings/reset-coure-button';
 import { RouteSettingsPanel } from './settings/route-settings-panel';
-import { Route, UserCourse } from '@/shared/graphql/generated/output';
 import { GetPreviewCourseInfoQuery } from '@/shared/graphql/generated/output';
 import { ApolloError } from '@apollo/client';
+import { StartCourseButton } from '@/features/view/components/start-course-button';
+import { useViewerStore } from '@/shared/managers/store/viewer/view.store';
+import { shallow } from 'zustand/shallow';
 
 interface ViewerSidebarProps {
 	route?: GetPreviewCourseInfoQuery['getUserTopicMap']['route'];
-	course?: GetPreviewCourseInfoQuery['getUserTopicMap']['UserCourse'];
+	course?: GetPreviewCourseInfoQuery['getUserTopicMap']['userCourse'];
 	error?: ApolloError;
 	refetch?: () => void;
 }
 
 export function ViewerSidebar(props: ViewerSidebarProps) {
-	const { route, course, error, refetch } = props;
+	const { route, error, refetch } = props;
+
+	const {isCourseAdded, topicMapId} = useViewerStore((state) => ({
+		isCourseAdded: state.isCourseAdded,
+		topicMapId: state.topicMapId,
+	}), shallow);
 
 	if (error) {
 		return (
@@ -62,21 +69,17 @@ export function ViewerSidebar(props: ViewerSidebarProps) {
 		);
 	}
 
-	const isCourseWasAdded = !!course?.[0]?.id;
-
 	return (
 		<Sidebar>
 			<SidebarContent className="bg-muted p-4">
 				<AsideRouteMapNavigationWrapper />
 
-				{isCourseWasAdded ? (
+				{isCourseAdded ? (
 					<div className="flex flex-col gap-2">
 						<CourseProgressCircle progress={45} />
 					</div>
 				) : (
-					<Button variant="default" className="w-full">
-						Начать прохождение
-					</Button>
+					topicMapId && <StartCourseButton topicMapId={topicMapId} />
 				)}
 
 				<Separator />
@@ -100,16 +103,14 @@ export function ViewerSidebar(props: ViewerSidebarProps) {
 							/>
 							<Separator />
 							<RouteTagsDetailsCard
-								tags={route.tags?.map(
-									(route) => route.tag.name
-								)}
+								tags={route.tags?.map((tag) => tag.tag.name)}
 							/>
 							<Separator />
 						</>
 					}
 					settings={
 						<RouteSettingsPanel
-							isAddedByUser={isCourseWasAdded}
+							isAddedByUser={isCourseAdded}
 							publicSettings={
 								<>
 									<LinearViewToggle />

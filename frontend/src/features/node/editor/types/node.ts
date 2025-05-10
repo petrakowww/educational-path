@@ -10,8 +10,6 @@ import { Node } from 'reactflow';
 import { Legends, Links } from './extended-node';
 import {
 	ChecklistItem,
-	CompletionType,
-	NodeKind,
 } from '@/shared/graphql/generated/output';
 
 export enum NodeType {

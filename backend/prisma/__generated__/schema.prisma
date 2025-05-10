@@ -75,14 +75,15 @@ model Token {
 }
 
 model Route {
-  id          String      @id @default(uuid())
+  id          String             @id @default(uuid())
   title       String
   description String?
-  privateType PrivateType @default(PRIVATE) @map("private_type")
-  createdAt   DateTime    @default(now()) @map("created_at")
-  updatedAt   DateTime    @updatedAt @map("updated_at")
-  userId      String      @map("user_id")
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  privateType PrivateType        @default(PRIVATE) @map("private_type")
+  isVerified  VerificationStatus @default(NOT_VERIFIED) @map("is_verified")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
+  userId      String             @map("user_id")
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   tags        RouteTag[]
   topicMap    TopicMap?
 }
@@ -231,4 +232,10 @@ enum CourseViewType {
 enum CourseModeType {
   STRICT
   FLEXIBLE
+}
+
+enum VerificationStatus {
+  NOT_VERIFIED
+  PENDING
+  VERIFIED
 }

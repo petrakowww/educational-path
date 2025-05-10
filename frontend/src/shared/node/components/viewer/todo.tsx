@@ -7,6 +7,7 @@ import { memo } from "react";
 export const TodoViewNode = (props: NodeProps<NodeDataShapeToDo>) => {
 	const { data } = props;
 	const taskText = data.todos?.[0]?.text ?? 'Задача не задана';
+	console.log(data);
 	return (
 		<SkeletonViewNode
 			nodeProps={props}
@@ -23,7 +24,7 @@ export const TodoViewNode = (props: NodeProps<NodeDataShapeToDo>) => {
 						padding: data.meta.blockProps?.padding ?? 8,
 					}}
 				>
-					<div className="w-5 h-5 border border-foreground/50 rounded-md flex-shrink-0" />
+					<div className="w-4 h-4 border border-foreground/50 rounded-md flex-shrink-0" />
 					<p
 						className="text-sm leading-snug text-left truncate"
 						style={{

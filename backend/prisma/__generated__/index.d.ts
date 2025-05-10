@@ -163,6 +163,15 @@ export const CourseModeType: {
 
 export type CourseModeType = (typeof CourseModeType)[keyof typeof CourseModeType]
 
+
+export const VerificationStatus: {
+  NOT_VERIFIED: 'NOT_VERIFIED',
+  PENDING: 'PENDING',
+  VERIFIED: 'VERIFIED'
+};
+
+export type VerificationStatus = (typeof VerificationStatus)[keyof typeof VerificationStatus]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -196,6 +205,10 @@ export const CourseViewType: typeof $Enums.CourseViewType
 export type CourseModeType = $Enums.CourseModeType
 
 export const CourseModeType: typeof $Enums.CourseModeType
+
+export type VerificationStatus = $Enums.VerificationStatus
+
+export const VerificationStatus: typeof $Enums.VerificationStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -6968,6 +6981,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     privateType: $Enums.PrivateType | null
+    isVerified: $Enums.VerificationStatus | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -6978,6 +6992,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     privateType: $Enums.PrivateType | null
+    isVerified: $Enums.VerificationStatus | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -6988,6 +7003,7 @@ export namespace Prisma {
     title: number
     description: number
     privateType: number
+    isVerified: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -7000,6 +7016,7 @@ export namespace Prisma {
     title?: true
     description?: true
     privateType?: true
+    isVerified?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -7010,6 +7027,7 @@ export namespace Prisma {
     title?: true
     description?: true
     privateType?: true
+    isVerified?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -7020,6 +7038,7 @@ export namespace Prisma {
     title?: true
     description?: true
     privateType?: true
+    isVerified?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -7103,6 +7122,7 @@ export namespace Prisma {
     title: string
     description: string | null
     privateType: $Enums.PrivateType
+    isVerified: $Enums.VerificationStatus
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -7130,6 +7150,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     privateType?: boolean
+    isVerified?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -7144,6 +7165,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     privateType?: boolean
+    isVerified?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -7155,6 +7177,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     privateType?: boolean
+    isVerified?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -7166,12 +7189,13 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     privateType?: boolean
+    isVerified?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
   }
 
-  export type RouteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "privateType" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["route"]>
+  export type RouteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "privateType" | "isVerified" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["route"]>
   export type RouteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     tags?: boolean | Route$tagsArgs<ExtArgs>
@@ -7197,6 +7221,7 @@ export namespace Prisma {
       title: string
       description: string | null
       privateType: $Enums.PrivateType
+      isVerified: $Enums.VerificationStatus
       createdAt: Date
       updatedAt: Date
       userId: string
@@ -7630,6 +7655,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Route", 'String'>
     readonly description: FieldRef<"Route", 'String'>
     readonly privateType: FieldRef<"Route", 'PrivateType'>
+    readonly isVerified: FieldRef<"Route", 'VerificationStatus'>
     readonly createdAt: FieldRef<"Route", 'DateTime'>
     readonly updatedAt: FieldRef<"Route", 'DateTime'>
     readonly userId: FieldRef<"Route", 'String'>
@@ -17962,6 +17988,7 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     privateType: 'privateType',
+    isVerified: 'isVerified',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId'
@@ -18206,6 +18233,20 @@ export namespace Prisma {
    * Reference to a field of type 'PrivateType[]'
    */
   export type ListEnumPrivateTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PrivateType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'VerificationStatus'
+   */
+  export type EnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'VerificationStatus[]'
+   */
+  export type ListEnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus[]'>
     
 
 
@@ -18624,6 +18665,7 @@ export namespace Prisma {
     title?: StringFilter<"Route"> | string
     description?: StringNullableFilter<"Route"> | string | null
     privateType?: EnumPrivateTypeFilter<"Route"> | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFilter<"Route"> | $Enums.VerificationStatus
     createdAt?: DateTimeFilter<"Route"> | Date | string
     updatedAt?: DateTimeFilter<"Route"> | Date | string
     userId?: StringFilter<"Route"> | string
@@ -18637,6 +18679,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     privateType?: SortOrder
+    isVerified?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -18653,6 +18696,7 @@ export namespace Prisma {
     title?: StringFilter<"Route"> | string
     description?: StringNullableFilter<"Route"> | string | null
     privateType?: EnumPrivateTypeFilter<"Route"> | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFilter<"Route"> | $Enums.VerificationStatus
     createdAt?: DateTimeFilter<"Route"> | Date | string
     updatedAt?: DateTimeFilter<"Route"> | Date | string
     userId?: StringFilter<"Route"> | string
@@ -18666,6 +18710,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     privateType?: SortOrder
+    isVerified?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -18682,6 +18727,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Route"> | string
     description?: StringNullableWithAggregatesFilter<"Route"> | string | null
     privateType?: EnumPrivateTypeWithAggregatesFilter<"Route"> | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusWithAggregatesFilter<"Route"> | $Enums.VerificationStatus
     createdAt?: DateTimeWithAggregatesFilter<"Route"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Route"> | Date | string
     userId?: StringWithAggregatesFilter<"Route"> | string
@@ -19549,6 +19595,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutRouteInput
@@ -19561,6 +19608,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -19573,6 +19621,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRouteNestedInput
@@ -19585,6 +19634,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -19597,6 +19647,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -19607,6 +19658,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19616,6 +19668,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -20480,6 +20533,13 @@ export namespace Prisma {
     not?: NestedEnumPrivateTypeFilter<$PrismaModel> | $Enums.PrivateType
   }
 
+  export type EnumVerificationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusFilter<$PrismaModel> | $Enums.VerificationStatus
+  }
+
   export type RouteTagListRelationFilter = {
     every?: RouteTagWhereInput
     some?: RouteTagWhereInput
@@ -20500,6 +20560,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     privateType?: SortOrder
+    isVerified?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -20510,6 +20571,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     privateType?: SortOrder
+    isVerified?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -20520,6 +20582,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     privateType?: SortOrder
+    isVerified?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -20533,6 +20596,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPrivateTypeFilter<$PrismaModel>
     _max?: NestedEnumPrivateTypeFilter<$PrismaModel>
+  }
+
+  export type EnumVerificationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusWithAggregatesFilter<$PrismaModel> | $Enums.VerificationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVerificationStatusFilter<$PrismaModel>
+    _max?: NestedEnumVerificationStatusFilter<$PrismaModel>
   }
 
   export type TagCountOrderByAggregateInput = {
@@ -21363,6 +21436,10 @@ export namespace Prisma {
     set?: $Enums.PrivateType
   }
 
+  export type EnumVerificationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.VerificationStatus
+  }
+
   export type UserUpdateOneRequiredWithoutRouteNestedInput = {
     create?: XOR<UserCreateWithoutRouteInput, UserUncheckedCreateWithoutRouteInput>
     connectOrCreate?: UserCreateOrConnectWithoutRouteInput
@@ -22167,6 +22244,13 @@ export namespace Prisma {
     not?: NestedEnumPrivateTypeFilter<$PrismaModel> | $Enums.PrivateType
   }
 
+  export type NestedEnumVerificationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusFilter<$PrismaModel> | $Enums.VerificationStatus
+  }
+
   export type NestedEnumPrivateTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.PrivateType | EnumPrivateTypeFieldRefInput<$PrismaModel>
     in?: $Enums.PrivateType[] | ListEnumPrivateTypeFieldRefInput<$PrismaModel>
@@ -22175,6 +22259,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPrivateTypeFilter<$PrismaModel>
     _max?: NestedEnumPrivateTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumVerificationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusWithAggregatesFilter<$PrismaModel> | $Enums.VerificationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVerificationStatusFilter<$PrismaModel>
+    _max?: NestedEnumVerificationStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumNodeTypeFilter<$PrismaModel = never> = {
@@ -22364,6 +22458,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: RouteTagCreateNestedManyWithoutRouteInput
@@ -22375,6 +22470,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: RouteTagUncheckedCreateNestedManyWithoutRouteInput
@@ -22500,6 +22596,7 @@ export namespace Prisma {
     title?: StringFilter<"Route"> | string
     description?: StringNullableFilter<"Route"> | string | null
     privateType?: EnumPrivateTypeFilter<"Route"> | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFilter<"Route"> | $Enums.VerificationStatus
     createdAt?: DateTimeFilter<"Route"> | Date | string
     updatedAt?: DateTimeFilter<"Route"> | Date | string
     userId?: StringFilter<"Route"> | string
@@ -23065,6 +23162,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutRouteInput
@@ -23076,6 +23174,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -23118,6 +23217,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRouteNestedInput
@@ -23129,6 +23229,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -23185,6 +23286,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutRouteInput
@@ -23196,6 +23298,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -23314,6 +23417,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRouteNestedInput
@@ -23325,6 +23429,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -24052,6 +24157,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     privateType?: $Enums.PrivateType
+    isVerified?: $Enums.VerificationStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24082,6 +24188,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: RouteTagUpdateManyWithoutRouteNestedInput
@@ -24093,6 +24200,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: RouteTagUncheckedUpdateManyWithoutRouteNestedInput
@@ -24104,6 +24212,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     privateType?: EnumPrivateTypeFieldUpdateOperationsInput | $Enums.PrivateType
+    isVerified?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

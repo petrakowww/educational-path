@@ -27,4 +27,7 @@ export class TopicMap {
 
     @Field(() => [UserCourse])
     UserCourse: UserCourse[];
+
+    @Field(() => UserCourse, { nullable: true })
+	userCourse?: UserCourse;
 }

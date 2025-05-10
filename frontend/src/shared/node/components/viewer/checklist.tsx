@@ -24,10 +24,10 @@ export const ChecklistViewNode = (props: NodeProps<NodeDataShapeChecklist>) => {
 							{todos.map((todo) => (
 								<div key={todo.id} className="flex gap-2 items-center">
 									<div
-										className="w-6 h-6 aspect-square border border-foreground/50 rounded-md cursor-pointer"
+										className="w-4 h-4 aspect-square border border-foreground/50 rounded-md cursor-pointer"
 										onClick={(e) => e.stopPropagation()}
 									/>
-									<span className="whitespace-pre-wrap text-nowrap text-lg text-foreground">
+									<span className="whitespace-pre-wrap text-nowrap text-base text-foreground">
 										{todo.text || 'Без текста'}
 									</span>
 								</div>
