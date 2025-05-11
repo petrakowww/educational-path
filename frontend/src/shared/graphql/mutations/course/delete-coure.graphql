@@ -1,0 +1,3 @@
+mutation RemoveCourse($topicMapId: String!) {
+  removeCourse(topicMapId: $topicMapId)
+}

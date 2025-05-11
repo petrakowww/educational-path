@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useComponentDimensions, useMediaQuery } from '@/shared/lib';
 
 import { ThemeButton } from '@/widgets/ui';
@@ -16,21 +16,12 @@ import { MobileMenu } from '@/widgets/editor/components/mobile-menu';
 import { AsideBarFunctionalTabs } from '@/widgets/editor/components/side-bar/side-bar';
 import { AsideBarTabContent } from '@/features/node/editor/components/actions/creator/tab-content';
 import { useParams } from 'next/navigation';
-import { useGetTopicMapQuery } from '@/shared/graphql/generated/output';
-import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
-import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
-import { shallow } from 'zustand/shallow';
 import { useInitializationEditorMap } from '@/features/node/editor/hooks/use-initialization-map';
 import { SpinnerOverlay } from '@/shared/ui/spinner-overlay/spinner-overlay';
 
 export default function Page() {
 	const params = useParams<{ id: string; slug: string }>();
-
-	if (!params?.id) {
-		return null;
-	}
-
-	const { loading, error, isReady } = useInitializationEditorMap();
+	const { loading, isReady } = useInitializationEditorMap(); // теперь безопасно
 
 	const showSpinner = loading || !isReady;
 
@@ -39,6 +30,10 @@ export default function Page() {
 
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
 	const { width } = useComponentDimensions(sidePartOfEditorRef);
+
+	if (!params?.id) {
+		return null;
+	}
 
 	return (
 		<div className="relative">

@@ -13543,6 +13543,7 @@ export namespace Prisma {
     topicMapId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deadline: Date | null
     view: $Enums.CourseViewType | null
     mode: $Enums.CourseModeType | null
   }
@@ -13553,6 +13554,7 @@ export namespace Prisma {
     topicMapId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deadline: Date | null
     view: $Enums.CourseViewType | null
     mode: $Enums.CourseModeType | null
   }
@@ -13563,6 +13565,7 @@ export namespace Prisma {
     topicMapId: number
     createdAt: number
     updatedAt: number
+    deadline: number
     view: number
     mode: number
     _all: number
@@ -13575,6 +13578,7 @@ export namespace Prisma {
     topicMapId?: true
     createdAt?: true
     updatedAt?: true
+    deadline?: true
     view?: true
     mode?: true
   }
@@ -13585,6 +13589,7 @@ export namespace Prisma {
     topicMapId?: true
     createdAt?: true
     updatedAt?: true
+    deadline?: true
     view?: true
     mode?: true
   }
@@ -13595,6 +13600,7 @@ export namespace Prisma {
     topicMapId?: true
     createdAt?: true
     updatedAt?: true
+    deadline?: true
     view?: true
     mode?: true
     _all?: true
@@ -13678,6 +13684,7 @@ export namespace Prisma {
     topicMapId: string
     createdAt: Date
     updatedAt: Date
+    deadline: Date | null
     view: $Enums.CourseViewType | null
     mode: $Enums.CourseModeType | null
     _count: UserCourseCountAggregateOutputType | null
@@ -13705,6 +13712,7 @@ export namespace Prisma {
     topicMapId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deadline?: boolean
     view?: boolean
     mode?: boolean
     UserChecklistProgress?: boolean | UserCourse$UserChecklistProgressArgs<ExtArgs>
@@ -13719,6 +13727,7 @@ export namespace Prisma {
     topicMapId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deadline?: boolean
     view?: boolean
     mode?: boolean
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
@@ -13730,6 +13739,7 @@ export namespace Prisma {
     topicMapId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deadline?: boolean
     view?: boolean
     mode?: boolean
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
@@ -13741,11 +13751,12 @@ export namespace Prisma {
     topicMapId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deadline?: boolean
     view?: boolean
     mode?: boolean
   }
 
-  export type UserCourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "topicMapId" | "createdAt" | "updatedAt" | "view" | "mode", ExtArgs["result"]["userCourse"]>
+  export type UserCourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "topicMapId" | "createdAt" | "updatedAt" | "deadline" | "view" | "mode", ExtArgs["result"]["userCourse"]>
   export type UserCourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     UserChecklistProgress?: boolean | UserCourse$UserChecklistProgressArgs<ExtArgs>
     topicMap?: boolean | TopicMapDefaultArgs<ExtArgs>
@@ -13772,6 +13783,7 @@ export namespace Prisma {
       topicMapId: string
       createdAt: Date
       updatedAt: Date
+      deadline: Date | null
       view: $Enums.CourseViewType | null
       mode: $Enums.CourseModeType | null
     }, ExtArgs["result"]["userCourse"]>
@@ -14205,6 +14217,7 @@ export namespace Prisma {
     readonly topicMapId: FieldRef<"UserCourse", 'String'>
     readonly createdAt: FieldRef<"UserCourse", 'DateTime'>
     readonly updatedAt: FieldRef<"UserCourse", 'DateTime'>
+    readonly deadline: FieldRef<"UserCourse", 'DateTime'>
     readonly view: FieldRef<"UserCourse", 'CourseViewType'>
     readonly mode: FieldRef<"UserCourse", 'CourseModeType'>
   }
@@ -18053,6 +18066,7 @@ export namespace Prisma {
     topicMapId: 'topicMapId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    deadline: 'deadline',
     view: 'view',
     mode: 'mode'
   };
@@ -19013,6 +19027,7 @@ export namespace Prisma {
     topicMapId?: StringFilter<"UserCourse"> | string
     createdAt?: DateTimeFilter<"UserCourse"> | Date | string
     updatedAt?: DateTimeFilter<"UserCourse"> | Date | string
+    deadline?: DateTimeNullableFilter<"UserCourse"> | Date | string | null
     view?: EnumCourseViewTypeNullableFilter<"UserCourse"> | $Enums.CourseViewType | null
     mode?: EnumCourseModeTypeNullableFilter<"UserCourse"> | $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressListRelationFilter
@@ -19026,6 +19041,7 @@ export namespace Prisma {
     topicMapId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deadline?: SortOrderInput | SortOrder
     view?: SortOrderInput | SortOrder
     mode?: SortOrderInput | SortOrder
     UserChecklistProgress?: UserChecklistProgressOrderByRelationAggregateInput
@@ -19042,6 +19058,7 @@ export namespace Prisma {
     topicMapId?: StringFilter<"UserCourse"> | string
     createdAt?: DateTimeFilter<"UserCourse"> | Date | string
     updatedAt?: DateTimeFilter<"UserCourse"> | Date | string
+    deadline?: DateTimeNullableFilter<"UserCourse"> | Date | string | null
     view?: EnumCourseViewTypeNullableFilter<"UserCourse"> | $Enums.CourseViewType | null
     mode?: EnumCourseModeTypeNullableFilter<"UserCourse"> | $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressListRelationFilter
@@ -19055,6 +19072,7 @@ export namespace Prisma {
     topicMapId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deadline?: SortOrderInput | SortOrder
     view?: SortOrderInput | SortOrder
     mode?: SortOrderInput | SortOrder
     _count?: UserCourseCountOrderByAggregateInput
@@ -19071,6 +19089,7 @@ export namespace Prisma {
     topicMapId?: StringWithAggregatesFilter<"UserCourse"> | string
     createdAt?: DateTimeWithAggregatesFilter<"UserCourse"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserCourse"> | Date | string
+    deadline?: DateTimeNullableWithAggregatesFilter<"UserCourse"> | Date | string | null
     view?: EnumCourseViewTypeNullableWithAggregatesFilter<"UserCourse"> | $Enums.CourseViewType | null
     mode?: EnumCourseModeTypeNullableWithAggregatesFilter<"UserCourse"> | $Enums.CourseModeType | null
   }
@@ -19943,6 +19962,7 @@ export namespace Prisma {
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressCreateNestedManyWithoutUserCourseInput
@@ -19956,6 +19976,7 @@ export namespace Prisma {
     topicMapId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressUncheckedCreateNestedManyWithoutUserCourseInput
@@ -19967,6 +19988,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressUpdateManyWithoutUserCourseNestedInput
@@ -19980,6 +20002,7 @@ export namespace Prisma {
     topicMapId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressUncheckedUpdateManyWithoutUserCourseNestedInput
@@ -19992,6 +20015,7 @@ export namespace Prisma {
     topicMapId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
   }
@@ -20001,6 +20025,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
   }
@@ -20011,6 +20036,7 @@ export namespace Prisma {
     topicMapId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
   }
@@ -20927,6 +20953,17 @@ export namespace Prisma {
     targetId?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type EnumCourseViewTypeNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.CourseViewType | EnumCourseViewTypeFieldRefInput<$PrismaModel> | null
     in?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
@@ -20957,6 +20994,7 @@ export namespace Prisma {
     topicMapId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deadline?: SortOrder
     view?: SortOrder
     mode?: SortOrder
   }
@@ -20967,6 +21005,7 @@ export namespace Prisma {
     topicMapId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deadline?: SortOrder
     view?: SortOrder
     mode?: SortOrder
   }
@@ -20977,8 +21016,23 @@ export namespace Prisma {
     topicMapId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deadline?: SortOrder
     view?: SortOrder
     mode?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumCourseViewTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -21017,17 +21071,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type TopicNodeScalarRelationFilter = {
@@ -21107,20 +21150,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ChecklistItemCountOrderByAggregateInput = {
@@ -21864,6 +21893,10 @@ export namespace Prisma {
     connect?: UserTopicProgressWhereUniqueInput | UserTopicProgressWhereUniqueInput[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type NullableEnumCourseViewTypeFieldUpdateOperationsInput = {
     set?: $Enums.CourseViewType | null
   }
@@ -21958,10 +21991,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type TopicNodeUpdateOneRequiredWithoutUserTopicProgressNestedInput = {
@@ -22361,6 +22390,17 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumCourseViewTypeNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.CourseViewType | EnumCourseViewTypeFieldRefInput<$PrismaModel> | null
     in?: $Enums.CourseViewType[] | ListEnumCourseViewTypeFieldRefInput<$PrismaModel> | null
@@ -22373,6 +22413,20 @@ export namespace Prisma {
     in?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
     notIn?: $Enums.CourseModeType[] | ListEnumCourseModeTypeFieldRefInput<$PrismaModel> | null
     not?: NestedEnumCourseModeTypeNullableFilter<$PrismaModel> | $Enums.CourseModeType | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumCourseViewTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -22402,17 +22456,6 @@ export namespace Prisma {
     not?: NestedEnumNodeStatusFilter<$PrismaModel> | $Enums.NodeStatus
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumNodeStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.NodeStatus | EnumNodeStatusFieldRefInput<$PrismaModel>
     in?: $Enums.NodeStatus[] | ListEnumNodeStatusFieldRefInput<$PrismaModel>
@@ -22437,20 +22480,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type RouteCreateWithoutUserInput = {
@@ -23347,6 +23376,7 @@ export namespace Prisma {
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressCreateNestedManyWithoutUserCourseInput
@@ -23358,6 +23388,7 @@ export namespace Prisma {
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressUncheckedCreateNestedManyWithoutUserCourseInput
@@ -23490,6 +23521,7 @@ export namespace Prisma {
     topicMapId?: StringFilter<"UserCourse"> | string
     createdAt?: DateTimeFilter<"UserCourse"> | Date | string
     updatedAt?: DateTimeFilter<"UserCourse"> | Date | string
+    deadline?: DateTimeNullableFilter<"UserCourse"> | Date | string | null
     view?: EnumCourseViewTypeNullableFilter<"UserCourse"> | $Enums.CourseViewType | null
     mode?: EnumCourseModeTypeNullableFilter<"UserCourse"> | $Enums.CourseModeType | null
   }
@@ -23866,6 +23898,7 @@ export namespace Prisma {
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressCreateNestedManyWithoutUserCourseInput
@@ -23878,6 +23911,7 @@ export namespace Prisma {
     topicMapId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressUncheckedCreateNestedManyWithoutUserCourseInput
@@ -23937,6 +23971,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressUpdateManyWithoutUserCourseNestedInput
@@ -23949,6 +23984,7 @@ export namespace Prisma {
     topicMapId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressUncheckedUpdateManyWithoutUserCourseNestedInput
@@ -24074,6 +24110,7 @@ export namespace Prisma {
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
     topicMap: TopicMapCreateNestedOneWithoutUserCourseInput
@@ -24086,6 +24123,7 @@ export namespace Prisma {
     topicMapId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
     progress?: UserTopicProgressUncheckedCreateNestedManyWithoutUserCourseInput
@@ -24135,6 +24173,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
     topicMap?: TopicMapUpdateOneRequiredWithoutUserCourseNestedInput
@@ -24147,6 +24186,7 @@ export namespace Prisma {
     topicMapId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
     progress?: UserTopicProgressUncheckedUpdateManyWithoutUserCourseNestedInput
@@ -24341,6 +24381,7 @@ export namespace Prisma {
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deadline?: Date | string | null
     view?: $Enums.CourseViewType | null
     mode?: $Enums.CourseModeType | null
   }
@@ -24402,6 +24443,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressUpdateManyWithoutUserCourseNestedInput
@@ -24413,6 +24455,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
     UserChecklistProgress?: UserChecklistProgressUncheckedUpdateManyWithoutUserCourseNestedInput
@@ -24424,6 +24467,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     view?: NullableEnumCourseViewTypeFieldUpdateOperationsInput | $Enums.CourseViewType | null
     mode?: NullableEnumCourseModeTypeFieldUpdateOperationsInput | $Enums.CourseModeType | null
   }

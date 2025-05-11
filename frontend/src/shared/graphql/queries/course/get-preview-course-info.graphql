@@ -31,7 +31,8 @@ query getPreviewCourseInfo($routeId: String!) {
       createdAt
       updatedAt
       view
-      mode 
+      deadline
+      mode
       progress {
         id
         userCourseId

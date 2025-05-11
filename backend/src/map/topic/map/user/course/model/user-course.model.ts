@@ -35,6 +35,9 @@ export class UserCourse {
     @Field()
     updatedAt: Date;
 
+    @Field(() => Date, { nullable: true })
+    deadline?: Date;
+
     @Field(() => CourseViewType, { nullable: true })
     view?: CourseViewType;
 

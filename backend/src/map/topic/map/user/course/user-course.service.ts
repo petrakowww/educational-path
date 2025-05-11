@@ -9,11 +9,13 @@ import {
 } from '@nestjs/common';
 import { User } from '@prisma/__generated__';
 import { isProgressableType } from '@/libs/common/utils/is-progressable.util';
+import { UserTopicProgressService } from '../progress/user-progress.service';
 
 @Injectable()
 export class UserCourseService {
     constructor(
         private readonly prisma: PrismaService,
+        private readonly userTopicProgressService: UserTopicProgressService,
     ) {}
 
     async startCourse(user: User, input: StartCourseInput) {
@@ -80,6 +82,7 @@ export class UserCourseService {
     }
 
     async getUserCourse(user: User, topicMapId: string) {
+        await this.userTopicProgressService.syncUserProgress(user, topicMapId);
         const course = await this.prisma.userCourse.findFirst({
             where: {
                 userId: user.id,

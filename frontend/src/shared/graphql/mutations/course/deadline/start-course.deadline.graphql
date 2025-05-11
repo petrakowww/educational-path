@@ -1,0 +1,6 @@
+mutation StartCourseDeadline($topicMapId: String!, $deadline: DateTime!) {
+  startCourseDeadline(topicMapId: $topicMapId, deadline: $deadline) {
+    id
+    deadline
+  }
+}

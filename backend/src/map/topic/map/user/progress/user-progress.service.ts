@@ -16,14 +16,28 @@ export class UserTopicProgressService {
     async getProgress(user: User, topicNodeId: string) {
         await this.assertProgressable(topicNodeId);
 
+        const node = await this.prisma.topicNode.findUnique({
+            where: { id: topicNodeId },
+            select: { topicMapId: true },
+        });
+
+        if (!node) {
+            throw new NotFoundException('Узел не найден');
+        }
+
+        await this.syncUserProgress(user, node.topicMapId);
+
         const progress = await this.prisma.userTopicProgress.findFirst({
             where: {
                 topicNodeId,
                 userCourse: { userId: user.id },
             },
         });
-        if (!progress)
+
+        if (!progress) {
             throw new NotFoundException('Прогресс по теме не найден');
+        }
+
         return progress;
     }
 
@@ -40,45 +54,15 @@ export class UserTopicProgressService {
         });
 
         if (userCourse.mode === 'STRICT') {
-            const incomingEdges = await this.prisma.topicEdge.findMany({
-                where: {
-                    topicMapId: userCourse.topicMapId,
-                    targetId: topicNodeId,
-                },
-                select: { sourceId: true },
-            });
-
-            const requiredIds = incomingEdges.map(e => e.sourceId);
-
-            if (requiredIds.length > 0) {
-                const completed = await this.prisma.userTopicProgress.findMany({
-                    where: {
-                        topicNodeId: { in: requiredIds },
-                        userCourseId: progress.userCourseId,
-                        status: 'COMPLETED',
-                    },
-                    select: { topicNodeId: true },
-                });
-
-                const completedSet = new Set(completed.map(p => p.topicNodeId));
-                const notCompleted = requiredIds.filter(
-                    id => !completedSet.has(id),
-                );
-
-                if (notCompleted.length > 0) {
-                    throw new ConflictException(
-                        `Вы не можете завершить узел "${topicNodeId}", пока не завершены узлы: [${notCompleted.join(', ')}]`,
-                    );
-                }
-            }
+            await this.assertParentsCompleted(
+                progress.userCourseId,
+                topicNodeId,
+                userCourse.topicMapId,
+            );
         }
 
         const progressValue =
-            status === 'COMPLETED'
-                ? 1
-                : status === 'IN_PROGRESS'
-                  ? 0.01
-                  : 0;
+            status === 'COMPLETED' ? 1 : status === 'IN_PROGRESS' ? 0.01 : 0;
 
         return this.prisma.userTopicProgress.update({
             where: {
@@ -116,37 +100,11 @@ export class UserTopicProgressService {
         });
 
         if (userCourse.mode === 'STRICT') {
-            const incomingEdges = await this.prisma.topicEdge.findMany({
-                where: {
-                    topicMapId: userCourse.topicMapId,
-                    targetId: topicNodeId,
-                },
-                select: { sourceId: true },
-            });
-
-            const requiredIds = incomingEdges.map(e => e.sourceId);
-
-            if (requiredIds.length > 0) {
-                const completed = await this.prisma.userTopicProgress.findMany({
-                    where: {
-                        topicNodeId: { in: requiredIds },
-                        userCourseId: progress.userCourseId,
-                        status: 'COMPLETED',
-                    },
-                    select: { topicNodeId: true },
-                });
-
-                const completedSet = new Set(completed.map(p => p.topicNodeId));
-                const notCompleted = requiredIds.filter(
-                    id => !completedSet.has(id),
-                );
-
-                if (notCompleted.length > 0) {
-                    throw new ConflictException(
-                        `Вы не можете обновить прогресс узла "${topicNodeId}", пока не завершены узлы: [${notCompleted.join(', ')}]`,
-                    );
-                }
-            }
+            await this.assertParentsCompleted(
+                progress.userCourseId,
+                topicNodeId,
+                userCourse.topicMapId,
+            );
         }
 
         const now = new Date();
@@ -172,6 +130,7 @@ export class UserTopicProgressService {
         user: User,
         topicMapId: string,
     ): Promise<CourseProgressSummary> {
+        await this.syncUserProgress(user, topicMapId);
         const userCourse = await this.prisma.userCourse.findFirst({
             where: {
                 userId: user.id,
@@ -230,6 +189,89 @@ export class UserTopicProgressService {
         if (!node || !isProgressableType(node.type)) {
             throw new ConflictException(
                 `Прогресс недоступен для типа узла "${node?.type}"`,
+            );
+        }
+    }
+
+    async syncUserProgress(user: User, topicMapId: string): Promise<number> {
+        const course = await this.prisma.userCourse.findFirst({
+            where: {
+                userId: user.id,
+                topicMapId,
+            },
+            include: {
+                progress: true,
+                topicMap: {
+                    include: { nodes: true },
+                },
+            },
+        });
+
+        if (!course) {
+            throw new NotFoundException('Курс не найден');
+        }
+
+        const existingNodeIds = new Set(
+            course.progress.map(p => p.topicNodeId),
+        );
+        const newProgressNodes = course.topicMap.nodes
+            .filter(node => isProgressableType(node.type))
+            .filter(node => !existingNodeIds.has(node.id));
+
+        if (newProgressNodes.length === 0) return 0;
+
+        await this.prisma.userTopicProgress.createMany({
+            data: newProgressNodes.map(node => ({
+                topicNodeId: node.id,
+                userCourseId: course.id,
+            })),
+            skipDuplicates: true,
+        });
+
+        return newProgressNodes.length;
+    }
+
+    private async assertParentsCompleted(
+        userCourseId: string,
+        topicNodeId: string,
+        topicMapId: string,
+    ) {
+        const incomingEdges = await this.prisma.topicEdge.findMany({
+            where: {
+                topicMapId,
+                targetId: topicNodeId,
+            },
+            select: { sourceId: true },
+        });
+
+        if (incomingEdges.length === 0) return;
+
+        const sourceNodes = await this.prisma.topicNode.findMany({
+            where: { id: { in: incomingEdges.map(e => e.sourceId) } },
+            select: { id: true, type: true },
+        });
+
+        const requiredIds = sourceNodes
+            .filter(n => isProgressableType(n.type))
+            .map(n => n.id);
+
+        if (requiredIds.length === 0) return;
+
+        const completed = await this.prisma.userTopicProgress.findMany({
+            where: {
+                topicNodeId: { in: requiredIds },
+                userCourseId,
+                status: 'COMPLETED',
+            },
+            select: { topicNodeId: true },
+        });
+
+        const completedSet = new Set(completed.map(p => p.topicNodeId));
+        const notCompleted = requiredIds.filter(id => !completedSet.has(id));
+
+        if (notCompleted.length > 0) {
+            throw new ConflictException(
+                `Вы не можете завершить узел "${topicNodeId}", пока не завершены узлы: [${notCompleted.join(', ')}]`,
             );
         }
     }

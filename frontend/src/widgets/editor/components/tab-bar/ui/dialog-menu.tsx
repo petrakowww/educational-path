@@ -31,9 +31,6 @@ interface TabDialogMenuProps {
 	onSelectExistingMap?: () => TabDataProps;
 }
 
-// TODO: Необходимо сделать раздел существующих карт, сейчас он пуст
-// TODO: Валидация на уровне клиента (в двух местах - переименовывание и создание)
-
 export const TabDialogMenu = (props: TabDialogMenuProps) => {
 	const { onAddNewCardCallback } = props;
 	const [open, setOpen] = useState(false);

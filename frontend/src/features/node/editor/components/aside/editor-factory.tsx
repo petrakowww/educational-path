@@ -12,11 +12,9 @@ import { TitleNodeSettings } from './components/settings/title-settings';
 import { ToDoNodeSettings } from './components/settings/todo-settings';
 import { TopicNodeSettings } from './components/settings/topic-settings';
 import { BaseAdvancedSettings } from './components/settings/advanced-settings';
-import { ComponentChangeTopicType } from './components/parts/unique/topic/parts/change-type';
 import { TopicAdvanced } from './components/parts/unique/topic/topic-content';
 import { CommandComponentButtonUrl } from './components/parts/unique/button/button-url';
 import { ComponentCheckList } from './components/parts/unique/checklist/checklist';
-import { ComponentToDo } from './components/parts/unique/todo/todo';
 import { TodoAdvanced } from './components/parts/unique/todo/todo-content';
 
 type SettingsComponent = React.FC<{ node: Node }>;
@@ -64,7 +62,7 @@ export const nodeSettingsMap: NodeSettingsMap = {
 	},
 	SUBTOPIC: {
 		General: TopicNodeSettings,
-		Content: ComponentChangeTopicType,
+		Content: TopicAdvanced,
 		Advanced: BaseAdvancedSettings,
 	},
 	BUTTON: {

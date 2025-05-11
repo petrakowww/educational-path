@@ -57,7 +57,7 @@ export const TodoViewNode = (props: NodeProps<NodeDataShapeToDo>) => {
 						<div className="flex items-center gap-2 max-w-full overflow-hidden">
 							<div
 								className={`w-5 h-5 flex items-center justify-center border rounded-md flex-shrink-0 transition-colors ${
-									isDone ? 'border-primary text-primary' : 'border-muted'
+									isDone ? 'border-primary text-primary' : 'border-card-foreground'
 								}`}
 								onClick={(e) => {
 									e.stopPropagation();

@@ -1,0 +1,6 @@
+mutation RemoveCourseDeadline($topicMapId: String!) {
+  removeCourseDeadline(topicMapId: $topicMapId) {
+    id
+    deadline
+  }
+}

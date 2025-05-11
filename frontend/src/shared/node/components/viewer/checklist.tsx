@@ -35,7 +35,7 @@ export const ChecklistViewNode = (props: NodeProps<NodeDataShapeChecklist>) => {
 											className={`w-4 h-4 flex items-center justify-center border rounded-md cursor-pointer transition-colors ${
 												isDone
 													? 'border-primary text-primary'
-													: 'border-muted'
+													: 'border-card-foreground'
 											}`}
 											onClick={(e) => {
 												e.stopPropagation();

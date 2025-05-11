@@ -1,0 +1,17 @@
+query findRoute($id: ID!) {
+  findRoute(id: $id) {
+    id
+    title
+    description
+    privateType
+    createdAt
+    updatedAt
+    tags {
+      id
+      tag {
+        id
+        name
+      }
+    }
+  }
+}

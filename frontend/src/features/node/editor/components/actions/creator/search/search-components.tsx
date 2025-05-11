@@ -57,7 +57,7 @@ export const SearchComponents = () => {
 	}, [search, nodes]);
 
 	return (
-		<aside className="absolute z-10 bg-background top-0 left-0 h-full shadow-right p-2 px-3 flex flex-col gap-2">
+		<aside className="max-w-[300px] absolute z-10 bg-background top-0 left-0 h-full shadow-right p-2 px-3 flex flex-col gap-2">
 			<Input
 				placeholder="Поиск компонентов..."
 				value={search}

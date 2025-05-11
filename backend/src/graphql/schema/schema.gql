@@ -77,8 +77,11 @@ type Mutation {
   deleteTopicMap(routeId: String!): Boolean!
   markChecklistItem(checkListItemId: String!, done: Boolean!): UserChecklistProgress!
   removeCourse(topicMapId: String!): Boolean!
+  removeCourseDeadline(topicMapId: String!): UserCourse!
   saveTopicMap(input: SaveTopicMapInput!): TopicMap!
   startCourse(input: StartCourseInput!): UserCourse!
+  startCourseDeadline(deadline: DateTime!, topicMapId: String!): UserCourse!
+  updateCourseDeadline(deadline: DateTime!, topicMapId: String!): UserCourse!
   updateProgressValue(topicNodeId: String!, value: Float!): UserTopicProgress!
   updateRoute(data: UpdateRouteDto!, id: ID!): Route!
   updateSkillProfile(dto: SkillProfileDto!): SkillProfile!
@@ -103,6 +106,7 @@ enum PrivateType {
 type Query {
   findAllTags: [TagModel!]!
   findById(id: String!): UserModel!
+  findOtherRoutesByUser(excludeRouteId: String!): [Route!]!
   findProfile: UserModel!
   findRoute(id: ID!): Route!
   findRoutesByUser: [Route!]!
@@ -246,6 +250,7 @@ type UserChecklistProgress {
 type UserCourse {
   UserChecklistProgress: [UserChecklistProgress!]!
   createdAt: DateTime!
+  deadline: DateTime
   id: ID!
   mode: CourseModeType
   progress: [UserTopicProgress!]

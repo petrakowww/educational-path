@@ -40,8 +40,7 @@ export const useProgressController = () => {
 			});
 
 			toast.success('Прогресс обновлён');
-		} catch (e) {
-			console.error(e);
+		} catch {
 			toast.error('Ошибка при обновлении прогресса');
 		}
 	};
@@ -78,8 +77,7 @@ export const useProgressController = () => {
 			});
 
 			toast.success('Статус узла обновлён');
-		} catch (e) {
-			console.error(e);
+		} catch {
 			toast.error('Ошибка при обновлении статуса', {
 				description:
 					'Возможно вы не добавили курс и пытаетесь обновить маршрут',

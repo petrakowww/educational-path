@@ -6,8 +6,16 @@ import {
 import { isManualNode } from '@/shared/node/utils/is-openable-node';
 import { buildGraph } from './build-graph';
 import { ProgressLite, TopicNodeLite } from './types';
+import { NodeType } from '@/features/node/editor/types/node';
 
-type ProgressMap = Record<string, boolean>; 
+type ProgressMap = Record<string, boolean>;
+
+const NON_BLOCKING_TYPES = new Set<NodeType>([
+	NodeType.title,
+	NodeType.paragraph,
+	NodeType.label,
+	NodeType.button,
+]);
 
 export function calculateVisibleNodes(
 	nodes: TopicNodeLite[],
@@ -15,7 +23,7 @@ export function calculateVisibleNodes(
 	edges: TopicEdge[],
 	mode: CourseModeType
 ): Set<string> {
-	const { predecessors } = buildGraph(edges);
+	const { predecessors } = buildGraph(edges, nodes);
 
 	const completedMap: ProgressMap = {};
 	for (const item of progress) {
@@ -48,7 +56,11 @@ export function calculateVisibleNodes(
 				continue;
 			}
 
-			const preds = predecessors[node.id] ?? [];
+			const preds = (predecessors[node.id] ?? []).filter((pId) => {
+				const predNode = nodes.find((n) => n.id === pId);
+				return predNode && !NON_BLOCKING_TYPES.has(predNode.type as NodeType);
+			});
+
 			const allPredsVisibleAndCompleted = preds.every(
 				(p) => visible.has(p) && completedMap[p]
 			);

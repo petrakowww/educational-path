@@ -32,7 +32,7 @@ export const useInitializationMapInfo = (routeId: string | null) => {
 	});
 
 	useEffect(() => {
-		if (!data || error) return;
+		if (!data || error || isInitialized) return;
 
 		const topicMap = data.getUserTopicMap;
 		const topicMapId = topicMap.id;
@@ -47,6 +47,7 @@ export const useInitializationMapInfo = (routeId: string | null) => {
 
 			if (userCourse.view) {
 				setViewMode(userCourse.view);
+                console.log("test");
 			}
 
 			if (userCourse.mode) {
@@ -68,7 +69,7 @@ export const useInitializationMapInfo = (routeId: string | null) => {
 		}
 
 		setIsInitialized(true);
-	}, [data, error, setCourseAdded, setCourseMode, setTopicRouteId, setViewMode]);
+	}, [data, error, isInitialized, setCourseAdded, setCourseMode, setTopicRouteId, setViewMode]);
 
 	return {
 		data,

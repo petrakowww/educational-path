@@ -13,7 +13,6 @@ import { useNodeViewerStore } from '@/shared/managers/store/viewer/node-viewer.s
 import { useEdgeViewerStore } from '@/shared/managers/store/viewer/edge-viewer.store';
 import { shallow } from 'zustand/shallow';
 import { getNodeColorByType } from '@/features/node/utils/get-node-color-by-type';
-import { useViewerStore } from '@/shared/managers/store/viewer/view.store';
 import { useModeController } from '@/features/view/mode/graph/hook/use-mode-controller';
 
 interface ReactFlowViewerProps {
@@ -25,19 +24,16 @@ interface ReactFlowViewerProps {
 export const ReactFlowViewer = (props: ReactFlowViewerProps) => {
 	const { nodes, edges, course } = props;
 
-	const courseMode = useViewerStore((s) => s.courseMode);
-
 	const { visibleNodeIds } = useModeController({
 		nodes: nodes ?? [],
 		edges: edges ?? [],
 		initialProgress: course?.progress ?? [],
 	});
-
+	
 	const { isReady } = useInitializeViewMap({
 		nodes,
 		edges,
 		visibleNodeIds,
-		courseMode,
 	});
 
 	const { nodesStore } = useNodeViewerStore(

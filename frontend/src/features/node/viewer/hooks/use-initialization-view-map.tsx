@@ -1,40 +1,62 @@
 import { useEffect, useState, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
-import { GetPreviewCourseInfoQuery } from '@/shared/graphql/generated/output';
+import { GetPreviewCourseInfoQuery, CourseModeType } from '@/shared/graphql/generated/output';
 import { defaultEdgeConfig } from '@/shared/edge/config/edge.config';
 import { Node, Edge } from 'reactflow';
 import { useNodeViewerStore } from '@/shared/managers/store/viewer/node-viewer.store';
-import { deserializeNode } from '../../utils/node-deserialize';
 import { useEdgeViewerStore } from '@/shared/managers/store/viewer/edge-viewer.store';
+import { useViewerStore } from '@/shared/managers/store/viewer/view.store';
+import { deserializeNode } from '../../utils/node-deserialize';
+
+function shallowEqualArrays<T>(a: T[], b: T[]) {
+	if (a.length !== b.length) return false;
+	return a.every((val, index) => val === b[index]);
+}
 
 interface IInitializationViewMap {
 	nodes?: GetPreviewCourseInfoQuery['getUserTopicMap']['nodes'];
 	edges?: GetPreviewCourseInfoQuery['getUserTopicMap']['edges'];
 	visibleNodeIds?: Set<string>;
-	courseMode?: string;
 }
 
 export const useInitializeViewMap = (props: IInitializationViewMap) => {
-	const { nodes, edges, visibleNodeIds, courseMode } = props;
+	const { nodes, edges, visibleNodeIds } = props;
 	const [ready, setReady] = useState(false);
 
 	const prevNodes = useRef<unknown[]>([]);
 	const prevEdges = useRef<unknown[]>([]);
-	const prevMode = useRef<string | undefined>(undefined);
+	const prevVisibleCount = useRef<number>(0);
+	const prevMode = useRef<CourseModeType | null>(null);
 
 	const { setNodes } = useNodeViewerStore((state) => ({ setNodes: state.setNodes }), shallow);
 	const { setEdges } = useEdgeViewerStore((state) => ({ setEdges: state.setEdges }), shallow);
 
-	useEffect(() => {
-		if (!nodes || !edges) return;
+	const courseMode = useViewerStore((s) => s.courseMode);
 
+	useEffect(() => {
+		if (!nodes || !edges || !visibleNodeIds) return;
+
+		const visibleCount = visibleNodeIds.size;
+		const shouldUpdate =
+			!shallowEqualArrays(prevNodes.current, nodes) ||
+			!shallowEqualArrays(prevEdges.current, edges) ||
+			(courseMode === CourseModeType.Strict && visibleCount !== prevVisibleCount.current) ||
+			prevMode.current !== courseMode;
+
+		if (!shouldUpdate) return;
+
+		// Сохраняем текущие значения
 		prevNodes.current = nodes;
 		prevEdges.current = edges;
+		prevVisibleCount.current = visibleCount;
 		prevMode.current = courseMode;
+
+		console.log('Обновление карты в useInitializeViewMap');
 
 		const enhance = (node: Node): Node => {
 			const nodeId = String(node.id);
-			const isBlocked = visibleNodeIds && !visibleNodeIds.has(nodeId);
+			const isBlocked = !visibleNodeIds.has(node.id);
+
 			return {
 				...node,
 				id: nodeId,
@@ -61,4 +83,3 @@ export const useInitializeViewMap = (props: IInitializationViewMap) => {
 
 	return { isReady: ready };
 };
-

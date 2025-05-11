@@ -1,9 +1,10 @@
 import { Card, CardContent, Separator, Skeleton } from '@/shared/ui';
+import { AsideRouteMapNavigationWrapper } from '../aside/links/aside-route-map-navigation';
 
 export const ViewerSidebarSkeleton = () => {
 	return (
 		<div className="w-64 p-4 space-y-4 border-r">
-			<Skeleton className="h-10 w-full" />
+			<AsideRouteMapNavigationWrapper />
 			<Skeleton className="h-24 w-full" />
 			<Separator />
 

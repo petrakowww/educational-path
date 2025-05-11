@@ -9,15 +9,19 @@ import { UserTopicProgressResolver } from './progress/user-progress.resolver';
 import { UserTopicProgressService } from './progress/user-progress.service';
 import { Module } from '@nestjs/common';
 import { ChecklistItemResolver } from './checklist/checklist-item-resolve.resolver';
+import { UserCourseDeadlineResolver } from './course/deadline/deadline.resolver';
+import { UserCourseDeadlineService } from './course/deadline/deadline.service';
 
 @Module({
     providers: [
         UserCourseService,
         UserTopicProgressService,
         ChecklistItemService,
+        UserCourseDeadlineService,
         ChecklistItemResolver,
         UserCourseResolver,
         UserTopicProgressResolver,
+        UserCourseDeadlineResolver,
         UserService,
         JwtService,
         RedisService,

@@ -2,6 +2,8 @@ import { memo } from 'react';
 import { AsideBarConstants } from '@/widgets/editor/components/side-bar/side-bar-states';
 import { AsideBarComponentCreator } from '@/features/node/editor/components/actions/creator/dnd/component-creator';
 import { SearchComponents } from './search/search-components';
+import { AsideBarExtendedSettings } from './settings/editor-settings';
+import { RoadmapListPanel } from './routes/roadmap-list-panel';
 
 export const AsideBarTabContent = memo(
 	({ activeTab }: { activeTab: AsideBarConstants | null }) => {
@@ -9,9 +11,9 @@ export const AsideBarTabContent = memo(
 			return <AsideBarComponentCreator />;
 		if (activeTab === AsideBarConstants.Search) return <SearchComponents />;
 		if (activeTab === AsideBarConstants.RoadMaps)
-			return <p>Content for Tab 3</p>;
+			return <RoadmapListPanel />;
 		if (activeTab === AsideBarConstants.Settings)
-			return <p>Content for Tab 4</p>;
+			return <AsideBarExtendedSettings />;
 		return null;
 	}
 );

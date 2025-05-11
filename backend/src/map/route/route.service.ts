@@ -149,6 +149,37 @@ export class RouteService {
         });
     }
 
+    public async findOtherRoutesByUserId(
+        userId: string,
+        excludeRouteId: string,
+    ): Promise<Route[]> {
+        return this.prisma.route.findMany({
+            where: {
+                userId,
+                NOT: {
+                    id: excludeRouteId,
+                },
+            },
+            include: {
+                topicMap: {
+                    include: {
+                        nodes: true,
+                        edges: true,
+                    },
+                },
+                tags: {
+                    include: {
+                        tag: true,
+                    },
+                },
+                user: true,
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
+    }
+
     public async delete(id: string, userId: string): Promise<boolean> {
         const route = await this.prisma.route.findUnique({
             where: { id },

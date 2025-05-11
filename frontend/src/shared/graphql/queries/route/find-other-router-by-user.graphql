@@ -1,0 +1,23 @@
+query findOtherRoutesByUser($excludeRouteId: String!) {
+  findOtherRoutesByUser(excludeRouteId: $excludeRouteId) {
+    id
+    title
+    description
+    privateType
+    createdAt
+    updatedAt
+    tags {
+      id
+      tag {
+        id
+        name
+      }
+    }
+    topicMap {
+      id
+      nodes {
+        id
+      }
+    }
+  }
+}

@@ -216,6 +216,7 @@ exports.Prisma.UserCourseScalarFieldEnum = {
   topicMapId: 'topicMapId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  deadline: 'deadline',
   view: 'view',
   mode: 'mode'
 };

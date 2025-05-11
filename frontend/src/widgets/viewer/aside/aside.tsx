@@ -21,6 +21,7 @@ import { ApolloError } from '@apollo/client';
 import { StartCourseButton } from '@/features/view/components/start-course-button';
 import { useViewerStore } from '@/shared/managers/store/viewer/view.store';
 import { shallow } from 'zustand/shallow';
+import { CourseDeadlineCalendarWrapper } from './calendar/calendar-wrapper';
 
 interface ViewerSidebarProps {
 	route?: GetPreviewCourseInfoQuery['getUserTopicMap']['route'];
@@ -30,12 +31,15 @@ interface ViewerSidebarProps {
 }
 
 export function ViewerSidebar(props: ViewerSidebarProps) {
-	const { route, error, refetch } = props;
+	const { route, error, course, refetch } = props;
 
-	const {isCourseAdded, topicMapId} = useViewerStore((state) => ({
-		isCourseAdded: state.isCourseAdded,
-		topicMapId: state.topicMapId,
-	}), shallow);
+	const { isCourseAdded, topicMapId } = useViewerStore(
+		(state) => ({
+			isCourseAdded: state.isCourseAdded,
+			topicMapId: state.topicMapId,
+		}),
+		shallow
+	);
 
 	if (error) {
 		return (
@@ -119,7 +123,14 @@ export function ViewerSidebar(props: ViewerSidebarProps) {
 									<Separator />
 								</>
 							}
-							privateSettings={<ResetCourseButton />}
+							privateSettings={
+								<>
+									<CourseDeadlineCalendarWrapper
+										initialDeadline={course?.deadline}
+									/>
+									<ResetCourseButton />
+								</>
+							}
 						/>
 					}
 				/>

@@ -7,8 +7,6 @@ import { DeepPartial } from '@/shared/lib/types/deep-partial';
 import { Links } from '@/features/node/editor/types/extended-node';
 import {
 	ChecklistItem,
-	CompletionType,
-	NodeKind,
 } from '@/shared/graphql/generated/output';
 
 interface NodeState {
@@ -79,8 +77,6 @@ export const useNodeStore = createWithEqualityFn<NodeState>(
 				data?: Partial<{
 					title: string;
 					canShowLabel: boolean;
-					kind: NodeKind;
-					completionType: CompletionType;
 					todos: ChecklistItem[];
 					meta: Partial<NodeMain['meta']>;
 				}>;
@@ -99,8 +95,6 @@ export const useNodeStore = createWithEqualityFn<NodeState>(
 					...existing.data,
 					...pick(properties.data, [
 						'title',
-						'kind',
-						'completionType',
 						'todos',
 						'topicProps',
 						'linkProps',
@@ -193,7 +187,7 @@ export const useNodeStore = createWithEqualityFn<NodeState>(
 
 		moveNodeUp: (id: string) =>
 			set((state) => {
-				let list = normalizeZIndexes(state.nodesList);
+				const list = normalizeZIndexes(state.nodesList);
 				const index = list.findIndex((n) => n.id === id);
 				if (index === -1 || index === list.length - 1) return state;
 

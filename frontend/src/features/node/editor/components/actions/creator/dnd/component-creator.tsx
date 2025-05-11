@@ -15,7 +15,7 @@ export const AsideBarComponentCreator = () => {
 	);
 
 	return (
-		<aside className="absolute z-10 bg-background top-0 left-0 h-full shadow-right p-2 px-3 flex flex-col gap-2">
+		<aside className="max-w-[300px] absolute z-10 bg-background top-0 left-0 h-full shadow-right p-2 px-3 flex flex-col gap-2">
 			<span className="text-foreground/60 text-[0.775rem]">
 				КОМПОНЕНТЫ{' '}
 				<span className="text-[0.675rem]">(Зажми & Drop)</span>

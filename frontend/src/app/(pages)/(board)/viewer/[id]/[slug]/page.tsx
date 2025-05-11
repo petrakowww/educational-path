@@ -1,10 +1,11 @@
 'use client';
 
+import { CourseDeadlineNotifier } from '@/features/view/components/coure-deadline-notifier';
 import { useInitializationMapInfo } from '@/features/view/hooks/use-initialization-card-info';
 import { CourseViewType } from '@/shared/graphql/generated/output';
-import { useMediaQuery } from '@/shared/lib';
+import { cn, useMediaQuery } from '@/shared/lib';
 import { useViewerStore } from '@/shared/managers/store/viewer/view.store';
-import { SidebarTrigger } from '@/shared/ui';
+import { Separator, SidebarTrigger } from '@/shared/ui';
 import { ViewerSidebar } from '@/widgets/viewer/aside/aside';
 import { RouteViewMenubar } from '@/widgets/viewer/board/route-view-menubar';
 import { ViewerDrawer } from '@/widgets/viewer/content-menu/viewer-drawer';
@@ -28,10 +29,13 @@ export default function Page() {
 		String(params?.id)
 	);
 
+	console.log(data, loading, error);
+
 	if (loading) return <ViewerPageSkeleton />;
 
 	return (
 		<div className="flex flex-row w-full">
+			
 			<ViewerSidebar
 				route={data?.getUserTopicMap.route}
 				course={data?.getUserTopicMap.userCourse}
@@ -41,7 +45,12 @@ export default function Page() {
 			<div className="bg-muted/40 border-r">
 				<SidebarTrigger />
 			</div>
-			<div className="flex flex-grow h-screen flex-col">
+			<div
+				className={cn(
+					'flex flex-grow h-full flex-col',
+					viewMode === CourseViewType.Graph ? 'h-screen' : 'h-full'
+				)}
+			>
 				<header className="relative min-h-16 border-b px-6 flex items-center justify-between bg-background">
 					<HeaderRouteTitle
 						title={data?.getUserTopicMap.route?.title ?? ''}
@@ -51,6 +60,15 @@ export default function Page() {
 					/>
 					<RouteHeaderStatsWrapper isDesktop={isDesktop} />
 				</header>
+
+				{viewMode === CourseViewType.Linear && (
+					<div className='mx-6 flex flex-col gap-2'>
+						<div className="ml-auto mt-3">
+							<RouteViewMenubar />
+						</div>
+						<Separator />
+					</div>
+				)}
 
 				<div className="flex-1 relative">
 					{viewMode === CourseViewType.Graph ? (
@@ -67,10 +85,12 @@ export default function Page() {
 						/>
 					)}
 
-					<div className="absolute bottom-4 left-3">
-						<RouteViewMenubar />
-						<ViewerDrawer />
-					</div>
+					<ViewerDrawer />
+					{viewMode === CourseViewType.Graph && (
+						<div className="absolute bottom-4 left-4 z-50 inline-block">
+							<RouteViewMenubar />
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

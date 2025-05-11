@@ -1,4 +1,4 @@
-import { useGetCourseProgressQuery } from '@/shared/graphql/generated/output';
+import { CourseViewType, useGetCourseProgressQuery } from '@/shared/graphql/generated/output';
 import { Badge, Button, Separator } from '@/shared/ui';
 import { cn } from '@/shared/lib';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ export const RouteHeaderStatsWrapper = ({ isDesktop }: { isDesktop: boolean }) =
 
 	const { data, loading } = useGetCourseProgressQuery({
 		variables: { topicMapId: topicMapId ?? '' },
-		skip: !topicMapId, // ← безопасно
+		skip: !topicMapId,
 	});
 
 	if (!topicMapId || !data?.getCourseProgress || loading) return null;
@@ -102,10 +102,13 @@ export const RouteHeaderStatsPanelMobile = ({
 }: RouteHeaderStatsPanelProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
+  const mode = useViewerStore((state) => state.viewMode);
+
   return (
     <div
       className={cn(
         'absolute left-[10px] bottom-[-10px] translate-y-[100%] z-10 rounded-md border bg-background px-3 py-2 text-xs shadow-md w-fit',
+		mode === CourseViewType.Linear && 'bottom-[-5px]',
         className
       )}
     >

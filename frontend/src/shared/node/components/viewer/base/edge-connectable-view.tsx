@@ -9,7 +9,6 @@ interface EdgeConnectableViewNodesProps {
 
 export const EdgeConnectableViewNodes = ({
 	children,
-	nodeProps,
 	canHandle = true,
 }: EdgeConnectableViewNodesProps) => {
 	return (

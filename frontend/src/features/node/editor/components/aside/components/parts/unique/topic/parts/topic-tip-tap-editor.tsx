@@ -9,7 +9,7 @@ interface ITopicContent {
 import { useEffect, useMemo } from 'react';
 import { debounce } from 'lodash';
 import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
-import { Label, Separator } from '@/shared/ui';
+import { Label } from '@/shared/ui';
 import { toast } from 'sonner';
 
 export const TopicTiptapEditor = ({ node }: ITopicContent) => {
@@ -51,7 +51,7 @@ export const TopicTiptapEditor = ({ node }: ITopicContent) => {
 			<Label className="block mb-2 text-sm text-foreground/80">
 				Добавьте текстовое содержание:
 			</Label>
-			<div>
+			<div className='max-w-[300px]'>
 				<TiptapEditor
 					initialContent={node.data.topicProps?.topicContent ?? ''}
 					onUpdate={debouncedUpdate}

@@ -2,8 +2,9 @@ export enum AppRoutes {
 	Home = '/',
 	Editor = '/editor',
 	Dashboard = '/account/dashboard',
-	View = '/view',
-
+	View = '/viewer',
+	Maps = '/account/maps',
+	
 	SignUp = '/auth/signup',
 	SignIn = '/auth/signin',
 	NewPassword = '/auth/new-password',

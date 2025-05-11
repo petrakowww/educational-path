@@ -6,9 +6,9 @@ import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
 import { Route } from './model/route.model';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UserRole, VerificationStatus } from '@prisma/__generated__';
 
 import { RouteService } from './route.service';
-import { UserRole, VerificationStatus } from '@prisma/__generated__';
 
 @Resolver(() => Route)
 export class RouteResolver {
@@ -61,5 +61,17 @@ export class RouteResolver {
         status: VerificationStatus,
     ) {
         return this.routeService.verify(args.id, status);
+    }
+
+    @Authorization()
+    @Query(() => [Route])
+    async findOtherRoutesByUser(
+        @CurrentUser('id') userId: string,
+        @Args('excludeRouteId') excludeRouteId: string,
+    ) {
+        return this.routeService.findOtherRoutesByUserId(
+            userId,
+            excludeRouteId,
+        );
     }
 }
