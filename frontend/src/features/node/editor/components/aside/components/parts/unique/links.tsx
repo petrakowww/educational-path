@@ -78,6 +78,7 @@ export const LinksSettings = () => {
 			debounce((linksToSave: Links) => {
 				let isLinksCorrect = true;
 				if (!selectedNodeId) {
+					isLinksCorrect = false;
 					toast.error('Узел не найден', {
 						description: 'Некорректный узел',
 					});
@@ -92,7 +93,7 @@ export const LinksSettings = () => {
 					});
 				}
 			}, 250),
-		[selectedNodeId]
+		[selectedNodeId, replaceLinks]
 	);
 
 	useEffect(() => {

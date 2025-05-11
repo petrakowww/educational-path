@@ -32,7 +32,7 @@ type RouteTags = {
 		| undefined;
 };
 
-interface IRouteInformationCard extends Omit<Route, 'tags' | 'user'> {
+interface IRouteInformationCard extends Omit<Route, 'tags' | 'user' | 'isVerified'> {
 	routeTags?: RouteTags['tags'];
 }
 
@@ -42,7 +42,6 @@ export const InformationAboutMap = (props: IRouteInformationCard) => {
 		title,
 		description,
 		routeTags,
-		topicMap,
 		privateType,
 		createdAt,
 		updatedAt,

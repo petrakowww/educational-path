@@ -11,14 +11,12 @@ import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { EditorContent, type Extension, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { ImagePlaceholder } from './extensions/image-placeholder';
 import SearchAndReplace from './extensions/search-and-replace';
 import { ToolbarProvider } from './providers/toolbar-provider';
 import { AlignmentTooolbar } from './toolbars/alignment';
 import { BoldToolbar } from './toolbars/bold';
 import { BulletListToolbar } from './toolbars/bullet-list';
 import { ColorHighlightToolbar } from './toolbars/color-and-highlight';
-import { ImagePlaceholderToolbar } from './toolbars/image-placeholder-toolbar';
 import { ItalicToolbar } from './toolbars/italic';
 import { LinkToolbar } from './toolbars/link';
 import { OrderedListToolbar } from './toolbars/ordered-list';
@@ -26,7 +24,6 @@ import { RedoToolbar } from './toolbars/redo';
 import { SearchAndReplaceToolbar } from './toolbars/search-and-replace-toolbar';
 import { UnderlineToolbar } from './toolbars/underline';
 import { UndoToolbar } from './toolbars/undo';
-import { ImageExtension } from './extensions/image';
 
 const extensions = [
 	StarterKit.configure({

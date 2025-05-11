@@ -7,11 +7,6 @@ import { useNodeViewerStore } from '@/shared/managers/store/viewer/node-viewer.s
 import { deserializeNode } from '../../utils/node-deserialize';
 import { useEdgeViewerStore } from '@/shared/managers/store/viewer/edge-viewer.store';
 
-function shallowEqualArrays<T>(a: T[], b: T[]) {
-	if (a.length !== b.length) return false;
-	return a.every((val, index) => val === b[index]);
-}
-
 interface IInitializationViewMap {
 	nodes?: GetPreviewCourseInfoQuery['getUserTopicMap']['nodes'];
 	edges?: GetPreviewCourseInfoQuery['getUserTopicMap']['edges'];
@@ -32,14 +27,6 @@ export const useInitializeViewMap = (props: IInitializationViewMap) => {
 
 	useEffect(() => {
 		if (!nodes || !edges) return;
-
-		if (
-			shallowEqualArrays(prevNodes.current, nodes) &&
-			shallowEqualArrays(prevEdges.current, edges) &&
-			prevMode.current === courseMode
-		) {
-			return;
-		}
 
 		prevNodes.current = nodes;
 		prevEdges.current = edges;

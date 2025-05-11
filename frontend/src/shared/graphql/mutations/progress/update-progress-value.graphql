@@ -1,0 +1,11 @@
+mutation UpdateProgressValue($topicNodeId: String!, $value: Float!) {
+	updateProgressValue(topicNodeId: $topicNodeId, value: $value) {
+		id
+		userCourseId
+		topicNodeId
+		status
+		progressValue
+		startedAt
+		finishedAt
+	}
+}

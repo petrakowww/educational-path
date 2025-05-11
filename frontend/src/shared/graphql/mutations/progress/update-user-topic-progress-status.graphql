@@ -1,4 +1,4 @@
-mutation updateUserTopicProgressStatus($input: UpdateTopicProgressInput!) {
+mutation UpdateUserTopicProgressStatus($input: UpdateTopicProgressInput!) {
   updateUserTopicProgressStatus(input: $input) {
     id
     topicNodeId

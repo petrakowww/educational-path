@@ -31,6 +31,12 @@ input ChecklistItemInput {
   text: String!
 }
 
+type ChecklistItemWithProgress {
+  done: Boolean!
+  id: String!
+  text: String!
+}
+
 enum CourseModeType {
   FLEXIBLE
   STRICT
@@ -69,12 +75,11 @@ type Mutation {
   createRoute(data: CreateRouteDto!): Route!
   deleteRoute(id: ID!): Boolean!
   deleteTopicMap(routeId: String!): Boolean!
+  markChecklistItem(checkListItemId: String!, done: Boolean!): UserChecklistProgress!
   removeCourse(topicMapId: String!): Boolean!
   saveTopicMap(input: SaveTopicMapInput!): TopicMap!
-  setChecklistItemDone(checkListItemId: String!, isCompleted: Boolean!): Boolean!
-  setNodeStatus(status: NodeStatus!, topicNodeId: String!): Boolean!
   startCourse(input: StartCourseInput!): UserCourse!
-  updateProgressValue(topicNodeId: String!, value: Float!): Boolean!
+  updateProgressValue(topicNodeId: String!, value: Float!): UserTopicProgress!
   updateRoute(data: UpdateRouteDto!, id: ID!): Route!
   updateSkillProfile(dto: SkillProfileDto!): SkillProfile!
   updateUserCourseSettings(input: UpdateCourseSettingsInput!): Boolean!
@@ -102,11 +107,13 @@ type Query {
   findRoute(id: ID!): Route!
   findRoutesByUser: [Route!]!
   findUserTags: [TagModel!]!
+  getChecklistProgressByTopic(topicNodeId: String!): [ChecklistItemWithProgress!]!
   getCourseProgress(topicMapId: String!): CourseProgressSummary!
   getTopicMap(routeId: String!): TopicMap!
   getTopicNodeById(id: String!): TopicNode!
   getUserCourse(topicMapId: String!): UserCourse!
   getUserTopicMap(routeId: String!): TopicMap!
+  getUserTopicProgress(topicNodeId: String!): UserTopicProgress!
 }
 
 type Route {

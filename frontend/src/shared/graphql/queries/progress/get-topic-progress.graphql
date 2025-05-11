@@ -1,0 +1,9 @@
+query GetUserTopicProgress($topicNodeId: String!) {
+  getUserTopicProgress(topicNodeId: $topicNodeId) {
+    id
+    status
+    progressValue
+    startedAt
+    finishedAt
+  }
+}

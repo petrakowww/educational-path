@@ -50,6 +50,13 @@ export type ChecklistItemInput = {
   text: Scalars['String']['input'];
 };
 
+export type ChecklistItemWithProgress = {
+  __typename?: 'ChecklistItemWithProgress';
+  done: Scalars['Boolean']['output'];
+  id: Scalars['String']['output'];
+  text: Scalars['String']['output'];
+};
+
 export enum CourseModeType {
   Flexible = 'FLEXIBLE',
   Strict = 'STRICT'
@@ -80,12 +87,11 @@ export type Mutation = {
   createRoute: Route;
   deleteRoute: Scalars['Boolean']['output'];
   deleteTopicMap: Scalars['Boolean']['output'];
+  markChecklistItem: UserChecklistProgress;
   removeCourse: Scalars['Boolean']['output'];
   saveTopicMap: TopicMap;
-  setChecklistItemDone: Scalars['Boolean']['output'];
-  setNodeStatus: Scalars['Boolean']['output'];
   startCourse: UserCourse;
-  updateProgressValue: Scalars['Boolean']['output'];
+  updateProgressValue: UserTopicProgress;
   updateRoute: Route;
   updateSkillProfile: SkillProfile;
   updateUserCourseSettings: Scalars['Boolean']['output'];
@@ -110,6 +116,12 @@ export type MutationDeleteTopicMapArgs = {
 };
 
 
+export type MutationMarkChecklistItemArgs = {
+  checkListItemId: Scalars['String']['input'];
+  done: Scalars['Boolean']['input'];
+};
+
+
 export type MutationRemoveCourseArgs = {
   topicMapId: Scalars['String']['input'];
 };
@@ -117,18 +129,6 @@ export type MutationRemoveCourseArgs = {
 
 export type MutationSaveTopicMapArgs = {
   input: SaveTopicMapInput;
-};
-
-
-export type MutationSetChecklistItemDoneArgs = {
-  checkListItemId: Scalars['String']['input'];
-  isCompleted: Scalars['Boolean']['input'];
-};
-
-
-export type MutationSetNodeStatusArgs = {
-  status: NodeStatus;
-  topicNodeId: Scalars['String']['input'];
 };
 
 
@@ -194,11 +194,13 @@ export type Query = {
   findRoute: Route;
   findRoutesByUser: Array<Route>;
   findUserTags: Array<TagModel>;
+  getChecklistProgressByTopic: Array<ChecklistItemWithProgress>;
   getCourseProgress: CourseProgressSummary;
   getTopicMap: TopicMap;
   getTopicNodeById: TopicNode;
   getUserCourse: UserCourse;
   getUserTopicMap: TopicMap;
+  getUserTopicProgress: UserTopicProgress;
 };
 
 
@@ -209,6 +211,11 @@ export type QueryFindByIdArgs = {
 
 export type QueryFindRouteArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryGetChecklistProgressByTopicArgs = {
+  topicNodeId: Scalars['String']['input'];
 };
 
 
@@ -234,6 +241,11 @@ export type QueryGetUserCourseArgs = {
 
 export type QueryGetUserTopicMapArgs = {
   routeId: Scalars['String']['input'];
+};
+
+
+export type QueryGetUserTopicProgressArgs = {
+  topicNodeId: Scalars['String']['input'];
 };
 
 export type Route = {
@@ -423,6 +435,14 @@ export enum VerificationStatus {
   Verified = 'VERIFIED'
 }
 
+export type MarkChecklistItemMutationVariables = Exact<{
+  checkListItemId: Scalars['String']['input'];
+  done: Scalars['Boolean']['input'];
+}>;
+
+
+export type MarkChecklistItemMutation = { __typename?: 'Mutation', markChecklistItem: { __typename?: 'UserChecklistProgress', id: string, done: boolean, checklist: { __typename?: 'ChecklistItem', id: string } } };
+
 export type StartCourseMutationVariables = Exact<{
   courseDto: StartCourseInput;
 }>;
@@ -451,6 +471,21 @@ export type SaveTopicMapMutationVariables = Exact<{
 
 export type SaveTopicMapMutation = { __typename?: 'Mutation', saveTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, title: string, type: string, meta: string, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, sourceId: string, targetId: string, meta?: string | null }> } };
 
+export type UpdateProgressValueMutationVariables = Exact<{
+  topicNodeId: Scalars['String']['input'];
+  value: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateProgressValueMutation = { __typename?: 'Mutation', updateProgressValue: { __typename?: 'UserTopicProgress', id: string, userCourseId: string, topicNodeId: string, status: NodeStatus, progressValue?: number | null, startedAt?: any | null, finishedAt?: any | null } };
+
+export type UpdateUserTopicProgressStatusMutationVariables = Exact<{
+  input: UpdateTopicProgressInput;
+}>;
+
+
+export type UpdateUserTopicProgressStatusMutation = { __typename?: 'Mutation', updateUserTopicProgressStatus: { __typename?: 'UserTopicProgress', id: string, topicNodeId: string, status: NodeStatus, progressValue?: number | null, startedAt?: any | null, finishedAt?: any | null } };
+
 export type CreateRouteMutationVariables = Exact<{
   mapDto: CreateRouteDto;
 }>;
@@ -473,13 +508,6 @@ export type UpdateRouteMutationVariables = Exact<{
 
 export type UpdateRouteMutation = { __typename?: 'Mutation', updateRoute: { __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null } };
 
-export type UpdateUserTopicProgressStatusMutationVariables = Exact<{
-  input: UpdateTopicProgressInput;
-}>;
-
-
-export type UpdateUserTopicProgressStatusMutation = { __typename?: 'Mutation', updateUserTopicProgressStatus: { __typename?: 'UserTopicProgress', id: string, topicNodeId: string, status: NodeStatus, progressValue?: number | null, startedAt?: any | null, finishedAt?: any | null } };
-
 export type UpdateProfileMutationVariables = Exact<{
   dto: UserProfileDto;
 }>;
@@ -493,6 +521,13 @@ export type UpdateSkillProfileMutationVariables = Exact<{
 
 
 export type UpdateSkillProfileMutation = { __typename?: 'Mutation', updateSkillProfile: { __typename?: 'SkillProfile', profilename?: string | null, headline?: string | null, githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null } };
+
+export type GetChecklistProgressQueryVariables = Exact<{
+  topicNodeId: Scalars['String']['input'];
+}>;
+
+
+export type GetChecklistProgressQuery = { __typename?: 'Query', getChecklistProgressByTopic: Array<{ __typename?: 'ChecklistItemWithProgress', id: string, text: string, done: boolean }> };
 
 export type GetPreviewCourseInfoQueryVariables = Exact<{
   routeId: Scalars['String']['input'];
@@ -514,6 +549,20 @@ export type GetTopicMapQueryVariables = Exact<{
 
 
 export type GetTopicMapQuery = { __typename?: 'Query', getTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, topicMapId: string, title: string, type: string, meta: string, posxy?: any | null, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string, topicNodeId: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, topicMapId: string, sourceId: string, targetId: string, meta?: string | null }> } };
+
+export type GetCourseProgressQueryVariables = Exact<{
+  topicMapId: Scalars['String']['input'];
+}>;
+
+
+export type GetCourseProgressQuery = { __typename?: 'Query', getCourseProgress: { __typename?: 'CourseProgressSummary', completed: number, inProgress: number, skipped: number, notStarted: number, total: number } };
+
+export type GetUserTopicProgressQueryVariables = Exact<{
+  topicNodeId: Scalars['String']['input'];
+}>;
+
+
+export type GetUserTopicProgressQuery = { __typename?: 'Query', getUserTopicProgress: { __typename?: 'UserTopicProgress', id: string, status: NodeStatus, progressValue?: number | null, startedAt?: any | null, finishedAt?: any | null } };
 
 export type FindRoutesByUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -541,6 +590,44 @@ export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null, method: AuthMethod, isTwoFactorEnabled: boolean, email: string, skillProfile?: { __typename?: 'SkillProfile', githubUrl?: string | null, vkUrl?: string | null, telegramUrl?: string | null, headline?: string | null, profilename?: string | null } | null } };
 
 
+export const MarkChecklistItemDocument = gql`
+    mutation MarkChecklistItem($checkListItemId: String!, $done: Boolean!) {
+  markChecklistItem(checkListItemId: $checkListItemId, done: $done) {
+    id
+    done
+    checklist {
+      id
+    }
+  }
+}
+    `;
+export type MarkChecklistItemMutationFn = Apollo.MutationFunction<MarkChecklistItemMutation, MarkChecklistItemMutationVariables>;
+
+/**
+ * __useMarkChecklistItemMutation__
+ *
+ * To run a mutation, you first call `useMarkChecklistItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMarkChecklistItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [markChecklistItemMutation, { data, loading, error }] = useMarkChecklistItemMutation({
+ *   variables: {
+ *      checkListItemId: // value for 'checkListItemId'
+ *      done: // value for 'done'
+ *   },
+ * });
+ */
+export function useMarkChecklistItemMutation(baseOptions?: Apollo.MutationHookOptions<MarkChecklistItemMutation, MarkChecklistItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MarkChecklistItemMutation, MarkChecklistItemMutationVariables>(MarkChecklistItemDocument, options);
+      }
+export type MarkChecklistItemMutationHookResult = ReturnType<typeof useMarkChecklistItemMutation>;
+export type MarkChecklistItemMutationResult = Apollo.MutationResult<MarkChecklistItemMutation>;
+export type MarkChecklistItemMutationOptions = Apollo.BaseMutationOptions<MarkChecklistItemMutation, MarkChecklistItemMutationVariables>;
 export const StartCourseDocument = gql`
     mutation startCourse($courseDto: StartCourseInput!) {
   startCourse(input: $courseDto) {
@@ -694,6 +781,84 @@ export function useSaveTopicMapMutation(baseOptions?: Apollo.MutationHookOptions
 export type SaveTopicMapMutationHookResult = ReturnType<typeof useSaveTopicMapMutation>;
 export type SaveTopicMapMutationResult = Apollo.MutationResult<SaveTopicMapMutation>;
 export type SaveTopicMapMutationOptions = Apollo.BaseMutationOptions<SaveTopicMapMutation, SaveTopicMapMutationVariables>;
+export const UpdateProgressValueDocument = gql`
+    mutation UpdateProgressValue($topicNodeId: String!, $value: Float!) {
+  updateProgressValue(topicNodeId: $topicNodeId, value: $value) {
+    id
+    userCourseId
+    topicNodeId
+    status
+    progressValue
+    startedAt
+    finishedAt
+  }
+}
+    `;
+export type UpdateProgressValueMutationFn = Apollo.MutationFunction<UpdateProgressValueMutation, UpdateProgressValueMutationVariables>;
+
+/**
+ * __useUpdateProgressValueMutation__
+ *
+ * To run a mutation, you first call `useUpdateProgressValueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProgressValueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProgressValueMutation, { data, loading, error }] = useUpdateProgressValueMutation({
+ *   variables: {
+ *      topicNodeId: // value for 'topicNodeId'
+ *      value: // value for 'value'
+ *   },
+ * });
+ */
+export function useUpdateProgressValueMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProgressValueMutation, UpdateProgressValueMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProgressValueMutation, UpdateProgressValueMutationVariables>(UpdateProgressValueDocument, options);
+      }
+export type UpdateProgressValueMutationHookResult = ReturnType<typeof useUpdateProgressValueMutation>;
+export type UpdateProgressValueMutationResult = Apollo.MutationResult<UpdateProgressValueMutation>;
+export type UpdateProgressValueMutationOptions = Apollo.BaseMutationOptions<UpdateProgressValueMutation, UpdateProgressValueMutationVariables>;
+export const UpdateUserTopicProgressStatusDocument = gql`
+    mutation UpdateUserTopicProgressStatus($input: UpdateTopicProgressInput!) {
+  updateUserTopicProgressStatus(input: $input) {
+    id
+    topicNodeId
+    status
+    progressValue
+    startedAt
+    finishedAt
+  }
+}
+    `;
+export type UpdateUserTopicProgressStatusMutationFn = Apollo.MutationFunction<UpdateUserTopicProgressStatusMutation, UpdateUserTopicProgressStatusMutationVariables>;
+
+/**
+ * __useUpdateUserTopicProgressStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserTopicProgressStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserTopicProgressStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserTopicProgressStatusMutation, { data, loading, error }] = useUpdateUserTopicProgressStatusMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateUserTopicProgressStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserTopicProgressStatusMutation, UpdateUserTopicProgressStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserTopicProgressStatusMutation, UpdateUserTopicProgressStatusMutationVariables>(UpdateUserTopicProgressStatusDocument, options);
+      }
+export type UpdateUserTopicProgressStatusMutationHookResult = ReturnType<typeof useUpdateUserTopicProgressStatusMutation>;
+export type UpdateUserTopicProgressStatusMutationResult = Apollo.MutationResult<UpdateUserTopicProgressStatusMutation>;
+export type UpdateUserTopicProgressStatusMutationOptions = Apollo.BaseMutationOptions<UpdateUserTopicProgressStatusMutation, UpdateUserTopicProgressStatusMutationVariables>;
 export const CreateRouteDocument = gql`
     mutation createRoute($mapDto: CreateRouteDto!) {
   createRoute(data: $mapDto) {
@@ -816,44 +981,6 @@ export function useUpdateRouteMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateRouteMutationHookResult = ReturnType<typeof useUpdateRouteMutation>;
 export type UpdateRouteMutationResult = Apollo.MutationResult<UpdateRouteMutation>;
 export type UpdateRouteMutationOptions = Apollo.BaseMutationOptions<UpdateRouteMutation, UpdateRouteMutationVariables>;
-export const UpdateUserTopicProgressStatusDocument = gql`
-    mutation updateUserTopicProgressStatus($input: UpdateTopicProgressInput!) {
-  updateUserTopicProgressStatus(input: $input) {
-    id
-    topicNodeId
-    status
-    progressValue
-    startedAt
-    finishedAt
-  }
-}
-    `;
-export type UpdateUserTopicProgressStatusMutationFn = Apollo.MutationFunction<UpdateUserTopicProgressStatusMutation, UpdateUserTopicProgressStatusMutationVariables>;
-
-/**
- * __useUpdateUserTopicProgressStatusMutation__
- *
- * To run a mutation, you first call `useUpdateUserTopicProgressStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserTopicProgressStatusMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserTopicProgressStatusMutation, { data, loading, error }] = useUpdateUserTopicProgressStatusMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useUpdateUserTopicProgressStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserTopicProgressStatusMutation, UpdateUserTopicProgressStatusMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserTopicProgressStatusMutation, UpdateUserTopicProgressStatusMutationVariables>(UpdateUserTopicProgressStatusDocument, options);
-      }
-export type UpdateUserTopicProgressStatusMutationHookResult = ReturnType<typeof useUpdateUserTopicProgressStatusMutation>;
-export type UpdateUserTopicProgressStatusMutationResult = Apollo.MutationResult<UpdateUserTopicProgressStatusMutation>;
-export type UpdateUserTopicProgressStatusMutationOptions = Apollo.BaseMutationOptions<UpdateUserTopicProgressStatusMutation, UpdateUserTopicProgressStatusMutationVariables>;
 export const UpdateProfileDocument = gql`
     mutation updateProfile($dto: UserProfileDto!) {
   updateUserProfile(dto: $dto) {
@@ -926,6 +1053,48 @@ export function useUpdateSkillProfileMutation(baseOptions?: Apollo.MutationHookO
 export type UpdateSkillProfileMutationHookResult = ReturnType<typeof useUpdateSkillProfileMutation>;
 export type UpdateSkillProfileMutationResult = Apollo.MutationResult<UpdateSkillProfileMutation>;
 export type UpdateSkillProfileMutationOptions = Apollo.BaseMutationOptions<UpdateSkillProfileMutation, UpdateSkillProfileMutationVariables>;
+export const GetChecklistProgressDocument = gql`
+    query GetChecklistProgress($topicNodeId: String!) {
+  getChecklistProgressByTopic(topicNodeId: $topicNodeId) {
+    id
+    text
+    done
+  }
+}
+    `;
+
+/**
+ * __useGetChecklistProgressQuery__
+ *
+ * To run a query within a React component, call `useGetChecklistProgressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChecklistProgressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChecklistProgressQuery({
+ *   variables: {
+ *      topicNodeId: // value for 'topicNodeId'
+ *   },
+ * });
+ */
+export function useGetChecklistProgressQuery(baseOptions: Apollo.QueryHookOptions<GetChecklistProgressQuery, GetChecklistProgressQueryVariables> & ({ variables: GetChecklistProgressQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetChecklistProgressQuery, GetChecklistProgressQueryVariables>(GetChecklistProgressDocument, options);
+      }
+export function useGetChecklistProgressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetChecklistProgressQuery, GetChecklistProgressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetChecklistProgressQuery, GetChecklistProgressQueryVariables>(GetChecklistProgressDocument, options);
+        }
+export function useGetChecklistProgressSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetChecklistProgressQuery, GetChecklistProgressQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetChecklistProgressQuery, GetChecklistProgressQueryVariables>(GetChecklistProgressDocument, options);
+        }
+export type GetChecklistProgressQueryHookResult = ReturnType<typeof useGetChecklistProgressQuery>;
+export type GetChecklistProgressLazyQueryHookResult = ReturnType<typeof useGetChecklistProgressLazyQuery>;
+export type GetChecklistProgressSuspenseQueryHookResult = ReturnType<typeof useGetChecklistProgressSuspenseQuery>;
+export type GetChecklistProgressQueryResult = Apollo.QueryResult<GetChecklistProgressQuery, GetChecklistProgressQueryVariables>;
 export const GetPreviewCourseInfoDocument = gql`
     query getPreviewCourseInfo($routeId: String!) {
   getUserTopicMap(routeId: $routeId) {
@@ -1155,6 +1324,94 @@ export type GetTopicMapQueryHookResult = ReturnType<typeof useGetTopicMapQuery>;
 export type GetTopicMapLazyQueryHookResult = ReturnType<typeof useGetTopicMapLazyQuery>;
 export type GetTopicMapSuspenseQueryHookResult = ReturnType<typeof useGetTopicMapSuspenseQuery>;
 export type GetTopicMapQueryResult = Apollo.QueryResult<GetTopicMapQuery, GetTopicMapQueryVariables>;
+export const GetCourseProgressDocument = gql`
+    query GetCourseProgress($topicMapId: String!) {
+  getCourseProgress(topicMapId: $topicMapId) {
+    completed
+    inProgress
+    skipped
+    notStarted
+    total
+  }
+}
+    `;
+
+/**
+ * __useGetCourseProgressQuery__
+ *
+ * To run a query within a React component, call `useGetCourseProgressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCourseProgressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCourseProgressQuery({
+ *   variables: {
+ *      topicMapId: // value for 'topicMapId'
+ *   },
+ * });
+ */
+export function useGetCourseProgressQuery(baseOptions: Apollo.QueryHookOptions<GetCourseProgressQuery, GetCourseProgressQueryVariables> & ({ variables: GetCourseProgressQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCourseProgressQuery, GetCourseProgressQueryVariables>(GetCourseProgressDocument, options);
+      }
+export function useGetCourseProgressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCourseProgressQuery, GetCourseProgressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCourseProgressQuery, GetCourseProgressQueryVariables>(GetCourseProgressDocument, options);
+        }
+export function useGetCourseProgressSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseProgressQuery, GetCourseProgressQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCourseProgressQuery, GetCourseProgressQueryVariables>(GetCourseProgressDocument, options);
+        }
+export type GetCourseProgressQueryHookResult = ReturnType<typeof useGetCourseProgressQuery>;
+export type GetCourseProgressLazyQueryHookResult = ReturnType<typeof useGetCourseProgressLazyQuery>;
+export type GetCourseProgressSuspenseQueryHookResult = ReturnType<typeof useGetCourseProgressSuspenseQuery>;
+export type GetCourseProgressQueryResult = Apollo.QueryResult<GetCourseProgressQuery, GetCourseProgressQueryVariables>;
+export const GetUserTopicProgressDocument = gql`
+    query GetUserTopicProgress($topicNodeId: String!) {
+  getUserTopicProgress(topicNodeId: $topicNodeId) {
+    id
+    status
+    progressValue
+    startedAt
+    finishedAt
+  }
+}
+    `;
+
+/**
+ * __useGetUserTopicProgressQuery__
+ *
+ * To run a query within a React component, call `useGetUserTopicProgressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserTopicProgressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserTopicProgressQuery({
+ *   variables: {
+ *      topicNodeId: // value for 'topicNodeId'
+ *   },
+ * });
+ */
+export function useGetUserTopicProgressQuery(baseOptions: Apollo.QueryHookOptions<GetUserTopicProgressQuery, GetUserTopicProgressQueryVariables> & ({ variables: GetUserTopicProgressQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserTopicProgressQuery, GetUserTopicProgressQueryVariables>(GetUserTopicProgressDocument, options);
+      }
+export function useGetUserTopicProgressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserTopicProgressQuery, GetUserTopicProgressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserTopicProgressQuery, GetUserTopicProgressQueryVariables>(GetUserTopicProgressDocument, options);
+        }
+export function useGetUserTopicProgressSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserTopicProgressQuery, GetUserTopicProgressQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserTopicProgressQuery, GetUserTopicProgressQueryVariables>(GetUserTopicProgressDocument, options);
+        }
+export type GetUserTopicProgressQueryHookResult = ReturnType<typeof useGetUserTopicProgressQuery>;
+export type GetUserTopicProgressLazyQueryHookResult = ReturnType<typeof useGetUserTopicProgressLazyQuery>;
+export type GetUserTopicProgressSuspenseQueryHookResult = ReturnType<typeof useGetUserTopicProgressSuspenseQuery>;
+export type GetUserTopicProgressQueryResult = Apollo.QueryResult<GetUserTopicProgressQuery, GetUserTopicProgressQueryVariables>;
 export const FindRoutesByUserDocument = gql`
     query findRoutesByUser {
   findRoutesByUser {

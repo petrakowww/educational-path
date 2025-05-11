@@ -7,10 +7,13 @@ import {
 	NavigationMenuList,
 	NavigationMenuTrigger,
 	NavigationMenuContent,
-    Separator,
-    NavigationMenuLink
+	Separator,
+	NavigationMenuLink,
 } from '@/shared/ui';
-import { MoreHorizontalIcon, SearchIcon, SquareArrowLeftIcon } from 'lucide-react';
+import {
+	MoreHorizontalIcon,
+	SquareArrowLeftIcon,
+} from 'lucide-react';
 import Link from 'next/link';
 
 export interface NavigationLink {
@@ -35,17 +38,8 @@ export const AsideRouteMapNavigation = ({
 }) => {
 	return (
 		<div>
-			<div className='flex items-center justify-between gap-2 w-full mb-2'>
-				<Link href="/routes/search" passHref>
-					<Button
-						variant="outline"
-						className="w-full text-sm justify-start"
-					>
-						<SquareArrowLeftIcon className="w-4 h-4 mr-2" />К курсам
-					</Button>
-				</Link>
-
-				<NavigationMenu className='z-20'>
+			<div className="flex items-center justify-between gap-2 w-full mb-2">
+				<NavigationMenu className="z-20">
 					<NavigationMenuList>
 						<NavigationMenuItem>
 							<NavigationMenuTrigger className="p-2">
@@ -67,8 +61,16 @@ export const AsideRouteMapNavigation = ({
 						</NavigationMenuItem>
 					</NavigationMenuList>
 				</NavigationMenu>
+				<Link href="/routes/search" passHref>
+					<Button
+						variant="outline"
+						className="w-full text-sm justify-start"
+					>
+						<SquareArrowLeftIcon className="w-4 h-4 mr-2" />К курсам
+					</Button>
+				</Link>
 			</div>
-            <Separator/>
+			<Separator />
 		</div>
 	);
 };

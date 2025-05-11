@@ -56,7 +56,7 @@ const DrawerContent = React.forwardRef<
 					(!direction || direction === 'bottom') &&
 						'inset-x-0 bottom-0 mt-24 rounded-t-[10px',
 					direction === 'right' &&
-						'top-0 right-0 w-screen max-w-[80%] h-full',
+						'top-0 right-0 w-screen max-w-[80%] h-full border-r-0 border-none',
 					className
 				)}
 				{...props}

@@ -1,0 +1,9 @@
+query GetCourseProgress($topicMapId: String!) {
+	getCourseProgress(topicMapId: $topicMapId) {
+		completed
+		inProgress
+		skipped
+		notStarted
+		total
+	}
+}

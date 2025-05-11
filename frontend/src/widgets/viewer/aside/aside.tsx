@@ -71,12 +71,12 @@ export function ViewerSidebar(props: ViewerSidebarProps) {
 
 	return (
 		<Sidebar>
-			<SidebarContent className="bg-muted p-4">
+			<SidebarContent className="bg-muted p-4 overflow-visible">
 				<AsideRouteMapNavigationWrapper />
 
 				{isCourseAdded ? (
 					<div className="flex flex-col gap-2">
-						<CourseProgressCircle progress={45} />
+						<CourseProgressCircle />
 					</div>
 				) : (
 					topicMapId && <StartCourseButton topicMapId={topicMapId} />

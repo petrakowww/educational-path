@@ -57,3 +57,5 @@ export * from './scroll-area/scroll-area';
 export * from './checkbox/checkbox';
 
 export * from './navigation-menu/navigation-menu';
+
+export * from './slider/slider';

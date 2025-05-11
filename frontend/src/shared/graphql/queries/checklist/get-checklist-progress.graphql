@@ -1,0 +1,7 @@
+query GetChecklistProgress($topicNodeId: String!) {
+	getChecklistProgressByTopic(topicNodeId: $topicNodeId) {
+		id
+		text
+		done
+	}
+}

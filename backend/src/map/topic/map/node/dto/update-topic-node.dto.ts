@@ -1,7 +1,7 @@
 import { IsEnum, IsString } from 'class-validator';
 import GraphQLJSON from 'graphql-type-json';
 
-import { ChecklistItemInput } from '../checklist/dto/checklist-input.dto';
+import { ChecklistItemInput } from '../../user/checklist/dto/checklist-input.dto';
 import { Field, InputType } from '@nestjs/graphql';
 import { NodeType } from '@prisma/__generated__';
 

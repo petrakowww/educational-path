@@ -1,13 +1,17 @@
+import { NodeMain } from "@/features/node/editor/types/node";
 import { TopicNodeLite } from "@/features/view/mode/graph/types";
 import { TopicEdge } from "@/shared/graphql/generated/output";
 
-export interface TopicTreeNode extends TopicNodeLite {
+export type TopicTree = Omit<TopicNodeLite, 'UserTopicProgress' | 'meta'>;
+
+export interface TopicTreeNode<T = NodeMain> extends TopicNodeLite {
 	children: TopicTreeNode[];
+    meta: T;
 }
 
-export function buildLinearTree(nodes: TopicNodeLite[], edges: TopicEdge[]): TopicTreeNode[] {
-	const childrenMap = new Map<string, TopicNodeLite[]>();
-	const nodeMap = new Map<string, TopicNodeLite>();
+export function buildLinearTree(nodes: TopicTreeNode[], edges: TopicEdge[]): TopicTreeNode[] {
+	const childrenMap = new Map<string, TopicTreeNode[]>();
+	const nodeMap = new Map<string, TopicTreeNode>();
 
 	nodes.forEach((node) => nodeMap.set(node.id, node));
 
@@ -25,7 +29,7 @@ export function buildLinearTree(nodes: TopicNodeLite[], edges: TopicEdge[]): Top
 		return !isTarget;
 	});
 
-	const buildTree = (node: TopicNodeLite): TopicTreeNode => ({
+	const buildTree = (node: TopicTreeNode): TopicTreeNode => ({
 		...node,
 		children: childrenMap.get(node.id)?.map(buildTree) ?? [],
 	});

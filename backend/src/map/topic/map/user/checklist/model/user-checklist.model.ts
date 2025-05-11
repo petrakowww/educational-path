@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { UserCourse } from '../../course/model/user-course.model';
-import { ChecklistItem } from '../../../node/checklist/model/checklist.model';
+import { ChecklistItem } from './checklist-model';
 
 @ObjectType()
 export class UserChecklistProgress {

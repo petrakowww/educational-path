@@ -16,8 +16,8 @@ export function calculateVisibleNodes(
 	mode: CourseModeType
 ): Set<string> {
 	const { predecessors } = buildGraph(edges);
+
 	const completedMap: ProgressMap = {};
-    
 	for (const item of progress) {
 		if (item.status === NodeStatus.Completed) {
 			completedMap[item.topicNodeId] = true;
@@ -26,32 +26,39 @@ export function calculateVisibleNodes(
 
 	const visible = new Set<string>();
 
-	for (const node of nodes) {
-		const { id, type } = node;
-		const isManual = isManualNode(type);
-
-		if (!isManual) {
-			visible.add(id); // всегда отображаем визуальные/неучебные узлы
-			continue;
+	if (mode === CourseModeType.Flexible) {
+		for (const node of nodes) {
+			visible.add(node.id);
 		}
-        
-		if (mode === CourseModeType.Flexible) {
-			visible.add(id); // в свободном режиме всё видно
-			continue;
-		}
+		return visible;
+	}
 
-		if (completedMap[id]) {
-			visible.add(id); // узел уже завершён — показываем
-			continue;
-		}
+	let changed = true;
 
-		const preds = predecessors[id] ?? [];
-		const allPrereqsCompleted = preds.every((p) => completedMap[p]);
+	while (changed) {
+		changed = false;
 
-		if (allPrereqsCompleted) {
-			visible.add(id); // все предыдущие завершены — показываем
+		for (const node of nodes) {
+			if (visible.has(node.id)) continue;
+
+			const isManual = isManualNode(node.type);
+			if (!isManual) {
+				visible.add(node.id);
+				changed = true;
+				continue;
+			}
+
+			const preds = predecessors[node.id] ?? [];
+			const allPredsVisibleAndCompleted = preds.every(
+				(p) => visible.has(p) && completedMap[p]
+			);
+
+			if (allPredsVisibleAndCompleted || preds.length === 0) {
+				visible.add(node.id);
+				changed = true;
+			}
 		}
 	}
-    console.log(visible);
+
 	return visible;
 }

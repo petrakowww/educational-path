@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useInitializeViewMap } from '@/features/node/viewer/hooks/use-initialization-view-map';
 import { SkeletonReactFlow } from '../skeleton/viewer-react-flow-skeleton';
 import ReactFlow, {
@@ -6,7 +5,6 @@ import ReactFlow, {
 	BackgroundVariant,
 	Controls,
 	MiniMap,
-	Node,
 } from 'reactflow';
 import { nodeViewerComponents } from '@/shared/node/components/viewer/fabric/node-components';
 import { edgeViewerType } from '@/shared/edge/config/edge.config';
@@ -16,8 +14,7 @@ import { useEdgeViewerStore } from '@/shared/managers/store/viewer/edge-viewer.s
 import { shallow } from 'zustand/shallow';
 import { getNodeColorByType } from '@/features/node/utils/get-node-color-by-type';
 import { useViewerStore } from '@/shared/managers/store/viewer/view.store';
-import { isManualNode } from '@/shared/node/utils/is-openable-node';
-import { useProgressController } from '@/features/view/mode/graph/hook/use-progress-controller';
+import { useModeController } from '@/features/view/mode/graph/hook/use-mode-controller';
 
 interface ReactFlowViewerProps {
 	nodes?: GetPreviewCourseInfoQuery['getUserTopicMap']['nodes'];
@@ -30,17 +27,17 @@ export const ReactFlowViewer = (props: ReactFlowViewerProps) => {
 
 	const courseMode = useViewerStore((s) => s.courseMode);
 
-	const { visibleNodeIds } = useProgressController({
+	const { visibleNodeIds } = useModeController({
 		nodes: nodes ?? [],
 		edges: edges ?? [],
 		initialProgress: course?.progress ?? [],
 	});
-	
+
 	const { isReady } = useInitializeViewMap({
 		nodes,
 		edges,
 		visibleNodeIds,
-		courseMode, // 👈 добавляем для триггера useEffect
+		courseMode,
 	});
 
 	const { nodesStore } = useNodeViewerStore(
@@ -52,28 +49,6 @@ export const ReactFlowViewer = (props: ReactFlowViewerProps) => {
 		(state) => ({ edgesStore: state.edges }),
 		shallow
 	);
-
-	const { setSelectedNodeId } = useNodeViewerStore(
-		(state) => ({ setSelectedNodeId: state.setSelectedNodeId }),
-		shallow
-	);
-
-	const { toggleSidebar } = useViewerStore(
-		(state) => ({ toggleSidebar: state.toggleSidebar }),
-		shallow
-	);
-
-	const handleNodeClick = useCallback(
-		(e: React.MouseEvent, node: Node) => {
-			if (isManualNode(node.type)) {
-				setSelectedNodeId(node.id);
-				toggleSidebar();
-			}
-		},
-		[setSelectedNodeId, toggleSidebar]
-	);
-
-	console.log(nodesStore);
 
 	if (!isReady) return <SkeletonReactFlow />;
 
@@ -88,7 +63,6 @@ export const ReactFlowViewer = (props: ReactFlowViewerProps) => {
 			elementsSelectable={false}
 			zoomOnScroll
 			defaultViewport={{ x: 0, y: 0, zoom: 1.2 }}
-			onNodeClick={handleNodeClick}
 		>
 			<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
 			<MiniMap

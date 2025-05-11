@@ -49,15 +49,7 @@ export default function Page() {
 							data?.getUserTopicMap.route?.isVerified
 						}
 					/>
-					<RouteHeaderStatsWrapper
-						progress={6}
-						completed={1}
-						inProgress={0}
-						skipped={0}
-						topicCount={5}
-						nodeCount={18}
-						isDesktop={isDesktop}
-					/>
+					<RouteHeaderStatsWrapper isDesktop={isDesktop} />
 				</header>
 
 				<div className="flex-1 relative">

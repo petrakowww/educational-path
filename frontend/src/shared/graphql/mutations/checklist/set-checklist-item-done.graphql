@@ -1,0 +1,9 @@
+mutation MarkChecklistItem($checkListItemId: String!, $done: Boolean!) {
+	markChecklistItem(checkListItemId: $checkListItemId, done: $done) {
+		id
+		done
+		checklist {
+			id
+		}
+	}
+}

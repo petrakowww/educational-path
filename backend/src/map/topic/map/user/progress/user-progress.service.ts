@@ -1,5 +1,7 @@
+import { isProgressableType } from '@/libs/common/utils/is-progressable.util';
 import { PrismaService } from '@/prisma/prisma.service';
 
+import { CourseProgressSummary } from '../course/model/course-progress.model';
 import {
     ConflictException,
     Injectable,
@@ -12,6 +14,8 @@ export class UserTopicProgressService {
     constructor(private readonly prisma: PrismaService) {}
 
     async getProgress(user: User, topicNodeId: string) {
+        await this.assertProgressable(topicNodeId);
+
         const progress = await this.prisma.userTopicProgress.findFirst({
             where: {
                 topicNodeId,
@@ -73,7 +77,7 @@ export class UserTopicProgressService {
             status === 'COMPLETED'
                 ? 1
                 : status === 'IN_PROGRESS'
-                  ? (progress.progressValue ?? 0.01)
+                  ? 0.01
                   : 0;
 
         return this.prisma.userTopicProgress.update({
@@ -162,5 +166,71 @@ export class UserTopicProgressService {
                 finishedAt: isCompleted ? now : null,
             },
         });
+    }
+
+    async getCourseProgress(
+        user: User,
+        topicMapId: string,
+    ): Promise<CourseProgressSummary> {
+        const userCourse = await this.prisma.userCourse.findFirst({
+            where: {
+                userId: user.id,
+                topicMapId,
+            },
+            include: {
+                progress: true,
+            },
+        });
+
+        if (!userCourse) {
+            throw new NotFoundException('Курс не найден');
+        }
+
+        const summary = {
+            completed: 0,
+            inProgress: 0,
+            notStarted: 0,
+            skipped: 0,
+            total: 0,
+        };
+
+        for (const p of userCourse.progress) {
+            const node = await this.prisma.topicNode.findUnique({
+                where: { id: p.topicNodeId },
+                select: { type: true },
+            });
+            if (!node || !isProgressableType(node.type)) continue;
+
+            summary.total++;
+            switch (p.status) {
+                case 'COMPLETED':
+                    summary.completed++;
+                    break;
+                case 'IN_PROGRESS':
+                    summary.inProgress++;
+                    break;
+                case 'SKIPPED':
+                    summary.skipped++;
+                    break;
+                case 'NOT_STARTED':
+                    summary.notStarted++;
+                    break;
+            }
+        }
+
+        return summary;
+    }
+
+    private async assertProgressable(topicNodeId: string) {
+        const node = await this.prisma.topicNode.findUnique({
+            where: { id: topicNodeId },
+            select: { type: true },
+        });
+
+        if (!node || !isProgressableType(node.type)) {
+            throw new ConflictException(
+                `Прогресс недоступен для типа узла "${node?.type}"`,
+            );
+        }
     }
 }
