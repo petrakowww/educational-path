@@ -8,7 +8,6 @@ import { Board } from '@/features/node/editor/components/board';
 import { AsideBarComponentEditor } from '@/features/node/editor/components/aside/components/aside-menu/aside-path';
 import { AsideBarConstants } from '@/widgets/editor/components/side-bar/side-bar-states';
 import { LinkToControlPanel } from '@/widgets/editor/components/to-control-panel';
-import { TabBar } from '@/widgets/editor/components/tab-bar/ui/tab-bar';
 import { VisibilityDialogMenu } from '@/widgets/editor/components/visibility-menu';
 import { ViewBoard } from '@/widgets/editor/components/view';
 import { SaveRoadmap } from '@/widgets/editor/components/save/save-board';
@@ -21,7 +20,7 @@ import { SpinnerOverlay } from '@/shared/ui/spinner-overlay/spinner-overlay';
 
 export default function Page() {
 	const params = useParams<{ id: string; slug: string }>();
-	const { loading, isReady } = useInitializationEditorMap(); // теперь безопасно
+	const { loading, isReady } = useInitializationEditorMap();
 
 	const showSpinner = loading || !isReady;
 
@@ -49,23 +48,20 @@ export default function Page() {
 
 				{/* HEADER */}
 				<header
-					className="row-start-1 col-start-2 col-span-1 border-b"
+					className="row-start-1 col-start-2 col-span-1 border-b min-h-[50px]"
 					style={{
 						maxWidth: `calc(100vw - ${width}px)`,
 					}}
 				>
 					<nav className="flex justify-between items-center py-1 px-1 h-full">
-						<div className="relative flex-1 overflow-hidden">
-							<TabBar />
-						</div>
 						{isDesktop ? (
-							<div className="flex gap-2 h-full ml-1">
+							<div className="flex gap-2 h-full ml-auto">
 								<VisibilityDialogMenu />
 								<ViewBoard />
 								<SaveRoadmap />
 							</div>
 						) : (
-							<div className="h-full ml-1">
+							<div className="h-full ml-auto">
 								<MobileMenu>
 									<div className="flex flex-col gap-4">
 										<VisibilityDialogMenu />

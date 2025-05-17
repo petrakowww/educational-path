@@ -19,9 +19,9 @@ export const ParagraphNode = (props: NodeProps<NodeMain>) => {
 				justifyContent: data.meta.fontProps?.textAlign,
 			}}
 		>
-			<EditableNode nodeProps={props}>
+			<EditableNode nodeProps={props} ignoreFeatContent={true}>
 				<p
-					className="leading-none whitespace-pre-wrap break-all p-3"
+					className="leading-none whitespace-pre-wrap break-words p-3"
 					style={{
 						fontSize: data.meta.fontProps?.fontSize,
 						color: data.meta.fontProps?.fontColor as string,

@@ -51,13 +51,13 @@ export const SearchComponents = () => {
 
 	const filteredNodes = useMemo(() => {
 		return nodes.filter((node) => {
-			const label = node.data?.labelProps?.label ?? '';
+			const label = node.data?.title ?? '';
 			return label.toLowerCase().includes(search.toLowerCase());
 		});
 	}, [search, nodes]);
 
 	return (
-		<aside className="max-w-[300px] absolute z-10 bg-background top-0 left-0 h-full shadow-right p-2 px-3 flex flex-col gap-2">
+		<aside className="max-w-[300px] absolute z-10 bg-background top-0 left-0 h-full shadow-right p-2 px-3 flex flex-col gap-2 overflow-y-auto">
 			<Input
 				placeholder="Поиск компонентов..."
 				value={search}
@@ -91,9 +91,9 @@ export const SearchComponents = () => {
 								})()}
 								<span
 									className="max-w-24 truncate"
-									title={node.data?.labelProps?.label}
+									title={node.data?.title}
 								>
-									{node.data?.labelProps?.label ||
+									{node.data?.title ||
 										'Без названия'}
 								</span>
 							</div>

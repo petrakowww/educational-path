@@ -82,7 +82,6 @@ export class AuthService {
 
     public async login(res: Response, dto: LoginDto) {
         const user = await this.userService.findByEmail(dto.email);
-
         if (!user || !user.password) {
             throw new NotFoundException(
                 'Пользователь не найден, пожалуйста, проверьте введенные данные.',
@@ -320,12 +319,6 @@ export class AuthService {
 
         return { accessToken, refreshToken };
     }
-
-    public async getUserFromContext(context: any): Promise<any> {
-        const { req } = context;
-        if (req && req.user) {
-            return req.user;
-        }
-        throw new UnauthorizedException('Пользователь не авторизован');
-    }
 }
+
+

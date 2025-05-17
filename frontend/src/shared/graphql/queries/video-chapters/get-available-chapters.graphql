@@ -1,0 +1,11 @@
+query GetAvailableChapters($courseId: ID!) {
+  availableChapters(courseId: $courseId) {
+    id
+    title
+    description
+    videoUrl
+    isFree
+    isPublished
+    position
+  }
+}

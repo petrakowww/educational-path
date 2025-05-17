@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export class RedirectMiddleware {
 	public static redirectIfAuthenticated(request: NextRequest): NextResponse {
-		return NextResponse.redirect(new URL(AppRoutes.Dashboard, request.url));
+		return NextResponse.redirect(new URL(AppRoutes.Home, request.url));
 	}
 
 	public static redirectIfNotAuthenticated(
@@ -25,7 +25,7 @@ export class RedirectMiddleware {
 		req: NextApiRequest,
 		res: NextApiResponse
 	): void {
-		res.redirect(HttpStatusCode.Found, AppRoutes.Dashboard);
+		res.redirect(HttpStatusCode.Found, AppRoutes.Home);
 	}
 
     public static redirectIfProblem(

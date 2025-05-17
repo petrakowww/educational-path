@@ -20,6 +20,15 @@ enum AuthMethod {
   YANDEX
 }
 
+type ChapterProgress {
+  chapterId: String!
+  createdAt: DateTime!
+  id: ID!
+  isCompleted: Boolean!
+  updatedAt: DateTime!
+  userId: String!
+}
+
 type ChecklistItem {
   id: ID!
   text: String!
@@ -35,6 +44,14 @@ type ChecklistItemWithProgress {
   done: Boolean!
   id: String!
   text: String!
+}
+
+type CourseAccess {
+  id: ID!
+  isOwner: Boolean!
+  purchasedAt: DateTime!
+  userId: String!
+  videoCourseId: String!
 }
 
 enum CourseModeType {
@@ -61,6 +78,22 @@ input CreateRouteDto {
   title: String!
 }
 
+input CreateVideoChapterInput {
+  courseId: ID!
+  description: String
+  isFree: Boolean
+  position: Int
+  title: String!
+  videoUrl: String
+}
+
+input CreateVideoCourseInput {
+  description: String
+  imageUrl: String
+  title: String!
+  topicNodeId: ID!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -72,15 +105,24 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 scalar JSON
 
 type Mutation {
+  completeChapter(id: ID!): ChapterProgress!
   createRoute(data: CreateRouteDto!): Route!
+  createVideoChapter(input: CreateVideoChapterInput!): VideoChapter!
+  createVideoCourse(input: CreateVideoCourseInput!): VideoCourse!
   deleteRoute(id: ID!): Boolean!
   deleteTopicMap(routeId: String!): Boolean!
+  deleteVideoChapter(id: ID!): Boolean!
+  deleteVideoCourse(id: ID!): Boolean!
+  grantCourseAccess(id: ID!): Boolean!
   markChecklistItem(checkListItemId: String!, done: Boolean!): UserChecklistProgress!
+  publishVideoChapter(id: ID!): VideoChapter!
+  publishVideoCourse(id: ID!): VideoCourse!
   removeCourse(topicMapId: String!): Boolean!
   removeCourseDeadline(topicMapId: String!): UserCourse!
   saveTopicMap(input: SaveTopicMapInput!): TopicMap!
   startCourse(input: StartCourseInput!): UserCourse!
   startCourseDeadline(deadline: DateTime!, topicMapId: String!): UserCourse!
+  unpublishVideoChapter(id: ID!): VideoChapter!
   updateCourseDeadline(deadline: DateTime!, topicMapId: String!): UserCourse!
   updateProgressValue(topicNodeId: String!, value: Float!): UserTopicProgress!
   updateRoute(data: UpdateRouteDto!, id: ID!): Route!
@@ -88,6 +130,8 @@ type Mutation {
   updateUserCourseSettings(input: UpdateCourseSettingsInput!): Boolean!
   updateUserProfile(dto: UserProfileDto!): UserModel!
   updateUserTopicProgressStatus(input: UpdateTopicProgressInput!): UserTopicProgress!
+  updateVideoChapter(input: UpdateVideoChapterInput!): VideoChapter!
+  updateVideoCourse(input: UpdateVideoCourseInput!): VideoCourse!
   verifyRoute(id: ID!, status: VerificationStatus!): Route!
 }
 
@@ -104,6 +148,7 @@ enum PrivateType {
 }
 
 type Query {
+  availableChapters(courseId: ID!): [VideoChapter!]!
   findAllTags: [TagModel!]!
   findById(id: String!): UserModel!
   findOtherRoutesByUser(excludeRouteId: String!): [Route!]!
@@ -118,6 +163,9 @@ type Query {
   getUserCourse(topicMapId: String!): UserCourse!
   getUserTopicMap(routeId: String!): TopicMap!
   getUserTopicProgress(topicNodeId: String!): UserTopicProgress!
+  publishedCourses: [VideoCourse!]!
+  videoCourse(id: ID!): VideoCourse!
+  videoCoursesByNode(topicNodeId: ID!): [VideoCourse!]!
 }
 
 type Route {
@@ -238,6 +286,24 @@ input UpdateTopicProgressInput {
   topicNodeId: String!
 }
 
+input UpdateVideoChapterInput {
+  description: String
+  id: ID!
+  isFree: Boolean
+  isPublished: Boolean
+  position: Int
+  title: String
+  videoUrl: String
+}
+
+input UpdateVideoCourseInput {
+  description: String
+  id: ID!
+  imageUrl: String
+  isPublished: Boolean
+  title: String
+}
+
 type UserChecklistProgress {
   checklist: ChecklistItem!
   checklistItemId: String!
@@ -295,4 +361,32 @@ enum VerificationStatus {
   NOT_VERIFIED
   PENDING
   VERIFIED
+}
+
+type VideoChapter {
+  courseId: String!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  isFree: Boolean!
+  isPublished: Boolean!
+  position: Float!
+  progress: [ChapterProgress!]!
+  title: String!
+  updatedAt: DateTime!
+  videoUrl: String
+}
+
+type VideoCourse {
+  CourseAccess: [CourseAccess!]!
+  chapters: [VideoChapter!]!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  imageUrl: String
+  isPublished: Boolean!
+  title: String!
+  topicNodeId: String!
+  updatedAt: DateTime!
+  userId: String!
 }

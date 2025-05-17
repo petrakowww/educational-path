@@ -9,7 +9,7 @@ export const LinkToControlPanel = () => {
             transition-colors text-secondary-foreground hover:text-muted"
 		>
 			<Link
-				href={AppRoutes.Maps}
+				href={AppRoutes.MapsPanel}
 				className="flex items-center justify-center w-full h-full"
 			>
 				<Home />

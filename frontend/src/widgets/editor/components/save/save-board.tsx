@@ -1,12 +1,8 @@
-import { useEdgeStore } from '@/shared/managers/store/editor/edge-editor.store';
-import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
+'use client';
+
 import { Button } from '@/shared/ui';
 import { Save, Loader2 } from 'lucide-react';
-import React from 'react';
-import { useSaveTopicMapMutation } from '@/shared/graphql/generated/output';
-import { toast } from 'sonner';
-import { useParams } from 'next/navigation';
-import { transformNodesAndEdgesForMutation } from './utils';
+import { useSaveTopicMapSafely } from './hooks/use-save-topic-mape-safely';
 
 interface ButtonWidgetSaveRoadmapProps {
 	onSave?: () => void;
@@ -19,41 +15,18 @@ export const SaveRoadmap = ({
 	isLoading = false,
 	disabled = false,
 }: ButtonWidgetSaveRoadmapProps) => {
-	const params = useParams<{ id: string }>();
-	const routeId = params?.id;
+	const { save, loading } = useSaveTopicMapSafely();
 
-	const { nodesList } = useNodeStore((state) => ({
-		nodesList: state.nodesList,
-	}));
-	const { edgeList } = useEdgeStore((state) => ({ edgeList: state.edges }));
-	const [saveTopicMap, { loading }] = useSaveTopicMapMutation();
-	console.log(nodesList, edgeList);
-	const handleSave = async () => {
-		if (!routeId) return;
-
-		const input = transformNodesAndEdgesForMutation(
-			routeId,
-			nodesList,
-			edgeList
-		);
-
-		try {
-			await saveTopicMap({ variables: { input } });
-
-			toast.success(`Карта успешно сохранена!`, {
-				description: `Маршрут "${routeId}" с ${nodesList.length} узлами.`,
-			});
-
+	const handleClick = async () => {
+		const success = await save();
+		if (success) {
 			onSave?.();
-		} catch (err) {
-			console.error('Ошибка при сохранении карты:', err);
-			toast.error('Произошла ошибка при сохранении. Попробуйте снова.');
 		}
 	};
 
 	return (
 		<Button
-			onClick={handleSave}
+			onClick={handleClick}
 			disabled={disabled || isLoading || loading}
 			className="h-full rounded-md w-full [&_svg]:size-5"
 		>

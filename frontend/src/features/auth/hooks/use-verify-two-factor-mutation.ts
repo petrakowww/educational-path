@@ -36,7 +36,7 @@ export const useVerifyTwoFactorMutation = () => {
 		onSuccess() {
 			login();
 			toast.success('Двухфакторная аутентификация прошла успешно!');
-			router.replace(AppRoutes.Dashboard);
+			router.replace(AppRoutes.Home);
 		},
 		onError(error) {
 			toast.error(

@@ -1,0 +1,6 @@
+mutation UnpublishVideoChapter($id: ID!) {
+  unpublishVideoChapter(id: $id) {
+    id
+    isPublished
+  }
+}

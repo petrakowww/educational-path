@@ -208,7 +208,7 @@ export const useNodeStore = createWithEqualityFn<NodeState>(
 
 		moveNodeDown: (id: string) =>
 			set((state) => {
-				let list = normalizeZIndexes(state.nodesList);
+				const list = normalizeZIndexes(state.nodesList);
 				const index = list.findIndex((n) => n.id === id);
 				if (index <= 0) return state;
 

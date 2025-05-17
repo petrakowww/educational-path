@@ -7,15 +7,17 @@ import { useRouter } from 'next/navigation';
 import { AppRoutes } from '@/shared/config';
 import { OTPResponseProps } from '../types/response.type';
 import { UserProps } from '../types/user.type';
+import { useAuth } from '@/app/providers/auth/auth-provider';
 
 export const useLoginMutation = (callback: (value: boolean) => void) => {
 	const router = useRouter();
+	const { login } = useAuth(); // login из контекста
 
 	const otpHandler = (value: boolean) => {
 		callback(value);
 	};
 
-	const { mutate: login, isPending: isLoadingLogin } = useMutation({
+	const { mutate: executeLogin, isPending: isLoadingLogin } = useMutation({
 		mutationKey: ['login user'],
 		mutationFn: ({
 			values,
@@ -36,15 +38,17 @@ export const useLoginMutation = (callback: (value: boolean) => void) => {
 				otpHandler(data.otpResponse);
 				return;
 			}
+			login(); // контекстный login
 			toast.success(`Вы успешно вошли в свой аккаунт`, {
 				description: 'Удачного времяпровождения :)',
 			});
-			router.push(AppRoutes.Dashboard);
+			router.push(AppRoutes.Home);
 		},
 		onError(err) {
 			toastMessageHandler(err);
 		},
 	});
 
-	return { login, isLoadingLogin };
+	return { login: executeLogin, isLoadingLogin };
 };
+

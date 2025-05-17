@@ -59,3 +59,7 @@ export * from './checkbox/checkbox';
 export * from './navigation-menu/navigation-menu';
 
 export * from './slider/slider';
+
+export * from './chart/chart';
+
+export * from './pagination/pagination';

@@ -1,0 +1,12 @@
+mutation CreateVideoCourse($input: CreateVideoCourseInput!) {
+  createVideoCourse(input: $input) {
+    id
+    title
+    description
+    imageUrl
+    isPublished
+    topicNodeId
+    createdAt
+    updatedAt
+  }
+}

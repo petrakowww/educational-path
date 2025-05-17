@@ -24,6 +24,7 @@ import {
 import Link from 'next/link';
 import { AppRoutes } from '@/shared/config';
 import { staticResources } from '@/shared/lib/utils/public-client';
+import { cn } from '@/shared/lib';
 
 export const AccountProfileLogo = () => {
 	const { isMobile } = useSidebar();
@@ -36,7 +37,7 @@ export const AccountProfileLogo = () => {
 					<DropdownMenuTrigger asChild>
 						<SidebarMenuButton
 							size={'lg'}
-							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+							className={cn("data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground p-0", data?.findProfile && "mt-1")}
 						>
 							<div className="flex aspect-square size-8 items-center justify-center">
 								{loading ? (
@@ -71,12 +72,12 @@ export const AccountProfileLogo = () => {
 										<span className="truncate text-xs">
 											{getUserRoleType(
 												data?.findProfile.role
-											)}
-											{' ('}
+											)}{' '}
+											(
 											{getUserCredentialType(
 												data?.findProfile.method
 											)}
-											{')'}
+											)
 										</span>
 									</>
 								)}
@@ -84,6 +85,7 @@ export const AccountProfileLogo = () => {
 							<ChevronsUpDownIcon className="ml-auto" />
 						</SidebarMenuButton>
 					</DropdownMenuTrigger>
+
 					<DropdownMenuContent
 						className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-md"
 						align="start"

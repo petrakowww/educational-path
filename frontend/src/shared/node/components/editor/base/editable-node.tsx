@@ -9,11 +9,13 @@ interface EditableNodeProps {
 	nodeProps: NodeProps;
 	canResize?: boolean;
 	canHandle?: boolean;
+	ignoreFeatContent?: boolean;
 }
 
 export const EditableNode = ({
 	canHandle = true,
 	canResize = true,
+	ignoreFeatContent = false,
 	children,
 	nodeProps,
 }: EditableNodeProps) => {
@@ -30,7 +32,7 @@ export const EditableNode = ({
 			)}
 			<div ref={containerRef}>
 				{children}
-				{canResize && <ResizeNodeComponent ref={containerRef} />}
+				{canResize && <ResizeNodeComponent ref={containerRef} ignoreFitContent={ignoreFeatContent}/>}
 			</div>
 			{canHandle && (
 				<Handle

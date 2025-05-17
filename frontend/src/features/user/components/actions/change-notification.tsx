@@ -18,7 +18,7 @@ export const ChangeProfile2FANotifications = ({
 	isTwoFactorEnabled: boolean;
 }) => {
 	const [enabled, setEnabled] = useState(isTwoFactorEnabled);
-	const [updateProfile, { loading }] = useUpdateProfileMutation();
+	const [updateProfile, { loading, error }] = useUpdateProfileMutation();
 
 	const handleToggle = async () => {
 		const newState = !enabled;
@@ -32,7 +32,7 @@ export const ChangeProfile2FANotifications = ({
 				`Двухфакторная аутентификация ${newState ? 'включена' : 'выключена'}`
 			);
 		} catch {
-			toast.error('Ошибка при обновлении');
+			toast.error('Ошибка при обновлении', {description: error?.message });
 			setEnabled(!newState);
 		}
 	};

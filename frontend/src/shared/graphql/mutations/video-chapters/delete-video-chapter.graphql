@@ -1,0 +1,3 @@
+mutation DeleteVideoChapter($id: ID!) {
+  deleteVideoChapter(id: $id)
+}

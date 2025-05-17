@@ -1,0 +1,11 @@
+mutation CreateVideoChapter($input: CreateVideoChapterInput!) {
+  createVideoChapter(input: $input) {
+    id
+    title
+    description
+    videoUrl
+    isFree
+    isPublished
+    position
+  }
+}

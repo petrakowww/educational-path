@@ -94,3 +94,67 @@ export class AuthGuard implements CanActivate {
         }
     }
 }
+
+@Injectable()
+export class OptionalAuthGuard implements CanActivate {
+    constructor(
+        private readonly userService: UserService,
+        private readonly jwtService: JwtService,
+    ) {}
+
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+        const { request, response } = this.getContext(context);
+
+        const accessToken = this.jwtService.getToken(request, 'Access Token');
+
+        if (accessToken) {
+            try {
+                const payload: JwtPayload =
+                    this.jwtService.verifyAccessToken(accessToken);
+                request.user = await this.userService.findById(payload.userId);
+            } catch {
+                /* empty */
+            }
+        }
+
+        try {
+            await this.tryRefreshToken(request, response);
+        } catch { /* empty */ }
+
+        return true;
+    }
+
+    private getContext(context: ExecutionContext): {
+        request: UserRequest;
+        response: Response;
+    } {
+        const isGraphQL = context.getType<'graphql'>() === 'graphql';
+
+        if (isGraphQL) {
+            const gqlContext = GqlExecutionContext.create(context).getContext<{
+                req: UserRequest;
+                res: Response;
+            }>();
+            return { request: gqlContext.req, response: gqlContext.res };
+        }
+
+        const request = context.switchToHttp().getRequest<UserRequest>();
+        const response = context.switchToHttp().getResponse<Response>();
+        return { request, response };
+    }
+
+    private async tryRefreshToken(
+        request: UserRequest,
+        response: Response,
+    ): Promise<void> {
+        const { accessToken, refreshToken } =
+            await this.jwtService.refreshTokens(request);
+
+        this.jwtService.setTokenCookie(response, accessToken, 'Access Token');
+        this.jwtService.setTokenCookie(response, refreshToken, 'Refresh Token');
+
+        const payload: JwtPayload =
+            this.jwtService.verifyAccessToken(accessToken);
+        request.user = await this.userService.findById(payload.userId);
+    }
+}

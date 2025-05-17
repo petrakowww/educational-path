@@ -244,6 +244,55 @@ exports.Prisma.UserChecklistProgressScalarFieldEnum = {
   done: 'done'
 };
 
+exports.Prisma.VideoCourseScalarFieldEnum = {
+  id: 'id',
+  topicNodeId: 'topicNodeId',
+  userId: 'userId',
+  title: 'title',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  isPublished: 'isPublished',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VideoChapterScalarFieldEnum = {
+  id: 'id',
+  courseId: 'courseId',
+  title: 'title',
+  description: 'description',
+  videoUrl: 'videoUrl',
+  position: 'position',
+  isPublished: 'isPublished',
+  isFree: 'isFree',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ChapterProgressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  chapterId: 'chapterId',
+  isCompleted: 'isCompleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CourseAccessScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  videoCourseId: 'videoCourseId',
+  isOwner: 'isOwner',
+  purchasedAt: 'purchasedAt'
+};
+
+exports.Prisma.FavoriteRouteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  routeId: 'routeId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -345,7 +394,12 @@ exports.Prisma.ModelName = {
   UserCourse: 'UserCourse',
   UserTopicProgress: 'UserTopicProgress',
   ChecklistItem: 'ChecklistItem',
-  UserChecklistProgress: 'UserChecklistProgress'
+  UserChecklistProgress: 'UserChecklistProgress',
+  VideoCourse: 'VideoCourse',
+  VideoChapter: 'VideoChapter',
+  ChapterProgress: 'ChapterProgress',
+  CourseAccess: 'CourseAccess',
+  FavoriteRoute: 'FavoriteRoute'
 };
 
 /**

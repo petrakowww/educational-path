@@ -1,0 +1,10 @@
+mutation UpdateVideoCourse($input: UpdateVideoCourseInput!) {
+  updateVideoCourse(input: $input) {
+    id
+    title
+    description
+    imageUrl
+    isPublished
+    updatedAt
+  }
+}

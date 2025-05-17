@@ -1,0 +1,6 @@
+mutation PublishVideoCourse($id: ID!) {
+  publishVideoCourse(id: $id) {
+    id
+    isPublished
+  }
+}

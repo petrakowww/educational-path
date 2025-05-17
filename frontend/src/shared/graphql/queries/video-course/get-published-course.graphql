@@ -1,0 +1,10 @@
+query GetPublishedCourses {
+  publishedCourses {
+    id
+    title
+    description
+    isPublished
+    imageUrl
+    createdAt
+  }
+}

@@ -1,0 +1,18 @@
+query GetVideoCoursesByNode($topicNodeId: ID!) {
+  videoCoursesByNode(topicNodeId: $topicNodeId) {
+    id
+    title
+    description
+    isPublished
+    imageUrl
+    topicNodeId
+    createdAt
+    updatedAt
+    chapters {
+      id
+      title
+      position
+      isPublished
+    }
+  }
+}

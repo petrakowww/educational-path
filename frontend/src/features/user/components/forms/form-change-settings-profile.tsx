@@ -26,22 +26,27 @@ export const FormChangeSettingsProfile = () => {
 	}
 	return (
 		<div className="flex flex-col gap-4">
-			<ChangeProfile2FANotifications
-				isTwoFactorEnabled={
-					data?.findProfile.isTwoFactorEnabled || false
-				}
-			/>
+			{data?.findProfile.email && (
+				<ChangeProfile2FANotifications
+					isTwoFactorEnabled={
+						data?.findProfile.isTwoFactorEnabled || false
+					}
+				/>
+			)}
+
 			<ChangePasswordProfile
 				hasPassword={isPasswordExist}
 				passwordCallback={setPasswordExitst}
 			/>
 
-			<ChangeEmailProfile
-				hasPassword={isPasswordExist}
-				oldEmail={data?.findProfile.email}
-			/>
+			{data?.findProfile.email && (
+				<ChangeEmailProfile
+					hasPassword={isPasswordExist}
+					oldEmail={data?.findProfile.email}
+				/>
+			)}
 
-			<DeleteAccountProfile/>
+			<DeleteAccountProfile />
 		</div>
 	);
 };

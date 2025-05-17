@@ -7,10 +7,10 @@ import { Route } from './route.model';
 export class RouteTagModel {
     @Field(() => ID)
     id: string;
-
     @Field(() => Route)
     route: Route;
-
     @Field(() => TagModel)
     tag: TagModel;
 }
+
+

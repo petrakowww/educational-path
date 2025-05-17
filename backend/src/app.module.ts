@@ -13,7 +13,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { MapModule } from './map/map.module';
-import { JSONScalar } from './common/scalars/graphql-json.scalar';
 
 @Module({
     imports: [

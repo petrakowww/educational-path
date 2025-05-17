@@ -1,25 +1,20 @@
 import { getProvidersConfig } from '@/config/providers.config';
 import { getRecaptchaConfig } from '@/config/recaptcha.config';
-import { MailService } from '@/libs/mail/mail.service';
+import { MailModule } from '@/libs/mail/mail.module';
 import { UserModule } from '@/user/user.module';
 
-import { UserOAuthAccountService } from '../user/oauth-account/account.service';
-import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
+import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module';
 import { JwtModule } from './jwt/jwt.module';
+import { PasswordRecoveryModule } from './password-recovery/password-recovery.module';
 import { ProviderModule } from './provider/provider.module';
-import { TokenService } from './tokens/token.service';
-import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service';
+import { TokenModule } from './tokens/token.module';
+import { TwoFactorAuthModule } from './two-factor-auth/two-factor-auth.module';
 import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GoogleRecaptchaModule } from '@nestlab/google-recaptcha';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { MailModule } from '@/libs/mail/mail.module';
-import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module';
-import { PasswordRecoveryModule } from './password-recovery/password-recovery.module';
-import { TokenModule } from './tokens/token.module';
-import { TwoFactorAuthModule } from './two-factor-auth/two-factor-auth.module';
 
 @Module({
     imports: [
@@ -44,14 +39,7 @@ import { TwoFactorAuthModule } from './two-factor-auth/two-factor-auth.module';
         TokenModule,
     ],
     controllers: [AuthController],
-    providers: [
-        AuthService,
-        MailService,
-        TwoFactorAuthService,
-        UserOAuthAccountService,
-        EmailConfirmationService,
-        TokenService,
-    ],
+    providers: [AuthService],
     exports: [AuthService],
 })
 export class AuthModule {}

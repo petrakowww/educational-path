@@ -28,7 +28,7 @@ export const EdgePathTypeSelector = (props: IEdgePathTypeProps) => {
 
 	useEffect(() => {
 		setCurrentPath(editedEdge.data?.pathType ?? null);
-	}, []);
+	}, [editedEdge.data?.pathType]);
 
 	return (
 		<div className="flex flex-col gap-1">

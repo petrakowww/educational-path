@@ -1,0 +1,10 @@
+mutation CompleteChapter($id: ID!) {
+  completeChapter(id: $id) {
+    id
+    chapterId
+    userId
+    isCompleted
+    createdAt
+    updatedAt
+  }
+}

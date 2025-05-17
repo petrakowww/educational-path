@@ -32,7 +32,7 @@ export const FormVerifyEmail = () => {
 					<div className="flex flex-col gap-4">
 						<p>Ваш email был успешно подтвержден.</p>
 						<Button
-							onClick={() => router.replace(AppRoutes.Dashboard)}
+							onClick={() => router.replace(AppRoutes.Home)}
 						>
 							Перейти в панель управления
 						</Button>

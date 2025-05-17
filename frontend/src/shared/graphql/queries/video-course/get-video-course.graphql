@@ -1,0 +1,18 @@
+query GetVideoCourse($id: ID!) {
+  videoCourse(id: $id) {
+    id
+    title
+    description
+    isPublished
+    imageUrl
+    topicNodeId
+    createdAt
+    updatedAt
+    chapters {
+      id
+      title
+      position
+      isPublished
+    }
+  }
+}
