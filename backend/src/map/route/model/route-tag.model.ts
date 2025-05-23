@@ -9,8 +9,8 @@ export class RouteTagModel {
     id: string;
     @Field(() => Route)
     route: Route;
-    @Field(() => TagModel)
-    tag: TagModel;
+    @Field(() => TagModel, { nullable: true })
+    tag: TagModel | null;
 }
 
 

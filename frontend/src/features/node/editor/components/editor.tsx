@@ -145,20 +145,9 @@ export const Editor = () => {
 		},
 		[setNode, selectedNodeId]
 	);
-	// удаление нельзя выполнить через клавиатуру, учитывать это (исправить)
+
 	const handleNodesChange = useCallback(
 		(changes: NodeChange[]) => {
-			// const filtered = changes.filter((change) => {
-			// 	if (change.type === 'remove') return true;
-			// 	if (change.type === 'select') return false;
-			// 	if (change.type === 'position' && !change.dragging) {
-			// 		return false;
-			// 	}
-			// 	return true;
-			// });
-
-			// if (filtered.length === 0) return;
-			// console.log(updatedNodes);
 			const updatedNodes = applyNodeChanges(changes, nodesList);
 			setNodes(updatedNodes);
 		},

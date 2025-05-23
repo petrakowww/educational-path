@@ -4,7 +4,6 @@ query GetAvailableChapters($courseId: ID!) {
     title
     description
     videoUrl
-    isFree
     isPublished
     position
   }

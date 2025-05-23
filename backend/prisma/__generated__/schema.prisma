@@ -26,11 +26,11 @@ model User {
   accounts           Account[]
   skillProfile       SkillProfile?
   tokens             Token[]
-  CourseAccess       CourseAccess[]
   FavoriteRoute      FavoriteRoute[]
   UserCourse         UserCourse[]
   ChapterProgress    ChapterProgress[]
   VideoCourse        VideoCourse[]
+  UserVideoCourse    UserVideoCourse[]
 
   @@map("users")
 }
@@ -207,10 +207,11 @@ model VideoCourse {
   topicNode TopicNode @relation(fields: [topicNodeId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  chapters     VideoChapter[]
-  CourseAccess CourseAccess[]
+  chapters        VideoChapter[]
+  Attachment      Attachment[]
+  UserVideoCourse UserVideoCourse[]
 
-  @@map("video_course") // ОСТАВИТЬ, если таблица уже так называется
+  @@map("video_course")
 }
 
 model VideoChapter {
@@ -221,7 +222,6 @@ model VideoChapter {
   videoUrl    String?
   position    Int
   isPublished Boolean @default(false)
-  isFree      Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -247,18 +247,17 @@ model ChapterProgress {
   @@map("chapter_progress")
 }
 
-model CourseAccess {
-  id            String   @id @default(uuid())
-  userId        String
-  videoCourseId String
-  isOwner       Boolean  @default(false)
-  purchasedAt   DateTime @default(now())
+model UserVideoCourse {
+  id        String   @id @default(uuid())
+  userId    String
+  courseId  String
+  startedAt DateTime @default(now())
 
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  videoCourse VideoCourse @relation(fields: [videoCourseId], references: [id], onDelete: Cascade)
+  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course VideoCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, videoCourseId])
-  @@map("course_access")
+  @@unique([userId, courseId])
+  @@map("user_video_course")
 }
 
 model FavoriteRoute {
@@ -272,6 +271,21 @@ model FavoriteRoute {
 
   @@unique([userId, routeId])
   @@map("favorite_route")
+}
+
+model Attachment {
+  id   String @id @default(uuid())
+  name String
+  url  String
+
+  courseId String
+  course   VideoCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+  @@map("attachment")
 }
 
 enum UserRole {

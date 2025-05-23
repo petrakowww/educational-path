@@ -1,0 +1,14 @@
+query GetPopularVideoCoursesExtended {
+  getPopularVideoCourses {
+    id
+    title
+    description
+    imageUrl
+    isPublished
+    createdAt
+    updatedAt
+    UserVideoCourse {
+      id
+    }
+  }
+}

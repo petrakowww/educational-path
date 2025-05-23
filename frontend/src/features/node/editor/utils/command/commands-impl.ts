@@ -6,7 +6,6 @@ import {
 	TextFontWeightEnum,
 } from '../../types/styles';
 import { useNodeStore } from '@/shared/managers/store/editor/nodes-editor.store';
-import { CompletionType, NodeKind } from '@/shared/graphql/generated/output';
 
 const updateNodeProperties = useNodeStore.getState().updateNodeProperties;
 
@@ -36,8 +35,7 @@ export class WithBorderColorCommand extends CommandBase<
 		updateNodeProperties({
 			nodeId: this.nodeId,
 			properties: {
-				data: {
-					meta: {
+				data: { meta: {
 						blockProps: {
 							borderColor: this.newProperties,
 						},
@@ -197,32 +195,6 @@ export class WithTitleCommand extends CommandBase<string> {
 			properties: {
 				data: {
 					title: this.newProperties,
-				},
-			},
-		});
-	}
-}
-
-export class WithKindCommand extends CommandBase<NodeKind> {
-	execute(): void {
-		updateNodeProperties({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					kind: this.newProperties,
-				},
-			},
-		});
-	}
-}
-
-export class WithCompletionTypeCommand extends CommandBase<CompletionType> {
-	execute(): void {
-		updateNodeProperties({
-			nodeId: this.nodeId,
-			properties: {
-				data: {
-					completionType: this.newProperties,
 				},
 			},
 		});

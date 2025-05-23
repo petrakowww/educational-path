@@ -1,7 +1,7 @@
 
 import { UserModel } from '@/user/model/db/user.model';
 
-import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { PrivateType, VerificationStatus } from '@prisma/__generated__';
 
 import { RouteTagModel } from './route-tag.model';
@@ -13,7 +13,7 @@ registerEnumType(PrivateType, { name: 'PrivateType' });
 registerEnumType(VerificationStatus, { name: 'VerificationStatus' });
 
 @ObjectType()
-export class Route {
+export class RouteBase {
     @Field(() => ID)
     id: string;
 
@@ -37,12 +37,20 @@ export class Route {
     @Field(() => Date)
     updatedAt: Date;
 
-    @Field(() => UserModel)
-    user: UserModel;
-
     @Field(() => TopicMap, { nullable: true })
     topicMap?: TopicMap;
 
     @Field(() => [RouteTagModel], { nullable: true })
     tags?: RouteTagModel[];
+
+    @Field(() => Int)
+	topicCount: number;
 }
+
+@ObjectType()
+export class Route extends RouteBase {
+    @Field(() => UserModel)
+    user: UserModel;
+}
+
+

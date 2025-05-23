@@ -1,0 +1,16 @@
+query GetWeeklyGoals {
+  getWeeklyGoals {
+    topics {
+      value
+      target
+    }
+    videos {
+      value
+      target
+    }
+    deadlines {
+      value
+      target
+    }
+  }
+}

@@ -1,0 +1,6 @@
+query GetFavoriteRoutes {
+  getFavoriteRoutes {
+    name
+    favorites
+  }
+}

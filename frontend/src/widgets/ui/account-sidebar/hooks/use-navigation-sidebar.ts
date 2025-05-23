@@ -55,11 +55,6 @@ export const useNavigation = (
 					title: 'Настройки',
 					isVisible: true,
 				},
-				{
-					url: '/account/security',
-					title: 'Безопасность',
-					isVisible: true,
-				},
 			],
 		},
 	];

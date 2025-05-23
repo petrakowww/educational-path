@@ -1,0 +1,3 @@
+mutation ReorderVideoChapters($input: ReorderVideoChaptersInput!) {
+  reorderVideoChapters(input: $input)
+}

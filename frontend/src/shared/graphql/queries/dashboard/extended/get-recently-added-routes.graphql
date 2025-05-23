@@ -1,0 +1,15 @@
+query GetRecentlyAddedRoutesExtended {
+  getRecentlyAddedRoutes {
+    id
+    title
+    description
+    createdAt
+    isVerified
+    tags {
+      tag {
+        id
+        name
+      }
+    }
+  }
+}

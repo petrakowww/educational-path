@@ -1,6 +1,5 @@
 'use client';
 
-import { CourseDeadlineNotifier } from '@/features/view/components/coure-deadline-notifier';
 import { useInitializationMapInfo } from '@/features/view/hooks/use-initialization-card-info';
 import { CourseViewType } from '@/shared/graphql/generated/output';
 import { cn, useMediaQuery } from '@/shared/lib';
@@ -28,8 +27,6 @@ export default function Page() {
 	const { data, loading, error, refetch } = useInitializationMapInfo(
 		String(params?.id)
 	);
-
-	console.log(data, loading, error);
 
 	if (loading) return <ViewerPageSkeleton />;
 

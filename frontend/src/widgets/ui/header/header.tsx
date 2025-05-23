@@ -18,7 +18,6 @@ import { HeaderLogout } from './header-logout';
 
 const links = [
 	{ href: AppRoutes.Home, label: 'Главная' },
-	{ href: AppRoutes.MapsPanel, label: 'Панель управления' },
 	{ href: AppRoutes.Maps, label: 'Образовательные карты' },
 ];
 

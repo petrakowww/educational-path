@@ -1,0 +1,6 @@
+query GetRecentlyAddedRoutes {
+  getRecentlyAddedRoutes {
+    id
+    title
+  }
+}

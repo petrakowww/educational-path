@@ -41,6 +41,8 @@ export function ViewerSidebar(props: ViewerSidebarProps) {
 		shallow
 	);
 
+	console.log(route?.tags);
+
 	if (error) {
 		return (
 			<Sidebar>
@@ -75,7 +77,7 @@ export function ViewerSidebar(props: ViewerSidebarProps) {
 
 	return (
 		<Sidebar>
-			<SidebarContent className="bg-muted p-4 overflow-visible">
+			<SidebarContent className="bg-muted p-4 overflow-y-auto">
 				<AsideRouteMapNavigationWrapper />
 
 				{isCourseAdded ? (
@@ -107,9 +109,10 @@ export function ViewerSidebar(props: ViewerSidebarProps) {
 							/>
 							<Separator />
 							<RouteTagsDetailsCard
-								tags={route.tags?.map((tag) => tag.tag.name)}
+								tags={route.tags?.map((routeTag) => routeTag?.tag?.name ?? '')}
 							/>
 							<Separator />
+							<Button className='w-full bg-yellow-500'>Добавить в избранное</Button>
 						</>
 					}
 					settings={

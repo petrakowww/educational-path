@@ -26,11 +26,12 @@ const nextConfig: NextConfig = {
 				hostname: 'avatars.githubusercontent.com',
 			},
 			{
-				protocol: 'https',
-				hostname: 'placehold.co',
+				protocol: 'http',
+				hostname: 'localhost',
+				port: '4000',
+				pathname: '/**', // 👈 разрешаем все пути
 			},
 		],
-		dangerouslyAllowSVG: true,
 	},
 };
 

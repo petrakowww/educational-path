@@ -13,30 +13,42 @@ import {
 	SelectContent,
 	SelectItem,
 	SelectValue,
-	Slider
+	Slider,
+	Separator,
+	PopoverContent,
+	PopoverTrigger,
+	Popover,
+	Calendar,
+	Command,
+	CommandInput,
+	CommandList,
+	CommandItem,
+	CommandGroup,
 } from '@/shared/ui';
-function FilterPanel() {
-	const selectedTags = useRouteStore((state) => state.selectedTags);
-	const verifiedOnly = useRouteStore((state) => state.verifiedOnly);
-	const searchQuery = useRouteStore((state) => state.searchQuery);
-	const routeType = useRouteStore((state) => state.routeType);
-	const hasVideo = useRouteStore((state) => state.hasVideo);
-	const dateRange = useRouteStore((state) => state.dateRange);
-	const topicCountRange = useRouteStore((state) => state.topicCountRange);
-	const sortBy = useRouteStore((state) => state.sortBy);
-	const toggleTag = useRouteStore((state) => state.toggleTag);
-	const setSearchQuery = useRouteStore((state) => state.setSearchQuery);
-	const setVerifiedOnly = useRouteStore((state) => state.setVerifiedOnly);
-	const setRouteType = useRouteStore((state) => state.setRouteType);
-	const setHasVideo = useRouteStore((state) => state.setHasVideo);
-	const setDateRange = useRouteStore((state) => state.setDateRange);
-	const setTopicCountRange = useRouteStore(
-		(state) => state.setTopicCountRange
-	);
-	const setSortBy = useRouteStore((state) => state.setSortBy);
-	const resetFilters = useRouteStore((state) => state.resetFilters);
 
-	// (Optional) local state for date inputs if we want to hold string values before converting
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/shared/lib';
+import { useFindAllTagsQuery } from '@/shared/graphql/generated/output';
+
+export const FilterPanel = () => {
+	const selectedTags = useRouteStore((s) => s.selectedTags);
+	const verifiedOnly = useRouteStore((s) => s.verifiedOnly);
+	const searchQuery = useRouteStore((s) => s.searchQuery);
+	const hasVideo = useRouteStore((s) => s.hasVideo);
+	const dateRange = useRouteStore((s) => s.dateRange);
+	const topicCountRange = useRouteStore((s) => s.topicCountRange);
+	const sortBy = useRouteStore((s) => s.sortBy);
+
+	const toggleTag = useRouteStore((s) => s.toggleTag);
+	const setSearchQuery = useRouteStore((s) => s.setSearchQuery);
+	const setVerifiedOnly = useRouteStore((s) => s.setVerifiedOnly);
+	const setHasVideo = useRouteStore((s) => s.setHasVideo);
+	const setDateRange = useRouteStore((s) => s.setDateRange);
+	const setTopicCountRange = useRouteStore((s) => s.setTopicCountRange);
+	const setSortBy = useRouteStore((s) => s.setSortBy);
+	const resetFilters = useRouteStore((s) => s.resetFilters);
+
 	const [startDate, setStartDate] = useState(
 		dateRange.start ? dateRange.start.toISOString().substring(0, 10) : ''
 	);
@@ -44,49 +56,60 @@ function FilterPanel() {
 		dateRange.end ? dateRange.end.toISOString().substring(0, 10) : ''
 	);
 
-	// All available tags (could also derive from all routes or have a static list)
-	const availableTags = [
-		'JavaScript',
-		'React',
-		'Node.js',
-		'CSS',
-		'UI/UX',
-		'Education',
-	];
+	const { data: tagsData } = useFindAllTagsQuery();
+	const availableTags = tagsData?.findAllTags ?? [];
 
 	return (
 		<div className="space-y-4">
-			{/* Search by title or author */}
+			{/* Поиск */}
 			<div>
-				<Label htmlFor="search">Search</Label>
+				<FilterLabel label="Поиск" />
 				<Input
 					id="search"
-					placeholder="Title or author..."
+					placeholder="Название или автор..."
 					value={searchQuery}
 					onChange={(e) => setSearchQuery(e.target.value)}
 				/>
 			</div>
 
-			{/* Tag filters (multi-select via checkboxes) */}
-			<div>
-				<Label>Tags</Label>
-				<div className="flex flex-col space-y-1 ml-2">
-					{availableTags.map((tag) => (
-						<div key={tag} className="flex items-center space-x-2">
-							<Checkbox
-								id={`tag-${tag}`}
-								checked={selectedTags.includes(tag)}
-								onCheckedChange={() => toggleTag(tag)}
-							/>
-							<Label htmlFor={`tag-${tag}`}>{tag}</Label>
-						</div>
-					))}
-				</div>
-			</div>
+			{/* Теги */}
+			<Popover>
+				<PopoverTrigger asChild>
+					<Button variant="outline" className="w-full mb-2">
+						{selectedTags.length > 0
+							? `${selectedTags.length} выбрано`
+							: 'Выберите теги'}
+					</Button>
+				</PopoverTrigger>
+				<PopoverContent className="p-0">
+					<Command>
+						<CommandInput placeholder="Поиск тегов..." />
+						<CommandList>
+							<CommandGroup>
+								{availableTags.map((tag) => (
+									<CommandItem
+										key={tag.id}
+										onSelect={() => toggleTag(tag.name)}
+										className="cursor-pointer"
+									>
+										<Checkbox
+											checked={selectedTags.includes(
+												tag.name
+											)}
+											className="mr-2"
+										/>
+										{tag.name}
+									</CommandItem>
+								))}
+							</CommandGroup>
+						</CommandList>
+					</Command>
+				</PopoverContent>
+			</Popover>
 
-			{/* Verified-only toggle */}
+			{/* Только верифицированные */}
 			<div className="flex items-center justify-between">
-				<Label htmlFor="verified-only">Verified only</Label>
+				<Label htmlFor="verified-only">Только верифицированные</Label>
 				<Switch
 					id="verified-only"
 					checked={verifiedOnly}
@@ -94,24 +117,9 @@ function FilterPanel() {
 				/>
 			</div>
 
-			{/* Route type filter (All/Public/Private) */}
-			<div>
-				<Label htmlFor="route-type">Route type</Label>
-				<Select value={routeType} onValueChange={setRouteType}>
-					<SelectTrigger id="route-type">
-						<SelectValue placeholder="All/Public/Private" />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value="ALL">All</SelectItem>
-						<SelectItem value="PUBLIC">Public</SelectItem>
-						<SelectItem value="PRIVATE">Private</SelectItem>
-					</SelectContent>
-				</Select>
-			</div>
-
-			{/* Has Video Course toggle */}
+			{/* Наличие видеокурса */}
 			<div className="flex items-center justify-between">
-				<Label htmlFor="has-video">Has Video Course</Label>
+				<Label htmlFor="has-video">Есть видеокурс</Label>
 				<Switch
 					id="has-video"
 					checked={hasVideo}
@@ -119,78 +127,141 @@ function FilterPanel() {
 				/>
 			</div>
 
-			{/* Date range filter */}
+			{/* Диапазон дат */}
 			<div>
-				<Label>Date range</Label>
-				<div className="flex items-center space-x-2">
-					<Input
-						type="date"
-						value={startDate}
-						onChange={(e) => {
-							setStartDate(e.target.value);
-							setDateRange(
-								e.target.value
-									? new Date(e.target.value)
-									: null,
-								dateRange.end
-							);
-						}}
-					/>
-					<span className="text-sm">to</span>
-					<Input
-						type="date"
-						value={endDate}
-						onChange={(e) => {
-							setEndDate(e.target.value);
-							setDateRange(
-								dateRange.start,
-								e.target.value ? new Date(e.target.value) : null
-							);
-						}}
-					/>
+				<FilterLabel label="Диапазон дат" />
+				<div className="flex flex-col space-y-2 items-center">
+					<Popover>
+						<PopoverTrigger asChild>
+							<Button
+								variant="outline"
+								className={cn(
+									'w-full justify-start text-left font-normal',
+									!startDate && 'text-muted-foreground'
+								)}
+							>
+								<CalendarIcon className="mr-2 h-4 w-4" />
+								{startDate
+									? format(new Date(startDate), 'dd.MM.yyyy')
+									: 'Начальная дата'}
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent className="w-auto p-0" align="start">
+							<Calendar
+								mode="single"
+								selected={
+									startDate ? new Date(startDate) : undefined
+								}
+								onSelect={(date) => {
+									if (date) {
+										const iso = date
+											.toISOString()
+											.substring(0, 10);
+										setStartDate(iso);
+										setDateRange(date, dateRange.end);
+									}
+								}}
+								initialFocus
+							/>
+						</PopoverContent>
+					</Popover>
+
+					<span className="text-sm text-center sm:text-left">до</span>
+
+					<Popover>
+						<PopoverTrigger asChild>
+							<Button
+								variant="outline"
+								className={cn(
+									'w-full justify-start text-left font-normal',
+									!endDate && 'text-muted-foreground'
+								)}
+							>
+								<CalendarIcon className="mr-2 h-4 w-4" />
+								{endDate
+									? format(new Date(endDate), 'dd.MM.yyyy')
+									: 'Конечная дата'}
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent className="w-auto p-0" align="start">
+							<Calendar
+								mode="single"
+								selected={
+									endDate ? new Date(endDate) : undefined
+								}
+								onSelect={(date) => {
+									if (date) {
+										const iso = date
+											.toISOString()
+											.substring(0, 10);
+										setEndDate(iso);
+										setDateRange(dateRange.start, date);
+									}
+								}}
+								initialFocus
+							/>
+						</PopoverContent>
+					</Popover>
 				</div>
-				{/* Alternatively, one could use <Calendar /> and <Popover> from shadcn/ui 
-             to implement a calendar-based date picker for a better UX. */}
 			</div>
 
-			{/* Topic count range filter (slider) */}
+			{/* Количество тем */}
 			<div>
-				<Label>Topics count</Label>
-				<Slider
-					value={topicCountRange}
-					onValueChange={(val) =>
-						setTopicCountRange(val as [number, number])
-					}
-					max={50}
-					step={1}
-				/>
+				<FilterLabel label="Количество тем" />
+				<div className="mb-2">
+					<Slider
+						revertColor={true}
+						value={topicCountRange}
+						onValueChange={(val) => {
+							const [a, b] = val as [number, number];
+							setTopicCountRange([
+								Math.min(a, b),
+								Math.max(a, b),
+							]);
+						}}
+						min={0}
+						max={50}
+						step={1}
+					/>
+				</div>
 				<div className="text-sm text-muted-foreground">
-					{topicCountRange[0]} - {topicCountRange[1]} topics
+					{topicCountRange[0]} - {topicCountRange[1]} тем
 				</div>
 			</div>
 
-			{/* Sorting options */}
+			{/* Сортировка */}
 			<div>
-				<Label htmlFor="sort-by">Sort by</Label>
+				<FilterLabel label="Сортировка" />
 				<Select value={sortBy} onValueChange={setSortBy}>
 					<SelectTrigger id="sort-by">
-						<SelectValue placeholder="Sort" />
+						<SelectValue placeholder="Сортировка" />
 					</SelectTrigger>
 					<SelectContent>
-						<SelectItem value="recency">Recency</SelectItem>
-						<SelectItem value="popularity">Popularity</SelectItem>
+						<SelectItem value="recency">По новизне</SelectItem>
+						<SelectItem value="popularity">
+							По популярности
+						</SelectItem>
 					</SelectContent>
 				</Select>
 			</div>
 
-			{/* Reset Filters button */}
+			{/* Сброс фильтров */}
 			<div>
 				<Button variant="outline" size="sm" onClick={resetFilters}>
-					Reset Filters
+					Сбросить фильтры
 				</Button>
 			</div>
 		</div>
 	);
+};
+
+interface FilterLabelProps {
+	label: string;
 }
 
-export default FilterPanel;
+export const FilterLabel = ({ label }: FilterLabelProps) => (
+	<div className="pb-2">
+		<Label>{label}</Label>
+		<Separator className="my-2" />
+	</div>
+);

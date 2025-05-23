@@ -13,6 +13,16 @@ type AccountModel {
   user: UserModel!
 }
 
+type Attachment {
+  course: VideoCourse!
+  courseId: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+  url: String!
+}
+
 enum AuthMethod {
   CREDENTIALS
   GITHUB
@@ -46,14 +56,6 @@ type ChecklistItemWithProgress {
   text: String!
 }
 
-type CourseAccess {
-  id: ID!
-  isOwner: Boolean!
-  purchasedAt: DateTime!
-  userId: String!
-  videoCourseId: String!
-}
-
 enum CourseModeType {
   FLEXIBLE
   STRICT
@@ -72,6 +74,12 @@ enum CourseViewType {
   LINEAR
 }
 
+input CreateAttachmentInput {
+  courseId: String!
+  name: String!
+  url: String!
+}
+
 input CreateRouteDto {
   description: String
   tagIds: [String!]
@@ -81,7 +89,6 @@ input CreateRouteDto {
 input CreateVideoChapterInput {
   courseId: ID!
   description: String
-  isFree: Boolean
   position: Int
   title: String!
   videoUrl: String
@@ -99,6 +106,16 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type FavoriteRouteItem {
+  favorites: Float!
+  name: String!
+}
+
+type GoalStat {
+  target: Float!
+  value: Float!
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -106,24 +123,28 @@ scalar JSON
 
 type Mutation {
   completeChapter(id: ID!): ChapterProgress!
+  createAttachment(input: CreateAttachmentInput!): Attachment!
   createRoute(data: CreateRouteDto!): Route!
   createVideoChapter(input: CreateVideoChapterInput!): VideoChapter!
   createVideoCourse(input: CreateVideoCourseInput!): VideoCourse!
+  deleteAttachment(id: ID!): Boolean!
   deleteRoute(id: ID!): Boolean!
   deleteTopicMap(routeId: String!): Boolean!
   deleteVideoChapter(id: ID!): Boolean!
   deleteVideoCourse(id: ID!): Boolean!
-  grantCourseAccess(id: ID!): Boolean!
   markChecklistItem(checkListItemId: String!, done: Boolean!): UserChecklistProgress!
   publishVideoChapter(id: ID!): VideoChapter!
   publishVideoCourse(id: ID!): VideoCourse!
   removeCourse(topicMapId: String!): Boolean!
   removeCourseDeadline(topicMapId: String!): UserCourse!
+  reorderVideoChapters(input: ReorderVideoChaptersInput!): Boolean!
   saveTopicMap(input: SaveTopicMapInput!): TopicMap!
-  startCourse(input: StartCourseInput!): UserCourse!
+  startCourse(id: ID!): UserVideoCourse!
   startCourseDeadline(deadline: DateTime!, topicMapId: String!): UserCourse!
   unpublishVideoChapter(id: ID!): VideoChapter!
+  updateChapterVideo(input: UpdateChapterVideoInput!): VideoChapter!
   updateCourseDeadline(deadline: DateTime!, topicMapId: String!): UserCourse!
+  updateCourseImage(input: UpdateImageInput!): VideoCourse!
   updateProgressValue(topicNodeId: String!, value: Float!): UserTopicProgress!
   updateRoute(data: UpdateRouteDto!, id: ID!): Route!
   updateSkillProfile(dto: SkillProfileDto!): SkillProfile!
@@ -142,6 +163,13 @@ enum NodeStatus {
   SKIPPED
 }
 
+type PaginatedRoutes {
+  currentPage: Int!
+  routes: [Route!]!
+  total: Int!
+  totalPages: Int!
+}
+
 enum PrivateType {
   GENERAL
   PRIVATE
@@ -158,14 +186,39 @@ type Query {
   findUserTags: [TagModel!]!
   getChecklistProgressByTopic(topicNodeId: String!): [ChecklistItemWithProgress!]!
   getCourseProgress(topicMapId: String!): CourseProgressSummary!
+  getFavoriteRoutes: [FavoriteRouteItem!]!
+  getPopularRoutes: [Route!]!
+  getPopularVideoCourses: [VideoCourse!]!
+  getRecentActivity: RecentActivityOutput!
+  getRecentlyAddedRoutes: [Route!]!
   getTopicMap(routeId: String!): TopicMap!
   getTopicNodeById(id: String!): TopicNode!
+  getUpcomingDeadlines: [UpcomingDeadlineItem!]!
   getUserCourse(topicMapId: String!): UserCourse!
   getUserTopicMap(routeId: String!): TopicMap!
   getUserTopicProgress(topicNodeId: String!): UserTopicProgress!
+  getWeeklyGoals: WeeklyGoalsOutput!
+  getWeeklyProgress: [WeeklyProgressItem!]!
   publishedCourses: [VideoCourse!]!
+  searchRoutes(filters: SearchRoutesInput!): PaginatedRoutes!
+  videoChapter(id: ID!): VideoChapter
   videoCourse(id: ID!): VideoCourse!
   videoCoursesByNode(topicNodeId: ID!): [VideoCourse!]!
+}
+
+type RecentActivityOutput {
+  recentRoutes: [Route!]!
+  recentVideoCourses: [VideoCourse!]!
+}
+
+input ReorderChapterInput {
+  id: ID!
+  position: Float!
+}
+
+input ReorderVideoChaptersInput {
+  chapters: [ReorderChapterInput!]!
+  courseId: ID!
 }
 
 type Route {
@@ -176,6 +229,7 @@ type Route {
   privateType: PrivateType!
   tags: [RouteTagModel!]
   title: String!
+  topicCount: Int!
   topicMap: TopicMap
   updatedAt: DateTime!
   user: UserModel!
@@ -184,13 +238,27 @@ type Route {
 type RouteTagModel {
   id: ID!
   route: Route!
-  tag: TagModel!
+  tag: TagModel
 }
 
 input SaveTopicMapInput {
   edges: [UpdateTopicEdgeInput!]
   nodes: [UpdateTopicNodeInput!]
   routeId: String!
+}
+
+input SearchRoutesInput {
+  dateEnd: DateTime
+  dateStart: DateTime
+  hasVideo: Boolean
+  page: Int! = 1
+  pageSize: Int! = 6
+  search: String
+  sortBy: String
+  tags: [String!]
+  topicCountRange: [Int!]
+  type: String
+  verifiedOnly: Boolean
 }
 
 type SkillProfile {
@@ -209,10 +277,6 @@ input SkillProfileDto {
   profilename: String
   telegramUrl: String
   vkUrl: String
-}
-
-input StartCourseInput {
-  topicMapId: ID!
 }
 
 type TagModel {
@@ -248,13 +312,30 @@ type TopicNode {
   title: String!
   topicMapId: String!
   type: String!
+  videoCourses: [VideoCourse!]
   zIndex: Float
+}
+
+type UpcomingDeadlineItem {
+  deadline: DateTime!
+  id: ID!
+  title: String!
+}
+
+input UpdateChapterVideoInput {
+  chapterId: ID!
+  videoUrl: String!
 }
 
 input UpdateCourseSettingsInput {
   mode: CourseModeType
   topicMapId: ID!
   view: CourseViewType
+}
+
+input UpdateImageInput {
+  courseId: ID!
+  imageUrl: String!
 }
 
 input UpdateRouteDto {
@@ -289,7 +370,6 @@ input UpdateTopicProgressInput {
 input UpdateVideoChapterInput {
   description: String
   id: ID!
-  isFree: Boolean
   isPublished: Boolean
   position: Int
   title: String
@@ -301,6 +381,7 @@ input UpdateVideoCourseInput {
   id: ID!
   imageUrl: String
   isPublished: Boolean
+  price: Float
   title: String
 }
 
@@ -357,6 +438,13 @@ type UserTopicProgress {
   userCourseId: String!
 }
 
+type UserVideoCourse {
+  courseId: String!
+  id: ID!
+  startedAt: DateTime!
+  userId: String!
+}
+
 enum VerificationStatus {
   NOT_VERIFIED
   PENDING
@@ -368,7 +456,6 @@ type VideoChapter {
   createdAt: DateTime!
   description: String
   id: ID!
-  isFree: Boolean!
   isPublished: Boolean!
   position: Float!
   progress: [ChapterProgress!]!
@@ -378,7 +465,8 @@ type VideoChapter {
 }
 
 type VideoCourse {
-  CourseAccess: [CourseAccess!]!
+  Attachment: [Attachment!]
+  UserVideoCourse: [UserVideoCourse!]
   chapters: [VideoChapter!]!
   createdAt: DateTime!
   description: String
@@ -389,4 +477,15 @@ type VideoCourse {
   topicNodeId: String!
   updatedAt: DateTime!
   userId: String!
+}
+
+type WeeklyGoalsOutput {
+  deadlines: GoalStat!
+  topics: GoalStat!
+  videos: GoalStat!
+}
+
+type WeeklyProgressItem {
+  count: Float!
+  date: String!
 }

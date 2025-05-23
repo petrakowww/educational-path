@@ -21,7 +21,6 @@ export class VideoChapterService {
         if (course.userId !== userId) throw new ForbiddenException('Нет прав');
 
         let position = input.position;
-
         if (position === undefined) {
             const count = await this.prisma.videoChapter.count({
                 where: { courseId: input.courseId },
@@ -44,7 +43,6 @@ export class VideoChapterService {
                 description: input.description,
                 videoUrl: input.videoUrl,
                 position,
-                isFree: input.isFree ?? false,
                 isPublished: false,
             },
         });
@@ -94,7 +92,6 @@ export class VideoChapterService {
                 title: input.title ?? chapter.title,
                 description: input.description ?? chapter.description,
                 videoUrl: input.videoUrl ?? chapter.videoUrl,
-                isFree: input.isFree ?? chapter.isFree,
                 isPublished: input.isPublished ?? chapter.isPublished,
                 position: chapter.position,
             },
@@ -167,21 +164,8 @@ export class VideoChapterService {
 
         if (!chapter) throw new NotFoundException('Глава не найдена');
 
-        const course = chapter.course;
-
-        if (course.userId !== userId) {
-            const access = await this.prisma.courseAccess.findUnique({
-                where: {
-                    userId_videoCourseId: {
-                        userId,
-                        videoCourseId: course.id,
-                    },
-                },
-            });
-
-            if (!access) {
-                throw new ForbiddenException('Нет доступа к курсу');
-            }
+        if (!chapter.course.isPublished || !chapter.isPublished) {
+            throw new ForbiddenException('Глава не опубликована');
         }
 
         return this.prisma.chapterProgress.upsert({
@@ -207,21 +191,24 @@ export class VideoChapterService {
 
         if (!course) throw new NotFoundException('Курс не найден');
 
-        if (course.userId === userId) {
-            return course.chapters;
-        }
+        return course.chapters.filter(chapter => chapter.isPublished);
+    }
 
-        const hasAccess = await this.prisma.courseAccess.findUnique({
-            where: {
-                userId_videoCourseId: {
-                    userId,
-                    videoCourseId: courseId,
-                },
+    async getChapterById(userId: string, chapterId: string) {
+        const chapter = await this.prisma.videoChapter.findUnique({
+            where: { id: chapterId },
+            include: {
+                course: true,
+                progress: true,
             },
         });
 
-        if (hasAccess) return course.chapters;
+        if (!chapter) throw new NotFoundException('Глава не найдена');
 
-        return course.chapters.filter(chapter => chapter.isFree);
+        if (!chapter.isPublished && chapter.course.userId !== userId) {
+            throw new ForbiddenException('Глава не опубликована');
+        }
+
+        return chapter;
     }
 }

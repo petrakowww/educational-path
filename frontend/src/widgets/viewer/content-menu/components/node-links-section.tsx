@@ -10,7 +10,7 @@ import {
 	Globe,
 	GraduationCap,
 } from 'lucide-react';
-import { Badge } from '@/shared/ui';
+import { Badge, Separator } from '@/shared/ui';
 import { Link } from '@/features/node/editor/types/extended-node';
 import { TaskImportanceEnum } from '@/features/node/editor/types/importance';
 import { CategoriesEnum } from '@/features/node/editor/types/categories';
@@ -44,7 +44,8 @@ export const NodeLinksSection = ({ links }: NodeLinksSectionProps) => {
 	if (!links || links.length === 0) return null;
 	console.log(links);
 	return (
-		<div className="p-4">
+		<div>
+			<Separator />
 			<h4 className="font-semibold mb-2 text-sm text-muted-foreground">
 				Полезные ссылки
 			</h4>

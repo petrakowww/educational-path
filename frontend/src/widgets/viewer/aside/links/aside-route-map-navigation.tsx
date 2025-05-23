@@ -1,5 +1,4 @@
-'use client';
-
+import { AppRoutes } from '@/shared/config';
 import {
 	Button,
 	NavigationMenu,
@@ -10,10 +9,7 @@ import {
 	Separator,
 	NavigationMenuLink,
 } from '@/shared/ui';
-import {
-	MoreHorizontalIcon,
-	SquareArrowLeftIcon,
-} from 'lucide-react';
+import { MoreHorizontalIcon, SquareArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export interface NavigationLink {
@@ -22,9 +18,9 @@ export interface NavigationLink {
 }
 
 const pages: NavigationLink[] = [
-	{ label: 'Мой прогресс', href: '/my/progress' },
-	{ label: 'О маршруте', href: '/route/info' },
-	{ label: 'Обсуждения', href: '/route/discussions' },
+	{ label: 'Панель управления', href: AppRoutes.MapsPanel },
+	{ label: 'Дашбоард', href: AppRoutes.Home },
+	{ label: 'Профиль', href: AppRoutes.AccountProfile },
 ];
 
 export const AsideRouteMapNavigationWrapper = () => {
@@ -61,14 +57,13 @@ export const AsideRouteMapNavigation = ({
 						</NavigationMenuItem>
 					</NavigationMenuList>
 				</NavigationMenu>
-				<Link href="/routes/search" passHref>
-					<Button
-						variant="outline"
-						className="w-full text-sm justify-start"
-					>
-						<SquareArrowLeftIcon className="w-4 h-4 mr-2" />К курсам
-					</Button>
-				</Link>
+
+				<Button variant="outline" asChild className="w-full text-sm justify-start">
+					<Link href={AppRoutes.Maps}>
+						<SquareArrowLeftIcon className="w-4 h-4 mr-2" />
+						К курсам
+					</Link>
+				</Button>
 			</div>
 			<Separator />
 		</div>

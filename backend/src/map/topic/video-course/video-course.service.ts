@@ -2,6 +2,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 
 import { CreateVideoCourseInput } from './dto/create-course.input';
 import { UpdateVideoCourseInput } from './dto/update-coure.input';
+import { ReorderVideoChaptersInput } from './video-chapter/dto/reorder-chapter.input';
 import {
     ForbiddenException,
     Injectable,
@@ -74,7 +75,20 @@ export class VideoCourseService {
         const course = await this.prisma.videoCourse.findUnique({
             where: { id: courseId },
             include: {
-                chapters: { orderBy: { position: 'asc' } },
+                chapters: {
+                    orderBy: { position: 'asc' },
+                    include: {
+                        progress: {
+                            where: {
+                                userId: userId ?? '',
+                            },
+                        },
+                    },
+                },
+                Attachment: true,
+                UserVideoCourse: {
+                    where: { userId },
+                },
             },
         });
 
@@ -84,38 +98,6 @@ export class VideoCourseService {
         }
 
         return course;
-    }
-
-    async grantAccessToCourse(userId: string, videoCourseId: string) {
-        const course = await this.prisma.videoCourse.findUnique({
-            where: { id: videoCourseId },
-        });
-
-        if (!course) throw new NotFoundException('Курс не найден');
-        if (!course.isPublished)
-            throw new ForbiddenException('Курс не опубликован');
-
-        const exists = await this.prisma.courseAccess.findUnique({
-            where: {
-                userId_videoCourseId: {
-                    userId,
-                    videoCourseId,
-                },
-            },
-        });
-
-        if (exists) {
-            throw new ForbiddenException('Уже есть доступ к курсу');
-        }
-
-        return this.prisma.courseAccess.create({
-            data: {
-                userId,
-                videoCourseId,
-                isOwner: false,
-                purchasedAt: new Date(),
-            },
-        });
     }
 
     async findAllPublished() {
@@ -139,6 +121,53 @@ export class VideoCourseService {
             where: whereClause,
             include: {
                 chapters: { orderBy: { position: 'asc' } },
+            },
+        });
+    }
+
+    async reorderChapters(userId: string, input: ReorderVideoChaptersInput) {
+        const course = await this.prisma.videoCourse.findUnique({
+            where: { id: input.courseId },
+        });
+
+        if (!course) throw new NotFoundException('Курс не найден');
+        if (course.userId !== userId)
+            throw new ForbiddenException('Нет доступа');
+
+        const updatePromises = input.chapters.map(chapter =>
+            this.prisma.videoChapter.update({
+                where: { id: chapter.id },
+                data: { position: chapter.position },
+            }),
+        );
+        await Promise.all(updatePromises);
+        return true;
+    }
+
+    async startCourse(userId: string, courseId: string) {
+        const course = await this.prisma.videoCourse.findUnique({
+            where: { id: courseId },
+        });
+
+        if (!course || !course.isPublished) {
+            throw new NotFoundException('Курс не найден или не опубликован');
+        }
+
+        const existing = await this.prisma.userVideoCourse.findUnique({
+            where: {
+                userId_courseId: {
+                    userId,
+                    courseId,
+                },
+            },
+        });
+
+        if (existing) return existing;
+
+        return this.prisma.userVideoCourse.create({
+            data: {
+                userId,
+                courseId,
             },
         });
     }

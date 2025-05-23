@@ -19,7 +19,7 @@ export class AvatarStorageService {
     constructor() {
         this.avatarsDirectory = path.resolve(
             process.cwd(),
-            'src/public/avatars',
+            'public/avatars',
         );
         this.createAvatarsDirectory().catch(error => {
             console.error(
@@ -44,7 +44,7 @@ export class AvatarStorageService {
     }
 
     private getFullAvatarPath(filePath: string): string {
-        return path.join(process.cwd(), 'src', 'public', filePath);
+        return path.join(process.cwd(), 'public', filePath);
     }
 
     public async saveAvatar(
@@ -85,8 +85,6 @@ export class AvatarStorageService {
             const fullPath = this.getFullAvatarPath(currentAvatarPath);
             const exists = await this.checkIfFileExists(fullPath);
 
-            console.log(fullPath);
-
             if (exists) {
                 await this.deleteAvatar(currentAvatarPath);
             } else {
@@ -95,7 +93,6 @@ export class AvatarStorageService {
                 );
             }
         }
-        
         return await this.saveAvatar(imageBuffer, userId);
     }
 

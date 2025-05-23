@@ -1,3 +1,0 @@
-mutation GrantCourseAccess($id: ID!) {
-  grantCourseAccess(id: $id)
-}

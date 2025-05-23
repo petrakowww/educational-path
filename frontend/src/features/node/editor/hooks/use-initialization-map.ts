@@ -56,3 +56,4 @@ export const useInitializationEditorMap = () => {
 
 	return { loading, error, isReady: !skipQuery && isReady };
 };
+

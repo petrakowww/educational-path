@@ -7,48 +7,34 @@ import {
 	CardTitle,
 	Badge,
 	Button,
+	Skeleton,
 } from '@/shared/ui';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PlayIcon } from 'lucide-react';
-
-type MockVideoCourse = {
-	id: string;
-	title: string;
-	description?: string;
-	imageUrl?: string;
-	favoritesCount: number;
-	isPublished: boolean;
-};
-
-const mockVideoCourses: MockVideoCourse[] = [
-	{
-		id: 'v1',
-		title: 'TypeScript с нуля',
-		description: 'Погружение в строгую типизацию и работу с интерфейсами.',
-		imageUrl: 'https://placehold.co/400x200/green/white?text=TS',
-		favoritesCount: 112,
-		isPublished: true,
-	},
-	{
-		id: 'v2',
-		title: 'React + Hooks',
-		description: 'Современная разработка компонентов и состояние с hooks.',
-		imageUrl: 'https://placehold.co/400x200/blue/white?text=React',
-		favoritesCount: 94,
-		isPublished: true,
-	},
-	{
-		id: 'v3',
-		title: 'Алгоритмы: основы',
-		description: 'Разбор базовых алгоритмов и структур данных.',
-		imageUrl: 'https://placehold.co/400x200/orange/white?text=Algo',
-		favoritesCount: 78,
-		isPublished: true,
-	},
-];
+import { useGetPopularVideoCoursesExtendedQuery } from '@/shared/graphql/generated/output';
 
 export const PopularVideoCourses = () => {
+	const { data, loading } = useGetPopularVideoCoursesExtendedQuery();
+
+	if (loading) {
+		return (
+			<section className="space-y-6">
+				<h2 className="text-xl font-semibold flex items-center gap-2">
+					<PlayIcon className="w-5 h-5 text-primary" />
+					Популярные видеокурсы
+				</h2>
+				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+					{Array.from({ length: 3 }).map((_, idx) => (
+						<Skeleton key={idx} className="h-40 w-full" />
+					))}
+				</div>
+			</section>
+		);
+	}
+
+	const courses = data?.getPopularVideoCourses ?? [];
+
 	return (
 		<section className="space-y-6">
 			<div className="flex items-center justify-between">
@@ -61,13 +47,10 @@ export const PopularVideoCourses = () => {
 				</Button>
 			</div>
 
-			{mockVideoCourses.length > 0 ? (
+			{courses.length > 0 ? (
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-					{mockVideoCourses.map((course) => (
-						<Card
-							key={course.id}
-							className="overflow-hidden flex flex-col"
-						>
+					{courses.map((course) => (
+						<Card key={course.id} className="overflow-hidden flex flex-col">
 							{course.imageUrl && (
 								<Image
 									src={course.imageUrl}
@@ -87,12 +70,10 @@ export const PopularVideoCourses = () => {
 							</CardHeader>
 							<CardContent className="flex items-center justify-between border-t pt-2">
 								<Badge variant="outline">
-									❤ {course.favoritesCount} добавлений
+									❤ {course.UserVideoCourse?.length ?? 0} добавлений
 								</Badge>
 								<Button size="sm" asChild variant="secondary">
-									<Link href={`/courses/${course.id}`}>
-										Открыть
-									</Link>
+									<Link href={`/courses/${course.id}`}>Открыть</Link>
 								</Button>
 							</CardContent>
 						</Card>

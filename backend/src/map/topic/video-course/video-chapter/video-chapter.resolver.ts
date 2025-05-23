@@ -5,7 +5,7 @@ import { ChapterProgress } from './chapter-progress/model/chapter-progress.model
 import { CreateVideoChapterInput } from './dto/create-chapter.input';
 import { UpdateVideoChapterInput } from './dto/update-chapter.input';
 import { VideoChapter } from './model/video-chapter.model';
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { User } from '@prisma/__generated__';
 
 import { VideoChapterService } from './video-chapter.service';
@@ -14,6 +14,16 @@ import { VideoChapterService } from './video-chapter.service';
 export class VideoChapterResolver {
     constructor(private readonly chapterService: VideoChapterService) {}
 
+    @Authorization()
+    @Query(() => VideoChapter, { nullable: true })
+    async videoChapter(
+        @Args('id', { type: () => ID }) id: string,
+        @CurrentUser() user: User,
+    ) {
+        return this.chapterService.getChapterById(user.id, id);
+    }
+
+    @Authorization()
     @Query(() => [VideoChapter])
     async availableChapters(
         @Args('courseId', { type: () => ID }) courseId: string,

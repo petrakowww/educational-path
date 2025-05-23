@@ -1,0 +1,10 @@
+mutation CreateAttachment($input: CreateAttachmentInput!) {
+  createAttachment(input: $input) {
+    id
+    name
+    url
+    courseId
+    createdAt
+    updatedAt
+  }
+}

@@ -1,0 +1,7 @@
+mutation updateChapterVideo($input: UpdateChapterVideoInput!) {
+  updateChapterVideo(input: $input) {
+    id
+    videoUrl
+    updatedAt
+  }
+}

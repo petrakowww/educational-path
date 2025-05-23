@@ -1,0 +1,16 @@
+query GetPopularRoutesExtended {
+  getPopularRoutes {
+    id
+    title
+    description
+    createdAt
+    isVerified
+    tags {
+      tag {
+        id
+        name
+      }
+    }
+    topicCount
+  }
+}

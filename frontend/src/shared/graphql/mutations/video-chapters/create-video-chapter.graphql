@@ -4,7 +4,6 @@ mutation CreateVideoChapter($input: CreateVideoChapterInput!) {
     title
     description
     videoUrl
-    isFree
     isPublished
     position
   }

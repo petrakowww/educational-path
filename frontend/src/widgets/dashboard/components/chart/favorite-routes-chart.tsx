@@ -2,48 +2,54 @@
 
 import {
 	Card,
-	CardContent,
 	CardHeader,
 	CardTitle,
+	CardContent,
 	Separator,
 } from '@/shared/ui';
 import {
+	ResponsiveContainer,
 	BarChart,
-	Bar,
+	CartesianGrid,
 	XAxis,
 	YAxis,
-	CartesianGrid,
 	Tooltip,
-	ResponsiveContainer,
+	Bar,
 } from 'recharts';
+import { useGetFavoriteRoutesQuery } from '@/shared/graphql/generated/output';
+import { useAuth } from '@/app/providers/auth/auth-provider';
 
-const mockFavoritesData = [
-	{ name: 'Фронтенд', favorites: 12 },
-	{ name: 'React', favorites: 18 },
-	{ name: 'Алгоритмы', favorites: 9 },
-	{ name: 'SQL', favorites: 7 },
-];
+export const FavoriteRoutesChart = () => {
+	const { isAuthenticated } = useAuth();
+	const { data, loading } = useGetFavoriteRoutesQuery({
+		skip: !isAuthenticated,
+	});
 
-export const FavoriteRoutesChart = () => (
-	<Card>
-		<CardHeader>
-			<CardTitle className="text-base">Избранные маршруты</CardTitle>
-			<Separator />
-		</CardHeader>
-		<CardContent>
-			<ResponsiveContainer width="100%" height={250}>
-				<BarChart data={mockFavoritesData}>
-					<CartesianGrid strokeDasharray="3 3" />
-					<XAxis dataKey="name" />
-					<YAxis allowDecimals={false} />
-					<Tooltip />
-					<Bar
-						dataKey="favorites"
-						fill="#22c55e"
-						radius={[4, 4, 0, 0]}
-					/>
-				</BarChart>
-			</ResponsiveContainer>
-		</CardContent>
-	</Card>
-);
+	if (!isAuthenticated || loading || !data?.getFavoriteRoutes?.length) return null;
+
+	const chartData = data.getFavoriteRoutes.map((route) => ({
+		name: route.name,
+		favorites: route.favorites,
+	}));
+
+
+	return (
+		<Card>
+			<CardHeader>
+				<CardTitle className="text-base">Избранные маршруты</CardTitle>
+				<Separator />
+			</CardHeader>
+			<CardContent>
+				<ResponsiveContainer width="100%" height={250}>
+					<BarChart data={chartData}>
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis dataKey="name" />
+						<YAxis allowDecimals={false} />
+						<Tooltip />
+						<Bar dataKey="favorites" fill="#22c55e" radius={[4, 4, 0, 0]} />
+					</BarChart>
+				</ResponsiveContainer>
+			</CardContent>
+		</Card>
+	);
+};

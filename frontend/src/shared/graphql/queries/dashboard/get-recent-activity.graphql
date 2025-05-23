@@ -1,0 +1,12 @@
+query GetRecentActivity {
+  getRecentActivity {
+    recentRoutes {
+      id
+      title
+    }
+    recentVideoCourses {
+      id
+      title
+    }
+  }
+}

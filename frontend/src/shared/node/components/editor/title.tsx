@@ -12,9 +12,7 @@ export const TitleNode = (props: NodeProps<NodeMain>) => {
 			<EditableNode nodeProps={props} canResize={false}>
 				<p
 					className="leading-none whitespace-normal text-nowrap text-center p-3 flex-shrink-0"
-					style={{
-						fontSize: data.meta.fontProps?.fontSize,
-					}}
+					style={{ fontSize: data.meta.fontProps?.fontSize,}}
 				>
 					{data.title}
 				</p>

@@ -32,6 +32,7 @@ export const ChangeProfileAvatar = (props: ChangeProfileAvatarProps) => {
 
 	useEffect(() => {
 		if (avatar) {
+			console.log(staticResources.getAvatarUrl(avatar));
 			setAvatarPreview(staticResources.getAvatarUrl(avatar));
 		}
 	}, [avatar, setAvatarPreview]);

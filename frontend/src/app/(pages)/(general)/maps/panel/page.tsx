@@ -66,6 +66,7 @@ export default function Page() {
 								privateType={route.privateType}
 								createdAt={route.createdAt}
 								updatedAt={route.updatedAt}
+								topicCount={route.topicCount}
 							/>
 						)) ?? (
 							<Card>

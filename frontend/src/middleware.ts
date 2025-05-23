@@ -6,6 +6,6 @@ export default function middleware(request: NextRequest, response: NextResponse)
 }
 
 export const config = {
-	matcher: ['/auth/:path*', '/account/:path*', '/editor/:path*'],
+	matcher: ['/auth/:path*', '/account/:path*', '/editor/:path*', '/courses/:path*'],
 	exclude: ['/auth/new-verification/:path*'],
 };

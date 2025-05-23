@@ -54,7 +54,6 @@ export class MailService {
             html,
         });
     }
-
     private async getTemplateByType(type: TokenType, token: string, email: string): Promise<string> {
         switch (type) {
             case TokenType.TWO_FACTOR:
@@ -65,7 +64,6 @@ export class MailService {
                 throw new Error(`Неизвестный тип токена: ${type}`);
         }
     }
-
     private getSubjectByType(type: TokenType): string {
         switch (type) {
             case TokenType.TWO_FACTOR:

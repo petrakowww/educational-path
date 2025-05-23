@@ -16,4 +16,7 @@ export class UpdateVideoCourseInput {
 
   @Field({ nullable: true })
   isPublished?: boolean;
+
+  @Field({ nullable: true })
+  price?: number;
 }

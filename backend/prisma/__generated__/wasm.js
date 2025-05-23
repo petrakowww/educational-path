@@ -264,7 +264,6 @@ exports.Prisma.VideoChapterScalarFieldEnum = {
   videoUrl: 'videoUrl',
   position: 'position',
   isPublished: 'isPublished',
-  isFree: 'isFree',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -278,12 +277,11 @@ exports.Prisma.ChapterProgressScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.CourseAccessScalarFieldEnum = {
+exports.Prisma.UserVideoCourseScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  videoCourseId: 'videoCourseId',
-  isOwner: 'isOwner',
-  purchasedAt: 'purchasedAt'
+  courseId: 'courseId',
+  startedAt: 'startedAt'
 };
 
 exports.Prisma.FavoriteRouteScalarFieldEnum = {
@@ -291,6 +289,15 @@ exports.Prisma.FavoriteRouteScalarFieldEnum = {
   userId: 'userId',
   routeId: 'routeId',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.AttachmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  courseId: 'courseId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -398,8 +405,9 @@ exports.Prisma.ModelName = {
   VideoCourse: 'VideoCourse',
   VideoChapter: 'VideoChapter',
   ChapterProgress: 'ChapterProgress',
-  CourseAccess: 'CourseAccess',
-  FavoriteRoute: 'FavoriteRoute'
+  UserVideoCourse: 'UserVideoCourse',
+  FavoriteRoute: 'FavoriteRoute',
+  Attachment: 'Attachment'
 };
 
 /**

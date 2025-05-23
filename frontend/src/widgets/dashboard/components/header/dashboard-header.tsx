@@ -3,20 +3,22 @@
 import { Button } from '@/shared/ui';
 import { GraduationCap, LogInIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/app/providers/auth/auth-provider';
+import { useFindProfileQuery } from '@/shared/graphql/generated/output';
 
-interface DashboardHeaderProps {
-	isAuthenticated: boolean;
-	name?: string;
-}
+export const DashboardHeader = () => {
+	const { isAuthenticated } = useAuth();
+	const { data } = useFindProfileQuery({ skip: !isAuthenticated });
 
-export const DashboardHeader = ({ isAuthenticated, name }: DashboardHeaderProps) => {
+	const userName = data?.findProfile?.name ?? 'пользователь';
+
 	return (
 		<div className="rounded-lg border bg-background p-6 shadow-sm space-y-3">
 			<div className="flex items-center gap-3">
 				<GraduationCap className="w-6 h-6 text-primary" />
 				<h1 className="text-2xl font-bold tracking-tight">
 					{isAuthenticated
-						? `Добро пожаловать, ${name || 'пользователь'}`
+						? `Добро пожаловать, ${userName}`
 						: 'Добро пожаловать на образовательную платформу'}
 				</h1>
 			</div>

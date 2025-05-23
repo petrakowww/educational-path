@@ -1,0 +1,17 @@
+query GetVideoChapter($id: ID!) {
+	videoChapter(id: $id) {
+		id
+		courseId
+		title
+		description
+		videoUrl
+		position
+		isPublished
+		createdAt
+		updatedAt
+		userProgress {
+			userId
+			isCompleted
+		}
+	}
+}

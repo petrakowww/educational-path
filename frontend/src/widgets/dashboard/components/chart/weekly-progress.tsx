@@ -1,59 +1,64 @@
 'use client';
 
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Separator,
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+	Separator,
 } from '@/shared/ui';
-
 import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
+	ResponsiveContainer,
+	LineChart,
+	Line,
+	XAxis,
+	YAxis,
+	Tooltip,
+	CartesianGrid,
 } from 'recharts';
+import { useGetWeeklyProgressQuery } from '@/shared/graphql/generated/output';
+import { useAuth } from '@/app/providers/auth/auth-provider';
 
-const mockProgressData = [
-  { date: 'Пн', выполнено: 2 },
-  { date: 'Вт', выполнено: 5 },
-  { date: 'Ср', выполнено: 3 },
-  { date: 'Чт', выполнено: 6 },
-  { date: 'Пт', выполнено: 4 },
-  { date: 'Сб', выполнено: 1 },
-  { date: 'Вс', выполнено: 0 },
-];
+export const WeeklyProgressChart = () => {
+	const { isAuthenticated } = useAuth();
+	const { data, loading } = useGetWeeklyProgressQuery({
+		skip: !isAuthenticated,
+	});
 
-export const WeeklyProgressChart = () => (
-  <Card>
-    <CardHeader>
-      <CardTitle className="text-base">Прогресс за неделю</CardTitle>
-      <Separator />
-    </CardHeader>
-    <CardContent>
-      <ResponsiveContainer width="100%" height={250}>
-        <LineChart data={mockProgressData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis allowDecimals={false} />
-          <Tooltip
-            formatter={(value: number) => [`${value}`, 'Выполнено']}
-            labelClassName="text-muted-foreground"
-          />
-          <Line
-            type="monotone"
-            dataKey="выполнено"
-            stroke="#22c55e"
-            strokeWidth={2}
-            dot={{ r: 4 }}
-            activeDot={{ r: 6 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </CardContent>
-  </Card>
-);
+	if (!isAuthenticated || loading || !data?.getWeeklyProgress) return null;
+
+  console.log(data);
+	const chartData = data.getWeeklyProgress.map((entry) => ({
+		date: entry.date,
+		completed: entry.count,
+	}));
+
+	return (
+		<Card>
+			<CardHeader>
+				<CardTitle className="text-base">Прогресс за неделю</CardTitle>
+				<Separator />
+			</CardHeader>
+			<CardContent>
+				<ResponsiveContainer width="100%" height={250}>
+					<LineChart data={chartData}>
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis dataKey="date" />
+						<YAxis allowDecimals={false} />
+						<Tooltip
+							labelClassName="text-muted-foreground"
+						/>
+						<Line
+							type="monotone"
+							dataKey="completed"
+							stroke="#22c55e"
+							strokeWidth={2}
+							dot={{ r: 4 }}
+							activeDot={{ r: 6 }}
+						/>
+					</LineChart>
+				</ResponsiveContainer>
+			</CardContent>
+		</Card>
+	);
+};

@@ -3,10 +3,8 @@ import { buildLinearTree } from './utils/build-tree';
 import { GetPreviewCourseInfoQuery } from '@/shared/graphql/generated/output';
 import { LinearNodeFactory } from './components/linear-factory';
 import { useInitializeViewMap } from '@/features/node/viewer/hooks/use-initialization-view-map';
-import { useViewerStore } from '@/shared/managers/store/viewer/view.store';
 import { useNodeViewerStore } from '@/shared/managers/store/viewer/node-viewer.store';
 import { useEdgeViewerStore } from '@/shared/managers/store/viewer/edge-viewer.store';
-import { shallow } from 'zustand/shallow';
 
 interface LinearViewViewerProps {
 	nodes?: GetPreviewCourseInfoQuery['getUserTopicMap']['nodes'];
@@ -28,7 +26,7 @@ export const LinearViewViewer = ({
 		initialProgress: course?.progress ?? [],
 	});
 
-	const { isReady } = useInitializeViewMap({
+	useInitializeViewMap({
 		nodes,
 		edges,
 		visibleNodeIds,
@@ -36,12 +34,12 @@ export const LinearViewViewer = ({
 
 	const { nodesStore } = useNodeViewerStore(
 		(state) => ({ nodesStore: state.nodes }),
-        (a, b) => (a.nodesStore.length === b.nodesStore.length)
+		(a, b) => a.nodesStore.length === b.nodesStore.length
 	);
 
 	const { edgesStore } = useEdgeViewerStore(
 		(state) => ({ edgesStore: state.edges }),
-		(a, b) => (a.edgesStore.length === b.edgesStore.length)
+		(a, b) => a.edgesStore.length === b.edgesStore.length
 	);
 
 	const tree = buildLinearTree(nodesStore, edgesStore);

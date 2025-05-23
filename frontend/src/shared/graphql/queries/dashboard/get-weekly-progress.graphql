@@ -1,0 +1,9 @@
+query GetWeeklyProgress {
+  getWeeklyProgress {
+    date
+    count
+  }
+}
+
+
+

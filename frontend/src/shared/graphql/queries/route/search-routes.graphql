@@ -1,0 +1,48 @@
+query SearchRoutes($filters: SearchRoutesInput!) {
+	searchRoutes(filters: $filters) {
+		routes {
+			id
+			title
+			description
+			createdAt
+			updatedAt
+			privateType
+			isVerified
+			topicCount
+
+			user {
+				id
+				name
+				avatar
+			}
+
+			tags {
+				id
+				tag {
+					id
+					name
+				}
+			}
+
+			topicMap {
+				id
+				nodes {
+					id
+					type
+					videoCourses {
+						id
+						title
+						description
+						isPublished
+						createdAt
+						updatedAt
+					}
+				}
+			}
+		}
+
+		total
+		totalPages
+		currentPage
+	}
+}

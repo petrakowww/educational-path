@@ -22,6 +22,7 @@ import {
 import { shallow } from 'zustand/shallow';
 import { ProgressSlider } from './components/progress-slider';
 import { NodeLinksSection } from './components/node-links-section';
+import { NodeVideoCoursesSection } from './components/node-video-course';
 
 export const ViewerDrawer = () => {
 	const { isSidebarOpen, toggleSidebar } = useViewerStore(
@@ -46,13 +47,11 @@ export const ViewerDrawer = () => {
 		[nodes, selectedNodeId]
 	);
 	const nodeId = node?.id;
-	const {
-		data: progressData,
-		loading: progressLoading,
-	} = useGetUserTopicProgressQuery({
-		variables: { topicNodeId: nodeId ?? '' },
-		skip: !nodeId,
-	});
+	const { data: progressData, loading: progressLoading } =
+		useGetUserTopicProgressQuery({
+			variables: { topicNodeId: nodeId ?? '' },
+			skip: !nodeId,
+		});
 
 	const progressValue = progressData?.getUserTopicProgress.progressValue ?? 0;
 	const currentStatus = progressData?.getUserTopicProgress.status;
@@ -147,7 +146,12 @@ export const ViewerDrawer = () => {
 					{content && <ViewerEditor content={content} />}
 				</DrawerHeader>
 
-				<NodeLinksSection links={links} />
+				<div className="p-4 flex flex-col gap-4">
+					
+					<NodeVideoCoursesSection topicNodeId={node.id} />
+					
+					<NodeLinksSection links={links} />
+				</div>
 			</DrawerContent>
 		</Drawer>
 	);

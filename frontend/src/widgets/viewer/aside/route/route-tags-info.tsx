@@ -2,11 +2,6 @@
 
 import {
 	Badge,
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-	Separator,
 } from '@/shared/ui';
 
 interface RouteTagsDetailsProps {

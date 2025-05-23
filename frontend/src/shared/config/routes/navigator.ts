@@ -1,6 +1,4 @@
 import { slugify } from '@/shared/lib/utils/slugify';
-import { useRouter } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export class Navigator {
 	constructor() {}

@@ -192,6 +192,11 @@ export class TopicMapService {
                     include: {
                         user: true,
                         topicMap: true,
+                        tags: {
+                            include: {
+                                tag: true
+                            }
+                        }
                     },
                 },
                 UserCourse: {

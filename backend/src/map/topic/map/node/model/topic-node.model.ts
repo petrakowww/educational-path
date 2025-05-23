@@ -5,6 +5,7 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { NodeType } from '@prisma/__generated__';
 import { IsEnum } from 'class-validator';
 import { ChecklistItem } from '../../user/checklist/model/checklist-model';
+import { VideoCourse } from '@/map/topic/video-course/model/video-course.model';
 
 @ObjectType()
 export class TopicNode {
@@ -42,4 +43,7 @@ export class TopicNode {
 
     @Field(() => [ChecklistItem])
     checklist: ChecklistItem[];
+
+    @Field(() => [VideoCourse], { nullable: true })
+	videoCourses: VideoCourse[];
 }

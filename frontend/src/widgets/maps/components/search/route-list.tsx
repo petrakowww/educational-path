@@ -10,80 +10,54 @@ import {
 	PaginationLink,
 } from '@/shared/ui';
 import { RouteCard } from './route-card';
+import { useSearchRoutesQuery } from '@/shared/graphql/generated/output';
 
-function RouteList() {
-	// Extract route data and filter states from the store
-	const routes = useRouteStore((state) => state.routes);
-	const selectedTags = useRouteStore((state) => state.selectedTags);
-	const verifiedOnly = useRouteStore((state) => state.verifiedOnly);
-	const searchQuery = useRouteStore((state) => state.searchQuery);
-	const routeType = useRouteStore((state) => state.routeType);
-	const hasVideo = useRouteStore((state) => state.hasVideo);
-	const dateRange = useRouteStore((state) => state.dateRange);
-	const topicCountRange = useRouteStore((state) => state.topicCountRange);
-	const sortBy = useRouteStore((state) => state.sortBy);
-	const layout = useRouteStore((state) => state.layout);
-	const page = useRouteStore((state) => state.page);
-	const pageSize = useRouteStore((state) => state.pageSize);
-	const setPage = useRouteStore((state) => state.setPage);
+export const RouteList = () => {
+	const {
+		selectedTags,
+		verifiedOnly,
+		searchQuery,
+		routeType,
+		hasVideo,
+		dateRange,
+		topicCountRange,
+		sortBy,
+		layout,
+		page,
+		pageSize,
+		setPage,
+	} = useRouteStore();
 
-	// 1. Apply all filters to the routes list
-	const filtered = routes.filter((route) => {
-		// Search filter (match in title or author)
-		const query = searchQuery.toLowerCase();
-		if (
-			query &&
-			!route.title.toLowerCase().includes(query) &&
-			!route.author.toLowerCase().includes(query)
-		) {
-			return false;
-		}
-		// Verified-only filter
-		if (verifiedOnly && !route.isVerified) return false;
-		// Route type filter
-		if (routeType !== 'ALL' && route.type !== routeType) return false;
-		// Has video filter
-		if (hasVideo && !route.hasVideo) return false;
-		// Tags filter (AND logic: route must contain all selected tags)
-		if (
-			selectedTags.length > 0 &&
-			!selectedTags.every((tag) => route.tags.includes(tag))
-		) {
-			return false;
-		}
-		// Date range filter
-		if (dateRange.start && route.createdAt < dateRange.start) return false;
-		if (dateRange.end && route.createdAt > dateRange.end) return false;
-		// Topic count range filter
-		if (
-			route.topicsCount < topicCountRange[0] ||
-			route.topicsCount > topicCountRange[1]
-		) {
-			return false;
-		}
-		return true; // route passed all filters
+	const { data, loading } = useSearchRoutesQuery({
+		variables: {
+			filters: {
+				search: searchQuery,
+				tags: selectedTags,
+				verifiedOnly,
+				type: routeType,
+				hasVideo,
+				dateStart: dateRange.start ?? undefined,
+				dateEnd: dateRange.end ?? undefined,
+				topicCountRange,
+				sortBy,
+				page,
+				pageSize,
+			},
+		},
+		fetchPolicy: 'cache-and-network',
 	});
 
-	// 2. Sort the filtered results
-	if (sortBy === 'recency') {
-		filtered.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-	} else if (sortBy === 'popularity') {
-		filtered.sort((a, b) => b.popularity - a.popularity);
+	const routes = data?.searchRoutes.routes ?? [];
+	const totalPages = data?.searchRoutes.totalPages ?? 1;
+	const currentPage = data?.searchRoutes.currentPage ?? 1;
+
+	if (loading && routes.length === 0) {
+		return <p className="text-sm text-muted-foreground">Загрузка...</p>;
 	}
 
-	// 3. Pagination setup
-	const totalPages = Math.ceil(filtered.length / pageSize);
-	if (page > totalPages) {
-		// If current page is out of range (e.g., filters reduced results), reset to last page
-		setPage(totalPages || 1);
-	}
-	const startIndex = (page - 1) * pageSize;
-	const pageItems = filtered.slice(startIndex, startIndex + pageSize);
-
-	// 4. Render the list of RouteCards and pagination controls
 	return (
 		<div>
-			{/* Route cards list */}
+			{/* Cards */}
 			<div
 				className={
 					layout === 'grid'
@@ -91,53 +65,64 @@ function RouteList() {
 						: 'flex flex-col space-y-4'
 				}
 			>
-				{pageItems.map((route) => (
-					<RouteCard key={route.id} route={route} layout={layout} />
-				))}
-				{pageItems.length === 0 && (
+				{routes.length > 0 ? (
+					routes.map((route) => (
+						<RouteCard key={route.id} route={route} layout={layout} />
+					))
+				) : (
 					<p className="text-sm text-muted-foreground">
-						No routes found matching your criteria.
+						Маршруты, соответствующие заданным фильтрам, не найдены.
 					</p>
 				)}
 			</div>
 
-			{/* Pagination controls */}
-			<div className="flex items-center justify-center mt-6 space-x-2">
-				<Pagination>
-					<PaginationContent>
-						<PaginationItem>
-							<PaginationPrevious
-								href="#"
-								onClick={() => setPage(page - 1)}
-								disabled={page <= 1}
-							/>
-						</PaginationItem>
-						{Array.from(
-							{ length: totalPages },
-							(_, i) => i + 1
-						).map((p) => (
-							<PaginationItem key={p}>
-								<PaginationLink
+			{/* Pagination */}
+			{totalPages > 1 && (
+				<div className="flex items-center justify-center mt-6 space-x-2">
+					<Pagination>
+						<PaginationContent>
+							<PaginationItem>
+								<PaginationPrevious
 									href="#"
-									onClick={() => setPage(p)}
-									active={p === page}
-								>
-									{p}
-								</PaginationLink>
+									onClick={(e) => {
+										e.preventDefault();
+										if (currentPage > 1) setPage(currentPage - 1);
+									}}
+									aria-disabled={currentPage <= 1}
+									className={currentPage <= 1 ? 'pointer-events-none opacity-50' : ''}
+								/>
 							</PaginationItem>
-						))}
-						<PaginationItem>
-							<PaginationNext
-								href="#"
-								onClick={() => setPage(page + 1)}
-								disabled={page >= totalPages}
-							/>
-						</PaginationItem>
-					</PaginationContent>
-				</Pagination>
-			</div>
+
+							{Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+								<PaginationItem key={p}>
+									<PaginationLink
+										href="#"
+										onClick={(e) => {
+											e.preventDefault();
+											setPage(p);
+										}}
+										isActive={p === currentPage}
+									>
+										{p}
+									</PaginationLink>
+								</PaginationItem>
+							))}
+
+							<PaginationItem>
+								<PaginationNext
+									href="#"
+									onClick={(e) => {
+										e.preventDefault();
+										if (currentPage < totalPages) setPage(currentPage + 1);
+									}}
+									aria-disabled={currentPage >= totalPages}
+									className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : ''}
+								/>
+							</PaginationItem>
+						</PaginationContent>
+					</Pagination>
+				</div>
+			)}
 		</div>
 	);
-}
-
-export default RouteList;
+};

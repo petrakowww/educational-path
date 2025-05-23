@@ -52,6 +52,7 @@ export class AxiosClient {
 
 			return data;
 		} catch (error) {
+			console.log(error);
 			throw new Error(this.handleError(error as AxiosError));
 		}
 	}

@@ -1,0 +1,6 @@
+query GetPopularVideoCourses {
+  getPopularVideoCourses {
+    id
+    title
+  }
+}

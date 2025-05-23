@@ -11,8 +11,24 @@ query GetVideoCourse($id: ID!) {
     chapters {
       id
       title
-      position
+      description
+      videoUrl
       isPublished
+      position
+      progress {
+        isCompleted
+        userId
+      }
+    }
+    Attachment {
+      id
+      name
+      url
+      courseId
+    }
+    UserVideoCourse {
+      id
+      userId
     }
   }
 }

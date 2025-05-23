@@ -16,7 +16,4 @@ export class CreateVideoChapterInput {
 
   @Field(() => Int, { nullable: true })
   position?: number;
-
-  @Field({ nullable: true })
-  isFree?: boolean;
 }

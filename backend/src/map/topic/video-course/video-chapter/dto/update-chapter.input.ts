@@ -18,8 +18,5 @@ export class UpdateVideoChapterInput {
   position?: number;
 
   @Field({ nullable: true })
-  isFree?: boolean;
-
-  @Field({ nullable: true })
   isPublished?: boolean;
 }

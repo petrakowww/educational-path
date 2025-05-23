@@ -1,13 +1,16 @@
 import { Authorization } from '@/auth/decorators/auth.decorator';
 import { CurrentUser } from '@/auth/decorators/user.decorator';
+import { OptionalAuthGuard } from '@/auth/guard/auth.guard';
 
 import { CreateVideoCourseInput } from './dto/create-course.input';
 import { UpdateVideoCourseInput } from './dto/update-coure.input';
 import { VideoCourse } from './model/video-course.model';
+import { UserVideoCourse } from './user-video-course/model/user-video-course.model';
+import { ReorderVideoChaptersInput } from './video-chapter/dto/reorder-chapter.input';
+import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { User } from '@prisma/__generated__';
-import { UseGuards } from '@nestjs/common';
-import { AuthGuard, OptionalAuthGuard } from '@/auth/guard/auth.guard';
+
 import { VideoCourseService } from './video-course.service';
 
 @Resolver(() => VideoCourse)
@@ -19,6 +22,7 @@ export class VideoCourseResolver {
         return this.courseService.findAllPublished();
     }
 
+    @Authorization()
     @Query(() => VideoCourse)
     async videoCourse(
         @Args('id', { type: () => ID }) id: string,
@@ -78,11 +82,20 @@ export class VideoCourseResolver {
 
     @Authorization()
     @Mutation(() => Boolean)
-    async grantCourseAccess(
+    async reorderVideoChapters(
+        @Args('input') input: ReorderVideoChaptersInput,
+        @CurrentUser() user: User,
+    ) {
+        await this.courseService.reorderChapters(user.id, input);
+        return true;
+    }
+
+    @Authorization()
+    @Mutation(() => UserVideoCourse)
+    async startCourse(
         @Args('id', { type: () => ID }) id: string,
         @CurrentUser() user: User,
     ) {
-        await this.courseService.grantAccessToCourse(user.id, id);
-        return true;
+        return this.courseService.startCourse(user.id, id);
     }
 }

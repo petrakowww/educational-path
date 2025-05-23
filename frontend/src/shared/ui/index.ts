@@ -63,3 +63,7 @@ export * from './slider/slider';
 export * from './chart/chart';
 
 export * from './pagination/pagination';
+
+export * from './calendar/calendar';
+
+export * from './alert/alert';

@@ -22,18 +22,23 @@ type RouteTags = {
 		| {
 				__typename?: 'RouteTagModel';
 				id: string;
-				tag: {
-					__typename?: 'TagModel';
-					id: string;
-					name: string;
-				};
+				tag?:
+					| {
+							__typename?: 'TagModel';
+							id: string;
+							name: string;
+					  }
+					| null
+					| undefined;
 		  }[]
 		| null
 		| undefined;
 };
 
-interface IRouteInformationCard extends Omit<Route, 'tags' | 'user' | 'isVerified'> {
+interface IRouteInformationCard
+	extends Omit<Route, 'tags' | 'user' | 'isVerified' | 'topicCount'> {
 	routeTags?: RouteTags['tags'];
+	topicCount?: number;
 }
 
 export const InformationAboutMap = (props: IRouteInformationCard) => {
@@ -45,6 +50,7 @@ export const InformationAboutMap = (props: IRouteInformationCard) => {
 		privateType,
 		createdAt,
 		updatedAt,
+		topicCount,
 	} = props;
 
 	return (
@@ -54,7 +60,7 @@ export const InformationAboutMap = (props: IRouteInformationCard) => {
 					<div className="flex flex-col">
 						<span className="break-all mb-2">{title}</span>
 						<div className="mb-2 text-sm text-secondary-foreground flex flex-row gap-2 items-center flex-shrink-0">
-							<span>{0} тем</span>
+							<span>{topicCount} тем</span>
 							<MicroscopeIcon size={20} />
 						</div>
 						<span className="text-sm text-secondary-foreground font-normal">
@@ -65,11 +71,13 @@ export const InformationAboutMap = (props: IRouteInformationCard) => {
 						</span>
 					</div>
 					<div className="flex gap-2 flex-wrap self-start">
-						{routeTags?.map((routeTag) => (
-							<Badge key={routeTag.tag.id} variant="outline">
-								{routeTag.tag.name}
-							</Badge>
-						))}
+						{routeTags?.map((routeTag) =>
+							routeTag.tag ? (
+								<Badge key={routeTag.tag.id} variant="outline">
+									{routeTag.tag.name}
+								</Badge>
+							) : null
+						)}
 					</div>
 				</CardTitle>
 				<CardDescription className="flex flex-row gap-2">
@@ -78,7 +86,7 @@ export const InformationAboutMap = (props: IRouteInformationCard) => {
 			</CardHeader>
 			<CardContent>
 				<div className="flex flex-row gap-4 justify-between flex-wrap">
-					<div className='flex-1'>
+					<div className="flex-1">
 						<RouteAccessSelect
 							routeId={id}
 							initialAccess={privateType}
@@ -90,7 +98,7 @@ export const InformationAboutMap = (props: IRouteInformationCard) => {
 							routeId={id}
 							initialData={{
 								title,
-								tagIds: routeTags?.map((tag) => tag.tag.id),
+								tagIds: routeTags?.map((tag) => tag?.tag?.id ?? ''),
 								description,
 							}}
 						/>

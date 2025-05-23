@@ -45,13 +45,10 @@ export const useInitializeViewMap = (props: IInitializationViewMap) => {
 
 		if (!shouldUpdate) return;
 
-		// Сохраняем текущие значения
 		prevNodes.current = nodes;
 		prevEdges.current = edges;
 		prevVisibleCount.current = visibleCount;
 		prevMode.current = courseMode;
-
-		console.log('Обновление карты в useInitializeViewMap');
 
 		const enhance = (node: Node): Node => {
 			const nodeId = String(node.id);

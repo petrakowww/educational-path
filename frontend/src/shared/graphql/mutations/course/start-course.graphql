@@ -1,11 +1,8 @@
-mutation startCourse($courseDto: StartCourseInput!) {
-  startCourse(input: $courseDto) {
+mutation StartCourse($id: ID!) {
+  startCourse(id: $id) {
     id
     userId
-    topicMapId
-    createdAt
-    updatedAt
-    view
-    mode
+    courseId
+    startedAt
   }
 }

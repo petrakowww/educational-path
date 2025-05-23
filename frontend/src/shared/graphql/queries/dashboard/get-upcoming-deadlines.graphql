@@ -1,0 +1,7 @@
+query GetUpcomingDeadlines {
+  getUpcomingDeadlines {
+    id
+    title
+    deadline
+  }
+}

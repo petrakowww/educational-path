@@ -1,0 +1,7 @@
+mutation updateCourseImage($input: UpdateImageInput!) {
+  updateCourseImage(input: $input) {
+    id
+    imageUrl
+    updatedAt
+  }
+}

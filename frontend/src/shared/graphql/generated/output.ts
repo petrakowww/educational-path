@@ -31,6 +31,17 @@ export type AccountModel = {
   user: UserModel;
 };
 
+export type Attachment = {
+  __typename?: 'Attachment';
+  course: VideoCourse;
+  courseId: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  url: Scalars['String']['output'];
+};
+
 export enum AuthMethod {
   Credentials = 'CREDENTIALS',
   Github = 'GITHUB',
@@ -67,15 +78,6 @@ export type ChecklistItemWithProgress = {
   text: Scalars['String']['output'];
 };
 
-export type CourseAccess = {
-  __typename?: 'CourseAccess';
-  id: Scalars['ID']['output'];
-  isOwner: Scalars['Boolean']['output'];
-  purchasedAt: Scalars['DateTime']['output'];
-  userId: Scalars['String']['output'];
-  videoCourseId: Scalars['String']['output'];
-};
-
 export enum CourseModeType {
   Flexible = 'FLEXIBLE',
   Strict = 'STRICT'
@@ -95,6 +97,12 @@ export enum CourseViewType {
   Linear = 'LINEAR'
 }
 
+export type CreateAttachmentInput = {
+  courseId: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  url: Scalars['String']['input'];
+};
+
 export type CreateRouteDto = {
   description?: InputMaybe<Scalars['String']['input']>;
   tagIds?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -104,7 +112,6 @@ export type CreateRouteDto = {
 export type CreateVideoChapterInput = {
   courseId: Scalars['ID']['input'];
   description?: InputMaybe<Scalars['String']['input']>;
-  isFree?: InputMaybe<Scalars['Boolean']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
   videoUrl?: InputMaybe<Scalars['String']['input']>;
@@ -117,27 +124,43 @@ export type CreateVideoCourseInput = {
   topicNodeId: Scalars['ID']['input'];
 };
 
+export type FavoriteRouteItem = {
+  __typename?: 'FavoriteRouteItem';
+  favorites: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type GoalStat = {
+  __typename?: 'GoalStat';
+  target: Scalars['Float']['output'];
+  value: Scalars['Float']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   completeChapter: ChapterProgress;
+  createAttachment: Attachment;
   createRoute: Route;
   createVideoChapter: VideoChapter;
   createVideoCourse: VideoCourse;
+  deleteAttachment: Scalars['Boolean']['output'];
   deleteRoute: Scalars['Boolean']['output'];
   deleteTopicMap: Scalars['Boolean']['output'];
   deleteVideoChapter: Scalars['Boolean']['output'];
   deleteVideoCourse: Scalars['Boolean']['output'];
-  grantCourseAccess: Scalars['Boolean']['output'];
   markChecklistItem: UserChecklistProgress;
   publishVideoChapter: VideoChapter;
   publishVideoCourse: VideoCourse;
   removeCourse: Scalars['Boolean']['output'];
   removeCourseDeadline: UserCourse;
+  reorderVideoChapters: Scalars['Boolean']['output'];
   saveTopicMap: TopicMap;
-  startCourse: UserCourse;
+  startCourse: UserVideoCourse;
   startCourseDeadline: UserCourse;
   unpublishVideoChapter: VideoChapter;
+  updateChapterVideo: VideoChapter;
   updateCourseDeadline: UserCourse;
+  updateCourseImage: VideoCourse;
   updateProgressValue: UserTopicProgress;
   updateRoute: Route;
   updateSkillProfile: SkillProfile;
@@ -155,6 +178,11 @@ export type MutationCompleteChapterArgs = {
 };
 
 
+export type MutationCreateAttachmentArgs = {
+  input: CreateAttachmentInput;
+};
+
+
 export type MutationCreateRouteArgs = {
   data: CreateRouteDto;
 };
@@ -167,6 +195,11 @@ export type MutationCreateVideoChapterArgs = {
 
 export type MutationCreateVideoCourseArgs = {
   input: CreateVideoCourseInput;
+};
+
+
+export type MutationDeleteAttachmentArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -186,11 +219,6 @@ export type MutationDeleteVideoChapterArgs = {
 
 
 export type MutationDeleteVideoCourseArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationGrantCourseAccessArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -221,13 +249,18 @@ export type MutationRemoveCourseDeadlineArgs = {
 };
 
 
+export type MutationReorderVideoChaptersArgs = {
+  input: ReorderVideoChaptersInput;
+};
+
+
 export type MutationSaveTopicMapArgs = {
   input: SaveTopicMapInput;
 };
 
 
 export type MutationStartCourseArgs = {
-  input: StartCourseInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -242,9 +275,19 @@ export type MutationUnpublishVideoChapterArgs = {
 };
 
 
+export type MutationUpdateChapterVideoArgs = {
+  input: UpdateChapterVideoInput;
+};
+
+
 export type MutationUpdateCourseDeadlineArgs = {
   deadline: Scalars['DateTime']['input'];
   topicMapId: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateCourseImageArgs = {
+  input: UpdateImageInput;
 };
 
 
@@ -302,6 +345,14 @@ export enum NodeStatus {
   Skipped = 'SKIPPED'
 }
 
+export type PaginatedRoutes = {
+  __typename?: 'PaginatedRoutes';
+  currentPage: Scalars['Int']['output'];
+  routes: Array<Route>;
+  total: Scalars['Int']['output'];
+  totalPages: Scalars['Int']['output'];
+};
+
 export enum PrivateType {
   General = 'GENERAL',
   Private = 'PRIVATE'
@@ -319,12 +370,22 @@ export type Query = {
   findUserTags: Array<TagModel>;
   getChecklistProgressByTopic: Array<ChecklistItemWithProgress>;
   getCourseProgress: CourseProgressSummary;
+  getFavoriteRoutes: Array<FavoriteRouteItem>;
+  getPopularRoutes: Array<Route>;
+  getPopularVideoCourses: Array<VideoCourse>;
+  getRecentActivity: RecentActivityOutput;
+  getRecentlyAddedRoutes: Array<Route>;
   getTopicMap: TopicMap;
   getTopicNodeById: TopicNode;
+  getUpcomingDeadlines: Array<UpcomingDeadlineItem>;
   getUserCourse: UserCourse;
   getUserTopicMap: TopicMap;
   getUserTopicProgress: UserTopicProgress;
+  getWeeklyGoals: WeeklyGoalsOutput;
+  getWeeklyProgress: Array<WeeklyProgressItem>;
   publishedCourses: Array<VideoCourse>;
+  searchRoutes: PaginatedRoutes;
+  videoChapter?: Maybe<VideoChapter>;
   videoCourse: VideoCourse;
   videoCoursesByNode: Array<VideoCourse>;
 };
@@ -385,6 +446,16 @@ export type QueryGetUserTopicProgressArgs = {
 };
 
 
+export type QuerySearchRoutesArgs = {
+  filters: SearchRoutesInput;
+};
+
+
+export type QueryVideoChapterArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type QueryVideoCourseArgs = {
   id: Scalars['ID']['input'];
 };
@@ -392,6 +463,22 @@ export type QueryVideoCourseArgs = {
 
 export type QueryVideoCoursesByNodeArgs = {
   topicNodeId: Scalars['ID']['input'];
+};
+
+export type RecentActivityOutput = {
+  __typename?: 'RecentActivityOutput';
+  recentRoutes: Array<Route>;
+  recentVideoCourses: Array<VideoCourse>;
+};
+
+export type ReorderChapterInput = {
+  id: Scalars['ID']['input'];
+  position: Scalars['Float']['input'];
+};
+
+export type ReorderVideoChaptersInput = {
+  chapters: Array<ReorderChapterInput>;
+  courseId: Scalars['ID']['input'];
 };
 
 export type Route = {
@@ -403,6 +490,7 @@ export type Route = {
   privateType: PrivateType;
   tags?: Maybe<Array<RouteTagModel>>;
   title: Scalars['String']['output'];
+  topicCount: Scalars['Int']['output'];
   topicMap?: Maybe<TopicMap>;
   updatedAt: Scalars['DateTime']['output'];
   user: UserModel;
@@ -412,13 +500,27 @@ export type RouteTagModel = {
   __typename?: 'RouteTagModel';
   id: Scalars['ID']['output'];
   route: Route;
-  tag: TagModel;
+  tag?: Maybe<TagModel>;
 };
 
 export type SaveTopicMapInput = {
   edges?: InputMaybe<Array<UpdateTopicEdgeInput>>;
   nodes?: InputMaybe<Array<UpdateTopicNodeInput>>;
   routeId: Scalars['String']['input'];
+};
+
+export type SearchRoutesInput = {
+  dateEnd?: InputMaybe<Scalars['DateTime']['input']>;
+  dateStart?: InputMaybe<Scalars['DateTime']['input']>;
+  hasVideo?: InputMaybe<Scalars['Boolean']['input']>;
+  page?: Scalars['Int']['input'];
+  pageSize?: Scalars['Int']['input'];
+  search?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<Scalars['String']['input']>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  topicCountRange?: InputMaybe<Array<Scalars['Int']['input']>>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  verifiedOnly?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type SkillProfile = {
@@ -438,10 +540,6 @@ export type SkillProfileDto = {
   profilename?: InputMaybe<Scalars['String']['input']>;
   telegramUrl?: InputMaybe<Scalars['String']['input']>;
   vkUrl?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type StartCourseInput = {
-  topicMapId: Scalars['ID']['input'];
 };
 
 export type TagModel = {
@@ -481,13 +579,31 @@ export type TopicNode = {
   title: Scalars['String']['output'];
   topicMapId: Scalars['String']['output'];
   type: Scalars['String']['output'];
+  videoCourses?: Maybe<Array<VideoCourse>>;
   zIndex?: Maybe<Scalars['Float']['output']>;
+};
+
+export type UpcomingDeadlineItem = {
+  __typename?: 'UpcomingDeadlineItem';
+  deadline: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
+};
+
+export type UpdateChapterVideoInput = {
+  chapterId: Scalars['ID']['input'];
+  videoUrl: Scalars['String']['input'];
 };
 
 export type UpdateCourseSettingsInput = {
   mode?: InputMaybe<CourseModeType>;
   topicMapId: Scalars['ID']['input'];
   view?: InputMaybe<CourseViewType>;
+};
+
+export type UpdateImageInput = {
+  courseId: Scalars['ID']['input'];
+  imageUrl: Scalars['String']['input'];
 };
 
 export type UpdateRouteDto = {
@@ -522,7 +638,6 @@ export type UpdateTopicProgressInput = {
 export type UpdateVideoChapterInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
-  isFree?: InputMaybe<Scalars['Boolean']['input']>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -534,6 +649,7 @@ export type UpdateVideoCourseInput = {
   id: Scalars['ID']['input'];
   imageUrl?: InputMaybe<Scalars['String']['input']>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
+  price?: InputMaybe<Scalars['Float']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -594,6 +710,14 @@ export type UserTopicProgress = {
   userCourseId: Scalars['String']['output'];
 };
 
+export type UserVideoCourse = {
+  __typename?: 'UserVideoCourse';
+  courseId: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  startedAt: Scalars['DateTime']['output'];
+  userId: Scalars['String']['output'];
+};
+
 export enum VerificationStatus {
   NotVerified = 'NOT_VERIFIED',
   Pending = 'PENDING',
@@ -606,18 +730,19 @@ export type VideoChapter = {
   createdAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
-  isFree: Scalars['Boolean']['output'];
   isPublished: Scalars['Boolean']['output'];
   position: Scalars['Float']['output'];
   progress: Array<ChapterProgress>;
   title: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
+  userProgress?: Maybe<ChapterProgress>;
   videoUrl?: Maybe<Scalars['String']['output']>;
 };
 
 export type VideoCourse = {
   __typename?: 'VideoCourse';
-  CourseAccess: Array<CourseAccess>;
+  Attachment?: Maybe<Array<Attachment>>;
+  UserVideoCourse?: Maybe<Array<UserVideoCourse>>;
   chapters: Array<VideoChapter>;
   createdAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
@@ -628,6 +753,19 @@ export type VideoCourse = {
   topicNodeId: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
   userId: Scalars['String']['output'];
+};
+
+export type WeeklyGoalsOutput = {
+  __typename?: 'WeeklyGoalsOutput';
+  deadlines: GoalStat;
+  topics: GoalStat;
+  videos: GoalStat;
+};
+
+export type WeeklyProgressItem = {
+  __typename?: 'WeeklyProgressItem';
+  count: Scalars['Float']['output'];
+  date: Scalars['String']['output'];
 };
 
 export type MarkChecklistItemMutationVariables = Exact<{
@@ -669,11 +807,11 @@ export type RemoveCourseMutationVariables = Exact<{
 export type RemoveCourseMutation = { __typename?: 'Mutation', removeCourse: boolean };
 
 export type StartCourseMutationVariables = Exact<{
-  courseDto: StartCourseInput;
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type StartCourseMutation = { __typename?: 'Mutation', startCourse: { __typename?: 'UserCourse', id: string, userId: string, topicMapId: string, createdAt: any, updatedAt: any, view?: CourseViewType | null, mode?: CourseModeType | null } };
+export type StartCourseMutation = { __typename?: 'Mutation', startCourse: { __typename?: 'UserVideoCourse', id: string, userId: string, courseId: string, startedAt: any } };
 
 export type UpdateUserCourseSettingsMutationVariables = Exact<{
   input: UpdateCourseSettingsInput;
@@ -716,7 +854,7 @@ export type CreateRouteMutationVariables = Exact<{
 }>;
 
 
-export type CreateRouteMutation = { __typename?: 'Mutation', createRoute: { __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null } };
+export type CreateRouteMutation = { __typename?: 'Mutation', createRoute: { __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag?: { __typename?: 'TagModel', id: string, name: string } | null }> | null } };
 
 export type DeleteRouteMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -731,7 +869,7 @@ export type UpdateRouteMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRouteMutation = { __typename?: 'Mutation', updateRoute: { __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null } };
+export type UpdateRouteMutation = { __typename?: 'Mutation', updateRoute: { __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag?: { __typename?: 'TagModel', id: string, name: string } | null }> | null } };
 
 export type UpdateProfileMutationVariables = Exact<{
   dto: UserProfileDto;
@@ -759,7 +897,7 @@ export type CreateVideoChapterMutationVariables = Exact<{
 }>;
 
 
-export type CreateVideoChapterMutation = { __typename?: 'Mutation', createVideoChapter: { __typename?: 'VideoChapter', id: string, title: string, description?: string | null, videoUrl?: string | null, isFree: boolean, isPublished: boolean, position: number } };
+export type CreateVideoChapterMutation = { __typename?: 'Mutation', createVideoChapter: { __typename?: 'VideoChapter', id: string, title: string, description?: string | null, videoUrl?: string | null, isPublished: boolean, position: number } };
 
 export type DeleteVideoChapterMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -775,6 +913,13 @@ export type PublishVideoChapterMutationVariables = Exact<{
 
 export type PublishVideoChapterMutation = { __typename?: 'Mutation', publishVideoChapter: { __typename?: 'VideoChapter', id: string, isPublished: boolean } };
 
+export type ReorderVideoChaptersMutationVariables = Exact<{
+  input: ReorderVideoChaptersInput;
+}>;
+
+
+export type ReorderVideoChaptersMutation = { __typename?: 'Mutation', reorderVideoChapters: boolean };
+
 export type UnpublishVideoChapterMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -787,7 +932,21 @@ export type UpdateVideoChapterMutationVariables = Exact<{
 }>;
 
 
-export type UpdateVideoChapterMutation = { __typename?: 'Mutation', updateVideoChapter: { __typename?: 'VideoChapter', id: string, title: string, description?: string | null, videoUrl?: string | null, isFree: boolean, isPublished: boolean, position: number } };
+export type UpdateVideoChapterMutation = { __typename?: 'Mutation', updateVideoChapter: { __typename?: 'VideoChapter', id: string, title: string, description?: string | null, videoUrl?: string | null, isPublished: boolean, position: number } };
+
+export type CreateAttachmentMutationVariables = Exact<{
+  input: CreateAttachmentInput;
+}>;
+
+
+export type CreateAttachmentMutation = { __typename?: 'Mutation', createAttachment: { __typename?: 'Attachment', id: string, name: string, url: string, courseId: string, createdAt: any, updatedAt: any } };
+
+export type DeleteAttachmentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteAttachmentMutation = { __typename?: 'Mutation', deleteAttachment: boolean };
 
 export type CreateVideoCourseMutationVariables = Exact<{
   input: CreateVideoCourseInput;
@@ -803,12 +962,12 @@ export type DeleteVideoCourseMutationVariables = Exact<{
 
 export type DeleteVideoCourseMutation = { __typename?: 'Mutation', deleteVideoCourse: boolean };
 
-export type GrantCourseAccessMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
+export type UpdateCourseImageMutationVariables = Exact<{
+  input: UpdateImageInput;
 }>;
 
 
-export type GrantCourseAccessMutation = { __typename?: 'Mutation', grantCourseAccess: boolean };
+export type UpdateCourseImageMutation = { __typename?: 'Mutation', updateCourseImage: { __typename?: 'VideoCourse', id: string, imageUrl?: string | null, updatedAt: any } };
 
 export type PublishVideoCourseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -824,6 +983,13 @@ export type UpdateVideoCourseMutationVariables = Exact<{
 
 export type UpdateVideoCourseMutation = { __typename?: 'Mutation', updateVideoCourse: { __typename?: 'VideoCourse', id: string, title: string, description?: string | null, imageUrl?: string | null, isPublished: boolean, updatedAt: any } };
 
+export type UpdateChapterVideoMutationVariables = Exact<{
+  input: UpdateChapterVideoInput;
+}>;
+
+
+export type UpdateChapterVideoMutation = { __typename?: 'Mutation', updateChapterVideo: { __typename?: 'VideoChapter', id: string, videoUrl?: string | null, updatedAt: any } };
+
 export type GetChecklistProgressQueryVariables = Exact<{
   topicNodeId: Scalars['String']['input'];
 }>;
@@ -836,7 +1002,7 @@ export type GetPreviewCourseInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetPreviewCourseInfoQuery = { __typename?: 'Query', getUserTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, topicMapId: string, title: string, type: string, meta: string, posxy?: any | null, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string, topicNodeId: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, topicMapId: string, sourceId: string, targetId: string, meta?: string | null }>, userCourse?: { __typename?: 'UserCourse', id: string, userId: string, topicMapId: string, createdAt: any, updatedAt: any, view?: CourseViewType | null, deadline?: any | null, mode?: CourseModeType | null, progress?: Array<{ __typename?: 'UserTopicProgress', id: string, userCourseId: string, topicNodeId: string, status: NodeStatus, progressValue?: number | null, startedAt?: any | null, finishedAt?: any | null }> | null, UserChecklistProgress: Array<{ __typename?: 'UserChecklistProgress', id: string, checklistItemId: string, done: boolean }> } | null, route?: { __typename?: 'Route', id: string, title: string, description?: string | null, createdAt: any, updatedAt: any, isVerified: VerificationStatus, topicMap?: { __typename?: 'TopicMap', id: string } | null, user: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null }, tags?: Array<{ __typename?: 'RouteTagModel', tag: { __typename?: 'TagModel', name: string } }> | null } | null } };
+export type GetPreviewCourseInfoQuery = { __typename?: 'Query', getUserTopicMap: { __typename?: 'TopicMap', id: string, routeId: string, updatedAt: any, nodes: Array<{ __typename?: 'TopicNode', id: string, topicMapId: string, title: string, type: string, meta: string, posxy?: any | null, zIndex?: number | null, checklist: Array<{ __typename?: 'ChecklistItem', id: string, text: string, topicNodeId: string }> }>, edges: Array<{ __typename?: 'TopicEdge', id: string, topicMapId: string, sourceId: string, targetId: string, meta?: string | null }>, userCourse?: { __typename?: 'UserCourse', id: string, userId: string, topicMapId: string, createdAt: any, updatedAt: any, view?: CourseViewType | null, deadline?: any | null, mode?: CourseModeType | null, progress?: Array<{ __typename?: 'UserTopicProgress', id: string, userCourseId: string, topicNodeId: string, status: NodeStatus, progressValue?: number | null, startedAt?: any | null, finishedAt?: any | null }> | null, UserChecklistProgress: Array<{ __typename?: 'UserChecklistProgress', id: string, checklistItemId: string, done: boolean }> } | null, route?: { __typename?: 'Route', id: string, title: string, description?: string | null, createdAt: any, updatedAt: any, isVerified: VerificationStatus, topicMap?: { __typename?: 'TopicMap', id: string } | null, user: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null }, tags?: Array<{ __typename?: 'RouteTagModel', tag?: { __typename?: 'TagModel', name: string } | null }> | null } | null } };
 
 export type GetUserCourseQueryVariables = Exact<{
   topicMapId: Scalars['String']['input'];
@@ -844,6 +1010,61 @@ export type GetUserCourseQueryVariables = Exact<{
 
 
 export type GetUserCourseQuery = { __typename?: 'Query', getUserCourse: { __typename?: 'UserCourse', id: string, userId: string, topicMapId: string, createdAt: any, updatedAt: any, view?: CourseViewType | null, mode?: CourseModeType | null, progress?: Array<{ __typename?: 'UserTopicProgress', id: string, topicNodeId: string, status: NodeStatus, progressValue?: number | null, startedAt?: any | null, finishedAt?: any | null }> | null, UserChecklistProgress: Array<{ __typename?: 'UserChecklistProgress', id: string, checklistItemId: string, done: boolean }> } };
+
+export type GetPopularRoutesExtendedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPopularRoutesExtendedQuery = { __typename?: 'Query', getPopularRoutes: Array<{ __typename?: 'Route', id: string, title: string, description?: string | null, createdAt: any, isVerified: VerificationStatus, topicCount: number, tags?: Array<{ __typename?: 'RouteTagModel', tag?: { __typename?: 'TagModel', id: string, name: string } | null }> | null }> };
+
+export type GetPopularVideoCoursesExtendedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPopularVideoCoursesExtendedQuery = { __typename?: 'Query', getPopularVideoCourses: Array<{ __typename?: 'VideoCourse', id: string, title: string, description?: string | null, imageUrl?: string | null, isPublished: boolean, createdAt: any, updatedAt: any, UserVideoCourse?: Array<{ __typename?: 'UserVideoCourse', id: string }> | null }> };
+
+export type GetRecentlyAddedRoutesExtendedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRecentlyAddedRoutesExtendedQuery = { __typename?: 'Query', getRecentlyAddedRoutes: Array<{ __typename?: 'Route', id: string, title: string, description?: string | null, createdAt: any, isVerified: VerificationStatus, tags?: Array<{ __typename?: 'RouteTagModel', tag?: { __typename?: 'TagModel', id: string, name: string } | null }> | null }> };
+
+export type GetFavoriteRoutesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFavoriteRoutesQuery = { __typename?: 'Query', getFavoriteRoutes: Array<{ __typename?: 'FavoriteRouteItem', name: string, favorites: number }> };
+
+export type GetPopularRoutesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPopularRoutesQuery = { __typename?: 'Query', getPopularRoutes: Array<{ __typename?: 'Route', id: string, title: string }> };
+
+export type GetPopularVideoCoursesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPopularVideoCoursesQuery = { __typename?: 'Query', getPopularVideoCourses: Array<{ __typename?: 'VideoCourse', id: string, title: string }> };
+
+export type GetRecentActivityQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRecentActivityQuery = { __typename?: 'Query', getRecentActivity: { __typename?: 'RecentActivityOutput', recentRoutes: Array<{ __typename?: 'Route', id: string, title: string }>, recentVideoCourses: Array<{ __typename?: 'VideoCourse', id: string, title: string }> } };
+
+export type GetRecentlyAddedRoutesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRecentlyAddedRoutesQuery = { __typename?: 'Query', getRecentlyAddedRoutes: Array<{ __typename?: 'Route', id: string, title: string }> };
+
+export type GetUpcomingDeadlinesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUpcomingDeadlinesQuery = { __typename?: 'Query', getUpcomingDeadlines: Array<{ __typename?: 'UpcomingDeadlineItem', id: string, title: string, deadline: any }> };
+
+export type GetWeeklyGoalsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetWeeklyGoalsQuery = { __typename?: 'Query', getWeeklyGoals: { __typename?: 'WeeklyGoalsOutput', topics: { __typename?: 'GoalStat', value: number, target: number }, videos: { __typename?: 'GoalStat', value: number, target: number }, deadlines: { __typename?: 'GoalStat', value: number, target: number } } };
+
+export type GetWeeklyProgressQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetWeeklyProgressQuery = { __typename?: 'Query', getWeeklyProgress: Array<{ __typename?: 'WeeklyProgressItem', date: string, count: number }> };
 
 export type GetTopicMapQueryVariables = Exact<{
   routeId: Scalars['String']['input'];
@@ -871,19 +1092,26 @@ export type FindOtherRoutesByUserQueryVariables = Exact<{
 }>;
 
 
-export type FindOtherRoutesByUserQuery = { __typename?: 'Query', findOtherRoutesByUser: Array<{ __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null, topicMap?: { __typename?: 'TopicMap', id: string, nodes: Array<{ __typename?: 'TopicNode', id: string }> } | null }> };
+export type FindOtherRoutesByUserQuery = { __typename?: 'Query', findOtherRoutesByUser: Array<{ __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag?: { __typename?: 'TagModel', id: string, name: string } | null }> | null, topicMap?: { __typename?: 'TopicMap', id: string, nodes: Array<{ __typename?: 'TopicNode', id: string }> } | null }> };
 
 export type FindRouteQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type FindRouteQuery = { __typename?: 'Query', findRoute: { __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null } };
+export type FindRouteQuery = { __typename?: 'Query', findRoute: { __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag?: { __typename?: 'TagModel', id: string, name: string } | null }> | null } };
 
 export type FindRoutesByUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindRoutesByUserQuery = { __typename?: 'Query', findRoutesByUser: Array<{ __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag: { __typename?: 'TagModel', id: string, name: string } }> | null, topicMap?: { __typename?: 'TopicMap', id: string, nodes: Array<{ __typename?: 'TopicNode', id: string }> } | null }> };
+export type FindRoutesByUserQuery = { __typename?: 'Query', findRoutesByUser: Array<{ __typename?: 'Route', id: string, title: string, description?: string | null, privateType: PrivateType, createdAt: any, updatedAt: any, topicCount: number, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag?: { __typename?: 'TagModel', id: string, name: string } | null }> | null, topicMap?: { __typename?: 'TopicMap', id: string, nodes: Array<{ __typename?: 'TopicNode', id: string }> } | null }> };
+
+export type SearchRoutesQueryVariables = Exact<{
+  filters: SearchRoutesInput;
+}>;
+
+
+export type SearchRoutesQuery = { __typename?: 'Query', searchRoutes: { __typename?: 'PaginatedRoutes', total: number, totalPages: number, currentPage: number, routes: Array<{ __typename?: 'Route', id: string, title: string, description?: string | null, createdAt: any, updatedAt: any, privateType: PrivateType, isVerified: VerificationStatus, topicCount: number, user: { __typename?: 'UserModel', id: string, name: string, avatar?: string | null }, tags?: Array<{ __typename?: 'RouteTagModel', id: string, tag?: { __typename?: 'TagModel', id: string, name: string } | null }> | null, topicMap?: { __typename?: 'TopicMap', id: string, nodes: Array<{ __typename?: 'TopicNode', id: string, type: string, videoCourses?: Array<{ __typename?: 'VideoCourse', id: string, title: string, description?: string | null, isPublished: boolean, createdAt: any, updatedAt: any }> | null }> } | null }> } };
 
 export type FindAllTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -910,7 +1138,7 @@ export type GetAvailableChaptersQueryVariables = Exact<{
 }>;
 
 
-export type GetAvailableChaptersQuery = { __typename?: 'Query', availableChapters: Array<{ __typename?: 'VideoChapter', id: string, title: string, description?: string | null, videoUrl?: string | null, isFree: boolean, isPublished: boolean, position: number }> };
+export type GetAvailableChaptersQuery = { __typename?: 'Query', availableChapters: Array<{ __typename?: 'VideoChapter', id: string, title: string, description?: string | null, videoUrl?: string | null, isPublished: boolean, position: number }> };
 
 export type GetPublishedCoursesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -922,7 +1150,7 @@ export type GetVideoCourseQueryVariables = Exact<{
 }>;
 
 
-export type GetVideoCourseQuery = { __typename?: 'Query', videoCourse: { __typename?: 'VideoCourse', id: string, title: string, description?: string | null, isPublished: boolean, imageUrl?: string | null, topicNodeId: string, createdAt: any, updatedAt: any, chapters: Array<{ __typename?: 'VideoChapter', id: string, title: string, position: number, isPublished: boolean }> } };
+export type GetVideoCourseQuery = { __typename?: 'Query', videoCourse: { __typename?: 'VideoCourse', id: string, title: string, description?: string | null, isPublished: boolean, imageUrl?: string | null, topicNodeId: string, createdAt: any, updatedAt: any, chapters: Array<{ __typename?: 'VideoChapter', id: string, title: string, description?: string | null, videoUrl?: string | null, isPublished: boolean, position: number, progress: Array<{ __typename?: 'ChapterProgress', isCompleted: boolean, userId: string }>, userProgress?: { __typename?: 'ChapterProgress', isCompleted: boolean } | null }>, Attachment?: Array<{ __typename?: 'Attachment', id: string, name: string, url: string, courseId: string }> | null, UserVideoCourse?: Array<{ __typename?: 'UserVideoCourse', id: string, userId: string }> | null } };
 
 export type GetVideoCoursesByNodeQueryVariables = Exact<{
   topicNodeId: Scalars['ID']['input'];
@@ -930,6 +1158,13 @@ export type GetVideoCoursesByNodeQueryVariables = Exact<{
 
 
 export type GetVideoCoursesByNodeQuery = { __typename?: 'Query', videoCoursesByNode: Array<{ __typename?: 'VideoCourse', id: string, title: string, description?: string | null, isPublished: boolean, imageUrl?: string | null, topicNodeId: string, createdAt: any, updatedAt: any, chapters: Array<{ __typename?: 'VideoChapter', id: string, title: string, position: number, isPublished: boolean }> }> };
+
+export type GetVideoChapterQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetVideoChapterQuery = { __typename?: 'Query', videoChapter?: { __typename?: 'VideoChapter', id: string, courseId: string, title: string, description?: string | null, videoUrl?: string | null, position: number, isPublished: boolean, createdAt: any, updatedAt: any, userProgress?: { __typename?: 'ChapterProgress', userId: string, isCompleted: boolean } | null } | null };
 
 
 export const MarkChecklistItemDocument = gql`
@@ -1106,15 +1341,12 @@ export type RemoveCourseMutationHookResult = ReturnType<typeof useRemoveCourseMu
 export type RemoveCourseMutationResult = Apollo.MutationResult<RemoveCourseMutation>;
 export type RemoveCourseMutationOptions = Apollo.BaseMutationOptions<RemoveCourseMutation, RemoveCourseMutationVariables>;
 export const StartCourseDocument = gql`
-    mutation startCourse($courseDto: StartCourseInput!) {
-  startCourse(input: $courseDto) {
+    mutation StartCourse($id: ID!) {
+  startCourse(id: $id) {
     id
     userId
-    topicMapId
-    createdAt
-    updatedAt
-    view
-    mode
+    courseId
+    startedAt
   }
 }
     `;
@@ -1133,7 +1365,7 @@ export type StartCourseMutationFn = Apollo.MutationFunction<StartCourseMutation,
  * @example
  * const [startCourseMutation, { data, loading, error }] = useStartCourseMutation({
  *   variables: {
- *      courseDto: // value for 'courseDto'
+ *      id: // value for 'id'
  *   },
  * });
  */
@@ -1575,7 +1807,6 @@ export const CreateVideoChapterDocument = gql`
     title
     description
     videoUrl
-    isFree
     isPublished
     position
   }
@@ -1672,6 +1903,37 @@ export function usePublishVideoChapterMutation(baseOptions?: Apollo.MutationHook
 export type PublishVideoChapterMutationHookResult = ReturnType<typeof usePublishVideoChapterMutation>;
 export type PublishVideoChapterMutationResult = Apollo.MutationResult<PublishVideoChapterMutation>;
 export type PublishVideoChapterMutationOptions = Apollo.BaseMutationOptions<PublishVideoChapterMutation, PublishVideoChapterMutationVariables>;
+export const ReorderVideoChaptersDocument = gql`
+    mutation ReorderVideoChapters($input: ReorderVideoChaptersInput!) {
+  reorderVideoChapters(input: $input)
+}
+    `;
+export type ReorderVideoChaptersMutationFn = Apollo.MutationFunction<ReorderVideoChaptersMutation, ReorderVideoChaptersMutationVariables>;
+
+/**
+ * __useReorderVideoChaptersMutation__
+ *
+ * To run a mutation, you first call `useReorderVideoChaptersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReorderVideoChaptersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [reorderVideoChaptersMutation, { data, loading, error }] = useReorderVideoChaptersMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useReorderVideoChaptersMutation(baseOptions?: Apollo.MutationHookOptions<ReorderVideoChaptersMutation, ReorderVideoChaptersMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ReorderVideoChaptersMutation, ReorderVideoChaptersMutationVariables>(ReorderVideoChaptersDocument, options);
+      }
+export type ReorderVideoChaptersMutationHookResult = ReturnType<typeof useReorderVideoChaptersMutation>;
+export type ReorderVideoChaptersMutationResult = Apollo.MutationResult<ReorderVideoChaptersMutation>;
+export type ReorderVideoChaptersMutationOptions = Apollo.BaseMutationOptions<ReorderVideoChaptersMutation, ReorderVideoChaptersMutationVariables>;
 export const UnpublishVideoChapterDocument = gql`
     mutation UnpublishVideoChapter($id: ID!) {
   unpublishVideoChapter(id: $id) {
@@ -1713,7 +1975,6 @@ export const UpdateVideoChapterDocument = gql`
     title
     description
     videoUrl
-    isFree
     isPublished
     position
   }
@@ -1745,6 +2006,75 @@ export function useUpdateVideoChapterMutation(baseOptions?: Apollo.MutationHookO
 export type UpdateVideoChapterMutationHookResult = ReturnType<typeof useUpdateVideoChapterMutation>;
 export type UpdateVideoChapterMutationResult = Apollo.MutationResult<UpdateVideoChapterMutation>;
 export type UpdateVideoChapterMutationOptions = Apollo.BaseMutationOptions<UpdateVideoChapterMutation, UpdateVideoChapterMutationVariables>;
+export const CreateAttachmentDocument = gql`
+    mutation CreateAttachment($input: CreateAttachmentInput!) {
+  createAttachment(input: $input) {
+    id
+    name
+    url
+    courseId
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export type CreateAttachmentMutationFn = Apollo.MutationFunction<CreateAttachmentMutation, CreateAttachmentMutationVariables>;
+
+/**
+ * __useCreateAttachmentMutation__
+ *
+ * To run a mutation, you first call `useCreateAttachmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAttachmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAttachmentMutation, { data, loading, error }] = useCreateAttachmentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateAttachmentMutation(baseOptions?: Apollo.MutationHookOptions<CreateAttachmentMutation, CreateAttachmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateAttachmentMutation, CreateAttachmentMutationVariables>(CreateAttachmentDocument, options);
+      }
+export type CreateAttachmentMutationHookResult = ReturnType<typeof useCreateAttachmentMutation>;
+export type CreateAttachmentMutationResult = Apollo.MutationResult<CreateAttachmentMutation>;
+export type CreateAttachmentMutationOptions = Apollo.BaseMutationOptions<CreateAttachmentMutation, CreateAttachmentMutationVariables>;
+export const DeleteAttachmentDocument = gql`
+    mutation DeleteAttachment($id: ID!) {
+  deleteAttachment(id: $id)
+}
+    `;
+export type DeleteAttachmentMutationFn = Apollo.MutationFunction<DeleteAttachmentMutation, DeleteAttachmentMutationVariables>;
+
+/**
+ * __useDeleteAttachmentMutation__
+ *
+ * To run a mutation, you first call `useDeleteAttachmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAttachmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAttachmentMutation, { data, loading, error }] = useDeleteAttachmentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteAttachmentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAttachmentMutation, DeleteAttachmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAttachmentMutation, DeleteAttachmentMutationVariables>(DeleteAttachmentDocument, options);
+      }
+export type DeleteAttachmentMutationHookResult = ReturnType<typeof useDeleteAttachmentMutation>;
+export type DeleteAttachmentMutationResult = Apollo.MutationResult<DeleteAttachmentMutation>;
+export type DeleteAttachmentMutationOptions = Apollo.BaseMutationOptions<DeleteAttachmentMutation, DeleteAttachmentMutationVariables>;
 export const CreateVideoCourseDocument = gql`
     mutation CreateVideoCourse($input: CreateVideoCourseInput!) {
   createVideoCourse(input: $input) {
@@ -1816,37 +2146,41 @@ export function useDeleteVideoCourseMutation(baseOptions?: Apollo.MutationHookOp
 export type DeleteVideoCourseMutationHookResult = ReturnType<typeof useDeleteVideoCourseMutation>;
 export type DeleteVideoCourseMutationResult = Apollo.MutationResult<DeleteVideoCourseMutation>;
 export type DeleteVideoCourseMutationOptions = Apollo.BaseMutationOptions<DeleteVideoCourseMutation, DeleteVideoCourseMutationVariables>;
-export const GrantCourseAccessDocument = gql`
-    mutation GrantCourseAccess($id: ID!) {
-  grantCourseAccess(id: $id)
+export const UpdateCourseImageDocument = gql`
+    mutation updateCourseImage($input: UpdateImageInput!) {
+  updateCourseImage(input: $input) {
+    id
+    imageUrl
+    updatedAt
+  }
 }
     `;
-export type GrantCourseAccessMutationFn = Apollo.MutationFunction<GrantCourseAccessMutation, GrantCourseAccessMutationVariables>;
+export type UpdateCourseImageMutationFn = Apollo.MutationFunction<UpdateCourseImageMutation, UpdateCourseImageMutationVariables>;
 
 /**
- * __useGrantCourseAccessMutation__
+ * __useUpdateCourseImageMutation__
  *
- * To run a mutation, you first call `useGrantCourseAccessMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useGrantCourseAccessMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateCourseImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCourseImageMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [grantCourseAccessMutation, { data, loading, error }] = useGrantCourseAccessMutation({
+ * const [updateCourseImageMutation, { data, loading, error }] = useUpdateCourseImageMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useGrantCourseAccessMutation(baseOptions?: Apollo.MutationHookOptions<GrantCourseAccessMutation, GrantCourseAccessMutationVariables>) {
+export function useUpdateCourseImageMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCourseImageMutation, UpdateCourseImageMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<GrantCourseAccessMutation, GrantCourseAccessMutationVariables>(GrantCourseAccessDocument, options);
+        return Apollo.useMutation<UpdateCourseImageMutation, UpdateCourseImageMutationVariables>(UpdateCourseImageDocument, options);
       }
-export type GrantCourseAccessMutationHookResult = ReturnType<typeof useGrantCourseAccessMutation>;
-export type GrantCourseAccessMutationResult = Apollo.MutationResult<GrantCourseAccessMutation>;
-export type GrantCourseAccessMutationOptions = Apollo.BaseMutationOptions<GrantCourseAccessMutation, GrantCourseAccessMutationVariables>;
+export type UpdateCourseImageMutationHookResult = ReturnType<typeof useUpdateCourseImageMutation>;
+export type UpdateCourseImageMutationResult = Apollo.MutationResult<UpdateCourseImageMutation>;
+export type UpdateCourseImageMutationOptions = Apollo.BaseMutationOptions<UpdateCourseImageMutation, UpdateCourseImageMutationVariables>;
 export const PublishVideoCourseDocument = gql`
     mutation PublishVideoCourse($id: ID!) {
   publishVideoCourse(id: $id) {
@@ -1919,6 +2253,41 @@ export function useUpdateVideoCourseMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdateVideoCourseMutationHookResult = ReturnType<typeof useUpdateVideoCourseMutation>;
 export type UpdateVideoCourseMutationResult = Apollo.MutationResult<UpdateVideoCourseMutation>;
 export type UpdateVideoCourseMutationOptions = Apollo.BaseMutationOptions<UpdateVideoCourseMutation, UpdateVideoCourseMutationVariables>;
+export const UpdateChapterVideoDocument = gql`
+    mutation updateChapterVideo($input: UpdateChapterVideoInput!) {
+  updateChapterVideo(input: $input) {
+    id
+    videoUrl
+    updatedAt
+  }
+}
+    `;
+export type UpdateChapterVideoMutationFn = Apollo.MutationFunction<UpdateChapterVideoMutation, UpdateChapterVideoMutationVariables>;
+
+/**
+ * __useUpdateChapterVideoMutation__
+ *
+ * To run a mutation, you first call `useUpdateChapterVideoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateChapterVideoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateChapterVideoMutation, { data, loading, error }] = useUpdateChapterVideoMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateChapterVideoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateChapterVideoMutation, UpdateChapterVideoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateChapterVideoMutation, UpdateChapterVideoMutationVariables>(UpdateChapterVideoDocument, options);
+      }
+export type UpdateChapterVideoMutationHookResult = ReturnType<typeof useUpdateChapterVideoMutation>;
+export type UpdateChapterVideoMutationResult = Apollo.MutationResult<UpdateChapterVideoMutation>;
+export type UpdateChapterVideoMutationOptions = Apollo.BaseMutationOptions<UpdateChapterVideoMutation, UpdateChapterVideoMutationVariables>;
 export const GetChecklistProgressDocument = gql`
     query GetChecklistProgress($topicNodeId: String!) {
   getChecklistProgressByTopic(topicNodeId: $topicNodeId) {
@@ -2128,6 +2497,490 @@ export type GetUserCourseQueryHookResult = ReturnType<typeof useGetUserCourseQue
 export type GetUserCourseLazyQueryHookResult = ReturnType<typeof useGetUserCourseLazyQuery>;
 export type GetUserCourseSuspenseQueryHookResult = ReturnType<typeof useGetUserCourseSuspenseQuery>;
 export type GetUserCourseQueryResult = Apollo.QueryResult<GetUserCourseQuery, GetUserCourseQueryVariables>;
+export const GetPopularRoutesExtendedDocument = gql`
+    query GetPopularRoutesExtended {
+  getPopularRoutes {
+    id
+    title
+    description
+    createdAt
+    isVerified
+    tags {
+      tag {
+        id
+        name
+      }
+    }
+    topicCount
+  }
+}
+    `;
+
+/**
+ * __useGetPopularRoutesExtendedQuery__
+ *
+ * To run a query within a React component, call `useGetPopularRoutesExtendedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPopularRoutesExtendedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPopularRoutesExtendedQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPopularRoutesExtendedQuery(baseOptions?: Apollo.QueryHookOptions<GetPopularRoutesExtendedQuery, GetPopularRoutesExtendedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPopularRoutesExtendedQuery, GetPopularRoutesExtendedQueryVariables>(GetPopularRoutesExtendedDocument, options);
+      }
+export function useGetPopularRoutesExtendedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPopularRoutesExtendedQuery, GetPopularRoutesExtendedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPopularRoutesExtendedQuery, GetPopularRoutesExtendedQueryVariables>(GetPopularRoutesExtendedDocument, options);
+        }
+export function useGetPopularRoutesExtendedSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPopularRoutesExtendedQuery, GetPopularRoutesExtendedQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPopularRoutesExtendedQuery, GetPopularRoutesExtendedQueryVariables>(GetPopularRoutesExtendedDocument, options);
+        }
+export type GetPopularRoutesExtendedQueryHookResult = ReturnType<typeof useGetPopularRoutesExtendedQuery>;
+export type GetPopularRoutesExtendedLazyQueryHookResult = ReturnType<typeof useGetPopularRoutesExtendedLazyQuery>;
+export type GetPopularRoutesExtendedSuspenseQueryHookResult = ReturnType<typeof useGetPopularRoutesExtendedSuspenseQuery>;
+export type GetPopularRoutesExtendedQueryResult = Apollo.QueryResult<GetPopularRoutesExtendedQuery, GetPopularRoutesExtendedQueryVariables>;
+export const GetPopularVideoCoursesExtendedDocument = gql`
+    query GetPopularVideoCoursesExtended {
+  getPopularVideoCourses {
+    id
+    title
+    description
+    imageUrl
+    isPublished
+    createdAt
+    updatedAt
+    UserVideoCourse {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPopularVideoCoursesExtendedQuery__
+ *
+ * To run a query within a React component, call `useGetPopularVideoCoursesExtendedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPopularVideoCoursesExtendedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPopularVideoCoursesExtendedQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPopularVideoCoursesExtendedQuery(baseOptions?: Apollo.QueryHookOptions<GetPopularVideoCoursesExtendedQuery, GetPopularVideoCoursesExtendedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPopularVideoCoursesExtendedQuery, GetPopularVideoCoursesExtendedQueryVariables>(GetPopularVideoCoursesExtendedDocument, options);
+      }
+export function useGetPopularVideoCoursesExtendedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPopularVideoCoursesExtendedQuery, GetPopularVideoCoursesExtendedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPopularVideoCoursesExtendedQuery, GetPopularVideoCoursesExtendedQueryVariables>(GetPopularVideoCoursesExtendedDocument, options);
+        }
+export function useGetPopularVideoCoursesExtendedSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPopularVideoCoursesExtendedQuery, GetPopularVideoCoursesExtendedQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPopularVideoCoursesExtendedQuery, GetPopularVideoCoursesExtendedQueryVariables>(GetPopularVideoCoursesExtendedDocument, options);
+        }
+export type GetPopularVideoCoursesExtendedQueryHookResult = ReturnType<typeof useGetPopularVideoCoursesExtendedQuery>;
+export type GetPopularVideoCoursesExtendedLazyQueryHookResult = ReturnType<typeof useGetPopularVideoCoursesExtendedLazyQuery>;
+export type GetPopularVideoCoursesExtendedSuspenseQueryHookResult = ReturnType<typeof useGetPopularVideoCoursesExtendedSuspenseQuery>;
+export type GetPopularVideoCoursesExtendedQueryResult = Apollo.QueryResult<GetPopularVideoCoursesExtendedQuery, GetPopularVideoCoursesExtendedQueryVariables>;
+export const GetRecentlyAddedRoutesExtendedDocument = gql`
+    query GetRecentlyAddedRoutesExtended {
+  getRecentlyAddedRoutes {
+    id
+    title
+    description
+    createdAt
+    isVerified
+    tags {
+      tag {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRecentlyAddedRoutesExtendedQuery__
+ *
+ * To run a query within a React component, call `useGetRecentlyAddedRoutesExtendedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentlyAddedRoutesExtendedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecentlyAddedRoutesExtendedQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRecentlyAddedRoutesExtendedQuery(baseOptions?: Apollo.QueryHookOptions<GetRecentlyAddedRoutesExtendedQuery, GetRecentlyAddedRoutesExtendedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecentlyAddedRoutesExtendedQuery, GetRecentlyAddedRoutesExtendedQueryVariables>(GetRecentlyAddedRoutesExtendedDocument, options);
+      }
+export function useGetRecentlyAddedRoutesExtendedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecentlyAddedRoutesExtendedQuery, GetRecentlyAddedRoutesExtendedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecentlyAddedRoutesExtendedQuery, GetRecentlyAddedRoutesExtendedQueryVariables>(GetRecentlyAddedRoutesExtendedDocument, options);
+        }
+export function useGetRecentlyAddedRoutesExtendedSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRecentlyAddedRoutesExtendedQuery, GetRecentlyAddedRoutesExtendedQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRecentlyAddedRoutesExtendedQuery, GetRecentlyAddedRoutesExtendedQueryVariables>(GetRecentlyAddedRoutesExtendedDocument, options);
+        }
+export type GetRecentlyAddedRoutesExtendedQueryHookResult = ReturnType<typeof useGetRecentlyAddedRoutesExtendedQuery>;
+export type GetRecentlyAddedRoutesExtendedLazyQueryHookResult = ReturnType<typeof useGetRecentlyAddedRoutesExtendedLazyQuery>;
+export type GetRecentlyAddedRoutesExtendedSuspenseQueryHookResult = ReturnType<typeof useGetRecentlyAddedRoutesExtendedSuspenseQuery>;
+export type GetRecentlyAddedRoutesExtendedQueryResult = Apollo.QueryResult<GetRecentlyAddedRoutesExtendedQuery, GetRecentlyAddedRoutesExtendedQueryVariables>;
+export const GetFavoriteRoutesDocument = gql`
+    query GetFavoriteRoutes {
+  getFavoriteRoutes {
+    name
+    favorites
+  }
+}
+    `;
+
+/**
+ * __useGetFavoriteRoutesQuery__
+ *
+ * To run a query within a React component, call `useGetFavoriteRoutesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFavoriteRoutesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFavoriteRoutesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetFavoriteRoutesQuery(baseOptions?: Apollo.QueryHookOptions<GetFavoriteRoutesQuery, GetFavoriteRoutesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFavoriteRoutesQuery, GetFavoriteRoutesQueryVariables>(GetFavoriteRoutesDocument, options);
+      }
+export function useGetFavoriteRoutesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFavoriteRoutesQuery, GetFavoriteRoutesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFavoriteRoutesQuery, GetFavoriteRoutesQueryVariables>(GetFavoriteRoutesDocument, options);
+        }
+export function useGetFavoriteRoutesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetFavoriteRoutesQuery, GetFavoriteRoutesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetFavoriteRoutesQuery, GetFavoriteRoutesQueryVariables>(GetFavoriteRoutesDocument, options);
+        }
+export type GetFavoriteRoutesQueryHookResult = ReturnType<typeof useGetFavoriteRoutesQuery>;
+export type GetFavoriteRoutesLazyQueryHookResult = ReturnType<typeof useGetFavoriteRoutesLazyQuery>;
+export type GetFavoriteRoutesSuspenseQueryHookResult = ReturnType<typeof useGetFavoriteRoutesSuspenseQuery>;
+export type GetFavoriteRoutesQueryResult = Apollo.QueryResult<GetFavoriteRoutesQuery, GetFavoriteRoutesQueryVariables>;
+export const GetPopularRoutesDocument = gql`
+    query GetPopularRoutes {
+  getPopularRoutes {
+    id
+    title
+  }
+}
+    `;
+
+/**
+ * __useGetPopularRoutesQuery__
+ *
+ * To run a query within a React component, call `useGetPopularRoutesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPopularRoutesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPopularRoutesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPopularRoutesQuery(baseOptions?: Apollo.QueryHookOptions<GetPopularRoutesQuery, GetPopularRoutesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPopularRoutesQuery, GetPopularRoutesQueryVariables>(GetPopularRoutesDocument, options);
+      }
+export function useGetPopularRoutesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPopularRoutesQuery, GetPopularRoutesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPopularRoutesQuery, GetPopularRoutesQueryVariables>(GetPopularRoutesDocument, options);
+        }
+export function useGetPopularRoutesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPopularRoutesQuery, GetPopularRoutesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPopularRoutesQuery, GetPopularRoutesQueryVariables>(GetPopularRoutesDocument, options);
+        }
+export type GetPopularRoutesQueryHookResult = ReturnType<typeof useGetPopularRoutesQuery>;
+export type GetPopularRoutesLazyQueryHookResult = ReturnType<typeof useGetPopularRoutesLazyQuery>;
+export type GetPopularRoutesSuspenseQueryHookResult = ReturnType<typeof useGetPopularRoutesSuspenseQuery>;
+export type GetPopularRoutesQueryResult = Apollo.QueryResult<GetPopularRoutesQuery, GetPopularRoutesQueryVariables>;
+export const GetPopularVideoCoursesDocument = gql`
+    query GetPopularVideoCourses {
+  getPopularVideoCourses {
+    id
+    title
+  }
+}
+    `;
+
+/**
+ * __useGetPopularVideoCoursesQuery__
+ *
+ * To run a query within a React component, call `useGetPopularVideoCoursesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPopularVideoCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPopularVideoCoursesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPopularVideoCoursesQuery(baseOptions?: Apollo.QueryHookOptions<GetPopularVideoCoursesQuery, GetPopularVideoCoursesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPopularVideoCoursesQuery, GetPopularVideoCoursesQueryVariables>(GetPopularVideoCoursesDocument, options);
+      }
+export function useGetPopularVideoCoursesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPopularVideoCoursesQuery, GetPopularVideoCoursesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPopularVideoCoursesQuery, GetPopularVideoCoursesQueryVariables>(GetPopularVideoCoursesDocument, options);
+        }
+export function useGetPopularVideoCoursesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPopularVideoCoursesQuery, GetPopularVideoCoursesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPopularVideoCoursesQuery, GetPopularVideoCoursesQueryVariables>(GetPopularVideoCoursesDocument, options);
+        }
+export type GetPopularVideoCoursesQueryHookResult = ReturnType<typeof useGetPopularVideoCoursesQuery>;
+export type GetPopularVideoCoursesLazyQueryHookResult = ReturnType<typeof useGetPopularVideoCoursesLazyQuery>;
+export type GetPopularVideoCoursesSuspenseQueryHookResult = ReturnType<typeof useGetPopularVideoCoursesSuspenseQuery>;
+export type GetPopularVideoCoursesQueryResult = Apollo.QueryResult<GetPopularVideoCoursesQuery, GetPopularVideoCoursesQueryVariables>;
+export const GetRecentActivityDocument = gql`
+    query GetRecentActivity {
+  getRecentActivity {
+    recentRoutes {
+      id
+      title
+    }
+    recentVideoCourses {
+      id
+      title
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRecentActivityQuery__
+ *
+ * To run a query within a React component, call `useGetRecentActivityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentActivityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecentActivityQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRecentActivityQuery(baseOptions?: Apollo.QueryHookOptions<GetRecentActivityQuery, GetRecentActivityQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecentActivityQuery, GetRecentActivityQueryVariables>(GetRecentActivityDocument, options);
+      }
+export function useGetRecentActivityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecentActivityQuery, GetRecentActivityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecentActivityQuery, GetRecentActivityQueryVariables>(GetRecentActivityDocument, options);
+        }
+export function useGetRecentActivitySuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRecentActivityQuery, GetRecentActivityQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRecentActivityQuery, GetRecentActivityQueryVariables>(GetRecentActivityDocument, options);
+        }
+export type GetRecentActivityQueryHookResult = ReturnType<typeof useGetRecentActivityQuery>;
+export type GetRecentActivityLazyQueryHookResult = ReturnType<typeof useGetRecentActivityLazyQuery>;
+export type GetRecentActivitySuspenseQueryHookResult = ReturnType<typeof useGetRecentActivitySuspenseQuery>;
+export type GetRecentActivityQueryResult = Apollo.QueryResult<GetRecentActivityQuery, GetRecentActivityQueryVariables>;
+export const GetRecentlyAddedRoutesDocument = gql`
+    query GetRecentlyAddedRoutes {
+  getRecentlyAddedRoutes {
+    id
+    title
+  }
+}
+    `;
+
+/**
+ * __useGetRecentlyAddedRoutesQuery__
+ *
+ * To run a query within a React component, call `useGetRecentlyAddedRoutesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentlyAddedRoutesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecentlyAddedRoutesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRecentlyAddedRoutesQuery(baseOptions?: Apollo.QueryHookOptions<GetRecentlyAddedRoutesQuery, GetRecentlyAddedRoutesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecentlyAddedRoutesQuery, GetRecentlyAddedRoutesQueryVariables>(GetRecentlyAddedRoutesDocument, options);
+      }
+export function useGetRecentlyAddedRoutesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecentlyAddedRoutesQuery, GetRecentlyAddedRoutesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecentlyAddedRoutesQuery, GetRecentlyAddedRoutesQueryVariables>(GetRecentlyAddedRoutesDocument, options);
+        }
+export function useGetRecentlyAddedRoutesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRecentlyAddedRoutesQuery, GetRecentlyAddedRoutesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRecentlyAddedRoutesQuery, GetRecentlyAddedRoutesQueryVariables>(GetRecentlyAddedRoutesDocument, options);
+        }
+export type GetRecentlyAddedRoutesQueryHookResult = ReturnType<typeof useGetRecentlyAddedRoutesQuery>;
+export type GetRecentlyAddedRoutesLazyQueryHookResult = ReturnType<typeof useGetRecentlyAddedRoutesLazyQuery>;
+export type GetRecentlyAddedRoutesSuspenseQueryHookResult = ReturnType<typeof useGetRecentlyAddedRoutesSuspenseQuery>;
+export type GetRecentlyAddedRoutesQueryResult = Apollo.QueryResult<GetRecentlyAddedRoutesQuery, GetRecentlyAddedRoutesQueryVariables>;
+export const GetUpcomingDeadlinesDocument = gql`
+    query GetUpcomingDeadlines {
+  getUpcomingDeadlines {
+    id
+    title
+    deadline
+  }
+}
+    `;
+
+/**
+ * __useGetUpcomingDeadlinesQuery__
+ *
+ * To run a query within a React component, call `useGetUpcomingDeadlinesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUpcomingDeadlinesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUpcomingDeadlinesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUpcomingDeadlinesQuery(baseOptions?: Apollo.QueryHookOptions<GetUpcomingDeadlinesQuery, GetUpcomingDeadlinesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUpcomingDeadlinesQuery, GetUpcomingDeadlinesQueryVariables>(GetUpcomingDeadlinesDocument, options);
+      }
+export function useGetUpcomingDeadlinesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUpcomingDeadlinesQuery, GetUpcomingDeadlinesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUpcomingDeadlinesQuery, GetUpcomingDeadlinesQueryVariables>(GetUpcomingDeadlinesDocument, options);
+        }
+export function useGetUpcomingDeadlinesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUpcomingDeadlinesQuery, GetUpcomingDeadlinesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUpcomingDeadlinesQuery, GetUpcomingDeadlinesQueryVariables>(GetUpcomingDeadlinesDocument, options);
+        }
+export type GetUpcomingDeadlinesQueryHookResult = ReturnType<typeof useGetUpcomingDeadlinesQuery>;
+export type GetUpcomingDeadlinesLazyQueryHookResult = ReturnType<typeof useGetUpcomingDeadlinesLazyQuery>;
+export type GetUpcomingDeadlinesSuspenseQueryHookResult = ReturnType<typeof useGetUpcomingDeadlinesSuspenseQuery>;
+export type GetUpcomingDeadlinesQueryResult = Apollo.QueryResult<GetUpcomingDeadlinesQuery, GetUpcomingDeadlinesQueryVariables>;
+export const GetWeeklyGoalsDocument = gql`
+    query GetWeeklyGoals {
+  getWeeklyGoals {
+    topics {
+      value
+      target
+    }
+    videos {
+      value
+      target
+    }
+    deadlines {
+      value
+      target
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetWeeklyGoalsQuery__
+ *
+ * To run a query within a React component, call `useGetWeeklyGoalsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWeeklyGoalsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWeeklyGoalsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetWeeklyGoalsQuery(baseOptions?: Apollo.QueryHookOptions<GetWeeklyGoalsQuery, GetWeeklyGoalsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetWeeklyGoalsQuery, GetWeeklyGoalsQueryVariables>(GetWeeklyGoalsDocument, options);
+      }
+export function useGetWeeklyGoalsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetWeeklyGoalsQuery, GetWeeklyGoalsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetWeeklyGoalsQuery, GetWeeklyGoalsQueryVariables>(GetWeeklyGoalsDocument, options);
+        }
+export function useGetWeeklyGoalsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetWeeklyGoalsQuery, GetWeeklyGoalsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetWeeklyGoalsQuery, GetWeeklyGoalsQueryVariables>(GetWeeklyGoalsDocument, options);
+        }
+export type GetWeeklyGoalsQueryHookResult = ReturnType<typeof useGetWeeklyGoalsQuery>;
+export type GetWeeklyGoalsLazyQueryHookResult = ReturnType<typeof useGetWeeklyGoalsLazyQuery>;
+export type GetWeeklyGoalsSuspenseQueryHookResult = ReturnType<typeof useGetWeeklyGoalsSuspenseQuery>;
+export type GetWeeklyGoalsQueryResult = Apollo.QueryResult<GetWeeklyGoalsQuery, GetWeeklyGoalsQueryVariables>;
+export const GetWeeklyProgressDocument = gql`
+    query GetWeeklyProgress {
+  getWeeklyProgress {
+    date
+    count
+  }
+}
+    `;
+
+/**
+ * __useGetWeeklyProgressQuery__
+ *
+ * To run a query within a React component, call `useGetWeeklyProgressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWeeklyProgressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWeeklyProgressQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetWeeklyProgressQuery(baseOptions?: Apollo.QueryHookOptions<GetWeeklyProgressQuery, GetWeeklyProgressQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetWeeklyProgressQuery, GetWeeklyProgressQueryVariables>(GetWeeklyProgressDocument, options);
+      }
+export function useGetWeeklyProgressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetWeeklyProgressQuery, GetWeeklyProgressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetWeeklyProgressQuery, GetWeeklyProgressQueryVariables>(GetWeeklyProgressDocument, options);
+        }
+export function useGetWeeklyProgressSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetWeeklyProgressQuery, GetWeeklyProgressQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetWeeklyProgressQuery, GetWeeklyProgressQueryVariables>(GetWeeklyProgressDocument, options);
+        }
+export type GetWeeklyProgressQueryHookResult = ReturnType<typeof useGetWeeklyProgressQuery>;
+export type GetWeeklyProgressLazyQueryHookResult = ReturnType<typeof useGetWeeklyProgressLazyQuery>;
+export type GetWeeklyProgressSuspenseQueryHookResult = ReturnType<typeof useGetWeeklyProgressSuspenseQuery>;
+export type GetWeeklyProgressQueryResult = Apollo.QueryResult<GetWeeklyProgressQuery, GetWeeklyProgressQueryVariables>;
 export const GetTopicMapDocument = gql`
     query getTopicMap($routeId: String!) {
   getTopicMap(routeId: $routeId) {
@@ -2411,6 +3264,7 @@ export const FindRoutesByUserDocument = gql`
         id
       }
     }
+    topicCount
   }
 }
     `;
@@ -2446,6 +3300,85 @@ export type FindRoutesByUserQueryHookResult = ReturnType<typeof useFindRoutesByU
 export type FindRoutesByUserLazyQueryHookResult = ReturnType<typeof useFindRoutesByUserLazyQuery>;
 export type FindRoutesByUserSuspenseQueryHookResult = ReturnType<typeof useFindRoutesByUserSuspenseQuery>;
 export type FindRoutesByUserQueryResult = Apollo.QueryResult<FindRoutesByUserQuery, FindRoutesByUserQueryVariables>;
+export const SearchRoutesDocument = gql`
+    query SearchRoutes($filters: SearchRoutesInput!) {
+  searchRoutes(filters: $filters) {
+    routes {
+      id
+      title
+      description
+      createdAt
+      updatedAt
+      privateType
+      isVerified
+      topicCount
+      user {
+        id
+        name
+        avatar
+      }
+      tags {
+        id
+        tag {
+          id
+          name
+        }
+      }
+      topicMap {
+        id
+        nodes {
+          id
+          type
+          videoCourses {
+            id
+            title
+            description
+            isPublished
+            createdAt
+            updatedAt
+          }
+        }
+      }
+    }
+    total
+    totalPages
+    currentPage
+  }
+}
+    `;
+
+/**
+ * __useSearchRoutesQuery__
+ *
+ * To run a query within a React component, call `useSearchRoutesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchRoutesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchRoutesQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useSearchRoutesQuery(baseOptions: Apollo.QueryHookOptions<SearchRoutesQuery, SearchRoutesQueryVariables> & ({ variables: SearchRoutesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchRoutesQuery, SearchRoutesQueryVariables>(SearchRoutesDocument, options);
+      }
+export function useSearchRoutesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchRoutesQuery, SearchRoutesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchRoutesQuery, SearchRoutesQueryVariables>(SearchRoutesDocument, options);
+        }
+export function useSearchRoutesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchRoutesQuery, SearchRoutesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchRoutesQuery, SearchRoutesQueryVariables>(SearchRoutesDocument, options);
+        }
+export type SearchRoutesQueryHookResult = ReturnType<typeof useSearchRoutesQuery>;
+export type SearchRoutesLazyQueryHookResult = ReturnType<typeof useSearchRoutesLazyQuery>;
+export type SearchRoutesSuspenseQueryHookResult = ReturnType<typeof useSearchRoutesSuspenseQuery>;
+export type SearchRoutesQueryResult = Apollo.QueryResult<SearchRoutesQuery, SearchRoutesQueryVariables>;
 export const FindAllTagsDocument = gql`
     query findAllTags {
   findAllTags {
@@ -2629,7 +3562,6 @@ export const GetAvailableChaptersDocument = gql`
     title
     description
     videoUrl
-    isFree
     isPublished
     position
   }
@@ -2726,8 +3658,27 @@ export const GetVideoCourseDocument = gql`
     chapters {
       id
       title
-      position
+      description
+      videoUrl
       isPublished
+      position
+      progress {
+        isCompleted
+        userId
+      }
+      userProgress {
+        isCompleted
+      }
+    }
+    Attachment {
+      id
+      name
+      url
+      courseId
+    }
+    UserVideoCourse {
+      id
+      userId
     }
   }
 }
@@ -2818,3 +3769,55 @@ export type GetVideoCoursesByNodeQueryHookResult = ReturnType<typeof useGetVideo
 export type GetVideoCoursesByNodeLazyQueryHookResult = ReturnType<typeof useGetVideoCoursesByNodeLazyQuery>;
 export type GetVideoCoursesByNodeSuspenseQueryHookResult = ReturnType<typeof useGetVideoCoursesByNodeSuspenseQuery>;
 export type GetVideoCoursesByNodeQueryResult = Apollo.QueryResult<GetVideoCoursesByNodeQuery, GetVideoCoursesByNodeQueryVariables>;
+export const GetVideoChapterDocument = gql`
+    query GetVideoChapter($id: ID!) {
+  videoChapter(id: $id) {
+    id
+    courseId
+    title
+    description
+    videoUrl
+    position
+    isPublished
+    createdAt
+    updatedAt
+    userProgress {
+      userId
+      isCompleted
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetVideoChapterQuery__
+ *
+ * To run a query within a React component, call `useGetVideoChapterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetVideoChapterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetVideoChapterQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetVideoChapterQuery(baseOptions: Apollo.QueryHookOptions<GetVideoChapterQuery, GetVideoChapterQueryVariables> & ({ variables: GetVideoChapterQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetVideoChapterQuery, GetVideoChapterQueryVariables>(GetVideoChapterDocument, options);
+      }
+export function useGetVideoChapterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetVideoChapterQuery, GetVideoChapterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetVideoChapterQuery, GetVideoChapterQueryVariables>(GetVideoChapterDocument, options);
+        }
+export function useGetVideoChapterSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetVideoChapterQuery, GetVideoChapterQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetVideoChapterQuery, GetVideoChapterQueryVariables>(GetVideoChapterDocument, options);
+        }
+export type GetVideoChapterQueryHookResult = ReturnType<typeof useGetVideoChapterQuery>;
+export type GetVideoChapterLazyQueryHookResult = ReturnType<typeof useGetVideoChapterLazyQuery>;
+export type GetVideoChapterSuspenseQueryHookResult = ReturnType<typeof useGetVideoChapterSuspenseQuery>;
+export type GetVideoChapterQueryResult = Apollo.QueryResult<GetVideoChapterQuery, GetVideoChapterQueryVariables>;

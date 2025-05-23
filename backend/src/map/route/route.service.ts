@@ -1,3 +1,4 @@
+import { isProgressableType } from '@/libs/common/utils/is-progressable.util';
 import { PrismaService } from '@/prisma/prisma.service';
 
 import { CreateRouteDto } from './dto/create-route.dto';
@@ -44,26 +45,26 @@ export class RouteService {
     }
 
     public async findByUserId(userId: string): Promise<Route[]> {
-        return this.prisma.route.findMany({
+        const routes = await this.prisma.route.findMany({
             where: { userId },
             include: {
                 topicMap: {
-                    include: {
-                        nodes: true,
-                        edges: true,
-                    },
+                    include: { nodes: true },
                 },
                 tags: {
-                    include: {
-                        tag: true,
-                    },
+                    include: { tag: true },
                 },
-                user: true,
             },
-            orderBy: {
-                createdAt: 'desc',
-            },
+            orderBy: { createdAt: 'desc' },
         });
+
+        return routes.map(route => ({
+            ...route,
+            topicCount:
+                route.topicMap?.nodes.filter(node =>
+                    isProgressableType(node.type),
+                ).length ?? 0,
+        }));
     }
 
     public async create(userId: string, data: CreateRouteDto): Promise<Route> {

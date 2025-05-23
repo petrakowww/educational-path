@@ -99,15 +99,20 @@ export type VideoChapter = $Result.DefaultSelection<Prisma.$VideoChapterPayload>
  */
 export type ChapterProgress = $Result.DefaultSelection<Prisma.$ChapterProgressPayload>
 /**
- * Model CourseAccess
+ * Model UserVideoCourse
  * 
  */
-export type CourseAccess = $Result.DefaultSelection<Prisma.$CourseAccessPayload>
+export type UserVideoCourse = $Result.DefaultSelection<Prisma.$UserVideoCoursePayload>
 /**
  * Model FavoriteRoute
  * 
  */
 export type FavoriteRoute = $Result.DefaultSelection<Prisma.$FavoriteRoutePayload>
+/**
+ * Model Attachment
+ * 
+ */
+export type Attachment = $Result.DefaultSelection<Prisma.$AttachmentPayload>
 
 /**
  * Enums
@@ -531,14 +536,14 @@ export class PrismaClient<
   get chapterProgress(): Prisma.ChapterProgressDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.courseAccess`: Exposes CRUD operations for the **CourseAccess** model.
+   * `prisma.userVideoCourse`: Exposes CRUD operations for the **UserVideoCourse** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more CourseAccesses
-    * const courseAccesses = await prisma.courseAccess.findMany()
+    * // Fetch zero or more UserVideoCourses
+    * const userVideoCourses = await prisma.userVideoCourse.findMany()
     * ```
     */
-  get courseAccess(): Prisma.CourseAccessDelegate<ExtArgs, ClientOptions>;
+  get userVideoCourse(): Prisma.UserVideoCourseDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.favoriteRoute`: Exposes CRUD operations for the **FavoriteRoute** model.
@@ -549,6 +554,16 @@ export class PrismaClient<
     * ```
     */
   get favoriteRoute(): Prisma.FavoriteRouteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attachment`: Exposes CRUD operations for the **Attachment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Attachments
+    * const attachments = await prisma.attachment.findMany()
+    * ```
+    */
+  get attachment(): Prisma.AttachmentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1006,8 +1021,9 @@ export namespace Prisma {
     VideoCourse: 'VideoCourse',
     VideoChapter: 'VideoChapter',
     ChapterProgress: 'ChapterProgress',
-    CourseAccess: 'CourseAccess',
-    FavoriteRoute: 'FavoriteRoute'
+    UserVideoCourse: 'UserVideoCourse',
+    FavoriteRoute: 'FavoriteRoute',
+    Attachment: 'Attachment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1026,7 +1042,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "skillProfile" | "account" | "token" | "route" | "tag" | "routeTag" | "topicMap" | "topicNode" | "topicEdge" | "userCourse" | "userTopicProgress" | "checklistItem" | "userChecklistProgress" | "videoCourse" | "videoChapter" | "chapterProgress" | "courseAccess" | "favoriteRoute"
+      modelProps: "user" | "skillProfile" | "account" | "token" | "route" | "tag" | "routeTag" | "topicMap" | "topicNode" | "topicEdge" | "userCourse" | "userTopicProgress" | "checklistItem" | "userChecklistProgress" | "videoCourse" | "videoChapter" | "chapterProgress" | "userVideoCourse" | "favoriteRoute" | "attachment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2288,77 +2304,77 @@ export namespace Prisma {
           }
         }
       }
-      CourseAccess: {
-        payload: Prisma.$CourseAccessPayload<ExtArgs>
-        fields: Prisma.CourseAccessFieldRefs
+      UserVideoCourse: {
+        payload: Prisma.$UserVideoCoursePayload<ExtArgs>
+        fields: Prisma.UserVideoCourseFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.CourseAccessFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload> | null
+            args: Prisma.UserVideoCourseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.CourseAccessFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload>
+            args: Prisma.UserVideoCourseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload>
           }
           findFirst: {
-            args: Prisma.CourseAccessFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload> | null
+            args: Prisma.UserVideoCourseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.CourseAccessFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload>
+            args: Prisma.UserVideoCourseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload>
           }
           findMany: {
-            args: Prisma.CourseAccessFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload>[]
+            args: Prisma.UserVideoCourseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload>[]
           }
           create: {
-            args: Prisma.CourseAccessCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload>
+            args: Prisma.UserVideoCourseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload>
           }
           createMany: {
-            args: Prisma.CourseAccessCreateManyArgs<ExtArgs>
+            args: Prisma.UserVideoCourseCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.CourseAccessCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload>[]
+            args: Prisma.UserVideoCourseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload>[]
           }
           delete: {
-            args: Prisma.CourseAccessDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload>
+            args: Prisma.UserVideoCourseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload>
           }
           update: {
-            args: Prisma.CourseAccessUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload>
+            args: Prisma.UserVideoCourseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload>
           }
           deleteMany: {
-            args: Prisma.CourseAccessDeleteManyArgs<ExtArgs>
+            args: Prisma.UserVideoCourseDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.CourseAccessUpdateManyArgs<ExtArgs>
+            args: Prisma.UserVideoCourseUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.CourseAccessUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload>[]
+            args: Prisma.UserVideoCourseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload>[]
           }
           upsert: {
-            args: Prisma.CourseAccessUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CourseAccessPayload>
+            args: Prisma.UserVideoCourseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserVideoCoursePayload>
           }
           aggregate: {
-            args: Prisma.CourseAccessAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCourseAccess>
+            args: Prisma.UserVideoCourseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserVideoCourse>
           }
           groupBy: {
-            args: Prisma.CourseAccessGroupByArgs<ExtArgs>
-            result: $Utils.Optional<CourseAccessGroupByOutputType>[]
+            args: Prisma.UserVideoCourseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserVideoCourseGroupByOutputType>[]
           }
           count: {
-            args: Prisma.CourseAccessCountArgs<ExtArgs>
-            result: $Utils.Optional<CourseAccessCountAggregateOutputType> | number
+            args: Prisma.UserVideoCourseCountArgs<ExtArgs>
+            result: $Utils.Optional<UserVideoCourseCountAggregateOutputType> | number
           }
         }
       }
@@ -2433,6 +2449,80 @@ export namespace Prisma {
           count: {
             args: Prisma.FavoriteRouteCountArgs<ExtArgs>
             result: $Utils.Optional<FavoriteRouteCountAggregateOutputType> | number
+          }
+        }
+      }
+      Attachment: {
+        payload: Prisma.$AttachmentPayload<ExtArgs>
+        fields: Prisma.AttachmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttachmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttachmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          findFirst: {
+            args: Prisma.AttachmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttachmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          findMany: {
+            args: Prisma.AttachmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+          }
+          create: {
+            args: Prisma.AttachmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          createMany: {
+            args: Prisma.AttachmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttachmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+          }
+          delete: {
+            args: Prisma.AttachmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          update: {
+            args: Prisma.AttachmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttachmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttachmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttachmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttachmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          aggregate: {
+            args: Prisma.AttachmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttachment>
+          }
+          groupBy: {
+            args: Prisma.AttachmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttachmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttachmentCountArgs<ExtArgs>
+            result: $Utils.Optional<AttachmentCountAggregateOutputType> | number
           }
         }
       }
@@ -2537,8 +2627,9 @@ export namespace Prisma {
     videoCourse?: VideoCourseOmit
     videoChapter?: VideoChapterOmit
     chapterProgress?: ChapterProgressOmit
-    courseAccess?: CourseAccessOmit
+    userVideoCourse?: UserVideoCourseOmit
     favoriteRoute?: FavoriteRouteOmit
+    attachment?: AttachmentOmit
   }
 
   /* Types for Logging */
@@ -2636,22 +2727,22 @@ export namespace Prisma {
     Route: number
     accounts: number
     tokens: number
-    CourseAccess: number
     FavoriteRoute: number
     UserCourse: number
     ChapterProgress: number
     VideoCourse: number
+    UserVideoCourse: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Route?: boolean | UserCountOutputTypeCountRouteArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     tokens?: boolean | UserCountOutputTypeCountTokensArgs
-    CourseAccess?: boolean | UserCountOutputTypeCountCourseAccessArgs
     FavoriteRoute?: boolean | UserCountOutputTypeCountFavoriteRouteArgs
     UserCourse?: boolean | UserCountOutputTypeCountUserCourseArgs
     ChapterProgress?: boolean | UserCountOutputTypeCountChapterProgressArgs
     VideoCourse?: boolean | UserCountOutputTypeCountVideoCourseArgs
+    UserVideoCourse?: boolean | UserCountOutputTypeCountUserVideoCourseArgs
   }
 
   // Custom InputTypes
@@ -2689,13 +2780,6 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCourseAccessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CourseAccessWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountFavoriteRouteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FavoriteRouteWhereInput
   }
@@ -2719,6 +2803,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountVideoCourseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VideoCourseWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserVideoCourseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserVideoCourseWhereInput
   }
 
 
@@ -2968,12 +3059,14 @@ export namespace Prisma {
 
   export type VideoCourseCountOutputType = {
     chapters: number
-    CourseAccess: number
+    Attachment: number
+    UserVideoCourse: number
   }
 
   export type VideoCourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chapters?: boolean | VideoCourseCountOutputTypeCountChaptersArgs
-    CourseAccess?: boolean | VideoCourseCountOutputTypeCountCourseAccessArgs
+    Attachment?: boolean | VideoCourseCountOutputTypeCountAttachmentArgs
+    UserVideoCourse?: boolean | VideoCourseCountOutputTypeCountUserVideoCourseArgs
   }
 
   // Custom InputTypes
@@ -2997,8 +3090,15 @@ export namespace Prisma {
   /**
    * VideoCourseCountOutputType without action
    */
-  export type VideoCourseCountOutputTypeCountCourseAccessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CourseAccessWhereInput
+  export type VideoCourseCountOutputTypeCountAttachmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
+  }
+
+  /**
+   * VideoCourseCountOutputType without action
+   */
+  export type VideoCourseCountOutputTypeCountUserVideoCourseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserVideoCourseWhereInput
   }
 
 
@@ -3253,11 +3353,11 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     skillProfile?: boolean | User$skillProfileArgs<ExtArgs>
     tokens?: boolean | User$tokensArgs<ExtArgs>
-    CourseAccess?: boolean | User$CourseAccessArgs<ExtArgs>
     FavoriteRoute?: boolean | User$FavoriteRouteArgs<ExtArgs>
     UserCourse?: boolean | User$UserCourseArgs<ExtArgs>
     ChapterProgress?: boolean | User$ChapterProgressArgs<ExtArgs>
     VideoCourse?: boolean | User$VideoCourseArgs<ExtArgs>
+    UserVideoCourse?: boolean | User$UserVideoCourseArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3309,11 +3409,11 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     skillProfile?: boolean | User$skillProfileArgs<ExtArgs>
     tokens?: boolean | User$tokensArgs<ExtArgs>
-    CourseAccess?: boolean | User$CourseAccessArgs<ExtArgs>
     FavoriteRoute?: boolean | User$FavoriteRouteArgs<ExtArgs>
     UserCourse?: boolean | User$UserCourseArgs<ExtArgs>
     ChapterProgress?: boolean | User$ChapterProgressArgs<ExtArgs>
     VideoCourse?: boolean | User$VideoCourseArgs<ExtArgs>
+    UserVideoCourse?: boolean | User$UserVideoCourseArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3326,11 +3426,11 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       skillProfile: Prisma.$SkillProfilePayload<ExtArgs> | null
       tokens: Prisma.$TokenPayload<ExtArgs>[]
-      CourseAccess: Prisma.$CourseAccessPayload<ExtArgs>[]
       FavoriteRoute: Prisma.$FavoriteRoutePayload<ExtArgs>[]
       UserCourse: Prisma.$UserCoursePayload<ExtArgs>[]
       ChapterProgress: Prisma.$ChapterProgressPayload<ExtArgs>[]
       VideoCourse: Prisma.$VideoCoursePayload<ExtArgs>[]
+      UserVideoCourse: Prisma.$UserVideoCoursePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3742,11 +3842,11 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     skillProfile<T extends User$skillProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$skillProfileArgs<ExtArgs>>): Prisma__SkillProfileClient<$Result.GetResult<Prisma.$SkillProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tokens<T extends User$tokensArgs<ExtArgs> = {}>(args?: Subset<T, User$tokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    CourseAccess<T extends User$CourseAccessArgs<ExtArgs> = {}>(args?: Subset<T, User$CourseAccessArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     FavoriteRoute<T extends User$FavoriteRouteArgs<ExtArgs> = {}>(args?: Subset<T, User$FavoriteRouteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoriteRoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     UserCourse<T extends User$UserCourseArgs<ExtArgs> = {}>(args?: Subset<T, User$UserCourseArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ChapterProgress<T extends User$ChapterProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$ChapterProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     VideoCourse<T extends User$VideoCourseArgs<ExtArgs> = {}>(args?: Subset<T, User$VideoCourseArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    UserVideoCourse<T extends User$UserVideoCourseArgs<ExtArgs> = {}>(args?: Subset<T, User$UserVideoCourseArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4266,30 +4366,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.CourseAccess
-   */
-  export type User$CourseAccessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CourseAccess
-     */
-    select?: CourseAccessSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CourseAccess
-     */
-    omit?: CourseAccessOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CourseAccessInclude<ExtArgs> | null
-    where?: CourseAccessWhereInput
-    orderBy?: CourseAccessOrderByWithRelationInput | CourseAccessOrderByWithRelationInput[]
-    cursor?: CourseAccessWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CourseAccessScalarFieldEnum | CourseAccessScalarFieldEnum[]
-  }
-
-  /**
    * User.FavoriteRoute
    */
   export type User$FavoriteRouteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4383,6 +4459,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VideoCourseScalarFieldEnum | VideoCourseScalarFieldEnum[]
+  }
+
+  /**
+   * User.UserVideoCourse
+   */
+  export type User$UserVideoCourseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserVideoCourse
+     */
+    select?: UserVideoCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserVideoCourse
+     */
+    omit?: UserVideoCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserVideoCourseInclude<ExtArgs> | null
+    where?: UserVideoCourseWhereInput
+    orderBy?: UserVideoCourseOrderByWithRelationInput | UserVideoCourseOrderByWithRelationInput[]
+    cursor?: UserVideoCourseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserVideoCourseScalarFieldEnum | UserVideoCourseScalarFieldEnum[]
   }
 
   /**
@@ -18915,7 +19015,8 @@ export namespace Prisma {
     topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     chapters?: boolean | VideoCourse$chaptersArgs<ExtArgs>
-    CourseAccess?: boolean | VideoCourse$CourseAccessArgs<ExtArgs>
+    Attachment?: boolean | VideoCourse$AttachmentArgs<ExtArgs>
+    UserVideoCourse?: boolean | VideoCourse$UserVideoCourseArgs<ExtArgs>
     _count?: boolean | VideoCourseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["videoCourse"]>
 
@@ -18964,7 +19065,8 @@ export namespace Prisma {
     topicNode?: boolean | TopicNodeDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     chapters?: boolean | VideoCourse$chaptersArgs<ExtArgs>
-    CourseAccess?: boolean | VideoCourse$CourseAccessArgs<ExtArgs>
+    Attachment?: boolean | VideoCourse$AttachmentArgs<ExtArgs>
+    UserVideoCourse?: boolean | VideoCourse$UserVideoCourseArgs<ExtArgs>
     _count?: boolean | VideoCourseCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type VideoCourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18982,7 +19084,8 @@ export namespace Prisma {
       topicNode: Prisma.$TopicNodePayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs>
       chapters: Prisma.$VideoChapterPayload<ExtArgs>[]
-      CourseAccess: Prisma.$CourseAccessPayload<ExtArgs>[]
+      Attachment: Prisma.$AttachmentPayload<ExtArgs>[]
+      UserVideoCourse: Prisma.$UserVideoCoursePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -19391,7 +19494,8 @@ export namespace Prisma {
     topicNode<T extends TopicNodeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicNodeDefaultArgs<ExtArgs>>): Prisma__TopicNodeClient<$Result.GetResult<Prisma.$TopicNodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     chapters<T extends VideoCourse$chaptersArgs<ExtArgs> = {}>(args?: Subset<T, VideoCourse$chaptersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoChapterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    CourseAccess<T extends VideoCourse$CourseAccessArgs<ExtArgs> = {}>(args?: Subset<T, VideoCourse$CourseAccessArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Attachment<T extends VideoCourse$AttachmentArgs<ExtArgs> = {}>(args?: Subset<T, VideoCourse$AttachmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    UserVideoCourse<T extends VideoCourse$UserVideoCourseArgs<ExtArgs> = {}>(args?: Subset<T, VideoCourse$UserVideoCourseArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19850,27 +19954,51 @@ export namespace Prisma {
   }
 
   /**
-   * VideoCourse.CourseAccess
+   * VideoCourse.Attachment
    */
-  export type VideoCourse$CourseAccessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VideoCourse$AttachmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the Attachment
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the Attachment
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
-    where?: CourseAccessWhereInput
-    orderBy?: CourseAccessOrderByWithRelationInput | CourseAccessOrderByWithRelationInput[]
-    cursor?: CourseAccessWhereUniqueInput
+    include?: AttachmentInclude<ExtArgs> | null
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    cursor?: AttachmentWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: CourseAccessScalarFieldEnum | CourseAccessScalarFieldEnum[]
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * VideoCourse.UserVideoCourse
+   */
+  export type VideoCourse$UserVideoCourseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserVideoCourse
+     */
+    select?: UserVideoCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserVideoCourse
+     */
+    omit?: UserVideoCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserVideoCourseInclude<ExtArgs> | null
+    where?: UserVideoCourseWhereInput
+    orderBy?: UserVideoCourseOrderByWithRelationInput | UserVideoCourseOrderByWithRelationInput[]
+    cursor?: UserVideoCourseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserVideoCourseScalarFieldEnum | UserVideoCourseScalarFieldEnum[]
   }
 
   /**
@@ -19920,7 +20048,6 @@ export namespace Prisma {
     videoUrl: string | null
     position: number | null
     isPublished: boolean | null
-    isFree: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -19933,7 +20060,6 @@ export namespace Prisma {
     videoUrl: string | null
     position: number | null
     isPublished: boolean | null
-    isFree: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -19946,7 +20072,6 @@ export namespace Prisma {
     videoUrl: number
     position: number
     isPublished: number
-    isFree: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -19969,7 +20094,6 @@ export namespace Prisma {
     videoUrl?: true
     position?: true
     isPublished?: true
-    isFree?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -19982,7 +20106,6 @@ export namespace Prisma {
     videoUrl?: true
     position?: true
     isPublished?: true
-    isFree?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -19995,7 +20118,6 @@ export namespace Prisma {
     videoUrl?: true
     position?: true
     isPublished?: true
-    isFree?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -20095,7 +20217,6 @@ export namespace Prisma {
     videoUrl: string | null
     position: number
     isPublished: boolean
-    isFree: boolean
     createdAt: Date
     updatedAt: Date
     _count: VideoChapterCountAggregateOutputType | null
@@ -20127,7 +20248,6 @@ export namespace Prisma {
     videoUrl?: boolean
     position?: boolean
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     course?: boolean | VideoCourseDefaultArgs<ExtArgs>
@@ -20143,7 +20263,6 @@ export namespace Prisma {
     videoUrl?: boolean
     position?: boolean
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     course?: boolean | VideoCourseDefaultArgs<ExtArgs>
@@ -20157,7 +20276,6 @@ export namespace Prisma {
     videoUrl?: boolean
     position?: boolean
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     course?: boolean | VideoCourseDefaultArgs<ExtArgs>
@@ -20171,12 +20289,11 @@ export namespace Prisma {
     videoUrl?: boolean
     position?: boolean
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type VideoChapterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "title" | "description" | "videoUrl" | "position" | "isPublished" | "isFree" | "createdAt" | "updatedAt", ExtArgs["result"]["videoChapter"]>
+  export type VideoChapterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "title" | "description" | "videoUrl" | "position" | "isPublished" | "createdAt" | "updatedAt", ExtArgs["result"]["videoChapter"]>
   export type VideoChapterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | VideoCourseDefaultArgs<ExtArgs>
     progress?: boolean | VideoChapter$progressArgs<ExtArgs>
@@ -20203,7 +20320,6 @@ export namespace Prisma {
       videoUrl: string | null
       position: number
       isPublished: boolean
-      isFree: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["videoChapter"]>
@@ -20638,7 +20754,6 @@ export namespace Prisma {
     readonly videoUrl: FieldRef<"VideoChapter", 'String'>
     readonly position: FieldRef<"VideoChapter", 'Int'>
     readonly isPublished: FieldRef<"VideoChapter", 'Boolean'>
-    readonly isFree: FieldRef<"VideoChapter", 'Boolean'>
     readonly createdAt: FieldRef<"VideoChapter", 'DateTime'>
     readonly updatedAt: FieldRef<"VideoChapter", 'DateTime'>
   }
@@ -22159,357 +22274,345 @@ export namespace Prisma {
 
 
   /**
-   * Model CourseAccess
+   * Model UserVideoCourse
    */
 
-  export type AggregateCourseAccess = {
-    _count: CourseAccessCountAggregateOutputType | null
-    _min: CourseAccessMinAggregateOutputType | null
-    _max: CourseAccessMaxAggregateOutputType | null
+  export type AggregateUserVideoCourse = {
+    _count: UserVideoCourseCountAggregateOutputType | null
+    _min: UserVideoCourseMinAggregateOutputType | null
+    _max: UserVideoCourseMaxAggregateOutputType | null
   }
 
-  export type CourseAccessMinAggregateOutputType = {
+  export type UserVideoCourseMinAggregateOutputType = {
     id: string | null
     userId: string | null
-    videoCourseId: string | null
-    isOwner: boolean | null
-    purchasedAt: Date | null
+    courseId: string | null
+    startedAt: Date | null
   }
 
-  export type CourseAccessMaxAggregateOutputType = {
+  export type UserVideoCourseMaxAggregateOutputType = {
     id: string | null
     userId: string | null
-    videoCourseId: string | null
-    isOwner: boolean | null
-    purchasedAt: Date | null
+    courseId: string | null
+    startedAt: Date | null
   }
 
-  export type CourseAccessCountAggregateOutputType = {
+  export type UserVideoCourseCountAggregateOutputType = {
     id: number
     userId: number
-    videoCourseId: number
-    isOwner: number
-    purchasedAt: number
+    courseId: number
+    startedAt: number
     _all: number
   }
 
 
-  export type CourseAccessMinAggregateInputType = {
+  export type UserVideoCourseMinAggregateInputType = {
     id?: true
     userId?: true
-    videoCourseId?: true
-    isOwner?: true
-    purchasedAt?: true
+    courseId?: true
+    startedAt?: true
   }
 
-  export type CourseAccessMaxAggregateInputType = {
+  export type UserVideoCourseMaxAggregateInputType = {
     id?: true
     userId?: true
-    videoCourseId?: true
-    isOwner?: true
-    purchasedAt?: true
+    courseId?: true
+    startedAt?: true
   }
 
-  export type CourseAccessCountAggregateInputType = {
+  export type UserVideoCourseCountAggregateInputType = {
     id?: true
     userId?: true
-    videoCourseId?: true
-    isOwner?: true
-    purchasedAt?: true
+    courseId?: true
+    startedAt?: true
     _all?: true
   }
 
-  export type CourseAccessAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which CourseAccess to aggregate.
+     * Filter which UserVideoCourse to aggregate.
      */
-    where?: CourseAccessWhereInput
+    where?: UserVideoCourseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CourseAccesses to fetch.
+     * Determine the order of UserVideoCourses to fetch.
      */
-    orderBy?: CourseAccessOrderByWithRelationInput | CourseAccessOrderByWithRelationInput[]
+    orderBy?: UserVideoCourseOrderByWithRelationInput | UserVideoCourseOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: CourseAccessWhereUniqueInput
+    cursor?: UserVideoCourseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CourseAccesses from the position of the cursor.
+     * Take `±n` UserVideoCourses from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CourseAccesses.
+     * Skip the first `n` UserVideoCourses.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned CourseAccesses
+     * Count returned UserVideoCourses
     **/
-    _count?: true | CourseAccessCountAggregateInputType
+    _count?: true | UserVideoCourseCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: CourseAccessMinAggregateInputType
+    _min?: UserVideoCourseMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: CourseAccessMaxAggregateInputType
+    _max?: UserVideoCourseMaxAggregateInputType
   }
 
-  export type GetCourseAccessAggregateType<T extends CourseAccessAggregateArgs> = {
-        [P in keyof T & keyof AggregateCourseAccess]: P extends '_count' | 'count'
+  export type GetUserVideoCourseAggregateType<T extends UserVideoCourseAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserVideoCourse]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateCourseAccess[P]>
-      : GetScalarType<T[P], AggregateCourseAccess[P]>
+        : GetScalarType<T[P], AggregateUserVideoCourse[P]>
+      : GetScalarType<T[P], AggregateUserVideoCourse[P]>
   }
 
 
 
 
-  export type CourseAccessGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CourseAccessWhereInput
-    orderBy?: CourseAccessOrderByWithAggregationInput | CourseAccessOrderByWithAggregationInput[]
-    by: CourseAccessScalarFieldEnum[] | CourseAccessScalarFieldEnum
-    having?: CourseAccessScalarWhereWithAggregatesInput
+  export type UserVideoCourseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserVideoCourseWhereInput
+    orderBy?: UserVideoCourseOrderByWithAggregationInput | UserVideoCourseOrderByWithAggregationInput[]
+    by: UserVideoCourseScalarFieldEnum[] | UserVideoCourseScalarFieldEnum
+    having?: UserVideoCourseScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: CourseAccessCountAggregateInputType | true
-    _min?: CourseAccessMinAggregateInputType
-    _max?: CourseAccessMaxAggregateInputType
+    _count?: UserVideoCourseCountAggregateInputType | true
+    _min?: UserVideoCourseMinAggregateInputType
+    _max?: UserVideoCourseMaxAggregateInputType
   }
 
-  export type CourseAccessGroupByOutputType = {
+  export type UserVideoCourseGroupByOutputType = {
     id: string
     userId: string
-    videoCourseId: string
-    isOwner: boolean
-    purchasedAt: Date
-    _count: CourseAccessCountAggregateOutputType | null
-    _min: CourseAccessMinAggregateOutputType | null
-    _max: CourseAccessMaxAggregateOutputType | null
+    courseId: string
+    startedAt: Date
+    _count: UserVideoCourseCountAggregateOutputType | null
+    _min: UserVideoCourseMinAggregateOutputType | null
+    _max: UserVideoCourseMaxAggregateOutputType | null
   }
 
-  type GetCourseAccessGroupByPayload<T extends CourseAccessGroupByArgs> = Prisma.PrismaPromise<
+  type GetUserVideoCourseGroupByPayload<T extends UserVideoCourseGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<CourseAccessGroupByOutputType, T['by']> &
+      PickEnumerable<UserVideoCourseGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof CourseAccessGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof UserVideoCourseGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], CourseAccessGroupByOutputType[P]>
-            : GetScalarType<T[P], CourseAccessGroupByOutputType[P]>
+              : GetScalarType<T[P], UserVideoCourseGroupByOutputType[P]>
+            : GetScalarType<T[P], UserVideoCourseGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type CourseAccessSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type UserVideoCourseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    videoCourseId?: boolean
-    isOwner?: boolean
-    purchasedAt?: boolean
+    courseId?: boolean
+    startedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    videoCourse?: boolean | VideoCourseDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["courseAccess"]>
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userVideoCourse"]>
 
-  export type CourseAccessSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type UserVideoCourseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    videoCourseId?: boolean
-    isOwner?: boolean
-    purchasedAt?: boolean
+    courseId?: boolean
+    startedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    videoCourse?: boolean | VideoCourseDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["courseAccess"]>
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userVideoCourse"]>
 
-  export type CourseAccessSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type UserVideoCourseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    videoCourseId?: boolean
-    isOwner?: boolean
-    purchasedAt?: boolean
+    courseId?: boolean
+    startedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    videoCourse?: boolean | VideoCourseDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["courseAccess"]>
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userVideoCourse"]>
 
-  export type CourseAccessSelectScalar = {
+  export type UserVideoCourseSelectScalar = {
     id?: boolean
     userId?: boolean
-    videoCourseId?: boolean
-    isOwner?: boolean
-    purchasedAt?: boolean
+    courseId?: boolean
+    startedAt?: boolean
   }
 
-  export type CourseAccessOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "videoCourseId" | "isOwner" | "purchasedAt", ExtArgs["result"]["courseAccess"]>
-  export type CourseAccessInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "courseId" | "startedAt", ExtArgs["result"]["userVideoCourse"]>
+  export type UserVideoCourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    videoCourse?: boolean | VideoCourseDefaultArgs<ExtArgs>
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
   }
-  export type CourseAccessIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    videoCourse?: boolean | VideoCourseDefaultArgs<ExtArgs>
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
   }
-  export type CourseAccessIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    videoCourse?: boolean | VideoCourseDefaultArgs<ExtArgs>
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
   }
 
-  export type $CourseAccessPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "CourseAccess"
+  export type $UserVideoCoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserVideoCourse"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      videoCourse: Prisma.$VideoCoursePayload<ExtArgs>
+      course: Prisma.$VideoCoursePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      videoCourseId: string
-      isOwner: boolean
-      purchasedAt: Date
-    }, ExtArgs["result"]["courseAccess"]>
+      courseId: string
+      startedAt: Date
+    }, ExtArgs["result"]["userVideoCourse"]>
     composites: {}
   }
 
-  type CourseAccessGetPayload<S extends boolean | null | undefined | CourseAccessDefaultArgs> = $Result.GetResult<Prisma.$CourseAccessPayload, S>
+  type UserVideoCourseGetPayload<S extends boolean | null | undefined | UserVideoCourseDefaultArgs> = $Result.GetResult<Prisma.$UserVideoCoursePayload, S>
 
-  type CourseAccessCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<CourseAccessFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: CourseAccessCountAggregateInputType | true
+  type UserVideoCourseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserVideoCourseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserVideoCourseCountAggregateInputType | true
     }
 
-  export interface CourseAccessDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CourseAccess'], meta: { name: 'CourseAccess' } }
+  export interface UserVideoCourseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserVideoCourse'], meta: { name: 'UserVideoCourse' } }
     /**
-     * Find zero or one CourseAccess that matches the filter.
-     * @param {CourseAccessFindUniqueArgs} args - Arguments to find a CourseAccess
+     * Find zero or one UserVideoCourse that matches the filter.
+     * @param {UserVideoCourseFindUniqueArgs} args - Arguments to find a UserVideoCourse
      * @example
-     * // Get one CourseAccess
-     * const courseAccess = await prisma.courseAccess.findUnique({
+     * // Get one UserVideoCourse
+     * const userVideoCourse = await prisma.userVideoCourse.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends CourseAccessFindUniqueArgs>(args: SelectSubset<T, CourseAccessFindUniqueArgs<ExtArgs>>): Prisma__CourseAccessClient<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends UserVideoCourseFindUniqueArgs>(args: SelectSubset<T, UserVideoCourseFindUniqueArgs<ExtArgs>>): Prisma__UserVideoCourseClient<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one CourseAccess that matches the filter or throw an error with `error.code='P2025'`
+     * Find one UserVideoCourse that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {CourseAccessFindUniqueOrThrowArgs} args - Arguments to find a CourseAccess
+     * @param {UserVideoCourseFindUniqueOrThrowArgs} args - Arguments to find a UserVideoCourse
      * @example
-     * // Get one CourseAccess
-     * const courseAccess = await prisma.courseAccess.findUniqueOrThrow({
+     * // Get one UserVideoCourse
+     * const userVideoCourse = await prisma.userVideoCourse.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends CourseAccessFindUniqueOrThrowArgs>(args: SelectSubset<T, CourseAccessFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CourseAccessClient<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends UserVideoCourseFindUniqueOrThrowArgs>(args: SelectSubset<T, UserVideoCourseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserVideoCourseClient<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first CourseAccess that matches the filter.
+     * Find the first UserVideoCourse that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CourseAccessFindFirstArgs} args - Arguments to find a CourseAccess
+     * @param {UserVideoCourseFindFirstArgs} args - Arguments to find a UserVideoCourse
      * @example
-     * // Get one CourseAccess
-     * const courseAccess = await prisma.courseAccess.findFirst({
+     * // Get one UserVideoCourse
+     * const userVideoCourse = await prisma.userVideoCourse.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends CourseAccessFindFirstArgs>(args?: SelectSubset<T, CourseAccessFindFirstArgs<ExtArgs>>): Prisma__CourseAccessClient<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends UserVideoCourseFindFirstArgs>(args?: SelectSubset<T, UserVideoCourseFindFirstArgs<ExtArgs>>): Prisma__UserVideoCourseClient<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first CourseAccess that matches the filter or
+     * Find the first UserVideoCourse that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CourseAccessFindFirstOrThrowArgs} args - Arguments to find a CourseAccess
+     * @param {UserVideoCourseFindFirstOrThrowArgs} args - Arguments to find a UserVideoCourse
      * @example
-     * // Get one CourseAccess
-     * const courseAccess = await prisma.courseAccess.findFirstOrThrow({
+     * // Get one UserVideoCourse
+     * const userVideoCourse = await prisma.userVideoCourse.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends CourseAccessFindFirstOrThrowArgs>(args?: SelectSubset<T, CourseAccessFindFirstOrThrowArgs<ExtArgs>>): Prisma__CourseAccessClient<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends UserVideoCourseFindFirstOrThrowArgs>(args?: SelectSubset<T, UserVideoCourseFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserVideoCourseClient<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more CourseAccesses that matches the filter.
+     * Find zero or more UserVideoCourses that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CourseAccessFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {UserVideoCourseFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all CourseAccesses
-     * const courseAccesses = await prisma.courseAccess.findMany()
+     * // Get all UserVideoCourses
+     * const userVideoCourses = await prisma.userVideoCourse.findMany()
      * 
-     * // Get first 10 CourseAccesses
-     * const courseAccesses = await prisma.courseAccess.findMany({ take: 10 })
+     * // Get first 10 UserVideoCourses
+     * const userVideoCourses = await prisma.userVideoCourse.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const courseAccessWithIdOnly = await prisma.courseAccess.findMany({ select: { id: true } })
+     * const userVideoCourseWithIdOnly = await prisma.userVideoCourse.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends CourseAccessFindManyArgs>(args?: SelectSubset<T, CourseAccessFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends UserVideoCourseFindManyArgs>(args?: SelectSubset<T, UserVideoCourseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a CourseAccess.
-     * @param {CourseAccessCreateArgs} args - Arguments to create a CourseAccess.
+     * Create a UserVideoCourse.
+     * @param {UserVideoCourseCreateArgs} args - Arguments to create a UserVideoCourse.
      * @example
-     * // Create one CourseAccess
-     * const CourseAccess = await prisma.courseAccess.create({
+     * // Create one UserVideoCourse
+     * const UserVideoCourse = await prisma.userVideoCourse.create({
      *   data: {
-     *     // ... data to create a CourseAccess
+     *     // ... data to create a UserVideoCourse
      *   }
      * })
      * 
      */
-    create<T extends CourseAccessCreateArgs>(args: SelectSubset<T, CourseAccessCreateArgs<ExtArgs>>): Prisma__CourseAccessClient<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends UserVideoCourseCreateArgs>(args: SelectSubset<T, UserVideoCourseCreateArgs<ExtArgs>>): Prisma__UserVideoCourseClient<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many CourseAccesses.
-     * @param {CourseAccessCreateManyArgs} args - Arguments to create many CourseAccesses.
+     * Create many UserVideoCourses.
+     * @param {UserVideoCourseCreateManyArgs} args - Arguments to create many UserVideoCourses.
      * @example
-     * // Create many CourseAccesses
-     * const courseAccess = await prisma.courseAccess.createMany({
+     * // Create many UserVideoCourses
+     * const userVideoCourse = await prisma.userVideoCourse.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends CourseAccessCreateManyArgs>(args?: SelectSubset<T, CourseAccessCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends UserVideoCourseCreateManyArgs>(args?: SelectSubset<T, UserVideoCourseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many CourseAccesses and returns the data saved in the database.
-     * @param {CourseAccessCreateManyAndReturnArgs} args - Arguments to create many CourseAccesses.
+     * Create many UserVideoCourses and returns the data saved in the database.
+     * @param {UserVideoCourseCreateManyAndReturnArgs} args - Arguments to create many UserVideoCourses.
      * @example
-     * // Create many CourseAccesses
-     * const courseAccess = await prisma.courseAccess.createManyAndReturn({
+     * // Create many UserVideoCourses
+     * const userVideoCourse = await prisma.userVideoCourse.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many CourseAccesses and only return the `id`
-     * const courseAccessWithIdOnly = await prisma.courseAccess.createManyAndReturn({
+     * // Create many UserVideoCourses and only return the `id`
+     * const userVideoCourseWithIdOnly = await prisma.userVideoCourse.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -22519,28 +22622,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends CourseAccessCreateManyAndReturnArgs>(args?: SelectSubset<T, CourseAccessCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends UserVideoCourseCreateManyAndReturnArgs>(args?: SelectSubset<T, UserVideoCourseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a CourseAccess.
-     * @param {CourseAccessDeleteArgs} args - Arguments to delete one CourseAccess.
+     * Delete a UserVideoCourse.
+     * @param {UserVideoCourseDeleteArgs} args - Arguments to delete one UserVideoCourse.
      * @example
-     * // Delete one CourseAccess
-     * const CourseAccess = await prisma.courseAccess.delete({
+     * // Delete one UserVideoCourse
+     * const UserVideoCourse = await prisma.userVideoCourse.delete({
      *   where: {
-     *     // ... filter to delete one CourseAccess
+     *     // ... filter to delete one UserVideoCourse
      *   }
      * })
      * 
      */
-    delete<T extends CourseAccessDeleteArgs>(args: SelectSubset<T, CourseAccessDeleteArgs<ExtArgs>>): Prisma__CourseAccessClient<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends UserVideoCourseDeleteArgs>(args: SelectSubset<T, UserVideoCourseDeleteArgs<ExtArgs>>): Prisma__UserVideoCourseClient<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one CourseAccess.
-     * @param {CourseAccessUpdateArgs} args - Arguments to update one CourseAccess.
+     * Update one UserVideoCourse.
+     * @param {UserVideoCourseUpdateArgs} args - Arguments to update one UserVideoCourse.
      * @example
-     * // Update one CourseAccess
-     * const courseAccess = await prisma.courseAccess.update({
+     * // Update one UserVideoCourse
+     * const userVideoCourse = await prisma.userVideoCourse.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -22550,30 +22653,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends CourseAccessUpdateArgs>(args: SelectSubset<T, CourseAccessUpdateArgs<ExtArgs>>): Prisma__CourseAccessClient<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends UserVideoCourseUpdateArgs>(args: SelectSubset<T, UserVideoCourseUpdateArgs<ExtArgs>>): Prisma__UserVideoCourseClient<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more CourseAccesses.
-     * @param {CourseAccessDeleteManyArgs} args - Arguments to filter CourseAccesses to delete.
+     * Delete zero or more UserVideoCourses.
+     * @param {UserVideoCourseDeleteManyArgs} args - Arguments to filter UserVideoCourses to delete.
      * @example
-     * // Delete a few CourseAccesses
-     * const { count } = await prisma.courseAccess.deleteMany({
+     * // Delete a few UserVideoCourses
+     * const { count } = await prisma.userVideoCourse.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends CourseAccessDeleteManyArgs>(args?: SelectSubset<T, CourseAccessDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends UserVideoCourseDeleteManyArgs>(args?: SelectSubset<T, UserVideoCourseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more CourseAccesses.
+     * Update zero or more UserVideoCourses.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CourseAccessUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {UserVideoCourseUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many CourseAccesses
-     * const courseAccess = await prisma.courseAccess.updateMany({
+     * // Update many UserVideoCourses
+     * const userVideoCourse = await prisma.userVideoCourse.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -22583,14 +22686,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends CourseAccessUpdateManyArgs>(args: SelectSubset<T, CourseAccessUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends UserVideoCourseUpdateManyArgs>(args: SelectSubset<T, UserVideoCourseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more CourseAccesses and returns the data updated in the database.
-     * @param {CourseAccessUpdateManyAndReturnArgs} args - Arguments to update many CourseAccesses.
+     * Update zero or more UserVideoCourses and returns the data updated in the database.
+     * @param {UserVideoCourseUpdateManyAndReturnArgs} args - Arguments to update many UserVideoCourses.
      * @example
-     * // Update many CourseAccesses
-     * const courseAccess = await prisma.courseAccess.updateManyAndReturn({
+     * // Update many UserVideoCourses
+     * const userVideoCourse = await prisma.userVideoCourse.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -22599,8 +22702,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more CourseAccesses and only return the `id`
-     * const courseAccessWithIdOnly = await prisma.courseAccess.updateManyAndReturn({
+     * // Update zero or more UserVideoCourses and only return the `id`
+     * const userVideoCourseWithIdOnly = await prisma.userVideoCourse.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -22613,56 +22716,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends CourseAccessUpdateManyAndReturnArgs>(args: SelectSubset<T, CourseAccessUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends UserVideoCourseUpdateManyAndReturnArgs>(args: SelectSubset<T, UserVideoCourseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one CourseAccess.
-     * @param {CourseAccessUpsertArgs} args - Arguments to update or create a CourseAccess.
+     * Create or update one UserVideoCourse.
+     * @param {UserVideoCourseUpsertArgs} args - Arguments to update or create a UserVideoCourse.
      * @example
-     * // Update or create a CourseAccess
-     * const courseAccess = await prisma.courseAccess.upsert({
+     * // Update or create a UserVideoCourse
+     * const userVideoCourse = await prisma.userVideoCourse.upsert({
      *   create: {
-     *     // ... data to create a CourseAccess
+     *     // ... data to create a UserVideoCourse
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the CourseAccess we want to update
+     *     // ... the filter for the UserVideoCourse we want to update
      *   }
      * })
      */
-    upsert<T extends CourseAccessUpsertArgs>(args: SelectSubset<T, CourseAccessUpsertArgs<ExtArgs>>): Prisma__CourseAccessClient<$Result.GetResult<Prisma.$CourseAccessPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends UserVideoCourseUpsertArgs>(args: SelectSubset<T, UserVideoCourseUpsertArgs<ExtArgs>>): Prisma__UserVideoCourseClient<$Result.GetResult<Prisma.$UserVideoCoursePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of CourseAccesses.
+     * Count the number of UserVideoCourses.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CourseAccessCountArgs} args - Arguments to filter CourseAccesses to count.
+     * @param {UserVideoCourseCountArgs} args - Arguments to filter UserVideoCourses to count.
      * @example
-     * // Count the number of CourseAccesses
-     * const count = await prisma.courseAccess.count({
+     * // Count the number of UserVideoCourses
+     * const count = await prisma.userVideoCourse.count({
      *   where: {
-     *     // ... the filter for the CourseAccesses we want to count
+     *     // ... the filter for the UserVideoCourses we want to count
      *   }
      * })
     **/
-    count<T extends CourseAccessCountArgs>(
-      args?: Subset<T, CourseAccessCountArgs>,
+    count<T extends UserVideoCourseCountArgs>(
+      args?: Subset<T, UserVideoCourseCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], CourseAccessCountAggregateOutputType>
+          : GetScalarType<T['select'], UserVideoCourseCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a CourseAccess.
+     * Allows you to perform aggregations operations on a UserVideoCourse.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CourseAccessAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {UserVideoCourseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -22682,13 +22785,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CourseAccessAggregateArgs>(args: Subset<T, CourseAccessAggregateArgs>): Prisma.PrismaPromise<GetCourseAccessAggregateType<T>>
+    aggregate<T extends UserVideoCourseAggregateArgs>(args: Subset<T, UserVideoCourseAggregateArgs>): Prisma.PrismaPromise<GetUserVideoCourseAggregateType<T>>
 
     /**
-     * Group by CourseAccess.
+     * Group by UserVideoCourse.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CourseAccessGroupByArgs} args - Group by arguments.
+     * @param {UserVideoCourseGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -22703,14 +22806,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends CourseAccessGroupByArgs,
+      T extends UserVideoCourseGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CourseAccessGroupByArgs['orderBy'] }
-        : { orderBy?: CourseAccessGroupByArgs['orderBy'] },
+        ? { orderBy: UserVideoCourseGroupByArgs['orderBy'] }
+        : { orderBy?: UserVideoCourseGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -22759,23 +22862,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CourseAccessGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCourseAccessGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, UserVideoCourseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserVideoCourseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the CourseAccess model
+   * Fields of the UserVideoCourse model
    */
-  readonly fields: CourseAccessFieldRefs;
+  readonly fields: UserVideoCourseFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for CourseAccess.
+   * The delegate class that acts as a "Promise-like" for UserVideoCourse.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__CourseAccessClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__UserVideoCourseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    videoCourse<T extends VideoCourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VideoCourseDefaultArgs<ExtArgs>>): Prisma__VideoCourseClient<$Result.GetResult<Prisma.$VideoCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    course<T extends VideoCourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VideoCourseDefaultArgs<ExtArgs>>): Prisma__VideoCourseClient<$Result.GetResult<Prisma.$VideoCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22802,425 +22905,424 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the CourseAccess model
+   * Fields of the UserVideoCourse model
    */ 
-  interface CourseAccessFieldRefs {
-    readonly id: FieldRef<"CourseAccess", 'String'>
-    readonly userId: FieldRef<"CourseAccess", 'String'>
-    readonly videoCourseId: FieldRef<"CourseAccess", 'String'>
-    readonly isOwner: FieldRef<"CourseAccess", 'Boolean'>
-    readonly purchasedAt: FieldRef<"CourseAccess", 'DateTime'>
+  interface UserVideoCourseFieldRefs {
+    readonly id: FieldRef<"UserVideoCourse", 'String'>
+    readonly userId: FieldRef<"UserVideoCourse", 'String'>
+    readonly courseId: FieldRef<"UserVideoCourse", 'String'>
+    readonly startedAt: FieldRef<"UserVideoCourse", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * CourseAccess findUnique
+   * UserVideoCourse findUnique
    */
-  export type CourseAccessFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
     /**
-     * Filter, which CourseAccess to fetch.
+     * Filter, which UserVideoCourse to fetch.
      */
-    where: CourseAccessWhereUniqueInput
+    where: UserVideoCourseWhereUniqueInput
   }
 
   /**
-   * CourseAccess findUniqueOrThrow
+   * UserVideoCourse findUniqueOrThrow
    */
-  export type CourseAccessFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
     /**
-     * Filter, which CourseAccess to fetch.
+     * Filter, which UserVideoCourse to fetch.
      */
-    where: CourseAccessWhereUniqueInput
+    where: UserVideoCourseWhereUniqueInput
   }
 
   /**
-   * CourseAccess findFirst
+   * UserVideoCourse findFirst
    */
-  export type CourseAccessFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
     /**
-     * Filter, which CourseAccess to fetch.
+     * Filter, which UserVideoCourse to fetch.
      */
-    where?: CourseAccessWhereInput
+    where?: UserVideoCourseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CourseAccesses to fetch.
+     * Determine the order of UserVideoCourses to fetch.
      */
-    orderBy?: CourseAccessOrderByWithRelationInput | CourseAccessOrderByWithRelationInput[]
+    orderBy?: UserVideoCourseOrderByWithRelationInput | UserVideoCourseOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for CourseAccesses.
+     * Sets the position for searching for UserVideoCourses.
      */
-    cursor?: CourseAccessWhereUniqueInput
+    cursor?: UserVideoCourseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CourseAccesses from the position of the cursor.
+     * Take `±n` UserVideoCourses from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CourseAccesses.
+     * Skip the first `n` UserVideoCourses.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of CourseAccesses.
+     * Filter by unique combinations of UserVideoCourses.
      */
-    distinct?: CourseAccessScalarFieldEnum | CourseAccessScalarFieldEnum[]
+    distinct?: UserVideoCourseScalarFieldEnum | UserVideoCourseScalarFieldEnum[]
   }
 
   /**
-   * CourseAccess findFirstOrThrow
+   * UserVideoCourse findFirstOrThrow
    */
-  export type CourseAccessFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
     /**
-     * Filter, which CourseAccess to fetch.
+     * Filter, which UserVideoCourse to fetch.
      */
-    where?: CourseAccessWhereInput
+    where?: UserVideoCourseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CourseAccesses to fetch.
+     * Determine the order of UserVideoCourses to fetch.
      */
-    orderBy?: CourseAccessOrderByWithRelationInput | CourseAccessOrderByWithRelationInput[]
+    orderBy?: UserVideoCourseOrderByWithRelationInput | UserVideoCourseOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for CourseAccesses.
+     * Sets the position for searching for UserVideoCourses.
      */
-    cursor?: CourseAccessWhereUniqueInput
+    cursor?: UserVideoCourseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CourseAccesses from the position of the cursor.
+     * Take `±n` UserVideoCourses from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CourseAccesses.
+     * Skip the first `n` UserVideoCourses.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of CourseAccesses.
+     * Filter by unique combinations of UserVideoCourses.
      */
-    distinct?: CourseAccessScalarFieldEnum | CourseAccessScalarFieldEnum[]
+    distinct?: UserVideoCourseScalarFieldEnum | UserVideoCourseScalarFieldEnum[]
   }
 
   /**
-   * CourseAccess findMany
+   * UserVideoCourse findMany
    */
-  export type CourseAccessFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
     /**
-     * Filter, which CourseAccesses to fetch.
+     * Filter, which UserVideoCourses to fetch.
      */
-    where?: CourseAccessWhereInput
+    where?: UserVideoCourseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CourseAccesses to fetch.
+     * Determine the order of UserVideoCourses to fetch.
      */
-    orderBy?: CourseAccessOrderByWithRelationInput | CourseAccessOrderByWithRelationInput[]
+    orderBy?: UserVideoCourseOrderByWithRelationInput | UserVideoCourseOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing CourseAccesses.
+     * Sets the position for listing UserVideoCourses.
      */
-    cursor?: CourseAccessWhereUniqueInput
+    cursor?: UserVideoCourseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CourseAccesses from the position of the cursor.
+     * Take `±n` UserVideoCourses from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CourseAccesses.
+     * Skip the first `n` UserVideoCourses.
      */
     skip?: number
-    distinct?: CourseAccessScalarFieldEnum | CourseAccessScalarFieldEnum[]
+    distinct?: UserVideoCourseScalarFieldEnum | UserVideoCourseScalarFieldEnum[]
   }
 
   /**
-   * CourseAccess create
+   * UserVideoCourse create
    */
-  export type CourseAccessCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
     /**
-     * The data needed to create a CourseAccess.
+     * The data needed to create a UserVideoCourse.
      */
-    data: XOR<CourseAccessCreateInput, CourseAccessUncheckedCreateInput>
+    data: XOR<UserVideoCourseCreateInput, UserVideoCourseUncheckedCreateInput>
   }
 
   /**
-   * CourseAccess createMany
+   * UserVideoCourse createMany
    */
-  export type CourseAccessCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many CourseAccesses.
+     * The data used to create many UserVideoCourses.
      */
-    data: CourseAccessCreateManyInput | CourseAccessCreateManyInput[]
+    data: UserVideoCourseCreateManyInput | UserVideoCourseCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * CourseAccess createManyAndReturn
+   * UserVideoCourse createManyAndReturn
    */
-  export type CourseAccessCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelectCreateManyAndReturn<ExtArgs> | null
+    select?: UserVideoCourseSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
-     * The data used to create many CourseAccesses.
+     * The data used to create many UserVideoCourses.
      */
-    data: CourseAccessCreateManyInput | CourseAccessCreateManyInput[]
+    data: UserVideoCourseCreateManyInput | UserVideoCourseCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: UserVideoCourseIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * CourseAccess update
+   * UserVideoCourse update
    */
-  export type CourseAccessUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
     /**
-     * The data needed to update a CourseAccess.
+     * The data needed to update a UserVideoCourse.
      */
-    data: XOR<CourseAccessUpdateInput, CourseAccessUncheckedUpdateInput>
+    data: XOR<UserVideoCourseUpdateInput, UserVideoCourseUncheckedUpdateInput>
     /**
-     * Choose, which CourseAccess to update.
+     * Choose, which UserVideoCourse to update.
      */
-    where: CourseAccessWhereUniqueInput
+    where: UserVideoCourseWhereUniqueInput
   }
 
   /**
-   * CourseAccess updateMany
+   * UserVideoCourse updateMany
    */
-  export type CourseAccessUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update CourseAccesses.
+     * The data used to update UserVideoCourses.
      */
-    data: XOR<CourseAccessUpdateManyMutationInput, CourseAccessUncheckedUpdateManyInput>
+    data: XOR<UserVideoCourseUpdateManyMutationInput, UserVideoCourseUncheckedUpdateManyInput>
     /**
-     * Filter which CourseAccesses to update
+     * Filter which UserVideoCourses to update
      */
-    where?: CourseAccessWhereInput
+    where?: UserVideoCourseWhereInput
     /**
-     * Limit how many CourseAccesses to update.
+     * Limit how many UserVideoCourses to update.
      */
     limit?: number
   }
 
   /**
-   * CourseAccess updateManyAndReturn
+   * UserVideoCourse updateManyAndReturn
    */
-  export type CourseAccessUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: UserVideoCourseSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
-     * The data used to update CourseAccesses.
+     * The data used to update UserVideoCourses.
      */
-    data: XOR<CourseAccessUpdateManyMutationInput, CourseAccessUncheckedUpdateManyInput>
+    data: XOR<UserVideoCourseUpdateManyMutationInput, UserVideoCourseUncheckedUpdateManyInput>
     /**
-     * Filter which CourseAccesses to update
+     * Filter which UserVideoCourses to update
      */
-    where?: CourseAccessWhereInput
+    where?: UserVideoCourseWhereInput
     /**
-     * Limit how many CourseAccesses to update.
+     * Limit how many UserVideoCourses to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: UserVideoCourseIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * CourseAccess upsert
+   * UserVideoCourse upsert
    */
-  export type CourseAccessUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
     /**
-     * The filter to search for the CourseAccess to update in case it exists.
+     * The filter to search for the UserVideoCourse to update in case it exists.
      */
-    where: CourseAccessWhereUniqueInput
+    where: UserVideoCourseWhereUniqueInput
     /**
-     * In case the CourseAccess found by the `where` argument doesn't exist, create a new CourseAccess with this data.
+     * In case the UserVideoCourse found by the `where` argument doesn't exist, create a new UserVideoCourse with this data.
      */
-    create: XOR<CourseAccessCreateInput, CourseAccessUncheckedCreateInput>
+    create: XOR<UserVideoCourseCreateInput, UserVideoCourseUncheckedCreateInput>
     /**
-     * In case the CourseAccess was found with the provided `where` argument, update it with this data.
+     * In case the UserVideoCourse was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<CourseAccessUpdateInput, CourseAccessUncheckedUpdateInput>
+    update: XOR<UserVideoCourseUpdateInput, UserVideoCourseUncheckedUpdateInput>
   }
 
   /**
-   * CourseAccess delete
+   * UserVideoCourse delete
    */
-  export type CourseAccessDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
     /**
-     * Filter which CourseAccess to delete.
+     * Filter which UserVideoCourse to delete.
      */
-    where: CourseAccessWhereUniqueInput
+    where: UserVideoCourseWhereUniqueInput
   }
 
   /**
-   * CourseAccess deleteMany
+   * UserVideoCourse deleteMany
    */
-  export type CourseAccessDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which CourseAccesses to delete
+     * Filter which UserVideoCourses to delete
      */
-    where?: CourseAccessWhereInput
+    where?: UserVideoCourseWhereInput
     /**
-     * Limit how many CourseAccesses to delete.
+     * Limit how many UserVideoCourses to delete.
      */
     limit?: number
   }
 
   /**
-   * CourseAccess without action
+   * UserVideoCourse without action
    */
-  export type CourseAccessDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserVideoCourseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseAccess
+     * Select specific fields to fetch from the UserVideoCourse
      */
-    select?: CourseAccessSelect<ExtArgs> | null
+    select?: UserVideoCourseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CourseAccess
+     * Omit specific fields from the UserVideoCourse
      */
-    omit?: CourseAccessOmit<ExtArgs> | null
+    omit?: UserVideoCourseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseAccessInclude<ExtArgs> | null
+    include?: UserVideoCourseInclude<ExtArgs> | null
   }
 
 
@@ -24278,6 +24380,1077 @@ export namespace Prisma {
 
 
   /**
+   * Model Attachment
+   */
+
+  export type AggregateAttachment = {
+    _count: AttachmentCountAggregateOutputType | null
+    _min: AttachmentMinAggregateOutputType | null
+    _max: AttachmentMaxAggregateOutputType | null
+  }
+
+  export type AttachmentMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    url: string | null
+    courseId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AttachmentMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    url: string | null
+    courseId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AttachmentCountAggregateOutputType = {
+    id: number
+    name: number
+    url: number
+    courseId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AttachmentMinAggregateInputType = {
+    id?: true
+    name?: true
+    url?: true
+    courseId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AttachmentMaxAggregateInputType = {
+    id?: true
+    name?: true
+    url?: true
+    courseId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AttachmentCountAggregateInputType = {
+    id?: true
+    name?: true
+    url?: true
+    courseId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AttachmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attachment to aggregate.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Attachments
+    **/
+    _count?: true | AttachmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttachmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttachmentMaxAggregateInputType
+  }
+
+  export type GetAttachmentAggregateType<T extends AttachmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttachment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttachment[P]>
+      : GetScalarType<T[P], AggregateAttachment[P]>
+  }
+
+
+
+
+  export type AttachmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithAggregationInput | AttachmentOrderByWithAggregationInput[]
+    by: AttachmentScalarFieldEnum[] | AttachmentScalarFieldEnum
+    having?: AttachmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttachmentCountAggregateInputType | true
+    _min?: AttachmentMinAggregateInputType
+    _max?: AttachmentMaxAggregateInputType
+  }
+
+  export type AttachmentGroupByOutputType = {
+    id: string
+    name: string
+    url: string
+    courseId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: AttachmentCountAggregateOutputType | null
+    _min: AttachmentMinAggregateOutputType | null
+    _max: AttachmentMaxAggregateOutputType | null
+  }
+
+  type GetAttachmentGroupByPayload<T extends AttachmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttachmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttachmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttachmentGroupByOutputType[P]>
+            : GetScalarType<T[P], AttachmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    url?: boolean
+    courseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
+
+  export type AttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    url?: boolean
+    courseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
+
+  export type AttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    url?: boolean
+    courseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
+
+  export type AttachmentSelectScalar = {
+    id?: boolean
+    name?: boolean
+    url?: boolean
+    courseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "url" | "courseId" | "createdAt" | "updatedAt", ExtArgs["result"]["attachment"]>
+  export type AttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
+  }
+  export type AttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
+  }
+  export type AttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | VideoCourseDefaultArgs<ExtArgs>
+  }
+
+  export type $AttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Attachment"
+    objects: {
+      course: Prisma.$VideoCoursePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      url: string
+      courseId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["attachment"]>
+    composites: {}
+  }
+
+  type AttachmentGetPayload<S extends boolean | null | undefined | AttachmentDefaultArgs> = $Result.GetResult<Prisma.$AttachmentPayload, S>
+
+  type AttachmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttachmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttachmentCountAggregateInputType | true
+    }
+
+  export interface AttachmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Attachment'], meta: { name: 'Attachment' } }
+    /**
+     * Find zero or one Attachment that matches the filter.
+     * @param {AttachmentFindUniqueArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttachmentFindUniqueArgs>(args: SelectSubset<T, AttachmentFindUniqueArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Attachment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttachmentFindUniqueOrThrowArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttachmentFindUniqueOrThrowArgs>(args: SelectSubset<T, AttachmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attachment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentFindFirstArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttachmentFindFirstArgs>(args?: SelectSubset<T, AttachmentFindFirstArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attachment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentFindFirstOrThrowArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttachmentFindFirstOrThrowArgs>(args?: SelectSubset<T, AttachmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Attachments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Attachments
+     * const attachments = await prisma.attachment.findMany()
+     * 
+     * // Get first 10 Attachments
+     * const attachments = await prisma.attachment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attachmentWithIdOnly = await prisma.attachment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttachmentFindManyArgs>(args?: SelectSubset<T, AttachmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Attachment.
+     * @param {AttachmentCreateArgs} args - Arguments to create a Attachment.
+     * @example
+     * // Create one Attachment
+     * const Attachment = await prisma.attachment.create({
+     *   data: {
+     *     // ... data to create a Attachment
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttachmentCreateArgs>(args: SelectSubset<T, AttachmentCreateArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Attachments.
+     * @param {AttachmentCreateManyArgs} args - Arguments to create many Attachments.
+     * @example
+     * // Create many Attachments
+     * const attachment = await prisma.attachment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttachmentCreateManyArgs>(args?: SelectSubset<T, AttachmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Attachments and returns the data saved in the database.
+     * @param {AttachmentCreateManyAndReturnArgs} args - Arguments to create many Attachments.
+     * @example
+     * // Create many Attachments
+     * const attachment = await prisma.attachment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Attachments and only return the `id`
+     * const attachmentWithIdOnly = await prisma.attachment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttachmentCreateManyAndReturnArgs>(args?: SelectSubset<T, AttachmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Attachment.
+     * @param {AttachmentDeleteArgs} args - Arguments to delete one Attachment.
+     * @example
+     * // Delete one Attachment
+     * const Attachment = await prisma.attachment.delete({
+     *   where: {
+     *     // ... filter to delete one Attachment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttachmentDeleteArgs>(args: SelectSubset<T, AttachmentDeleteArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Attachment.
+     * @param {AttachmentUpdateArgs} args - Arguments to update one Attachment.
+     * @example
+     * // Update one Attachment
+     * const attachment = await prisma.attachment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttachmentUpdateArgs>(args: SelectSubset<T, AttachmentUpdateArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Attachments.
+     * @param {AttachmentDeleteManyArgs} args - Arguments to filter Attachments to delete.
+     * @example
+     * // Delete a few Attachments
+     * const { count } = await prisma.attachment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttachmentDeleteManyArgs>(args?: SelectSubset<T, AttachmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Attachments
+     * const attachment = await prisma.attachment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttachmentUpdateManyArgs>(args: SelectSubset<T, AttachmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attachments and returns the data updated in the database.
+     * @param {AttachmentUpdateManyAndReturnArgs} args - Arguments to update many Attachments.
+     * @example
+     * // Update many Attachments
+     * const attachment = await prisma.attachment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Attachments and only return the `id`
+     * const attachmentWithIdOnly = await prisma.attachment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttachmentUpdateManyAndReturnArgs>(args: SelectSubset<T, AttachmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Attachment.
+     * @param {AttachmentUpsertArgs} args - Arguments to update or create a Attachment.
+     * @example
+     * // Update or create a Attachment
+     * const attachment = await prisma.attachment.upsert({
+     *   create: {
+     *     // ... data to create a Attachment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Attachment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttachmentUpsertArgs>(args: SelectSubset<T, AttachmentUpsertArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Attachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentCountArgs} args - Arguments to filter Attachments to count.
+     * @example
+     * // Count the number of Attachments
+     * const count = await prisma.attachment.count({
+     *   where: {
+     *     // ... the filter for the Attachments we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttachmentCountArgs>(
+      args?: Subset<T, AttachmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttachmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Attachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttachmentAggregateArgs>(args: Subset<T, AttachmentAggregateArgs>): Prisma.PrismaPromise<GetAttachmentAggregateType<T>>
+
+    /**
+     * Group by Attachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttachmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttachmentGroupByArgs['orderBy'] }
+        : { orderBy?: AttachmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttachmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttachmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Attachment model
+   */
+  readonly fields: AttachmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Attachment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    course<T extends VideoCourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VideoCourseDefaultArgs<ExtArgs>>): Prisma__VideoCourseClient<$Result.GetResult<Prisma.$VideoCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Attachment model
+   */ 
+  interface AttachmentFieldRefs {
+    readonly id: FieldRef<"Attachment", 'String'>
+    readonly name: FieldRef<"Attachment", 'String'>
+    readonly url: FieldRef<"Attachment", 'String'>
+    readonly courseId: FieldRef<"Attachment", 'String'>
+    readonly createdAt: FieldRef<"Attachment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Attachment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Attachment findUnique
+   */
+  export type AttachmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment findUniqueOrThrow
+   */
+  export type AttachmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment findFirst
+   */
+  export type AttachmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attachments.
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attachments.
+     */
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Attachment findFirstOrThrow
+   */
+  export type AttachmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attachments.
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attachments.
+     */
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Attachment findMany
+   */
+  export type AttachmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachments to fetch.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Attachments.
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Attachment create
+   */
+  export type AttachmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Attachment.
+     */
+    data: XOR<AttachmentCreateInput, AttachmentUncheckedCreateInput>
+  }
+
+  /**
+   * Attachment createMany
+   */
+  export type AttachmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Attachments.
+     */
+    data: AttachmentCreateManyInput | AttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Attachment createManyAndReturn
+   */
+  export type AttachmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Attachments.
+     */
+    data: AttachmentCreateManyInput | AttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attachment update
+   */
+  export type AttachmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Attachment.
+     */
+    data: XOR<AttachmentUpdateInput, AttachmentUncheckedUpdateInput>
+    /**
+     * Choose, which Attachment to update.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment updateMany
+   */
+  export type AttachmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Attachments.
+     */
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Attachments to update
+     */
+    where?: AttachmentWhereInput
+    /**
+     * Limit how many Attachments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attachment updateManyAndReturn
+   */
+  export type AttachmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * The data used to update Attachments.
+     */
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Attachments to update
+     */
+    where?: AttachmentWhereInput
+    /**
+     * Limit how many Attachments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attachment upsert
+   */
+  export type AttachmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Attachment to update in case it exists.
+     */
+    where: AttachmentWhereUniqueInput
+    /**
+     * In case the Attachment found by the `where` argument doesn't exist, create a new Attachment with this data.
+     */
+    create: XOR<AttachmentCreateInput, AttachmentUncheckedCreateInput>
+    /**
+     * In case the Attachment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttachmentUpdateInput, AttachmentUncheckedUpdateInput>
+  }
+
+  /**
+   * Attachment delete
+   */
+  export type AttachmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter which Attachment to delete.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment deleteMany
+   */
+  export type AttachmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attachments to delete
+     */
+    where?: AttachmentWhereInput
+    /**
+     * Limit how many Attachments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attachment without action
+   */
+  export type AttachmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -24483,7 +25656,6 @@ export namespace Prisma {
     videoUrl: 'videoUrl',
     position: 'position',
     isPublished: 'isPublished',
-    isFree: 'isFree',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -24503,15 +25675,14 @@ export namespace Prisma {
   export type ChapterProgressScalarFieldEnum = (typeof ChapterProgressScalarFieldEnum)[keyof typeof ChapterProgressScalarFieldEnum]
 
 
-  export const CourseAccessScalarFieldEnum: {
+  export const UserVideoCourseScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    videoCourseId: 'videoCourseId',
-    isOwner: 'isOwner',
-    purchasedAt: 'purchasedAt'
+    courseId: 'courseId',
+    startedAt: 'startedAt'
   };
 
-  export type CourseAccessScalarFieldEnum = (typeof CourseAccessScalarFieldEnum)[keyof typeof CourseAccessScalarFieldEnum]
+  export type UserVideoCourseScalarFieldEnum = (typeof UserVideoCourseScalarFieldEnum)[keyof typeof UserVideoCourseScalarFieldEnum]
 
 
   export const FavoriteRouteScalarFieldEnum: {
@@ -24522,6 +25693,18 @@ export namespace Prisma {
   };
 
   export type FavoriteRouteScalarFieldEnum = (typeof FavoriteRouteScalarFieldEnum)[keyof typeof FavoriteRouteScalarFieldEnum]
+
+
+  export const AttachmentScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    url: 'url',
+    courseId: 'courseId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -24802,11 +25985,11 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     skillProfile?: XOR<SkillProfileNullableScalarRelationFilter, SkillProfileWhereInput> | null
     tokens?: TokenListRelationFilter
-    CourseAccess?: CourseAccessListRelationFilter
     FavoriteRoute?: FavoriteRouteListRelationFilter
     UserCourse?: UserCourseListRelationFilter
     ChapterProgress?: ChapterProgressListRelationFilter
     VideoCourse?: VideoCourseListRelationFilter
+    UserVideoCourse?: UserVideoCourseListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -24825,11 +26008,11 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     skillProfile?: SkillProfileOrderByWithRelationInput
     tokens?: TokenOrderByRelationAggregateInput
-    CourseAccess?: CourseAccessOrderByRelationAggregateInput
     FavoriteRoute?: FavoriteRouteOrderByRelationAggregateInput
     UserCourse?: UserCourseOrderByRelationAggregateInput
     ChapterProgress?: ChapterProgressOrderByRelationAggregateInput
     VideoCourse?: VideoCourseOrderByRelationAggregateInput
+    UserVideoCourse?: UserVideoCourseOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -24851,11 +26034,11 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     skillProfile?: XOR<SkillProfileNullableScalarRelationFilter, SkillProfileWhereInput> | null
     tokens?: TokenListRelationFilter
-    CourseAccess?: CourseAccessListRelationFilter
     FavoriteRoute?: FavoriteRouteListRelationFilter
     UserCourse?: UserCourseListRelationFilter
     ChapterProgress?: ChapterProgressListRelationFilter
     VideoCourse?: VideoCourseListRelationFilter
+    UserVideoCourse?: UserVideoCourseListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -25726,7 +26909,8 @@ export namespace Prisma {
     topicNode?: XOR<TopicNodeScalarRelationFilter, TopicNodeWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     chapters?: VideoChapterListRelationFilter
-    CourseAccess?: CourseAccessListRelationFilter
+    Attachment?: AttachmentListRelationFilter
+    UserVideoCourse?: UserVideoCourseListRelationFilter
   }
 
   export type VideoCourseOrderByWithRelationInput = {
@@ -25742,7 +26926,8 @@ export namespace Prisma {
     topicNode?: TopicNodeOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     chapters?: VideoChapterOrderByRelationAggregateInput
-    CourseAccess?: CourseAccessOrderByRelationAggregateInput
+    Attachment?: AttachmentOrderByRelationAggregateInput
+    UserVideoCourse?: UserVideoCourseOrderByRelationAggregateInput
   }
 
   export type VideoCourseWhereUniqueInput = Prisma.AtLeast<{
@@ -25761,7 +26946,8 @@ export namespace Prisma {
     topicNode?: XOR<TopicNodeScalarRelationFilter, TopicNodeWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     chapters?: VideoChapterListRelationFilter
-    CourseAccess?: CourseAccessListRelationFilter
+    Attachment?: AttachmentListRelationFilter
+    UserVideoCourse?: UserVideoCourseListRelationFilter
   }, "id">
 
   export type VideoCourseOrderByWithAggregationInput = {
@@ -25805,7 +26991,6 @@ export namespace Prisma {
     videoUrl?: StringNullableFilter<"VideoChapter"> | string | null
     position?: IntFilter<"VideoChapter"> | number
     isPublished?: BoolFilter<"VideoChapter"> | boolean
-    isFree?: BoolFilter<"VideoChapter"> | boolean
     createdAt?: DateTimeFilter<"VideoChapter"> | Date | string
     updatedAt?: DateTimeFilter<"VideoChapter"> | Date | string
     course?: XOR<VideoCourseScalarRelationFilter, VideoCourseWhereInput>
@@ -25820,7 +27005,6 @@ export namespace Prisma {
     videoUrl?: SortOrderInput | SortOrder
     position?: SortOrder
     isPublished?: SortOrder
-    isFree?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     course?: VideoCourseOrderByWithRelationInput
@@ -25838,7 +27022,6 @@ export namespace Prisma {
     videoUrl?: StringNullableFilter<"VideoChapter"> | string | null
     position?: IntFilter<"VideoChapter"> | number
     isPublished?: BoolFilter<"VideoChapter"> | boolean
-    isFree?: BoolFilter<"VideoChapter"> | boolean
     createdAt?: DateTimeFilter<"VideoChapter"> | Date | string
     updatedAt?: DateTimeFilter<"VideoChapter"> | Date | string
     course?: XOR<VideoCourseScalarRelationFilter, VideoCourseWhereInput>
@@ -25853,7 +27036,6 @@ export namespace Prisma {
     videoUrl?: SortOrderInput | SortOrder
     position?: SortOrder
     isPublished?: SortOrder
-    isFree?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: VideoChapterCountOrderByAggregateInput
@@ -25874,7 +27056,6 @@ export namespace Prisma {
     videoUrl?: StringNullableWithAggregatesFilter<"VideoChapter"> | string | null
     position?: IntWithAggregatesFilter<"VideoChapter"> | number
     isPublished?: BoolWithAggregatesFilter<"VideoChapter"> | boolean
-    isFree?: BoolWithAggregatesFilter<"VideoChapter"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"VideoChapter"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"VideoChapter"> | Date | string
   }
@@ -25943,63 +27124,58 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ChapterProgress"> | Date | string
   }
 
-  export type CourseAccessWhereInput = {
-    AND?: CourseAccessWhereInput | CourseAccessWhereInput[]
-    OR?: CourseAccessWhereInput[]
-    NOT?: CourseAccessWhereInput | CourseAccessWhereInput[]
-    id?: StringFilter<"CourseAccess"> | string
-    userId?: StringFilter<"CourseAccess"> | string
-    videoCourseId?: StringFilter<"CourseAccess"> | string
-    isOwner?: BoolFilter<"CourseAccess"> | boolean
-    purchasedAt?: DateTimeFilter<"CourseAccess"> | Date | string
+  export type UserVideoCourseWhereInput = {
+    AND?: UserVideoCourseWhereInput | UserVideoCourseWhereInput[]
+    OR?: UserVideoCourseWhereInput[]
+    NOT?: UserVideoCourseWhereInput | UserVideoCourseWhereInput[]
+    id?: StringFilter<"UserVideoCourse"> | string
+    userId?: StringFilter<"UserVideoCourse"> | string
+    courseId?: StringFilter<"UserVideoCourse"> | string
+    startedAt?: DateTimeFilter<"UserVideoCourse"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    videoCourse?: XOR<VideoCourseScalarRelationFilter, VideoCourseWhereInput>
+    course?: XOR<VideoCourseScalarRelationFilter, VideoCourseWhereInput>
   }
 
-  export type CourseAccessOrderByWithRelationInput = {
+  export type UserVideoCourseOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    videoCourseId?: SortOrder
-    isOwner?: SortOrder
-    purchasedAt?: SortOrder
+    courseId?: SortOrder
+    startedAt?: SortOrder
     user?: UserOrderByWithRelationInput
-    videoCourse?: VideoCourseOrderByWithRelationInput
+    course?: VideoCourseOrderByWithRelationInput
   }
 
-  export type CourseAccessWhereUniqueInput = Prisma.AtLeast<{
+  export type UserVideoCourseWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userId_videoCourseId?: CourseAccessUserIdVideoCourseIdCompoundUniqueInput
-    AND?: CourseAccessWhereInput | CourseAccessWhereInput[]
-    OR?: CourseAccessWhereInput[]
-    NOT?: CourseAccessWhereInput | CourseAccessWhereInput[]
-    userId?: StringFilter<"CourseAccess"> | string
-    videoCourseId?: StringFilter<"CourseAccess"> | string
-    isOwner?: BoolFilter<"CourseAccess"> | boolean
-    purchasedAt?: DateTimeFilter<"CourseAccess"> | Date | string
+    userId_courseId?: UserVideoCourseUserIdCourseIdCompoundUniqueInput
+    AND?: UserVideoCourseWhereInput | UserVideoCourseWhereInput[]
+    OR?: UserVideoCourseWhereInput[]
+    NOT?: UserVideoCourseWhereInput | UserVideoCourseWhereInput[]
+    userId?: StringFilter<"UserVideoCourse"> | string
+    courseId?: StringFilter<"UserVideoCourse"> | string
+    startedAt?: DateTimeFilter<"UserVideoCourse"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    videoCourse?: XOR<VideoCourseScalarRelationFilter, VideoCourseWhereInput>
-  }, "id" | "userId_videoCourseId">
+    course?: XOR<VideoCourseScalarRelationFilter, VideoCourseWhereInput>
+  }, "id" | "userId_courseId">
 
-  export type CourseAccessOrderByWithAggregationInput = {
+  export type UserVideoCourseOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    videoCourseId?: SortOrder
-    isOwner?: SortOrder
-    purchasedAt?: SortOrder
-    _count?: CourseAccessCountOrderByAggregateInput
-    _max?: CourseAccessMaxOrderByAggregateInput
-    _min?: CourseAccessMinOrderByAggregateInput
+    courseId?: SortOrder
+    startedAt?: SortOrder
+    _count?: UserVideoCourseCountOrderByAggregateInput
+    _max?: UserVideoCourseMaxOrderByAggregateInput
+    _min?: UserVideoCourseMinOrderByAggregateInput
   }
 
-  export type CourseAccessScalarWhereWithAggregatesInput = {
-    AND?: CourseAccessScalarWhereWithAggregatesInput | CourseAccessScalarWhereWithAggregatesInput[]
-    OR?: CourseAccessScalarWhereWithAggregatesInput[]
-    NOT?: CourseAccessScalarWhereWithAggregatesInput | CourseAccessScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"CourseAccess"> | string
-    userId?: StringWithAggregatesFilter<"CourseAccess"> | string
-    videoCourseId?: StringWithAggregatesFilter<"CourseAccess"> | string
-    isOwner?: BoolWithAggregatesFilter<"CourseAccess"> | boolean
-    purchasedAt?: DateTimeWithAggregatesFilter<"CourseAccess"> | Date | string
+  export type UserVideoCourseScalarWhereWithAggregatesInput = {
+    AND?: UserVideoCourseScalarWhereWithAggregatesInput | UserVideoCourseScalarWhereWithAggregatesInput[]
+    OR?: UserVideoCourseScalarWhereWithAggregatesInput[]
+    NOT?: UserVideoCourseScalarWhereWithAggregatesInput | UserVideoCourseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserVideoCourse"> | string
+    userId?: StringWithAggregatesFilter<"UserVideoCourse"> | string
+    courseId?: StringWithAggregatesFilter<"UserVideoCourse"> | string
+    startedAt?: DateTimeWithAggregatesFilter<"UserVideoCourse"> | Date | string
   }
 
   export type FavoriteRouteWhereInput = {
@@ -26056,6 +27232,66 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"FavoriteRoute"> | Date | string
   }
 
+  export type AttachmentWhereInput = {
+    AND?: AttachmentWhereInput | AttachmentWhereInput[]
+    OR?: AttachmentWhereInput[]
+    NOT?: AttachmentWhereInput | AttachmentWhereInput[]
+    id?: StringFilter<"Attachment"> | string
+    name?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    courseId?: StringFilter<"Attachment"> | string
+    createdAt?: DateTimeFilter<"Attachment"> | Date | string
+    updatedAt?: DateTimeFilter<"Attachment"> | Date | string
+    course?: XOR<VideoCourseScalarRelationFilter, VideoCourseWhereInput>
+  }
+
+  export type AttachmentOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    courseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    course?: VideoCourseOrderByWithRelationInput
+  }
+
+  export type AttachmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AttachmentWhereInput | AttachmentWhereInput[]
+    OR?: AttachmentWhereInput[]
+    NOT?: AttachmentWhereInput | AttachmentWhereInput[]
+    name?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    courseId?: StringFilter<"Attachment"> | string
+    createdAt?: DateTimeFilter<"Attachment"> | Date | string
+    updatedAt?: DateTimeFilter<"Attachment"> | Date | string
+    course?: XOR<VideoCourseScalarRelationFilter, VideoCourseWhereInput>
+  }, "id">
+
+  export type AttachmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    courseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AttachmentCountOrderByAggregateInput
+    _max?: AttachmentMaxOrderByAggregateInput
+    _min?: AttachmentMinOrderByAggregateInput
+  }
+
+  export type AttachmentScalarWhereWithAggregatesInput = {
+    AND?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
+    OR?: AttachmentScalarWhereWithAggregatesInput[]
+    NOT?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Attachment"> | string
+    name?: StringWithAggregatesFilter<"Attachment"> | string
+    url?: StringWithAggregatesFilter<"Attachment"> | string
+    courseId?: StringWithAggregatesFilter<"Attachment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Attachment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Attachment"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -26072,11 +27308,11 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -26095,11 +27331,11 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteUncheckedCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseUncheckedCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressUncheckedCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseUncheckedCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -26118,11 +27354,11 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -26141,11 +27377,11 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUncheckedUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUncheckedUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUncheckedUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUncheckedUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -27028,7 +28264,8 @@ export namespace Prisma {
     topicNode: TopicNodeCreateNestedOneWithoutVideoCourseInput
     user: UserCreateNestedOneWithoutVideoCourseInput
     chapters?: VideoChapterCreateNestedManyWithoutCourseInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutVideoCourseInput
+    Attachment?: AttachmentCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutCourseInput
   }
 
   export type VideoCourseUncheckedCreateInput = {
@@ -27042,7 +28279,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     chapters?: VideoChapterUncheckedCreateNestedManyWithoutCourseInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutVideoCourseInput
+    Attachment?: AttachmentUncheckedCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type VideoCourseUpdateInput = {
@@ -27056,7 +28294,8 @@ export namespace Prisma {
     topicNode?: TopicNodeUpdateOneRequiredWithoutVideoCourseNestedInput
     user?: UserUpdateOneRequiredWithoutVideoCourseNestedInput
     chapters?: VideoChapterUpdateManyWithoutCourseNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutVideoCourseNestedInput
+    Attachment?: AttachmentUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutCourseNestedInput
   }
 
   export type VideoCourseUncheckedUpdateInput = {
@@ -27070,7 +28309,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapters?: VideoChapterUncheckedUpdateManyWithoutCourseNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutVideoCourseNestedInput
+    Attachment?: AttachmentUncheckedUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type VideoCourseCreateManyInput = {
@@ -27114,7 +28354,6 @@ export namespace Prisma {
     videoUrl?: string | null
     position: number
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     course: VideoCourseCreateNestedOneWithoutChaptersInput
@@ -27129,7 +28368,6 @@ export namespace Prisma {
     videoUrl?: string | null
     position: number
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     progress?: ChapterProgressUncheckedCreateNestedManyWithoutChapterInput
@@ -27142,7 +28380,6 @@ export namespace Prisma {
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     position?: IntFieldUpdateOperationsInput | number
     isPublished?: BoolFieldUpdateOperationsInput | boolean
-    isFree?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: VideoCourseUpdateOneRequiredWithoutChaptersNestedInput
@@ -27157,7 +28394,6 @@ export namespace Prisma {
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     position?: IntFieldUpdateOperationsInput | number
     isPublished?: BoolFieldUpdateOperationsInput | boolean
-    isFree?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     progress?: ChapterProgressUncheckedUpdateManyWithoutChapterNestedInput
@@ -27171,7 +28407,6 @@ export namespace Prisma {
     videoUrl?: string | null
     position: number
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27183,7 +28418,6 @@ export namespace Prisma {
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     position?: IntFieldUpdateOperationsInput | number
     isPublished?: BoolFieldUpdateOperationsInput | boolean
-    isFree?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27196,7 +28430,6 @@ export namespace Prisma {
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     position?: IntFieldUpdateOperationsInput | number
     isPublished?: BoolFieldUpdateOperationsInput | boolean
-    isFree?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27262,58 +28495,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CourseAccessCreateInput = {
+  export type UserVideoCourseCreateInput = {
     id?: string
-    isOwner?: boolean
-    purchasedAt?: Date | string
-    user: UserCreateNestedOneWithoutCourseAccessInput
-    videoCourse: VideoCourseCreateNestedOneWithoutCourseAccessInput
+    startedAt?: Date | string
+    user: UserCreateNestedOneWithoutUserVideoCourseInput
+    course: VideoCourseCreateNestedOneWithoutUserVideoCourseInput
   }
 
-  export type CourseAccessUncheckedCreateInput = {
-    id?: string
-    userId: string
-    videoCourseId: string
-    isOwner?: boolean
-    purchasedAt?: Date | string
-  }
-
-  export type CourseAccessUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCourseAccessNestedInput
-    videoCourse?: VideoCourseUpdateOneRequiredWithoutCourseAccessNestedInput
-  }
-
-  export type CourseAccessUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    videoCourseId?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CourseAccessCreateManyInput = {
+  export type UserVideoCourseUncheckedCreateInput = {
     id?: string
     userId: string
-    videoCourseId: string
-    isOwner?: boolean
-    purchasedAt?: Date | string
+    courseId: string
+    startedAt?: Date | string
   }
 
-  export type CourseAccessUpdateManyMutationInput = {
+  export type UserVideoCourseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserVideoCourseNestedInput
+    course?: VideoCourseUpdateOneRequiredWithoutUserVideoCourseNestedInput
   }
 
-  export type CourseAccessUncheckedUpdateManyInput = {
+  export type UserVideoCourseUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    videoCourseId?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserVideoCourseCreateManyInput = {
+    id?: string
+    userId: string
+    courseId: string
+    startedAt?: Date | string
+  }
+
+  export type UserVideoCourseUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserVideoCourseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FavoriteRouteCreateInput = {
@@ -27361,6 +28587,68 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     routeId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentCreateInput = {
+    id?: string
+    name: string
+    url: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: VideoCourseCreateNestedOneWithoutAttachmentInput
+  }
+
+  export type AttachmentUncheckedCreateInput = {
+    id?: string
+    name: string
+    url: string
+    courseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttachmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: VideoCourseUpdateOneRequiredWithoutAttachmentNestedInput
+  }
+
+  export type AttachmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentCreateManyInput = {
+    id?: string
+    name: string
+    url: string
+    courseId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttachmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -27446,12 +28734,6 @@ export namespace Prisma {
     none?: TokenWhereInput
   }
 
-  export type CourseAccessListRelationFilter = {
-    every?: CourseAccessWhereInput
-    some?: CourseAccessWhereInput
-    none?: CourseAccessWhereInput
-  }
-
   export type FavoriteRouteListRelationFilter = {
     every?: FavoriteRouteWhereInput
     some?: FavoriteRouteWhereInput
@@ -27476,6 +28758,12 @@ export namespace Prisma {
     none?: VideoCourseWhereInput
   }
 
+  export type UserVideoCourseListRelationFilter = {
+    every?: UserVideoCourseWhereInput
+    some?: UserVideoCourseWhereInput
+    none?: UserVideoCourseWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -27493,10 +28781,6 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type CourseAccessOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type FavoriteRouteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -27510,6 +28794,10 @@ export namespace Prisma {
   }
 
   export type VideoCourseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserVideoCourseOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28414,7 +29702,17 @@ export namespace Prisma {
     none?: VideoChapterWhereInput
   }
 
+  export type AttachmentListRelationFilter = {
+    every?: AttachmentWhereInput
+    some?: AttachmentWhereInput
+    none?: AttachmentWhereInput
+  }
+
   export type VideoChapterOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttachmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28478,7 +29776,6 @@ export namespace Prisma {
     videoUrl?: SortOrder
     position?: SortOrder
     isPublished?: SortOrder
-    isFree?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -28495,7 +29792,6 @@ export namespace Prisma {
     videoUrl?: SortOrder
     position?: SortOrder
     isPublished?: SortOrder
-    isFree?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -28508,7 +29804,6 @@ export namespace Prisma {
     videoUrl?: SortOrder
     position?: SortOrder
     isPublished?: SortOrder
-    isFree?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -28570,33 +29865,30 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type CourseAccessUserIdVideoCourseIdCompoundUniqueInput = {
+  export type UserVideoCourseUserIdCourseIdCompoundUniqueInput = {
     userId: string
-    videoCourseId: string
+    courseId: string
   }
 
-  export type CourseAccessCountOrderByAggregateInput = {
+  export type UserVideoCourseCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    videoCourseId?: SortOrder
-    isOwner?: SortOrder
-    purchasedAt?: SortOrder
+    courseId?: SortOrder
+    startedAt?: SortOrder
   }
 
-  export type CourseAccessMaxOrderByAggregateInput = {
+  export type UserVideoCourseMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    videoCourseId?: SortOrder
-    isOwner?: SortOrder
-    purchasedAt?: SortOrder
+    courseId?: SortOrder
+    startedAt?: SortOrder
   }
 
-  export type CourseAccessMinOrderByAggregateInput = {
+  export type UserVideoCourseMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    videoCourseId?: SortOrder
-    isOwner?: SortOrder
-    purchasedAt?: SortOrder
+    courseId?: SortOrder
+    startedAt?: SortOrder
   }
 
   export type FavoriteRouteUserIdRouteIdCompoundUniqueInput = {
@@ -28625,6 +29917,33 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type AttachmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    courseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttachmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    courseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttachmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    courseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type RouteCreateNestedManyWithoutUserInput = {
     create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
@@ -28650,13 +29969,6 @@ export namespace Prisma {
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
     createMany?: TokenCreateManyUserInputEnvelope
     connect?: TokenWhereUniqueInput | TokenWhereUniqueInput[]
-  }
-
-  export type CourseAccessCreateNestedManyWithoutUserInput = {
-    create?: XOR<CourseAccessCreateWithoutUserInput, CourseAccessUncheckedCreateWithoutUserInput> | CourseAccessCreateWithoutUserInput[] | CourseAccessUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseAccessCreateOrConnectWithoutUserInput | CourseAccessCreateOrConnectWithoutUserInput[]
-    createMany?: CourseAccessCreateManyUserInputEnvelope
-    connect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
   }
 
   export type FavoriteRouteCreateNestedManyWithoutUserInput = {
@@ -28687,6 +29999,13 @@ export namespace Prisma {
     connect?: VideoCourseWhereUniqueInput | VideoCourseWhereUniqueInput[]
   }
 
+  export type UserVideoCourseCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserVideoCourseCreateWithoutUserInput, UserVideoCourseUncheckedCreateWithoutUserInput> | UserVideoCourseCreateWithoutUserInput[] | UserVideoCourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserVideoCourseCreateOrConnectWithoutUserInput | UserVideoCourseCreateOrConnectWithoutUserInput[]
+    createMany?: UserVideoCourseCreateManyUserInputEnvelope
+    connect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+  }
+
   export type RouteUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
@@ -28712,13 +30031,6 @@ export namespace Prisma {
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
     createMany?: TokenCreateManyUserInputEnvelope
     connect?: TokenWhereUniqueInput | TokenWhereUniqueInput[]
-  }
-
-  export type CourseAccessUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<CourseAccessCreateWithoutUserInput, CourseAccessUncheckedCreateWithoutUserInput> | CourseAccessCreateWithoutUserInput[] | CourseAccessUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseAccessCreateOrConnectWithoutUserInput | CourseAccessCreateOrConnectWithoutUserInput[]
-    createMany?: CourseAccessCreateManyUserInputEnvelope
-    connect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
   }
 
   export type FavoriteRouteUncheckedCreateNestedManyWithoutUserInput = {
@@ -28747,6 +30059,13 @@ export namespace Prisma {
     connectOrCreate?: VideoCourseCreateOrConnectWithoutUserInput | VideoCourseCreateOrConnectWithoutUserInput[]
     createMany?: VideoCourseCreateManyUserInputEnvelope
     connect?: VideoCourseWhereUniqueInput | VideoCourseWhereUniqueInput[]
+  }
+
+  export type UserVideoCourseUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserVideoCourseCreateWithoutUserInput, UserVideoCourseUncheckedCreateWithoutUserInput> | UserVideoCourseCreateWithoutUserInput[] | UserVideoCourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserVideoCourseCreateOrConnectWithoutUserInput | UserVideoCourseCreateOrConnectWithoutUserInput[]
+    createMany?: UserVideoCourseCreateManyUserInputEnvelope
+    connect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -28825,20 +30144,6 @@ export namespace Prisma {
     deleteMany?: TokenScalarWhereInput | TokenScalarWhereInput[]
   }
 
-  export type CourseAccessUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CourseAccessCreateWithoutUserInput, CourseAccessUncheckedCreateWithoutUserInput> | CourseAccessCreateWithoutUserInput[] | CourseAccessUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseAccessCreateOrConnectWithoutUserInput | CourseAccessCreateOrConnectWithoutUserInput[]
-    upsert?: CourseAccessUpsertWithWhereUniqueWithoutUserInput | CourseAccessUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CourseAccessCreateManyUserInputEnvelope
-    set?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    disconnect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    delete?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    connect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    update?: CourseAccessUpdateWithWhereUniqueWithoutUserInput | CourseAccessUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CourseAccessUpdateManyWithWhereWithoutUserInput | CourseAccessUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CourseAccessScalarWhereInput | CourseAccessScalarWhereInput[]
-  }
-
   export type FavoriteRouteUpdateManyWithoutUserNestedInput = {
     create?: XOR<FavoriteRouteCreateWithoutUserInput, FavoriteRouteUncheckedCreateWithoutUserInput> | FavoriteRouteCreateWithoutUserInput[] | FavoriteRouteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FavoriteRouteCreateOrConnectWithoutUserInput | FavoriteRouteCreateOrConnectWithoutUserInput[]
@@ -28895,6 +30200,20 @@ export namespace Prisma {
     deleteMany?: VideoCourseScalarWhereInput | VideoCourseScalarWhereInput[]
   }
 
+  export type UserVideoCourseUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserVideoCourseCreateWithoutUserInput, UserVideoCourseUncheckedCreateWithoutUserInput> | UserVideoCourseCreateWithoutUserInput[] | UserVideoCourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserVideoCourseCreateOrConnectWithoutUserInput | UserVideoCourseCreateOrConnectWithoutUserInput[]
+    upsert?: UserVideoCourseUpsertWithWhereUniqueWithoutUserInput | UserVideoCourseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserVideoCourseCreateManyUserInputEnvelope
+    set?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    disconnect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    delete?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    connect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    update?: UserVideoCourseUpdateWithWhereUniqueWithoutUserInput | UserVideoCourseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserVideoCourseUpdateManyWithWhereWithoutUserInput | UserVideoCourseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserVideoCourseScalarWhereInput | UserVideoCourseScalarWhereInput[]
+  }
+
   export type RouteUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RouteCreateWithoutUserInput, RouteUncheckedCreateWithoutUserInput> | RouteCreateWithoutUserInput[] | RouteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RouteCreateOrConnectWithoutUserInput | RouteCreateOrConnectWithoutUserInput[]
@@ -28945,20 +30264,6 @@ export namespace Prisma {
     update?: TokenUpdateWithWhereUniqueWithoutUserInput | TokenUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: TokenUpdateManyWithWhereWithoutUserInput | TokenUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: TokenScalarWhereInput | TokenScalarWhereInput[]
-  }
-
-  export type CourseAccessUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CourseAccessCreateWithoutUserInput, CourseAccessUncheckedCreateWithoutUserInput> | CourseAccessCreateWithoutUserInput[] | CourseAccessUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseAccessCreateOrConnectWithoutUserInput | CourseAccessCreateOrConnectWithoutUserInput[]
-    upsert?: CourseAccessUpsertWithWhereUniqueWithoutUserInput | CourseAccessUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CourseAccessCreateManyUserInputEnvelope
-    set?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    disconnect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    delete?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    connect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    update?: CourseAccessUpdateWithWhereUniqueWithoutUserInput | CourseAccessUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CourseAccessUpdateManyWithWhereWithoutUserInput | CourseAccessUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CourseAccessScalarWhereInput | CourseAccessScalarWhereInput[]
   }
 
   export type FavoriteRouteUncheckedUpdateManyWithoutUserNestedInput = {
@@ -29015,6 +30320,20 @@ export namespace Prisma {
     update?: VideoCourseUpdateWithWhereUniqueWithoutUserInput | VideoCourseUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: VideoCourseUpdateManyWithWhereWithoutUserInput | VideoCourseUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: VideoCourseScalarWhereInput | VideoCourseScalarWhereInput[]
+  }
+
+  export type UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserVideoCourseCreateWithoutUserInput, UserVideoCourseUncheckedCreateWithoutUserInput> | UserVideoCourseCreateWithoutUserInput[] | UserVideoCourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserVideoCourseCreateOrConnectWithoutUserInput | UserVideoCourseCreateOrConnectWithoutUserInput[]
+    upsert?: UserVideoCourseUpsertWithWhereUniqueWithoutUserInput | UserVideoCourseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserVideoCourseCreateManyUserInputEnvelope
+    set?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    disconnect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    delete?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    connect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    update?: UserVideoCourseUpdateWithWhereUniqueWithoutUserInput | UserVideoCourseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserVideoCourseUpdateManyWithWhereWithoutUserInput | UserVideoCourseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserVideoCourseScalarWhereInput | UserVideoCourseScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSkillProfileInput = {
@@ -29844,11 +31163,18 @@ export namespace Prisma {
     connect?: VideoChapterWhereUniqueInput | VideoChapterWhereUniqueInput[]
   }
 
-  export type CourseAccessCreateNestedManyWithoutVideoCourseInput = {
-    create?: XOR<CourseAccessCreateWithoutVideoCourseInput, CourseAccessUncheckedCreateWithoutVideoCourseInput> | CourseAccessCreateWithoutVideoCourseInput[] | CourseAccessUncheckedCreateWithoutVideoCourseInput[]
-    connectOrCreate?: CourseAccessCreateOrConnectWithoutVideoCourseInput | CourseAccessCreateOrConnectWithoutVideoCourseInput[]
-    createMany?: CourseAccessCreateManyVideoCourseInputEnvelope
-    connect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
+  export type AttachmentCreateNestedManyWithoutCourseInput = {
+    create?: XOR<AttachmentCreateWithoutCourseInput, AttachmentUncheckedCreateWithoutCourseInput> | AttachmentCreateWithoutCourseInput[] | AttachmentUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutCourseInput | AttachmentCreateOrConnectWithoutCourseInput[]
+    createMany?: AttachmentCreateManyCourseInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
+  export type UserVideoCourseCreateNestedManyWithoutCourseInput = {
+    create?: XOR<UserVideoCourseCreateWithoutCourseInput, UserVideoCourseUncheckedCreateWithoutCourseInput> | UserVideoCourseCreateWithoutCourseInput[] | UserVideoCourseUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: UserVideoCourseCreateOrConnectWithoutCourseInput | UserVideoCourseCreateOrConnectWithoutCourseInput[]
+    createMany?: UserVideoCourseCreateManyCourseInputEnvelope
+    connect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
   }
 
   export type VideoChapterUncheckedCreateNestedManyWithoutCourseInput = {
@@ -29858,11 +31184,18 @@ export namespace Prisma {
     connect?: VideoChapterWhereUniqueInput | VideoChapterWhereUniqueInput[]
   }
 
-  export type CourseAccessUncheckedCreateNestedManyWithoutVideoCourseInput = {
-    create?: XOR<CourseAccessCreateWithoutVideoCourseInput, CourseAccessUncheckedCreateWithoutVideoCourseInput> | CourseAccessCreateWithoutVideoCourseInput[] | CourseAccessUncheckedCreateWithoutVideoCourseInput[]
-    connectOrCreate?: CourseAccessCreateOrConnectWithoutVideoCourseInput | CourseAccessCreateOrConnectWithoutVideoCourseInput[]
-    createMany?: CourseAccessCreateManyVideoCourseInputEnvelope
-    connect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
+  export type AttachmentUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<AttachmentCreateWithoutCourseInput, AttachmentUncheckedCreateWithoutCourseInput> | AttachmentCreateWithoutCourseInput[] | AttachmentUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutCourseInput | AttachmentCreateOrConnectWithoutCourseInput[]
+    createMany?: AttachmentCreateManyCourseInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
+  export type UserVideoCourseUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<UserVideoCourseCreateWithoutCourseInput, UserVideoCourseUncheckedCreateWithoutCourseInput> | UserVideoCourseCreateWithoutCourseInput[] | UserVideoCourseUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: UserVideoCourseCreateOrConnectWithoutCourseInput | UserVideoCourseCreateOrConnectWithoutCourseInput[]
+    createMany?: UserVideoCourseCreateManyCourseInputEnvelope
+    connect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
   }
 
   export type TopicNodeUpdateOneRequiredWithoutVideoCourseNestedInput = {
@@ -29895,18 +31228,32 @@ export namespace Prisma {
     deleteMany?: VideoChapterScalarWhereInput | VideoChapterScalarWhereInput[]
   }
 
-  export type CourseAccessUpdateManyWithoutVideoCourseNestedInput = {
-    create?: XOR<CourseAccessCreateWithoutVideoCourseInput, CourseAccessUncheckedCreateWithoutVideoCourseInput> | CourseAccessCreateWithoutVideoCourseInput[] | CourseAccessUncheckedCreateWithoutVideoCourseInput[]
-    connectOrCreate?: CourseAccessCreateOrConnectWithoutVideoCourseInput | CourseAccessCreateOrConnectWithoutVideoCourseInput[]
-    upsert?: CourseAccessUpsertWithWhereUniqueWithoutVideoCourseInput | CourseAccessUpsertWithWhereUniqueWithoutVideoCourseInput[]
-    createMany?: CourseAccessCreateManyVideoCourseInputEnvelope
-    set?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    disconnect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    delete?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    connect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    update?: CourseAccessUpdateWithWhereUniqueWithoutVideoCourseInput | CourseAccessUpdateWithWhereUniqueWithoutVideoCourseInput[]
-    updateMany?: CourseAccessUpdateManyWithWhereWithoutVideoCourseInput | CourseAccessUpdateManyWithWhereWithoutVideoCourseInput[]
-    deleteMany?: CourseAccessScalarWhereInput | CourseAccessScalarWhereInput[]
+  export type AttachmentUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<AttachmentCreateWithoutCourseInput, AttachmentUncheckedCreateWithoutCourseInput> | AttachmentCreateWithoutCourseInput[] | AttachmentUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutCourseInput | AttachmentCreateOrConnectWithoutCourseInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutCourseInput | AttachmentUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: AttachmentCreateManyCourseInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutCourseInput | AttachmentUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutCourseInput | AttachmentUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type UserVideoCourseUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<UserVideoCourseCreateWithoutCourseInput, UserVideoCourseUncheckedCreateWithoutCourseInput> | UserVideoCourseCreateWithoutCourseInput[] | UserVideoCourseUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: UserVideoCourseCreateOrConnectWithoutCourseInput | UserVideoCourseCreateOrConnectWithoutCourseInput[]
+    upsert?: UserVideoCourseUpsertWithWhereUniqueWithoutCourseInput | UserVideoCourseUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: UserVideoCourseCreateManyCourseInputEnvelope
+    set?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    disconnect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    delete?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    connect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    update?: UserVideoCourseUpdateWithWhereUniqueWithoutCourseInput | UserVideoCourseUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: UserVideoCourseUpdateManyWithWhereWithoutCourseInput | UserVideoCourseUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: UserVideoCourseScalarWhereInput | UserVideoCourseScalarWhereInput[]
   }
 
   export type VideoChapterUncheckedUpdateManyWithoutCourseNestedInput = {
@@ -29923,18 +31270,32 @@ export namespace Prisma {
     deleteMany?: VideoChapterScalarWhereInput | VideoChapterScalarWhereInput[]
   }
 
-  export type CourseAccessUncheckedUpdateManyWithoutVideoCourseNestedInput = {
-    create?: XOR<CourseAccessCreateWithoutVideoCourseInput, CourseAccessUncheckedCreateWithoutVideoCourseInput> | CourseAccessCreateWithoutVideoCourseInput[] | CourseAccessUncheckedCreateWithoutVideoCourseInput[]
-    connectOrCreate?: CourseAccessCreateOrConnectWithoutVideoCourseInput | CourseAccessCreateOrConnectWithoutVideoCourseInput[]
-    upsert?: CourseAccessUpsertWithWhereUniqueWithoutVideoCourseInput | CourseAccessUpsertWithWhereUniqueWithoutVideoCourseInput[]
-    createMany?: CourseAccessCreateManyVideoCourseInputEnvelope
-    set?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    disconnect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    delete?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    connect?: CourseAccessWhereUniqueInput | CourseAccessWhereUniqueInput[]
-    update?: CourseAccessUpdateWithWhereUniqueWithoutVideoCourseInput | CourseAccessUpdateWithWhereUniqueWithoutVideoCourseInput[]
-    updateMany?: CourseAccessUpdateManyWithWhereWithoutVideoCourseInput | CourseAccessUpdateManyWithWhereWithoutVideoCourseInput[]
-    deleteMany?: CourseAccessScalarWhereInput | CourseAccessScalarWhereInput[]
+  export type AttachmentUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<AttachmentCreateWithoutCourseInput, AttachmentUncheckedCreateWithoutCourseInput> | AttachmentCreateWithoutCourseInput[] | AttachmentUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutCourseInput | AttachmentCreateOrConnectWithoutCourseInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutCourseInput | AttachmentUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: AttachmentCreateManyCourseInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutCourseInput | AttachmentUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutCourseInput | AttachmentUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type UserVideoCourseUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<UserVideoCourseCreateWithoutCourseInput, UserVideoCourseUncheckedCreateWithoutCourseInput> | UserVideoCourseCreateWithoutCourseInput[] | UserVideoCourseUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: UserVideoCourseCreateOrConnectWithoutCourseInput | UserVideoCourseCreateOrConnectWithoutCourseInput[]
+    upsert?: UserVideoCourseUpsertWithWhereUniqueWithoutCourseInput | UserVideoCourseUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: UserVideoCourseCreateManyCourseInputEnvelope
+    set?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    disconnect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    delete?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    connect?: UserVideoCourseWhereUniqueInput | UserVideoCourseWhereUniqueInput[]
+    update?: UserVideoCourseUpdateWithWhereUniqueWithoutCourseInput | UserVideoCourseUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: UserVideoCourseUpdateManyWithWhereWithoutCourseInput | UserVideoCourseUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: UserVideoCourseScalarWhereInput | UserVideoCourseScalarWhereInput[]
   }
 
   export type VideoCourseCreateNestedOneWithoutChaptersInput = {
@@ -30029,32 +31390,32 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChapterProgressInput, UserUpdateWithoutChapterProgressInput>, UserUncheckedUpdateWithoutChapterProgressInput>
   }
 
-  export type UserCreateNestedOneWithoutCourseAccessInput = {
-    create?: XOR<UserCreateWithoutCourseAccessInput, UserUncheckedCreateWithoutCourseAccessInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCourseAccessInput
+  export type UserCreateNestedOneWithoutUserVideoCourseInput = {
+    create?: XOR<UserCreateWithoutUserVideoCourseInput, UserUncheckedCreateWithoutUserVideoCourseInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserVideoCourseInput
     connect?: UserWhereUniqueInput
   }
 
-  export type VideoCourseCreateNestedOneWithoutCourseAccessInput = {
-    create?: XOR<VideoCourseCreateWithoutCourseAccessInput, VideoCourseUncheckedCreateWithoutCourseAccessInput>
-    connectOrCreate?: VideoCourseCreateOrConnectWithoutCourseAccessInput
+  export type VideoCourseCreateNestedOneWithoutUserVideoCourseInput = {
+    create?: XOR<VideoCourseCreateWithoutUserVideoCourseInput, VideoCourseUncheckedCreateWithoutUserVideoCourseInput>
+    connectOrCreate?: VideoCourseCreateOrConnectWithoutUserVideoCourseInput
     connect?: VideoCourseWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutCourseAccessNestedInput = {
-    create?: XOR<UserCreateWithoutCourseAccessInput, UserUncheckedCreateWithoutCourseAccessInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCourseAccessInput
-    upsert?: UserUpsertWithoutCourseAccessInput
+  export type UserUpdateOneRequiredWithoutUserVideoCourseNestedInput = {
+    create?: XOR<UserCreateWithoutUserVideoCourseInput, UserUncheckedCreateWithoutUserVideoCourseInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserVideoCourseInput
+    upsert?: UserUpsertWithoutUserVideoCourseInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCourseAccessInput, UserUpdateWithoutCourseAccessInput>, UserUncheckedUpdateWithoutCourseAccessInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserVideoCourseInput, UserUpdateWithoutUserVideoCourseInput>, UserUncheckedUpdateWithoutUserVideoCourseInput>
   }
 
-  export type VideoCourseUpdateOneRequiredWithoutCourseAccessNestedInput = {
-    create?: XOR<VideoCourseCreateWithoutCourseAccessInput, VideoCourseUncheckedCreateWithoutCourseAccessInput>
-    connectOrCreate?: VideoCourseCreateOrConnectWithoutCourseAccessInput
-    upsert?: VideoCourseUpsertWithoutCourseAccessInput
+  export type VideoCourseUpdateOneRequiredWithoutUserVideoCourseNestedInput = {
+    create?: XOR<VideoCourseCreateWithoutUserVideoCourseInput, VideoCourseUncheckedCreateWithoutUserVideoCourseInput>
+    connectOrCreate?: VideoCourseCreateOrConnectWithoutUserVideoCourseInput
+    upsert?: VideoCourseUpsertWithoutUserVideoCourseInput
     connect?: VideoCourseWhereUniqueInput
-    update?: XOR<XOR<VideoCourseUpdateToOneWithWhereWithoutCourseAccessInput, VideoCourseUpdateWithoutCourseAccessInput>, VideoCourseUncheckedUpdateWithoutCourseAccessInput>
+    update?: XOR<XOR<VideoCourseUpdateToOneWithWhereWithoutUserVideoCourseInput, VideoCourseUpdateWithoutUserVideoCourseInput>, VideoCourseUncheckedUpdateWithoutUserVideoCourseInput>
   }
 
   export type UserCreateNestedOneWithoutFavoriteRouteInput = {
@@ -30083,6 +31444,20 @@ export namespace Prisma {
     upsert?: RouteUpsertWithoutFavoriteRouteInput
     connect?: RouteWhereUniqueInput
     update?: XOR<XOR<RouteUpdateToOneWithWhereWithoutFavoriteRouteInput, RouteUpdateWithoutFavoriteRouteInput>, RouteUncheckedUpdateWithoutFavoriteRouteInput>
+  }
+
+  export type VideoCourseCreateNestedOneWithoutAttachmentInput = {
+    create?: XOR<VideoCourseCreateWithoutAttachmentInput, VideoCourseUncheckedCreateWithoutAttachmentInput>
+    connectOrCreate?: VideoCourseCreateOrConnectWithoutAttachmentInput
+    connect?: VideoCourseWhereUniqueInput
+  }
+
+  export type VideoCourseUpdateOneRequiredWithoutAttachmentNestedInput = {
+    create?: XOR<VideoCourseCreateWithoutAttachmentInput, VideoCourseUncheckedCreateWithoutAttachmentInput>
+    connectOrCreate?: VideoCourseCreateOrConnectWithoutAttachmentInput
+    upsert?: VideoCourseUpsertWithoutAttachmentInput
+    connect?: VideoCourseWhereUniqueInput
+    update?: XOR<XOR<VideoCourseUpdateToOneWithWhereWithoutAttachmentInput, VideoCourseUpdateWithoutAttachmentInput>, VideoCourseUncheckedUpdateWithoutAttachmentInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -30622,30 +31997,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CourseAccessCreateWithoutUserInput = {
-    id?: string
-    isOwner?: boolean
-    purchasedAt?: Date | string
-    videoCourse: VideoCourseCreateNestedOneWithoutCourseAccessInput
-  }
-
-  export type CourseAccessUncheckedCreateWithoutUserInput = {
-    id?: string
-    videoCourseId: string
-    isOwner?: boolean
-    purchasedAt?: Date | string
-  }
-
-  export type CourseAccessCreateOrConnectWithoutUserInput = {
-    where: CourseAccessWhereUniqueInput
-    create: XOR<CourseAccessCreateWithoutUserInput, CourseAccessUncheckedCreateWithoutUserInput>
-  }
-
-  export type CourseAccessCreateManyUserInputEnvelope = {
-    data: CourseAccessCreateManyUserInput | CourseAccessCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
   export type FavoriteRouteCreateWithoutUserInput = {
     id?: string
     createdAt?: Date | string
@@ -30738,7 +32089,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     topicNode: TopicNodeCreateNestedOneWithoutVideoCourseInput
     chapters?: VideoChapterCreateNestedManyWithoutCourseInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutVideoCourseInput
+    Attachment?: AttachmentCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutCourseInput
   }
 
   export type VideoCourseUncheckedCreateWithoutUserInput = {
@@ -30751,7 +32103,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     chapters?: VideoChapterUncheckedCreateNestedManyWithoutCourseInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutVideoCourseInput
+    Attachment?: AttachmentUncheckedCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type VideoCourseCreateOrConnectWithoutUserInput = {
@@ -30761,6 +32114,28 @@ export namespace Prisma {
 
   export type VideoCourseCreateManyUserInputEnvelope = {
     data: VideoCourseCreateManyUserInput | VideoCourseCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserVideoCourseCreateWithoutUserInput = {
+    id?: string
+    startedAt?: Date | string
+    course: VideoCourseCreateNestedOneWithoutUserVideoCourseInput
+  }
+
+  export type UserVideoCourseUncheckedCreateWithoutUserInput = {
+    id?: string
+    courseId: string
+    startedAt?: Date | string
+  }
+
+  export type UserVideoCourseCreateOrConnectWithoutUserInput = {
+    where: UserVideoCourseWhereUniqueInput
+    create: XOR<UserVideoCourseCreateWithoutUserInput, UserVideoCourseUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserVideoCourseCreateManyUserInputEnvelope = {
+    data: UserVideoCourseCreateManyUserInput | UserVideoCourseCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -30884,33 +32259,6 @@ export namespace Prisma {
     oauthToken?: StringNullableFilter<"Token"> | string | null
   }
 
-  export type CourseAccessUpsertWithWhereUniqueWithoutUserInput = {
-    where: CourseAccessWhereUniqueInput
-    update: XOR<CourseAccessUpdateWithoutUserInput, CourseAccessUncheckedUpdateWithoutUserInput>
-    create: XOR<CourseAccessCreateWithoutUserInput, CourseAccessUncheckedCreateWithoutUserInput>
-  }
-
-  export type CourseAccessUpdateWithWhereUniqueWithoutUserInput = {
-    where: CourseAccessWhereUniqueInput
-    data: XOR<CourseAccessUpdateWithoutUserInput, CourseAccessUncheckedUpdateWithoutUserInput>
-  }
-
-  export type CourseAccessUpdateManyWithWhereWithoutUserInput = {
-    where: CourseAccessScalarWhereInput
-    data: XOR<CourseAccessUpdateManyMutationInput, CourseAccessUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type CourseAccessScalarWhereInput = {
-    AND?: CourseAccessScalarWhereInput | CourseAccessScalarWhereInput[]
-    OR?: CourseAccessScalarWhereInput[]
-    NOT?: CourseAccessScalarWhereInput | CourseAccessScalarWhereInput[]
-    id?: StringFilter<"CourseAccess"> | string
-    userId?: StringFilter<"CourseAccess"> | string
-    videoCourseId?: StringFilter<"CourseAccess"> | string
-    isOwner?: BoolFilter<"CourseAccess"> | boolean
-    purchasedAt?: DateTimeFilter<"CourseAccess"> | Date | string
-  }
-
   export type FavoriteRouteUpsertWithWhereUniqueWithoutUserInput = {
     where: FavoriteRouteWhereUniqueInput
     update: XOR<FavoriteRouteUpdateWithoutUserInput, FavoriteRouteUncheckedUpdateWithoutUserInput>
@@ -31026,6 +32374,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"VideoCourse"> | Date | string
   }
 
+  export type UserVideoCourseUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserVideoCourseWhereUniqueInput
+    update: XOR<UserVideoCourseUpdateWithoutUserInput, UserVideoCourseUncheckedUpdateWithoutUserInput>
+    create: XOR<UserVideoCourseCreateWithoutUserInput, UserVideoCourseUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserVideoCourseUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserVideoCourseWhereUniqueInput
+    data: XOR<UserVideoCourseUpdateWithoutUserInput, UserVideoCourseUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserVideoCourseUpdateManyWithWhereWithoutUserInput = {
+    where: UserVideoCourseScalarWhereInput
+    data: XOR<UserVideoCourseUpdateManyMutationInput, UserVideoCourseUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserVideoCourseScalarWhereInput = {
+    AND?: UserVideoCourseScalarWhereInput | UserVideoCourseScalarWhereInput[]
+    OR?: UserVideoCourseScalarWhereInput[]
+    NOT?: UserVideoCourseScalarWhereInput | UserVideoCourseScalarWhereInput[]
+    id?: StringFilter<"UserVideoCourse"> | string
+    userId?: StringFilter<"UserVideoCourse"> | string
+    courseId?: StringFilter<"UserVideoCourse"> | string
+    startedAt?: DateTimeFilter<"UserVideoCourse"> | Date | string
+  }
+
   export type UserCreateWithoutSkillProfileInput = {
     id?: string
     email: string
@@ -31041,11 +32415,11 @@ export namespace Prisma {
     Route?: RouteCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSkillProfileInput = {
@@ -31063,11 +32437,11 @@ export namespace Prisma {
     Route?: RouteUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteUncheckedCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseUncheckedCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressUncheckedCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseUncheckedCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSkillProfileInput = {
@@ -31101,11 +32475,11 @@ export namespace Prisma {
     Route?: RouteUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSkillProfileInput = {
@@ -31123,11 +32497,11 @@ export namespace Prisma {
     Route?: RouteUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUncheckedUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUncheckedUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUncheckedUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUncheckedUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -31145,11 +32519,11 @@ export namespace Prisma {
     Route?: RouteCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -31167,11 +32541,11 @@ export namespace Prisma {
     Route?: RouteUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteUncheckedCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseUncheckedCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressUncheckedCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseUncheckedCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -31205,11 +32579,11 @@ export namespace Prisma {
     Route?: RouteUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -31227,11 +32601,11 @@ export namespace Prisma {
     Route?: RouteUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUncheckedUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUncheckedUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUncheckedUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUncheckedUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTokensInput = {
@@ -31249,11 +32623,11 @@ export namespace Prisma {
     Route?: RouteCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTokensInput = {
@@ -31271,11 +32645,11 @@ export namespace Prisma {
     Route?: RouteUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteUncheckedCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseUncheckedCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressUncheckedCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseUncheckedCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTokensInput = {
@@ -31309,11 +32683,11 @@ export namespace Prisma {
     Route?: RouteUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensInput = {
@@ -31331,11 +32705,11 @@ export namespace Prisma {
     Route?: RouteUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUncheckedUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUncheckedUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUncheckedUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUncheckedUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutRouteInput = {
@@ -31353,11 +32727,11 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRouteInput = {
@@ -31375,11 +32749,11 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteUncheckedCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseUncheckedCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressUncheckedCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseUncheckedCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRouteInput = {
@@ -31476,11 +32850,11 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRouteInput = {
@@ -31498,11 +32872,11 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUncheckedUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUncheckedUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUncheckedUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUncheckedUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RouteTagUpsertWithWhereUniqueWithoutRouteInput = {
@@ -32026,7 +33400,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutVideoCourseInput
     chapters?: VideoChapterCreateNestedManyWithoutCourseInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutVideoCourseInput
+    Attachment?: AttachmentCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutCourseInput
   }
 
   export type VideoCourseUncheckedCreateWithoutTopicNodeInput = {
@@ -32039,7 +33414,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     chapters?: VideoChapterUncheckedCreateNestedManyWithoutCourseInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutVideoCourseInput
+    Attachment?: AttachmentUncheckedCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type VideoCourseCreateOrConnectWithoutTopicNodeInput = {
@@ -32213,10 +33589,10 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserCourseInput = {
@@ -32235,10 +33611,10 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteUncheckedCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressUncheckedCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseUncheckedCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserCourseInput = {
@@ -32344,10 +33720,10 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserCourseInput = {
@@ -32366,10 +33742,10 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUncheckedUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUncheckedUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUncheckedUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserChecklistProgressUpsertWithWhereUniqueWithoutUserCourseInput = {
@@ -32820,10 +34196,10 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVideoCourseInput = {
@@ -32842,10 +34218,10 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteUncheckedCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseUncheckedCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressUncheckedCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVideoCourseInput = {
@@ -32860,7 +34236,6 @@ export namespace Prisma {
     videoUrl?: string | null
     position: number
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     progress?: ChapterProgressCreateNestedManyWithoutChapterInput
@@ -32873,7 +34248,6 @@ export namespace Prisma {
     videoUrl?: string | null
     position: number
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     progress?: ChapterProgressUncheckedCreateNestedManyWithoutChapterInput
@@ -32889,27 +34263,51 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CourseAccessCreateWithoutVideoCourseInput = {
+  export type AttachmentCreateWithoutCourseInput = {
     id?: string
-    isOwner?: boolean
-    purchasedAt?: Date | string
-    user: UserCreateNestedOneWithoutCourseAccessInput
+    name: string
+    url: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type CourseAccessUncheckedCreateWithoutVideoCourseInput = {
+  export type AttachmentUncheckedCreateWithoutCourseInput = {
+    id?: string
+    name: string
+    url: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttachmentCreateOrConnectWithoutCourseInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutCourseInput, AttachmentUncheckedCreateWithoutCourseInput>
+  }
+
+  export type AttachmentCreateManyCourseInputEnvelope = {
+    data: AttachmentCreateManyCourseInput | AttachmentCreateManyCourseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserVideoCourseCreateWithoutCourseInput = {
+    id?: string
+    startedAt?: Date | string
+    user: UserCreateNestedOneWithoutUserVideoCourseInput
+  }
+
+  export type UserVideoCourseUncheckedCreateWithoutCourseInput = {
     id?: string
     userId: string
-    isOwner?: boolean
-    purchasedAt?: Date | string
+    startedAt?: Date | string
   }
 
-  export type CourseAccessCreateOrConnectWithoutVideoCourseInput = {
-    where: CourseAccessWhereUniqueInput
-    create: XOR<CourseAccessCreateWithoutVideoCourseInput, CourseAccessUncheckedCreateWithoutVideoCourseInput>
+  export type UserVideoCourseCreateOrConnectWithoutCourseInput = {
+    where: UserVideoCourseWhereUniqueInput
+    create: XOR<UserVideoCourseCreateWithoutCourseInput, UserVideoCourseUncheckedCreateWithoutCourseInput>
   }
 
-  export type CourseAccessCreateManyVideoCourseInputEnvelope = {
-    data: CourseAccessCreateManyVideoCourseInput | CourseAccessCreateManyVideoCourseInput[]
+  export type UserVideoCourseCreateManyCourseInputEnvelope = {
+    data: UserVideoCourseCreateManyCourseInput | UserVideoCourseCreateManyCourseInput[]
     skipDuplicates?: boolean
   }
 
@@ -32975,10 +34373,10 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVideoCourseInput = {
@@ -32997,10 +34395,10 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUncheckedUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUncheckedUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUncheckedUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type VideoChapterUpsertWithWhereUniqueWithoutCourseInput = {
@@ -33030,25 +34428,52 @@ export namespace Prisma {
     videoUrl?: StringNullableFilter<"VideoChapter"> | string | null
     position?: IntFilter<"VideoChapter"> | number
     isPublished?: BoolFilter<"VideoChapter"> | boolean
-    isFree?: BoolFilter<"VideoChapter"> | boolean
     createdAt?: DateTimeFilter<"VideoChapter"> | Date | string
     updatedAt?: DateTimeFilter<"VideoChapter"> | Date | string
   }
 
-  export type CourseAccessUpsertWithWhereUniqueWithoutVideoCourseInput = {
-    where: CourseAccessWhereUniqueInput
-    update: XOR<CourseAccessUpdateWithoutVideoCourseInput, CourseAccessUncheckedUpdateWithoutVideoCourseInput>
-    create: XOR<CourseAccessCreateWithoutVideoCourseInput, CourseAccessUncheckedCreateWithoutVideoCourseInput>
+  export type AttachmentUpsertWithWhereUniqueWithoutCourseInput = {
+    where: AttachmentWhereUniqueInput
+    update: XOR<AttachmentUpdateWithoutCourseInput, AttachmentUncheckedUpdateWithoutCourseInput>
+    create: XOR<AttachmentCreateWithoutCourseInput, AttachmentUncheckedCreateWithoutCourseInput>
   }
 
-  export type CourseAccessUpdateWithWhereUniqueWithoutVideoCourseInput = {
-    where: CourseAccessWhereUniqueInput
-    data: XOR<CourseAccessUpdateWithoutVideoCourseInput, CourseAccessUncheckedUpdateWithoutVideoCourseInput>
+  export type AttachmentUpdateWithWhereUniqueWithoutCourseInput = {
+    where: AttachmentWhereUniqueInput
+    data: XOR<AttachmentUpdateWithoutCourseInput, AttachmentUncheckedUpdateWithoutCourseInput>
   }
 
-  export type CourseAccessUpdateManyWithWhereWithoutVideoCourseInput = {
-    where: CourseAccessScalarWhereInput
-    data: XOR<CourseAccessUpdateManyMutationInput, CourseAccessUncheckedUpdateManyWithoutVideoCourseInput>
+  export type AttachmentUpdateManyWithWhereWithoutCourseInput = {
+    where: AttachmentScalarWhereInput
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutCourseInput>
+  }
+
+  export type AttachmentScalarWhereInput = {
+    AND?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+    OR?: AttachmentScalarWhereInput[]
+    NOT?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+    id?: StringFilter<"Attachment"> | string
+    name?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    courseId?: StringFilter<"Attachment"> | string
+    createdAt?: DateTimeFilter<"Attachment"> | Date | string
+    updatedAt?: DateTimeFilter<"Attachment"> | Date | string
+  }
+
+  export type UserVideoCourseUpsertWithWhereUniqueWithoutCourseInput = {
+    where: UserVideoCourseWhereUniqueInput
+    update: XOR<UserVideoCourseUpdateWithoutCourseInput, UserVideoCourseUncheckedUpdateWithoutCourseInput>
+    create: XOR<UserVideoCourseCreateWithoutCourseInput, UserVideoCourseUncheckedCreateWithoutCourseInput>
+  }
+
+  export type UserVideoCourseUpdateWithWhereUniqueWithoutCourseInput = {
+    where: UserVideoCourseWhereUniqueInput
+    data: XOR<UserVideoCourseUpdateWithoutCourseInput, UserVideoCourseUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type UserVideoCourseUpdateManyWithWhereWithoutCourseInput = {
+    where: UserVideoCourseScalarWhereInput
+    data: XOR<UserVideoCourseUpdateManyMutationInput, UserVideoCourseUncheckedUpdateManyWithoutCourseInput>
   }
 
   export type VideoCourseCreateWithoutChaptersInput = {
@@ -33061,7 +34486,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     topicNode: TopicNodeCreateNestedOneWithoutVideoCourseInput
     user: UserCreateNestedOneWithoutVideoCourseInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutVideoCourseInput
+    Attachment?: AttachmentCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutCourseInput
   }
 
   export type VideoCourseUncheckedCreateWithoutChaptersInput = {
@@ -33074,7 +34500,8 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutVideoCourseInput
+    Attachment?: AttachmentUncheckedCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type VideoCourseCreateOrConnectWithoutChaptersInput = {
@@ -33129,7 +34556,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     topicNode?: TopicNodeUpdateOneRequiredWithoutVideoCourseNestedInput
     user?: UserUpdateOneRequiredWithoutVideoCourseNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutVideoCourseNestedInput
+    Attachment?: AttachmentUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutCourseNestedInput
   }
 
   export type VideoCourseUncheckedUpdateWithoutChaptersInput = {
@@ -33142,7 +34570,8 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutVideoCourseNestedInput
+    Attachment?: AttachmentUncheckedUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type ChapterProgressUpsertWithWhereUniqueWithoutChapterInput = {
@@ -33168,7 +34597,6 @@ export namespace Prisma {
     videoUrl?: string | null
     position: number
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     course: VideoCourseCreateNestedOneWithoutChaptersInput
@@ -33182,7 +34610,6 @@ export namespace Prisma {
     videoUrl?: string | null
     position: number
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33208,10 +34635,10 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChapterProgressInput = {
@@ -33230,10 +34657,10 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutUserInput
     FavoriteRoute?: FavoriteRouteUncheckedCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseUncheckedCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseUncheckedCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChapterProgressInput = {
@@ -33259,7 +34686,6 @@ export namespace Prisma {
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     position?: IntFieldUpdateOperationsInput | number
     isPublished?: BoolFieldUpdateOperationsInput | boolean
-    isFree?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: VideoCourseUpdateOneRequiredWithoutChaptersNestedInput
@@ -33273,7 +34699,6 @@ export namespace Prisma {
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     position?: IntFieldUpdateOperationsInput | number
     isPublished?: BoolFieldUpdateOperationsInput | boolean
-    isFree?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33305,10 +34730,10 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChapterProgressInput = {
@@ -33327,13 +34752,13 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutUserNestedInput
     FavoriteRoute?: FavoriteRouteUncheckedUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUncheckedUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUncheckedUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserCreateWithoutCourseAccessInput = {
+  export type UserCreateWithoutUserVideoCourseInput = {
     id?: string
     email: string
     password: string
@@ -33355,7 +34780,7 @@ export namespace Prisma {
     VideoCourse?: VideoCourseCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutCourseAccessInput = {
+  export type UserUncheckedCreateWithoutUserVideoCourseInput = {
     id?: string
     email: string
     password: string
@@ -33377,12 +34802,12 @@ export namespace Prisma {
     VideoCourse?: VideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutCourseAccessInput = {
+  export type UserCreateOrConnectWithoutUserVideoCourseInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCourseAccessInput, UserUncheckedCreateWithoutCourseAccessInput>
+    create: XOR<UserCreateWithoutUserVideoCourseInput, UserUncheckedCreateWithoutUserVideoCourseInput>
   }
 
-  export type VideoCourseCreateWithoutCourseAccessInput = {
+  export type VideoCourseCreateWithoutUserVideoCourseInput = {
     id?: string
     title: string
     description?: string | null
@@ -33393,9 +34818,10 @@ export namespace Prisma {
     topicNode: TopicNodeCreateNestedOneWithoutVideoCourseInput
     user: UserCreateNestedOneWithoutVideoCourseInput
     chapters?: VideoChapterCreateNestedManyWithoutCourseInput
+    Attachment?: AttachmentCreateNestedManyWithoutCourseInput
   }
 
-  export type VideoCourseUncheckedCreateWithoutCourseAccessInput = {
+  export type VideoCourseUncheckedCreateWithoutUserVideoCourseInput = {
     id?: string
     topicNodeId: string
     userId: string
@@ -33406,25 +34832,26 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     chapters?: VideoChapterUncheckedCreateNestedManyWithoutCourseInput
+    Attachment?: AttachmentUncheckedCreateNestedManyWithoutCourseInput
   }
 
-  export type VideoCourseCreateOrConnectWithoutCourseAccessInput = {
+  export type VideoCourseCreateOrConnectWithoutUserVideoCourseInput = {
     where: VideoCourseWhereUniqueInput
-    create: XOR<VideoCourseCreateWithoutCourseAccessInput, VideoCourseUncheckedCreateWithoutCourseAccessInput>
+    create: XOR<VideoCourseCreateWithoutUserVideoCourseInput, VideoCourseUncheckedCreateWithoutUserVideoCourseInput>
   }
 
-  export type UserUpsertWithoutCourseAccessInput = {
-    update: XOR<UserUpdateWithoutCourseAccessInput, UserUncheckedUpdateWithoutCourseAccessInput>
-    create: XOR<UserCreateWithoutCourseAccessInput, UserUncheckedCreateWithoutCourseAccessInput>
+  export type UserUpsertWithoutUserVideoCourseInput = {
+    update: XOR<UserUpdateWithoutUserVideoCourseInput, UserUncheckedUpdateWithoutUserVideoCourseInput>
+    create: XOR<UserCreateWithoutUserVideoCourseInput, UserUncheckedCreateWithoutUserVideoCourseInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutCourseAccessInput = {
+  export type UserUpdateToOneWithWhereWithoutUserVideoCourseInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutCourseAccessInput, UserUncheckedUpdateWithoutCourseAccessInput>
+    data: XOR<UserUpdateWithoutUserVideoCourseInput, UserUncheckedUpdateWithoutUserVideoCourseInput>
   }
 
-  export type UserUpdateWithoutCourseAccessInput = {
+  export type UserUpdateWithoutUserVideoCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -33446,7 +34873,7 @@ export namespace Prisma {
     VideoCourse?: VideoCourseUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutCourseAccessInput = {
+  export type UserUncheckedUpdateWithoutUserVideoCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -33468,18 +34895,18 @@ export namespace Prisma {
     VideoCourse?: VideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type VideoCourseUpsertWithoutCourseAccessInput = {
-    update: XOR<VideoCourseUpdateWithoutCourseAccessInput, VideoCourseUncheckedUpdateWithoutCourseAccessInput>
-    create: XOR<VideoCourseCreateWithoutCourseAccessInput, VideoCourseUncheckedCreateWithoutCourseAccessInput>
+  export type VideoCourseUpsertWithoutUserVideoCourseInput = {
+    update: XOR<VideoCourseUpdateWithoutUserVideoCourseInput, VideoCourseUncheckedUpdateWithoutUserVideoCourseInput>
+    create: XOR<VideoCourseCreateWithoutUserVideoCourseInput, VideoCourseUncheckedCreateWithoutUserVideoCourseInput>
     where?: VideoCourseWhereInput
   }
 
-  export type VideoCourseUpdateToOneWithWhereWithoutCourseAccessInput = {
+  export type VideoCourseUpdateToOneWithWhereWithoutUserVideoCourseInput = {
     where?: VideoCourseWhereInput
-    data: XOR<VideoCourseUpdateWithoutCourseAccessInput, VideoCourseUncheckedUpdateWithoutCourseAccessInput>
+    data: XOR<VideoCourseUpdateWithoutUserVideoCourseInput, VideoCourseUncheckedUpdateWithoutUserVideoCourseInput>
   }
 
-  export type VideoCourseUpdateWithoutCourseAccessInput = {
+  export type VideoCourseUpdateWithoutUserVideoCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33490,9 +34917,10 @@ export namespace Prisma {
     topicNode?: TopicNodeUpdateOneRequiredWithoutVideoCourseNestedInput
     user?: UserUpdateOneRequiredWithoutVideoCourseNestedInput
     chapters?: VideoChapterUpdateManyWithoutCourseNestedInput
+    Attachment?: AttachmentUpdateManyWithoutCourseNestedInput
   }
 
-  export type VideoCourseUncheckedUpdateWithoutCourseAccessInput = {
+  export type VideoCourseUncheckedUpdateWithoutUserVideoCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     topicNodeId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -33503,6 +34931,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapters?: VideoChapterUncheckedUpdateManyWithoutCourseNestedInput
+    Attachment?: AttachmentUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type UserCreateWithoutFavoriteRouteInput = {
@@ -33521,10 +34950,10 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileCreateNestedOneWithoutUserInput
     tokens?: TokenCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFavoriteRouteInput = {
@@ -33543,10 +34972,10 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     skillProfile?: SkillProfileUncheckedCreateNestedOneWithoutUserInput
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
-    CourseAccess?: CourseAccessUncheckedCreateNestedManyWithoutUserInput
     UserCourse?: UserCourseUncheckedCreateNestedManyWithoutUserInput
     ChapterProgress?: ChapterProgressUncheckedCreateNestedManyWithoutUserInput
     VideoCourse?: VideoCourseUncheckedCreateNestedManyWithoutUserInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFavoriteRouteInput = {
@@ -33612,10 +35041,10 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUpdateOneWithoutUserNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFavoriteRouteInput = {
@@ -33634,10 +35063,10 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     skillProfile?: SkillProfileUncheckedUpdateOneWithoutUserNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutUserNestedInput
     UserCourse?: UserCourseUncheckedUpdateManyWithoutUserNestedInput
     ChapterProgress?: ChapterProgressUncheckedUpdateManyWithoutUserNestedInput
     VideoCourse?: VideoCourseUncheckedUpdateManyWithoutUserNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RouteUpsertWithoutFavoriteRouteInput = {
@@ -33677,6 +35106,78 @@ export namespace Prisma {
     topicMap?: TopicMapUncheckedUpdateOneWithoutRouteNestedInput
   }
 
+  export type VideoCourseCreateWithoutAttachmentInput = {
+    id?: string
+    title: string
+    description?: string | null
+    imageUrl?: string | null
+    isPublished?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    topicNode: TopicNodeCreateNestedOneWithoutVideoCourseInput
+    user: UserCreateNestedOneWithoutVideoCourseInput
+    chapters?: VideoChapterCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseCreateNestedManyWithoutCourseInput
+  }
+
+  export type VideoCourseUncheckedCreateWithoutAttachmentInput = {
+    id?: string
+    topicNodeId: string
+    userId: string
+    title: string
+    description?: string | null
+    imageUrl?: string | null
+    isPublished?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    chapters?: VideoChapterUncheckedCreateNestedManyWithoutCourseInput
+    UserVideoCourse?: UserVideoCourseUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type VideoCourseCreateOrConnectWithoutAttachmentInput = {
+    where: VideoCourseWhereUniqueInput
+    create: XOR<VideoCourseCreateWithoutAttachmentInput, VideoCourseUncheckedCreateWithoutAttachmentInput>
+  }
+
+  export type VideoCourseUpsertWithoutAttachmentInput = {
+    update: XOR<VideoCourseUpdateWithoutAttachmentInput, VideoCourseUncheckedUpdateWithoutAttachmentInput>
+    create: XOR<VideoCourseCreateWithoutAttachmentInput, VideoCourseUncheckedCreateWithoutAttachmentInput>
+    where?: VideoCourseWhereInput
+  }
+
+  export type VideoCourseUpdateToOneWithWhereWithoutAttachmentInput = {
+    where?: VideoCourseWhereInput
+    data: XOR<VideoCourseUpdateWithoutAttachmentInput, VideoCourseUncheckedUpdateWithoutAttachmentInput>
+  }
+
+  export type VideoCourseUpdateWithoutAttachmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    topicNode?: TopicNodeUpdateOneRequiredWithoutVideoCourseNestedInput
+    user?: UserUpdateOneRequiredWithoutVideoCourseNestedInput
+    chapters?: VideoChapterUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutCourseNestedInput
+  }
+
+  export type VideoCourseUncheckedUpdateWithoutAttachmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicNodeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    chapters?: VideoChapterUncheckedUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
   export type RouteCreateManyUserInput = {
     id?: string
     title: string
@@ -33706,13 +35207,6 @@ export namespace Prisma {
     type: $Enums.TokenType
     expiresIn: Date | string
     oauthToken?: string | null
-  }
-
-  export type CourseAccessCreateManyUserInput = {
-    id?: string
-    videoCourseId: string
-    isOwner?: boolean
-    purchasedAt?: Date | string
   }
 
   export type FavoriteRouteCreateManyUserInput = {
@@ -33748,6 +35242,12 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type UserVideoCourseCreateManyUserInput = {
+    id?: string
+    courseId: string
+    startedAt?: Date | string
   }
 
   export type RouteUpdateWithoutUserInput = {
@@ -33849,27 +35349,6 @@ export namespace Prisma {
     oauthToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type CourseAccessUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    videoCourse?: VideoCourseUpdateOneRequiredWithoutCourseAccessNestedInput
-  }
-
-  export type CourseAccessUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    videoCourseId?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CourseAccessUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    videoCourseId?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type FavoriteRouteUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33956,7 +35435,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     topicNode?: TopicNodeUpdateOneRequiredWithoutVideoCourseNestedInput
     chapters?: VideoChapterUpdateManyWithoutCourseNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutVideoCourseNestedInput
+    Attachment?: AttachmentUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutCourseNestedInput
   }
 
   export type VideoCourseUncheckedUpdateWithoutUserInput = {
@@ -33969,7 +35449,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapters?: VideoChapterUncheckedUpdateManyWithoutCourseNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutVideoCourseNestedInput
+    Attachment?: AttachmentUncheckedUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type VideoCourseUncheckedUpdateManyWithoutUserInput = {
@@ -33981,6 +35462,24 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserVideoCourseUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: VideoCourseUpdateOneRequiredWithoutUserVideoCourseNestedInput
+  }
+
+  export type UserVideoCourseUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserVideoCourseUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RouteTagCreateManyRouteInput = {
@@ -34240,7 +35739,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutVideoCourseNestedInput
     chapters?: VideoChapterUpdateManyWithoutCourseNestedInput
-    CourseAccess?: CourseAccessUpdateManyWithoutVideoCourseNestedInput
+    Attachment?: AttachmentUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUpdateManyWithoutCourseNestedInput
   }
 
   export type VideoCourseUncheckedUpdateWithoutTopicNodeInput = {
@@ -34253,7 +35753,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapters?: VideoChapterUncheckedUpdateManyWithoutCourseNestedInput
-    CourseAccess?: CourseAccessUncheckedUpdateManyWithoutVideoCourseNestedInput
+    Attachment?: AttachmentUncheckedUpdateManyWithoutCourseNestedInput
+    UserVideoCourse?: UserVideoCourseUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type VideoCourseUncheckedUpdateManyWithoutTopicNodeInput = {
@@ -34358,16 +35859,22 @@ export namespace Prisma {
     videoUrl?: string | null
     position: number
     isPublished?: boolean
-    isFree?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type CourseAccessCreateManyVideoCourseInput = {
+  export type AttachmentCreateManyCourseInput = {
+    id?: string
+    name: string
+    url: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserVideoCourseCreateManyCourseInput = {
     id?: string
     userId: string
-    isOwner?: boolean
-    purchasedAt?: Date | string
+    startedAt?: Date | string
   }
 
   export type VideoChapterUpdateWithoutCourseInput = {
@@ -34377,7 +35884,6 @@ export namespace Prisma {
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     position?: IntFieldUpdateOperationsInput | number
     isPublished?: BoolFieldUpdateOperationsInput | boolean
-    isFree?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     progress?: ChapterProgressUpdateManyWithoutChapterNestedInput
@@ -34390,7 +35896,6 @@ export namespace Prisma {
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     position?: IntFieldUpdateOperationsInput | number
     isPublished?: BoolFieldUpdateOperationsInput | boolean
-    isFree?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     progress?: ChapterProgressUncheckedUpdateManyWithoutChapterNestedInput
@@ -34403,30 +35908,50 @@ export namespace Prisma {
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     position?: IntFieldUpdateOperationsInput | number
     isPublished?: BoolFieldUpdateOperationsInput | boolean
-    isFree?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CourseAccessUpdateWithoutVideoCourseInput = {
+  export type AttachmentUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCourseAccessNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CourseAccessUncheckedUpdateWithoutVideoCourseInput = {
+  export type AttachmentUncheckedUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CourseAccessUncheckedUpdateManyWithoutVideoCourseInput = {
+  export type AttachmentUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserVideoCourseUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserVideoCourseNestedInput
+  }
+
+  export type UserVideoCourseUncheckedUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    isOwner?: BoolFieldUpdateOperationsInput | boolean
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserVideoCourseUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChapterProgressCreateManyChapterInput = {
